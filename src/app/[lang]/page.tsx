@@ -3,5 +3,6 @@ export default function Home() {
     <div>
       <h1>welcome to med-cert</h1>
     </div>
-  );
+  )
+
 }

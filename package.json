@@ -13,7 +13,6 @@
     "@ant-design/plots": "^2.6.3",
     "@antv/g2": "^5.3.5",
     "@heroicons/react": "^2.2.0",
-    "@next/font": "^14.2.15",
     "antd": "^5.27.1",
     "antd-phone-input": "^0.3.14",
     "country-list-with-dial-code-and-flag": "^5.1.1",
