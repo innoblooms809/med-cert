@@ -1,0 +1,16 @@
+{
+  "Navheader": {
+    "categories": "Categories",
+    "getCertified": "Get Certified",
+    "login": "Log in",
+    "signup": "Sign up",
+    "cart": "Cart",
+    "searchPlaceholder": "Search for anything"
+  },
+  "Cart": {
+    "cartTitle": "Cart",
+    "emptyCart": "Your cart is empty",
+    "remove": "Remove",
+    "checkout": "Checkout"
+  }
+}
