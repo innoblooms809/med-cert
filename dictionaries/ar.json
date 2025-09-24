@@ -1,0 +1,28 @@
+{
+  "Navheader": {
+    "categories": "الفئات",
+    "getCertified": "احصل على الشهادة",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "searchPlaceholder": "ابحث عن أي شيء"
+  },
+  "Cart": {
+    "cartTitle": "عربة التسوق",
+    "emptyCart": "سلة التسوق فارغة",
+    "remove": "إزالة",
+    "checkout": "الدفع"
+  },
+  "Logins": {
+    "head": "تسجيل الدخول إلى حساب Med-compliance الخاص بك",
+    "para": "مرحباً! لقد وصلت إلى صفحة تسجيل الدخول الموحد لـ Med-compliance...",
+    "list1": "استخدم خدمات متعددة من خلال حساب واحد",
+    "list2": "إدارة ملفك الشخصي أو المؤسسي",
+    "list3": "تتبع التطبيقات والتراخيص والأنشطة",
+    "welcome": {
+      "default": "مرحباً بك في Med-compliance",
+      "dha": "مرحباً بك في Med-compliance",
+      "admin": "مرحباً بك أيها المسؤول",
+      "facility": "مرحباً بك في Med-compliance"
+    }
+  }
+}

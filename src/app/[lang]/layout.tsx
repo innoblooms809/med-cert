@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getDictionary } from "./dictionaries"; // relative import within [lang] folder
 import AppLayoutClient from "@/components/AppLayoutClient";
-import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Smart Pro App",

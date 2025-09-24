@@ -2,15 +2,27 @@
   "Navheader": {
     "categories": "Categories",
     "getCertified": "Get Certified",
-    "login": "Log in",
-    "signup": "Sign up",
-    "cart": "Cart",
+    "login": "Login",
+    "signup": "Sign Up",
     "searchPlaceholder": "Search for anything"
   },
-  "Cart": {
-    "cartTitle": "Cart",
-    "emptyCart": "Your cart is empty",
-    "remove": "Remove",
-    "checkout": "Checkout"
-  }
+    "Cart": {
+        "cartTitle": "Cart",
+        "emptyCart": "Your cart is empty",
+        "remove": "Remove",
+        "checkout": "Checkout"
+    },
+    "Logins": {
+        "head": "Sign In to Your Med-compliance Account",
+        "para": " Welcome! You have reached to Med-compliance single sign-on page. The single sign-on page allows you to access many Med-compliance eServices with one user account.With a Med-compliance Single Sign-On, you can:",
+        "list1": "Use multiple eServices through one account",
+        "list2": "Manage your personal or organizational profile",
+        "list3": "Track applications, licenses, and compliance activities",
+        "welcome": {
+            "default": "Welcome To Med-compliance",
+            "dha": "Welcome To Med-compliance",
+            "admin": "Welcome Admin",
+            "facility": "Welcome To Med-compliance"
+        }
+    }
 }
