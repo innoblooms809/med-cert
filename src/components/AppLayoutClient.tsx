@@ -15,8 +15,7 @@ interface AppLayoutClientProps {
 export default  function AppLayoutClient({ lang, children,dict}: AppLayoutClientProps) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith(`/${lang}/admin`);
-  const isDhaRoute = pathname.startsWith(`/${lang}/dha`);
-  const isFacilityRoute = pathname.startsWith(`/${lang}/facility`);
+  const isUserRoute = pathname.startsWith(`/${lang}/user`);
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = dict?.dir || (lang === "ar" ? "rtl" : "ltr");
@@ -24,9 +23,9 @@ export default  function AppLayoutClient({ lang, children,dict}: AppLayoutClient
 
   return (
     <>
-      {(!isAdminRoute && !isDhaRoute  && !isFacilityRoute)&& <Navbar dict={dict} />}
+      {(!isAdminRoute && !isUserRoute )&& <Navbar dict={dict} />}
       {children}
-      {(!isAdminRoute && !isDhaRoute  && !isFacilityRoute) && <Footer dict={dict}/>}
+      {(!isAdminRoute && !isUserRoute  ) && <Footer dict={dict}/>}
     </>
   );
 }
