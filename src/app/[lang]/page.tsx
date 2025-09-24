@@ -12,18 +12,16 @@ export type PageProps = {
 };
 
 
-export default async function Page({
-  params,
-}: any) {
+export default async function Page({ params,}: any) {
    const {lang} = await params;                                                                                                                                                                 
-   const dict = await getDictionary(params.lang); 
+   const dict = await getDictionary(lang); 
   return (
     <>
       {/* <Hero dict={dict} /> */}
       {/* <Contact dict={dict}/> */}
       {/* <NavBar dict={dict}/> */}
       <h1>Hello World👋</h1>
-      <LoginForm/>
+      {/* <LoginForm /> */}
     
     </>
   );
