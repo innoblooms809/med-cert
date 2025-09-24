@@ -1,28 +1,30 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "antd";
-import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminHeader from "@/components/admin/AdminHeader";
-import "@/app/global.css";
+import "@/app/global.css"; 
+import UserSiderbar from "@/components/user/UserSiderbar";
+import UserHeader from "@/components/user/UserHeader";
 
 const { Header, Sider, Content } = Layout;
+
 const LOCAL_STORAGE_KEY = "medCert";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function FacLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [role, setRole] = useState<"admin" | "user">("admin"); // default to admin
+  const [role, setRole] = useState<"admin" | "user">("user"); // default role
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (storedUser) {
         const user = JSON.parse(storedUser);
-        const simplifiedRole = user.role === "admin" ? "admin" : "user";
-        setRole(simplifiedRole);
+        // only admin or doctor roles
+        setRole(user.role === "admin" ? "admin" : "user");
       }
     }
   }, []);
 
+  // Apply theme class dynamically
   const themeClass = `${role}-theme`;
 
   return (
@@ -36,24 +38,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         width={250}
         style={{
           background: "var(--sidebar-bg)",
+          overflow: "auto",
           height: "100vh",
           position: "fixed",
           left: 0,
           top: 0,
           bottom: 0,
           zIndex: 1000,
-          overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            height: "100%",
-            overflowY: "auto",
-            overflowX: "hidden",
-          }}
-        >
-          {/* <AdminSidebar collapsed={collapsed} /> */}
-        </div>
+        
+          <UserSiderbar collapsed={collapsed} />
+    
       </Sider>
 
       <Layout
@@ -72,7 +68,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             justifyContent: "space-between",
           }}
         >
-          {/* <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} /> */}
+         
+            <UserHeader onToggleSidebar={() => setCollapsed(!collapsed)} />
+          
         </Header>
 
         <Content

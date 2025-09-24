@@ -1,8 +1,5 @@
-import Hero from "@/components/hero";
+import LoginForm from "@/components/LoginForm";
 import { getDictionary } from "../[lang]/dictionaries";
-import Contact from "@/components/contact";
-import NavBar from "@/components/navbar";
-
 
 export type PageProps = {
   params: {
@@ -18,11 +15,8 @@ export default async function Page({
    const dict = await getDictionary(params.lang); 
   return (
     <>
-      {/* <Hero dict={dict} /> */}
-      {/* <Contact dict={dict}/> */}
-      {/* <NavBar dict={dict}/> */}
       <h1>Hello World👋</h1>
-    
+      <LoginForm/>
     </>
   );
 }
