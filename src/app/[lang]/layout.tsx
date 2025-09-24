@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { getDictionary } from "./dictionaries"; // relative import within [lang] folder
+import { getDictionary } from "./dictionaries";
 import AppLayoutClient from "@/components/AppLayoutClient";
+import "../global.css";
 
 export const metadata: Metadata = {
-  title: "Smart Pro App",
+  title: "Med-Cert App",
   description: "Multilingual support with Next.js and Tailwind",
 };
 
@@ -16,16 +17,15 @@ export default async function LangLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: "en" | "ar" };
+  params: Promise<{ lang: "en" | "ar" }>;
 }) {
-  const lang = params.lang === "ar" ? "ar" : "en";
+  const { lang } = await params; // ✅ works with Promise type
   const dict = await getDictionary(lang);
 
   return (
-
-        <AppLayoutClient dict={dict} lang={lang}>
-          {children}
-        </AppLayoutClient>
-
-  )
+    <AppLayoutClient dict={dict} lang={lang}>
+      {children}
+    </AppLayoutClient>
+  );
 }
+

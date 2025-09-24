@@ -26,6 +26,10 @@ p, span, div, strong {
   --section-bg-2: #ffffff;
   --section-bg-3: #f3f4f6;
 
+  --section-bg-dark-1: #1e1e1e;
+  --section-bg-dark-2: #121212;
+  --section-bg-dark-3: #2c2c2c;
+
   --section-primary: #2563eb;
   --section-accent: #3b82f6;
 
@@ -53,6 +57,11 @@ p, span, div, strong {
   --section-bg-1: #1e1e1e;
   --section-bg-2: #121212;
   --section-bg-3: #2c2c2c;
+
+  --section-bg-dark-1: #f9fafb;
+  --section-bg-dark-2: #ffffff;
+  --section-bg-dark-3: #f3f4f6;
+  
   --section-text: #e5e7eb;
 
   --section-primary: #3b82f6;
