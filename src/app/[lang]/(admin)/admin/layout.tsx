@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             overflowX: "hidden",
           }}
         >
-          {/* <AdminSidebar collapsed={collapsed} /> */}
+          <AdminSidebar collapsed={collapsed} />
         </div>
       </Sider>
 

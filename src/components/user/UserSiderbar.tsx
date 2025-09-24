@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Layout, Menu } from "antd";
 import { userSidebarItems } from "@/utils/sidebaritems";
-import { DashboardOutlined, FileTextOutlined, CopyOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { DashboardOutlined, FileTextOutlined, CopyOutlined} from "@ant-design/icons";
 
 const { Sider } = Layout;
 const LOCAL_STORAGE_KEY = "medCert";
