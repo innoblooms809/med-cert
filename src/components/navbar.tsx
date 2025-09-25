@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from "react";
 import { Drawer, Dropdown, Badge, MenuProps } from "antd";
-import { 
-  MenuOutlined, 
-  SearchOutlined, 
-  ShoppingCartOutlined, 
+import {
+  MenuOutlined,
+  SearchOutlined,
+  ShoppingCartOutlined,
   CloseOutlined,
   DownOutlined
 } from "@ant-design/icons";
@@ -13,9 +13,15 @@ import Image from "next/image";
 import { useCart } from "./cartContext";
 import logo from '../../public/images/med-cert-logo.jpg'
 
-export default function NavBar({dict}:any) {
+interface NavBarProps {
+  dict: any;
+  lang: string;
+}
+
+export default function NavBar({ dict, lang}: NavBarProps) {
   const { cartItems } = useCart();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleSidebar = (): void => setIsSidebarOpen(!isSidebarOpen);
 
@@ -42,8 +48,8 @@ export default function NavBar({dict}:any) {
         <ul className="h-full w-full p-0 m-0 list-none flex items-center justify-between gap-2">
           {/* Hamburger Menu - Mobile */}
           <li className="md:hidden flex">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={toggleSidebar}
               className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2"
               aria-label="Open menu"
@@ -68,8 +74,8 @@ export default function NavBar({dict}:any) {
 
           {/* Categories Dropdown - Tablet+ */}
           <li className="hidden md:flex relative">
-            <Dropdown 
-              menu={{ items: categoriesItems }} 
+            <Dropdown
+              menu={{ items: categoriesItems }}
               placement="bottomLeft"
               trigger={['hover', 'click']}
             >
@@ -84,8 +90,8 @@ export default function NavBar({dict}:any) {
 
           {/* Search Button - Mobile */}
           <li className="md:hidden flex">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2"
               aria-label="Search"
             >
@@ -96,8 +102,8 @@ export default function NavBar({dict}:any) {
           {/* Get Certified Button - Desktop */}
           <li className="hidden lg:flex">
             <Link href="/mockquiz" className="inline-block rounded text-sm font-medium text-gray-900 bg-white transition-all hover:bg-gray-900 hover:text-white">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="bg-transparent border-none min-w-28 cursor-pointer px-4 py-2 font-semibold"
               >
                 Get Certified
@@ -108,14 +114,14 @@ export default function NavBar({dict}:any) {
           {/* Cart Button */}
           <li className="relative">
             <Link href="/cart">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2 relative"
                 aria-label={`Shopping cart with ${cartItems.length} items`}
               >
-                <Badge 
-                  count={cartItems.length} 
-                  size="small" 
+                <Badge
+                  count={cartItems.length}
+                  size="small"
                   style={{ backgroundColor: 'red' }}
                   offset={[-8, -5]}
                   showZero={false}
@@ -127,10 +133,11 @@ export default function NavBar({dict}:any) {
           </li>
 
           {/* Login Button - Tablet+ */}
+          {/* Login Button - Tablet+ */}
           <li className="hidden md:flex">
-            <Link href="/login">
-              <button 
-                type="button" 
+            <Link href={`/${lang}/auth/login`}>
+              <button
+                type="button"
                 className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
               >
                 Log in
@@ -138,11 +145,13 @@ export default function NavBar({dict}:any) {
             </Link>
           </li>
 
+
+
           {/* Signup Button - Tablet+ */}
           <li className="hidden md:flex">
             <Link href="/signup">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
               >
                 Sign up

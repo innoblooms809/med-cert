@@ -1,5 +1,5 @@
-// import LoginForm from "@/components/LoginForm";
-import LoginForm from "@/components/login";
+import LoginForm from "@/components/LoginForm";
+// import LoginForm from "@/components/login";
 import { getDictionary } from "../../dictionaries";
 
 export default async function Loginpage({
@@ -10,5 +10,5 @@ export default async function Loginpage({
   const { lang } = await params;
   const dict = await getDictionary(lang);
 
-  return <LoginForm dict={dict} />;
+  return <LoginForm />;
 }
