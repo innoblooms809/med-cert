@@ -1,4 +1,5 @@
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import DashboardClient from "@/components/admin/DashboardClient";
 
 export default async function DashboardPage({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
   
@@ -7,7 +8,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
 
   return (
     <>
-    <h1>This is dashboard body content</h1>
+    <DashboardClient/>
   </>
    )
 }

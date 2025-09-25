@@ -72,7 +72,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             justifyContent: "space-between",
           }}
         >
-          {/* <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} /> */}
+          <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} />
         </Header>
 
         <Content
