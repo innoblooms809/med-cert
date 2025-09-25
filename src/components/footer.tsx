@@ -43,7 +43,7 @@ export default function Footer({dict}:any) {
       </div>
 
       {/* Bottom row */}
-      <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-[var(--section-border)] pt-6">
+      <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4  pt-6">
         <Link href="/">
           <Image
             src={logo}

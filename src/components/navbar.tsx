@@ -1,59 +1,58 @@
-'use client';
+"use client";
 import React, { useState } from "react";
 import { Drawer, Dropdown, Badge, MenuProps } from "antd";
-import { 
-  MenuOutlined, 
-  SearchOutlined, 
-  ShoppingCartOutlined, 
+import {
+  MenuOutlined,
+  SearchOutlined,
+  ShoppingCartOutlined,
   CloseOutlined,
-  DownOutlined
+  DownOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "./cartContext";
-import logo from '../../public/images/med-cert-logo.jpg'
+import logo from "../../public/images/med-cert-logo.jpg";
 
-export default function NavBar({dict}:any) {
+export default function NavBar({ dict }: any) {
   const { cartItems } = useCart();
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const toggleSidebar = (): void => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const categoriesItems: MenuProps['items'] = [
-    { key: 'dentist', label: <Link href="#courses">Dentist</Link> },
-    { key: 'gynecologist', label: <Link href="#courses">Gynecologist/obstetrician</Link> },
-    { key: 'physician', label: <Link href="#courses">General Physician</Link> },
-    { key: 'dermatologist', label: <Link href="#courses">Dermatologist</Link> },
-    { key: 'ent', label: <Link href="#courses">Ear-nose-throat (ent) specialist</Link> },
-    { key: 'homoeopath', label: <Link href="#courses">Homoeopath</Link> },
-    { key: 'ayurveda', label: <Link href="#courses">Ayurveda</Link> },
+  const categoriesItems: MenuProps["items"] = [
+    { key: "dentist", label: <Link href="#courses">Dentist</Link> },
+    { key: "gynecologist", label: <Link href="#courses">Gynecologist</Link> },
+    { key: "physician", label: <Link href="#courses">General Physician</Link> },
+    { key: "dermatologist", label: <Link href="#courses">Dermatologist</Link> },
+    { key: "ent", label: <Link href="#courses">ENT Specialist</Link> },
+    { key: "homoeopath", label: <Link href="#courses">Homoeopath</Link> },
+    { key: "ayurveda", label: <Link href="#courses">Ayurveda</Link> },
   ];
 
   const mobileMenuItems = [
-    { label: <Link href="#courses">Categories</Link>, key: 'categories' },
-    { label: <Link href="/mockquiz">Get Certified</Link>, key: 'certified' },
-    { label: <Link href="/login">Log in</Link>, key: 'login' },
-    { label: <Link href="/signup">Sign up</Link>, key: 'signup' },
+    { label: <Link href="#courses">Categories</Link>, key: "categories" },
+    { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
+    { label: <Link href="/login">Log in</Link>, key: "login" },
+    { label: <Link href="/signup">Sign up</Link>, key: "signup" },
   ];
 
   return (
     <>
       <nav className="shadow-md py-2 px-4 z-50 bg-white sticky top-0">
-        <ul className="h-full w-full p-0 m-0 list-none flex items-center justify-between gap-2">
-          {/* Hamburger Menu - Mobile */}
-          <li className="md:hidden flex">
-            <button 
-              type="button" 
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Left Section: Hamburger + Logo */}
+          <div className="flex items-center gap-2">
+            {/* Hamburger (mobile only) */}
+            <button
+              type="button"
               onClick={toggleSidebar}
-              className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2"
+              className="md:hidden flex items-center justify-center p-2"
               aria-label="Open menu"
             >
               <MenuOutlined className="text-lg" />
             </button>
-          </li>
 
-          {/* Logo */}
-          <li className="flex-shrink-0">
+            {/* Logo */}
             <Link href="/">
               <Image
                 src={logo}
@@ -64,92 +63,74 @@ export default function NavBar({dict}:any) {
                 priority
               />
             </Link>
-          </li>
+          </div>
 
-          {/* Categories Dropdown - Tablet+ */}
-          <li className="hidden md:flex relative">
-            <Dropdown 
-              menu={{ items: categoriesItems }} 
+          {/* Middle Section: Categories dropdown (desktop only) */}
+          <div className="hidden md:flex">
+            <Dropdown
+              menu={{ items: categoriesItems }}
               placement="bottomLeft"
-              trigger={['hover', 'click']}
+              trigger={["hover", "click"]}
             >
               <button
                 type="button"
-                className="bg-transparent border-none text-base cursor-pointer px-3 py-2 flex items-center hover:text-blue-600 transition-colors"
+                className="px-3 py-2 flex items-center text-base hover:text-blue-600 transition-colors"
               >
                 Categories <DownOutlined className="ml-1" />
               </button>
             </Dropdown>
-          </li>
+          </div>
 
-          {/* Search Button - Mobile */}
-          <li className="md:hidden flex">
-            <button 
-              type="button" 
-              className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2"
+          {/* Right Section: Actions */}
+          <div className="flex items-center gap-3">
+            {/* Search (mobile) */}
+            <button
+              type="button"
+              className="md:hidden p-2"
               aria-label="Search"
             >
               <SearchOutlined className="text-lg" />
             </button>
-          </li>
 
-          {/* Get Certified Button - Desktop */}
-          <li className="hidden lg:flex">
-            <Link href="/mockquiz" className="inline-block rounded text-sm font-medium text-gray-900 bg-white transition-all hover:bg-gray-900 hover:text-white">
-              <button 
-                type="button" 
-                className="bg-transparent border-none min-w-28 cursor-pointer px-4 py-2 font-semibold"
+            {/* Get Certified (desktop) */}
+            <Link
+              href="/mockquiz"
+              className="hidden lg:inline-block rounded font-medium bg-white hover:bg-gray-900 hover:text-white transition-all"
+            >
+              <button
+                type="button"
+                className="px-4 py-2 font-semibold text-sm"
               >
                 Get Certified
               </button>
             </Link>
-          </li>
 
-          {/* Cart Button */}
-          <li className="relative">
+            {/* Cart */}
             <Link href="/cart">
-              <button 
-                type="button" 
-                className="flex items-center justify-center bg-transparent border-none cursor-pointer p-2 relative"
-                aria-label={`Shopping cart with ${cartItems.length} items`}
+              <Badge
+                count={cartItems.length}
+                size="small"
+                style={{ backgroundColor: "red" }}
+                offset={[-5, 5]}
+                showZero={false}
               >
-                <Badge 
-                  count={cartItems.length} 
-                  size="small" 
-                  style={{ backgroundColor: 'red' }}
-                  offset={[-8, -5]}
-                  showZero={false}
-                >
-                  <ShoppingCartOutlined className="text-xl" />
-                </Badge>
-              </button>
+                <ShoppingCartOutlined className="text-xl cursor-pointer" />
+              </Badge>
             </Link>
-          </li>
 
-          {/* Login Button - Tablet+ */}
-          <li className="hidden md:flex">
-            <Link href="/login">
-              <button 
-                type="button" 
-                className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
-              >
+            {/* Log in / Sign up (tablet+) */}
+            <Link href="/login" className="hidden md:block">
+              <button className="border border-black font-bold px-3 py-1.5 hover:bg-gray-50">
                 Log in
               </button>
             </Link>
-          </li>
-
-          {/* Signup Button - Tablet+ */}
-          <li className="hidden md:flex">
-            <Link href="/signup">
-              <button 
-                type="button" 
-                className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
-              >
+            <Link href="/signup" className="hidden md:block">
+              <button className="bg-black text-white font-bold px-3 py-1.5 hover:bg-gray-800">
                 Sign up
               </button>
             </Link>
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
 
       {/* Mobile Sidebar Drawer */}
@@ -158,16 +139,17 @@ export default function NavBar({dict}:any) {
         placement="left"
         onClose={toggleSidebar}
         open={isSidebarOpen}
-        width={300}
+        width={280}
         closeIcon={<CloseOutlined />}
         className="md:hidden"
       >
-        <ul className="list-none p-0 mt-8 space-y-4">
+        <ul className="mt-6 space-y-4">
           {mobileMenuItems.map((item) => (
-            <li key={item.key} className="my-4">
+            <li key={item.key}>
               {React.cloneElement(item.label as React.ReactElement, {
                 onClick: toggleSidebar,
-                className: "text-gray-700 text-lg font-medium no-underline hover:text-gray-900 block py-2"
+                className:
+                  "block text-gray-700 text-lg font-medium hover:text-gray-900",
               })}
             </li>
           ))}
@@ -175,4 +157,4 @@ export default function NavBar({dict}:any) {
       </Drawer>
     </>
   );
-};
+}

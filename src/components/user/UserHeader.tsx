@@ -239,7 +239,7 @@ export default function UserHeader({
         <Dropdown menu={userMenu} placement="bottomRight">
           <Space style={{ cursor: "pointer", color: "var(--header-text)" }}>
             <Image
-              src=""
+              src="../../public/images/med-cert-logo.jpg"
               alt="Doctor"
               width={100}
               height={100}
