@@ -6,22 +6,34 @@ export type SidebarItem = {
   children?: SidebarItem[];
 };
 
+export type adminbarItem = {
+  label: string;
+  path: string;
+};
+
 export type userbarItem = {
   label: string;
   path: string;
 };
 
-export const adminSidebarItems: SidebarItem[] = [
-  { id: "Dashboard", path: "/admin/dashboard", label: { en: "Dashboard", ar: "لوحة القيادة" } },
-  { id: "Compliance Management", path: "/admin/reports/generator", label: { en: "Compliance Management", ar: "إدارة الامتثال" } },
-  { id: "Licenses", path: "/admin/licenses", label: { en: "Licenses", ar: "التراخيص" } },
-  { id: "Complaints & Violations", path: "/admin/complaints/track", label: { en: "Complaints & Violations", ar: "الشكاوى والانتهاكات" } },
+// export const adminSidebarItems: SidebarItem[] = [
+//   { id: "Dashboard", path: "/admin/dashboard", label: { en: "Dashboard", ar: "لوحة القيادة" } },
+//   { id: "Compliance Management", path: "/admin/reports/generator", label: { en: "Compliance Management", ar: "إدارة الامتثال" } },
+//   { id: "Licenses", path: "/admin/licenses", label: { en: "Licenses", ar: "التراخيص" } },
+//   { id: "Complaints & Violations", path: "/admin/complaints/track", label: { en: "Complaints & Violations", ar: "الشكاوى والانتهاكات" } },
  
-];
+// ];
 
 export const userSidebarItems: userbarItem[] = [
   { label: "Dashboard", path: "/user/dashboard" },
   { label: "My Course", path: "/user/myCourse" },
   { label: "My Profile", path: "/user/myProfile" },
   { label: "My Certificate", path: "/user/myCertificates" },
+];
+
+export const adminSidebarItems: adminbarItem[] = [
+  { label: "Dashboard", path: "/admin/dashboard" },
+  { label: "Courses", path: "/admin/courses" },
+  { label: "Tests", path: "/admin/tests" },
+  { label: "Users", path: "/admin/users" },
 ];

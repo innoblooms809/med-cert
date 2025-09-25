@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import img from "../../../public/images/hero1.jpg"
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -239,7 +240,7 @@ export default function UserHeader({
         <Dropdown menu={userMenu} placement="bottomRight">
           <Space style={{ cursor: "pointer", color: "var(--header-text)" }}>
             <Image
-              src="../../public/images/med-cert-logo.jpg"
+              src={img}
               alt="Doctor"
               width={100}
               height={100}

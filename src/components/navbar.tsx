@@ -13,9 +13,15 @@ import Image from "next/image";
 import { useCart } from "./cartContext";
 import logo from "../../public/images/med-cert-logo.jpg";
 
-export default function NavBar({ dict }: any) {
+interface NavBarProps {
+  dict: any;
+  lang: string;
+}
+
+export default function NavBar({ dict, lang}: NavBarProps) {
   const { cartItems } = useCart();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -29,12 +35,12 @@ export default function NavBar({ dict }: any) {
     { key: "ayurveda", label: <Link href="#courses">Ayurveda</Link> },
   ];
 
-  const mobileMenuItems = [
-    { label: <Link href="#courses">Categories</Link>, key: "categories" },
-    { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
-    { label: <Link href="/login">Log in</Link>, key: "login" },
-    { label: <Link href="/signup">Sign up</Link>, key: "signup" },
-  ];
+const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
+  { label: <Link href="#courses">Categories</Link>, key: "categories" },
+  { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
+  { label: <Link href="/login">Log in</Link>, key: "login" },
+  { label: <Link href="/signup">Sign up</Link>, key: "signup" },
+];
 
   return (
     <>
@@ -118,17 +124,32 @@ export default function NavBar({ dict }: any) {
               </Badge>
             </Link>
 
-            {/* Log in / Sign up (tablet+) */}
-            <Link href="/login" className="hidden md:block">
-              <button className="border border-black font-bold px-3 py-1.5 hover:bg-gray-50">
+          {/* Login Button - Tablet+ */}
+          {/* Login Button - Tablet+ */}
+          <li className="hidden md:flex">
+            <Link href={`/${lang}/auth/login`}>
+              <button
+                type="button"
+                className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
+              >
                 Log in
               </button>
             </Link>
-            <Link href="/signup" className="hidden md:block">
-              <button className="bg-black text-white font-bold px-3 py-1.5 hover:bg-gray-800">
+          </li>
+
+
+
+          {/* Signup Button - Tablet+ */}
+          <li className="hidden md:flex">
+            <Link href="/signup">
+              <button
+                type="button"
+                className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
+              >
                 Sign up
               </button>
             </Link>
+            </li>
           </div>
         </div>
       </nav>
@@ -146,10 +167,9 @@ export default function NavBar({ dict }: any) {
         <ul className="mt-6 space-y-4">
           {mobileMenuItems.map((item) => (
             <li key={item.key}>
-              {React.cloneElement(item.label as React.ReactElement, {
+              {React.cloneElement(item.label as React.ReactElement<any>, {
                 onClick: toggleSidebar,
-                className:
-                  "block text-gray-700 text-lg font-medium hover:text-gray-900",
+                className: "block text-gray-700 text-lg font-medium hover:text-gray-900",
               })}
             </li>
           ))}
