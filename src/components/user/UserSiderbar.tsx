@@ -1,16 +1,3 @@
-// import React from 'react'
-
-// const UserSiderbar = () => {
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-
-// export default UserSiderbar
-
-
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -68,6 +55,7 @@ export default function UserSidebar({ collapsed }: { collapsed: boolean }) {
         style={{
           background: "var(--sidebar-bg)",
           borderRight: "none",
+          marginTop: "1.9rem",
         }}
         items={userbarItems.flatMap((item, index) => {
           const menuItem = {

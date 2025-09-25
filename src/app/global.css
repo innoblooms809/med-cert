@@ -187,3 +187,17 @@ body {
   background: var(--bs-body-bg);
   color: var(--bs-body-color);
 }
+
+
+/* Animation of user dashboard */
+@keyframes scrollRightToLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.scrolling-header {
+  white-space: nowrap;
+  display: inline-block;
+  animation: scrollRightToLeft 10s linear infinite;
+  background: linear-gradient(90deg, #64b5f6, #2196f3, #1976d2);
+}

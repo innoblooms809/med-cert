@@ -1,4 +1,5 @@
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import UserDashboardOverview from "@/components/user/dashboard";
 
 export default async function DashboardPage({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
   
@@ -7,7 +8,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
 
   return (
     <>
-    <h1>This is user dashboard body content</h1>
+    <UserDashboardOverview dict={dict}/>
   </>
    )
 }
