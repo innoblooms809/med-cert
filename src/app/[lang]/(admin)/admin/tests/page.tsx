@@ -1,11 +1,9 @@
+import Tests from '@/components/admin/Tests'
 import React from 'react'
-
-const page = () => {
+export default function Course() {
   return (
-    <div>
-      <h1>This is Tests creation page</h1>
-    </div>
+    <>
+    <Tests/>
+    </>
   )
 }
-
-export default page

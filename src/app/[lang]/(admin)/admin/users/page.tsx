@@ -1,11 +1,9 @@
+import Users from '@/components/admin/Users'
 import React from 'react'
-
-const page = () => {
-    return (
-        <div>
-            <h1>This is user list page</h1>
-        </div>
-    )
+export default function Course() {
+  return (
+    <>
+    <Users/>
+    </>
+  )
 }
-
-export default page

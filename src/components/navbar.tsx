@@ -18,7 +18,7 @@ interface NavBarProps {
   lang: string;
 }
 
-export default function NavBar({ dict, lang}: NavBarProps) {
+export default function NavBar({ dict, lang }: NavBarProps) {
   const { cartItems } = useCart();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -35,12 +35,12 @@ export default function NavBar({ dict, lang}: NavBarProps) {
     { key: "ayurveda", label: <Link href="#courses">Ayurveda</Link> },
   ];
 
-const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
-  { label: <Link href="#courses">Categories</Link>, key: "categories" },
-  { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
-  { label: <Link href="/login">Log in</Link>, key: "login" },
-  { label: <Link href="/signup">Sign up</Link>, key: "signup" },
-];
+  const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
+    { label: <Link href="#courses">Categories</Link>, key: "categories" },
+    { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
+    { label: <Link href="/login">Log in</Link>, key: "login" },
+    { label: <Link href="/signup">Sign up</Link>, key: "signup" },
+  ];
 
   return (
     <>
@@ -69,32 +69,27 @@ const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
                 priority
               />
             </Link>
-          </div>
-
-          {/* Middle Section: Categories dropdown (desktop only) */}
-          <div className="hidden md:flex">
-            <Dropdown
-              menu={{ items: categoriesItems }}
-              placement="bottomLeft"
-              trigger={["hover", "click"]}
-            >
-              <button
-                type="button"
-                className="px-3 py-2 flex items-center text-base hover:text-blue-600 transition-colors"
+            {/* Middle Section: Categories dropdown (desktop only) */}
+            <div className="hidden md:flex">
+              <Dropdown
+                menu={{ items: categoriesItems }}
+                placement="bottomLeft"
+                trigger={["hover", "click"]}
               >
-                Categories <DownOutlined className="ml-1" />
-              </button>
-            </Dropdown>
+                <button
+                  type="button"
+                  className="px-3 py-2 flex items-center text-base hover:text-blue-600 transition-colors"
+                >
+                  Categories <DownOutlined className="ml-1" />
+                </button>
+              </Dropdown>
+            </div>
           </div>
 
           {/* Right Section: Actions */}
           <div className="flex items-center gap-3">
             {/* Search (mobile) */}
-            <button
-              type="button"
-              className="md:hidden p-2"
-              aria-label="Search"
-            >
+            <button type="button" className="md:hidden p-2" aria-label="Search">
               <SearchOutlined className="text-lg" />
             </button>
 
@@ -103,10 +98,7 @@ const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
               href="/mockquiz"
               className="hidden lg:inline-block rounded font-medium bg-white hover:bg-gray-900 hover:text-white transition-all"
             >
-              <button
-                type="button"
-                className="px-4 py-2 font-semibold text-sm"
-              >
+              <button type="button" className="px-4 py-2 font-semibold text-sm">
                 Get Certified
               </button>
             </Link>
@@ -124,31 +116,29 @@ const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
               </Badge>
             </Link>
 
-          {/* Login Button - Tablet+ */}
-          {/* Login Button - Tablet+ */}
-          <li className="hidden md:flex">
-            <Link href={`/${lang}/auth/login`}>
-              <button
-                type="button"
-                className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
-              >
-                Log in
-              </button>
-            </Link>
-          </li>
+            {/* Login Button - Tablet+ */}
+            {/* Login Button - Tablet+ */}
+            <li className="hidden md:flex">
+              <Link href={`/${lang}/auth/login`}>
+                <button
+                  type="button"
+                  className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
+                >
+                  Log in
+                </button>
+              </Link>
+            </li>
 
-
-
-          {/* Signup Button - Tablet+ */}
-          <li className="hidden md:flex">
-            <Link href="/signup">
-              <button
-                type="button"
-                className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
-              >
-                Sign up
-              </button>
-            </Link>
+            {/* Signup Button - Tablet+ */}
+            <li className="hidden md:flex">
+              <Link href="/signup">
+                <button
+                  type="button"
+                  className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
+                >
+                  Sign up
+                </button>
+              </Link>
             </li>
           </div>
         </div>
@@ -169,7 +159,8 @@ const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
             <li key={item.key}>
               {React.cloneElement(item.label as React.ReactElement<any>, {
                 onClick: toggleSidebar,
-                className: "block text-gray-700 text-lg font-medium hover:text-gray-900",
+                className:
+                  "block text-gray-700 text-lg font-medium hover:text-gray-900",
               })}
             </li>
           ))}

@@ -17,7 +17,11 @@ import {
   NotificationOutlined,
   ProfileOutlined,
 } from "@ant-design/icons";
-
+import Image from "next/image";
+import cardio from "../../../public/images/cardiology.jpg";
+import basics from "../../../public/images/ECG.jpeg";
+import pharma from "../../../public/images/pharma.jpg";
+import inter from "../../../public/images/inter.png";
 const { Title } = Typography;
 
 export default function MyCourses() {
@@ -29,8 +33,8 @@ export default function MyCourses() {
       id: 1,
       title: "Lecture 1 - Heart Anatomy",
       description: "Overview of cardiac chambers, valves and major vessels.",
-      image: "/images/cardiology.jpg",
-      video: "/videos/video.mp4",
+      image: cardio,
+      video: "/videos/alice.mp4",
       announcements: ["Live doubt session on Friday", "Assignment due next week"],
       tests: [
         { id: "t1", name: "Heart Anatomy Quiz", language: "English/Arabic" },
@@ -42,8 +46,8 @@ export default function MyCourses() {
       id: 2,
       title: "Lecture 2 - ECG Basics",
       description: "How to read a basic ECG and recognize common patterns.",
-      image: "/images/lecture2.jpg",
-      video: "/videos/lecture2.mp4",
+      image: basics,
+      video: "/assets/videos/alice.mp4",
       announcements: ["Quiz will be unlocked Sunday"],
       tests: [{ id: "t3", name: "ECG Pattern Test", language: "English" }],
       pdfs: ["/pdfs/ECG-Basics.pdf"],
@@ -52,7 +56,7 @@ export default function MyCourses() {
       id: 3,
       title: "Lecture 3 - Cardiac Pharmacology",
       description: "Key drugs used in emergency cardiac care and their effects.",
-      image: "/images/lecture3.jpg",
+      image: pharma,
       video: "/videos/lecture3.mp4",
       announcements: ["MCQ practice paper uploaded"],
       tests: [{ id: "t4", name: "Pharma Quiz", language: "Arabic" }],
@@ -62,7 +66,7 @@ export default function MyCourses() {
       id: 4,
       title: "Lecture 4 - Interventions",
       description: "PCI basics and indications — case discussions.",
-      image: "/images/lecture4.jpg",
+      image: inter,
       video: "/videos/lecture4.mp4",
       announcements: ["Case study discussion on Wednesday"],
       tests: [{ id: "t5", name: "Intervention Quiz", language: "English" }],
@@ -97,7 +101,7 @@ export default function MyCourses() {
                   hoverable
                   style={{ borderRadius: "10px" }}
                   cover={
-                    <img
+                    <Image
                       alt={course.title}
                       src={course.image}
                       style={{ height: 200, objectFit: "cover" }}
