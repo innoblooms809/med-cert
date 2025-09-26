@@ -1,122 +1,143 @@
 "use client";
 
 import React from "react";
+import { Card, Row, Col } from "antd";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 
 interface Quiz {
   testType: "Objective" | "Subjective";
   testFor: string; // Doctor / Nurse
   specialization: string;
-  totalQuestions: number;
-  marking: string;
 }
 
-interface Props {
-  quizzes: Quiz[];
-}
+// Mock data
+const quizzes: Quiz[] = [
+  { testType: "Objective", testFor: "Doctor", specialization: "ENT" },
+  { testType: "Objective", testFor: "Doctor", specialization: "Cardiology" },
+  { testType: "Subjective", testFor: "Doctor", specialization: "Orthopedic" },
+  { testType: "Objective", testFor: "Nurse", specialization: "ICU" },
+  { testType: "Subjective", testFor: "Nurse", specialization: "General" },
+  { testType: "Objective", testFor: "Nurse", specialization: "Pediatric" },
+  { testType: "Objective", testFor: "Doctor", specialization: "ENT" },
+  { testType: "Subjective", testFor: "Doctor", specialization: "Cardiology" },
+  { testType: "Objective", testFor: "Nurse", specialization: "ICU" },
+];
 
-export default function TestData({ quizzes }: Props) {
-  const styles: Record<string, React.CSSProperties> = {
-    card: {
-      background: "#fff",
-      borderRadius: 12,
-      padding: 16,
-      boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-      marginBottom: 24,
-    },
-    cardHeader: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 12,
-    },
-    cardTitle: { fontSize: 18, fontWeight: 600 },
-    cardAction: {
-      fontSize: 14,
-      color: "#4f46e5",
-      cursor: "pointer",
-    },
-    cardBody: { overflowX: "auto" },
-    table: { width: "100%", borderCollapse: "collapse" },
-    tableHeader: { textAlign: "left", padding: 8, color: "#64748b", fontWeight: 500 },
-    tableRow: { borderBottom: "1px solid #e5e7eb" },
-    tableCell: { padding: 8, verticalAlign: "middle" },
-    statusBadge: {
-      display: "inline-block",
-      padding: "2px 8px",
-      borderRadius: 8,
-      fontSize: 12,
-      fontWeight: 500,
-    },
-    viewAllButton: {
-      marginTop: 12,
-      padding: "8px 16px",
-      borderRadius: 8,
-      border: "1px solid #cbd5e1",
-      background: "#f8fafc",
-      color: "#64748b",
-      cursor: "pointer",
-      fontWeight: 500,
-      transition: "all 0.2s",
-    },
-  };
+export default function TestAnalytics() {
+  // Group bar chart data
+  const barMap: Record<string, { Objective: number; Subjective: number }> = {};
+  quizzes.forEach((q) => {
+    if (!barMap[q.specialization]) barMap[q.specialization] = { Objective: 0, Subjective: 0 };
+    barMap[q.specialization][q.testType] += 1;
+  });
+
+  const barData = Object.keys(barMap).map((key) => ({
+    specialization: key,
+    Objective: barMap[key].Objective,
+    Subjective: barMap[key].Subjective,
+  }));
+
+  // Donut chart data
+  const roleMap: Record<string, number> = {};
+  quizzes.forEach((q) => {
+    roleMap[q.testFor] = (roleMap[q.testFor] || 0) + 1;
+  });
+
+  const pieData = Object.keys(roleMap).map((key) => ({
+    name: key,
+    value: roleMap[key],
+  }));
+
+  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444"];
 
   return (
-    <div style={styles.card}>
-      <div style={styles.cardHeader}>
-        <h2 style={styles.cardTitle}>Recent Tests</h2>
-        <div style={styles.cardAction}>
-          View All
-        </div>
-      </div>
+    <Row gutter={[24, 24]} style={{ padding: 24 }}>
+      {/* Grouped Bar Chart */}
+      <Col xs={24} md={16}>
+        <Card
+          title="📊 Tests by Specialization & Type"
+          style={{
+            borderRadius: 16,
+            background: "var(--content-bg)", // theme background
+            color: "var(--section-text)", // theme text
+            boxShadow: "0 8px 24px rgba(79,70,229,0.15)", // match your cards shadow
+            border: "none",
+          }}
+        >
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="specialization" stroke="var(--section-text)" />
+              <YAxis stroke="var(--section-text)" />
+              <Tooltip
+                contentStyle={{
+                  background: "var(--card-bg)",
+                  borderRadius: 8,
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+                  color: "var(--section-text)",
+                }}
+              />
+              <Legend />
+              <Bar dataKey="Objective" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Subjective" fill="#10b981" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      </Col>
 
-      <div style={styles.cardBody}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.tableHeader}>Type</th>
-              <th style={styles.tableHeader}>For</th>
-              <th style={styles.tableHeader}>Specialization</th>
-              <th style={styles.tableHeader}>Questions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {quizzes.map((quiz, index) => (
-              <tr key={index} style={styles.tableRow}>
-                <td style={styles.tableCell}>
-                  <span
-                    style={{
-                      ...styles.statusBadge,
-                      background: quiz.testType === "Objective" ? "#dbeafe" : "#fef3c7",
-                      color: quiz.testType === "Objective" ? "#1e40af" : "#92400e",
-                    }}
-                  >
-                    {quiz.testType}
-                  </span>
-                </td>
-                <td style={styles.tableCell}>{quiz.testFor}</td>
-                <td style={styles.tableCell}>{quiz.specialization}</td>
-                <td style={styles.tableCell}>
-                  {quiz.totalQuestions} Qs ({quiz.marking})
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <button
-        style={styles.viewAllButton}
-        onMouseEnter={(e) => {
-          (e.target as HTMLButtonElement).style.background = "#e2e8f0";
-          (e.target as HTMLButtonElement).style.color = "#4f46e5";
-        }}
-        onMouseLeave={(e) => {
-          (e.target as HTMLButtonElement).style.background = "#f8fafc";
-          (e.target as HTMLButtonElement).style.color = "#64748b";
-        }}
-      >
-        View All Tests
-      </button>
-    </div>
+      {/* Donut Chart */}
+      <Col xs={24} md={8}>
+        <Card
+          title="📊 Test Role Distribution"
+          style={{
+            borderRadius: 16,
+            background: "var(--content-bg)",
+            color: "var(--section-text)",
+            boxShadow: "0 8px 24px rgba(79,70,229,0.15)",
+            border: "none",
+          }}
+        >
+          <ResponsiveContainer width="100%" height={350}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={100}
+                label={(entry) => `${entry.name} (${entry.value})`}
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip
+                contentStyle={{
+                  background: "var(--card-bg)",
+                  borderRadius: 8,
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+                  color: "var(--section-text)",
+                }}
+              />
+              <Legend verticalAlign="bottom" />
+            </PieChart>
+          </ResponsiveContainer>
+        </Card>
+      </Col>
+    </Row>
   );
 }

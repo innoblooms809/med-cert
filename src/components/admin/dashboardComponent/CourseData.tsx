@@ -1,140 +1,143 @@
-'use client';
+"use client";
 
 import React from "react";
+import { Card, Row, Col } from "antd";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 
 interface Course {
+  id: string;
   title: string;
-  author: string;
-  courseRole: string;
-  specialization: string;
+  specialization: string; // e.g., "ENT", "Orthopedic"
+  courseRole: string; // "Doctor" | "Nurse"
 }
 
-interface Props {
-  courses: Course[];
-}
+// Mock Data
+const courses: Course[] = [
+  { id: "1", title: "ENT Basics", specialization: "ENT", courseRole: "Doctor" },
+  { id: "2", title: "Orthopedic Care", specialization: "Orthopedic", courseRole: "Doctor" },
+  { id: "3", title: "Cardiology Advanced", specialization: "Cardiology", courseRole: "Doctor" },
+  { id: "4", title: "Neurology Overview", specialization: "Neurology", courseRole: "Doctor" },
+  { id: "5", title: "Dermatology Cases", specialization: "Dermatology", courseRole: "Doctor" },
+  { id: "6", title: "ENT Advanced", specialization: "ENT", courseRole: "Doctor" },
+  { id: "7", title: "Orthopedic Surgery", specialization: "Orthopedic", courseRole: "Doctor" },
+  { id: "8", title: "Cardiology Emergencies", specialization: "Cardiology", courseRole: "Doctor" },
+  { id: "9", title: "ICU Procedures", specialization: "ICU", courseRole: "Nurse" },
+  { id: "10", title: "General Nursing", specialization: "General", courseRole: "Nurse" },
+  { id: "11", title: "Pediatric Nursing", specialization: "Pediatric", courseRole: "Nurse" },
+  { id: "12", title: "ICU Advanced", specialization: "ICU", courseRole: "Nurse" },
+  { id: "13", title: "General Nursing Skills", specialization: "General", courseRole: "Nurse" },
+  { id: "14", title: "Pediatric Care", specialization: "Pediatric", courseRole: "Nurse" },
+  { id: "15", title: "Emergency Nursing", specialization: "ICU", courseRole: "Nurse" },
+];
 
-export default function RecentCoursesCard({ courses }: Props) {
-  const styles = {
-    card: {
-      borderRadius: 12,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-      background: "#fff",
-      padding: 24,
-      marginBottom: 24,
-    },
-    cardHeader: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 16,
-    },
-    cardTitle: {
-      fontSize: 18,
-      fontWeight: 600,
-      margin: 0,
-    },
-    cardAction: {
-      fontSize: 14,
-      fontWeight: 500,
-      color: "#4f46e5",
-      cursor: "pointer",
-    },
-    cardBody: {
-      overflowX: "auto" as const,
-    },
-    table: {
-      width: "100%",
-      borderCollapse: "collapse" as const,
-    },
-    tableHeader: {
-      textAlign: "left" as const,
-      fontWeight: 600,
-      padding: "12px 8px",
-      borderBottom: "1px solid #e5e7eb",
-      color: "#334155",
-    },
-    tableRow: {
-      borderBottom: "1px solid #e5e7eb",
-    },
-    tableCell: {
-      padding: "12px 8px",
-      color: "#475569",
-    },
-    statusBadge: {
-      padding: "4px 8px",
-      borderRadius: 8,
-      fontSize: 12,
-      fontWeight: 500,
-    },
-    viewAllButton: {
-      marginTop: 16,
-      padding: "8px 16px",
-      borderRadius: 8,
-      border: "none",
-      background: "#f8fafc",
-      color: "#64748b",
-      fontWeight: 500,
-      cursor: "pointer",
-      transition: "all 0.2s",
-    },
-  };
+export default function CoursesCharts() {
+  // Aggregate data for bar chart (courses per specialization)
+  const specializationMap: Record<string, number> = {};
+  courses.forEach((c) => {
+    specializationMap[c.specialization] = (specializationMap[c.specialization] || 0) + 1;
+  });
+  const barData = Object.keys(specializationMap).map((key) => ({
+    specialization: key,
+    courses: specializationMap[key],
+  }));
+
+  // Aggregate data for pie chart (courses per role)
+  const roleMap: Record<string, number> = {};
+  courses.forEach((c) => {
+    roleMap[c.courseRole] = (roleMap[c.courseRole] || 0) + 1;
+  });
+  const pieData = Object.keys(roleMap).map((key) => ({
+    name: key,
+    value: roleMap[key],
+  }));
+
+  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+
+  const cardShadow = "0 6px 20px rgba(30,41,59,0.15), 0 10px 40px rgba(79,70,229,0.05)";
 
   return (
-    <div style={styles.card}>
-      <div style={styles.cardHeader}>
-        <h2 style={styles.cardTitle}>Recent Courses</h2>
-        <div style={styles.cardAction}>View All</div>
-      </div>
+    <Row gutter={[24, 24]} style={{ padding: 24 }}>
+      {/* Bar Chart: Courses per Specialization */}
+      <Col xs={24} md={12}>
+        <Card
+          title="📊 Courses by Specialization"
+          style={{
+            borderRadius: 16,
+            boxShadow: cardShadow,
+            background: "#fff",
+            border: "none",
+          }}
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="specialization" stroke="#1f2937" />
+              <YAxis stroke="#1f2937" />
+              <Tooltip
+                contentStyle={{
+                  background: "#fff",
+                  borderRadius: 8,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                }}
+              />
+              <Legend />
+              <Bar dataKey="courses" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      </Col>
 
-      <div style={styles.cardBody}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.tableHeader}>Title</th>
-              <th style={styles.tableHeader}>For</th>
-              <th style={styles.tableHeader}>Specialization</th>
-              <th style={styles.tableHeader}>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map((course, idx) => (
-              <tr key={idx} style={styles.tableRow}>
-                <td style={styles.tableCell}>
-                  <div style={{ fontWeight: 500 }}>{course.title}</div>
-                  <div style={{ fontSize: "0.75rem", color: "#64748b" }}>{course.author}</div>
-                </td>
-                <td style={styles.tableCell}>{course.courseRole}</td>
-                <td style={styles.tableCell}>{course.specialization}</td>
-                <td style={styles.tableCell}>
-                  <span
-                    style={{
-                      ...styles.statusBadge,
-                      background: "#dcfce7",
-                      color: "#166534",
-                    }}
-                  >
-                    Active
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <button
-        style={styles.viewAllButton}
-        onMouseEnter={(e: any) => {
-          e.target.style.background = "#e2e8f0";
-          e.target.style.color = "#4f46e5";
-        }}
-        onMouseLeave={(e: any) => {
-          e.target.style.background = "#f8fafc";
-          e.target.style.color = "#64748b";
-        }}
-      >
-        View All Courses
-      </button>
-    </div>
+      {/* Pie Chart: Courses per Role */}
+      <Col xs={24} md={12}>
+        <Card
+          title="📊 Courses by Role"
+          style={{
+            borderRadius: 16,
+            boxShadow: cardShadow,
+            background: "#fff",
+            border: "none",
+          }}
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                fill="#8884d8"
+                label={(entry) => `${entry.name} (${entry.value})`}
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip
+                contentStyle={{
+                  background: "#fff",
+                  borderRadius: 8,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                }}
+              />
+              <Legend verticalAlign="bottom" height={36} />
+            </PieChart>
+          </ResponsiveContainer>
+        </Card>
+      </Col>
+    </Row>
   );
 }

@@ -261,7 +261,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
-import adminImg from "../../../public/images/cardiology.jpg";
+import adminImg from "../../../public/images/admin.jpg";
 import { Dropdown, Space } from "antd";
 import Link from "next/link";
 import Image from "next/image";

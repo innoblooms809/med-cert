@@ -83,16 +83,41 @@ p, span, div, strong {
 /* ===================== THEMES ===================== */
 
 /* Admin Theme */
-/* Admin Theme */
+/* Admin Dashboard Colors */
 .admin-theme {
-  --header-bg: #1d3557;
-  --header-text: #ffffff;
-  --sidebar-bg: #457b9d;
-  --card-bg: #f1f5f9;
+  --sidebar-bg: #1e293b;
+  --sidebar-text: #f8fafc;
+  --sidebar-hover: #6366f1;
+
+  --header-bg: #f8fafc;
+  --header-text: #1e293b;
+
+  --body-bg: #f1f5f9;
+  --card-bg: #ffffff;
   --content-bg: #ffffff;
   --section-text: #212529;
-  --layout-bg: #f8f9fa;
+
+  --section-primary: #2563eb;
+  --section-accent: #3b82f6;
 }
+
+/* Override Ant Design Menu */
+.admin-theme .ant-menu-item,
+.admin-theme .ant-menu-submenu-title {
+  color: var(--sidebar-text) !important;
+}
+
+.admin-theme .ant-menu-item:hover,
+.admin-theme .ant-menu-submenu-title:hover {
+  background-color: var(--sidebar-hover) !important;
+  color: var(--sidebar-text) !important;
+}
+
+.admin-theme .ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--header-text) !important;
+}
+
 
 /* Doctor Theme */
 .user-theme {
@@ -205,3 +230,37 @@ body {
   animation: scrollRightToLeft 10s linear infinite;
   background: linear-gradient(90deg, #64b5f6, #2196f3, #1976d2);
 }
+/* ===================== MENU ICON FIX ===================== */
+
+/* Ensure selected item uses your custom color instead of default gray */
+.admin-theme .ant-menu-dark .ant-menu-item-selected {
+  background-color: var(--sidebar-selected) !important; /* your custom highlight */
+  color: var(--sidebar-text) !important;
+}
+
+/* Ensure icons in selected item also use your color */
+.admin-theme .ant-menu-dark .ant-menu-item-selected .ant-menu-item-icon {
+  color: var(--sidebar-text) !important;
+}
+
+/* Optional: remove gray when menu collapses and hovered */
+.admin-theme .ant-menu-dark .ant-menu-item:hover {
+  background-color: var(--sidebar-hover) !important;
+  color: var(--sidebar-text) !important;
+}
+/* Sidebar icons should always be visible */
+.admin-theme .ant-menu-item-icon,
+.admin-theme .ant-menu-submenu-arrow {
+  color: var(--sidebar-text) !important; /* icons use same as text */
+}
+
+/* Selected item icon */
+.admin-theme .ant-menu-item-selected .ant-menu-item-icon {
+  color: var(--sidebar-text) !important;
+}
+
+/* Hover icon */
+.admin-theme .ant-menu-item:hover .ant-menu-item-icon {
+  color: var(--sidebar-text) !important;
+}
+
