@@ -1,6 +1,6 @@
-import LoginForm from "@/components/LoginForm";
-import { getDictionary } from "../[lang]/dictionaries";
-import Contact from "@/components/contact";
+// import LoginForm from "@/components/LoginForm";
+// import { getDictionary } from "../[lang]/dictionaries";
+// import Contact from "@/components/contact";
 import Hero from "@/components/hero";
 import DentistSection from "@/components/courseSection/dentist";
 import Gynecologist from "@/components/courseSection/gyno";
@@ -11,16 +11,17 @@ import GeneralPhysician from "@/components/courseSection/generalPhysician";
 import Homeopath from "@/components/courseSection/homeopath";
 
 
-export type PageProps = {
-  params: {
-    lang: "en" | "ar";
-  };
-};
+// export type PageProps = {
+//   params: {
+//     lang: "en" | "ar";
+//   };
+// };
 
 
-export default async function Page({ params,}: any) {
-   const {lang} = await params;                                                                                                                                                                 
-   const dict = await getDictionary(lang); 
+export default async function Page() {
+  // { params,}: any
+  //  const {lang} = await params;                                                                                                                                                                 
+  //  const dict = await getDictionary(lang); 
   return (
     <>
       <Hero/>

@@ -265,16 +265,16 @@ import adminImg from "../../../public/images/admin.jpg";
 import { Dropdown, Space } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export default function AdminHeader({
   onToggleSidebar,
 }: {
   onToggleSidebar: () => void;
 }) {
-  const router = useRouter();
+  // const router = useRouter();
   const { lang } = useParams(); // ✅ get current lang
-  const [complianceReports, setComplianceReports] = useState<any[]>([]);
+  const [complianceReports, setComplianceReports] = useState<unknown[]>([]);
 
   useEffect(() => {
     const reports = localStorage.getItem("complianceReports");
@@ -282,6 +282,7 @@ export default function AdminHeader({
       setComplianceReports(JSON.parse(reports));
     }
   }, []);
+  console.log(complianceReports)
 
   // ✅ now userMenu can access lang
   const userMenu = {
