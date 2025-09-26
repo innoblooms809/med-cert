@@ -7,11 +7,11 @@ import Image from "next/image";
 import { footerLinks } from "@/utils/data/links";
 import logo from '../../public/images/med-cert-logo.jpg'
 
-export default function Footer({dict}:any) {
+export default function Footer({dict, lang}:any) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--section-bg-1)] border-t border-[var(--section-border)] text-[var(--section-text)] px-6 py-12">
+    <footer className="bg-[var(--section-bg-1)] border-t border-[var(--section-border)] text-[var(--section-text)] px-36 py-12">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Links */}
         {footerLinks.map((group, idx) => (
@@ -37,7 +37,7 @@ export default function Footer({dict}:any) {
             icon={<GlobalOutlined />}
             className="!border !border-[var(--section-text)] !bg-transparent !text-[var(--section-text)] hover:!bg-[var(--section-bg-3)]"
           >
-            English
+            {lang=='en'?"English":"Arabic"}
           </Button>
         </div>
       </div>

@@ -30,3 +30,8 @@ export const footerLinks = [
     ],
   },
 ];
+
+
+export const courses = [
+  
+]
