@@ -24,5 +24,24 @@
       "admin": "مرحباً بك أيها المسؤول",
       "facility": "مرحباً بك في Med-compliance"
     }
+  }, 
+  "dashboard": {
+    "user": {
+        "welcome": "مرحبًا بك في لوحة التحكم الخاصة بك",
+        "logout": "تسجيل خروج",
+        "enrolledCourses": "الدورات المسجلة",
+        "lecturesWatched": "المحاضرات التي تمت مشاهدتها",
+        "submissions": "التسليمات الخاصة بي",
+        "testSeries": "سلسلة الاختبارات",
+        "score": "النتيجة",
+        "activity": "النشاط",
+        "quiz": "اختبار قصير",
+        "submission": "تسليم",
+        "courses": "الدورات",
+        "recommendedCourses": "الدورات الموصى بها",
+        "view": "عرض",
+        "close": "إغلاق",
+        "enrollNow": "سجل الآن"
+    }
   }
 }
