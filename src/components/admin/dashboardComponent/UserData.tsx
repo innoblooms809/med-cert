@@ -2,6 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Card, Row, Col } from "antd";
 
 interface Action {
   title: string;
@@ -37,49 +39,221 @@ const actions: Action[] = [
     iconColor: "#fff",
     link: "/admin/users",
   },
+  {
+    title: "View Reports",
+    description: "Analytics and performance insights",
+    icon: "📊",
+    iconBg: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
+    iconColor: "#fff",
+    link: "/admin/reports",
+  },
+  {
+    title: "System Settings",
+    description: "Configure platform settings",
+    icon: "⚙️",
+    iconBg: "linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)",
+    iconColor: "#fff",
+    link: "/admin/settings",
+  },
+  {
+    title: "Help Center",
+    description: "Get support and documentation",
+    icon: "❓",
+    iconBg: "linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)",
+    iconColor: "#fff",
+    link: "/admin/help",
+  },
 ];
 
 export default function QuickActions() {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-      {actions.map((action, idx) => (
-        <div
-          key={idx}
-          onClick={() => action.link && router.push(action.link)}
-          className="relative flex items-center gap-4 p-6 rounded-xl cursor-pointer transform transition-all hover:scale-105"
-          style={{
-            background: "var(--content-bg)",
-            color: "var(--section-text)",
-            boxShadow: "0 8px 24px rgba(79,70,229,0.15)",
-          }}
-        >
-          {/* Icon */}
-          <div
-            className="w-20 h-20 rounded-xl flex items-center justify-center text-3xl transition-all duration-300"
-            style={{ background: action.iconBg, color: action.iconColor }}
+    <div style={{ padding: "0 24px 24px 24px" }}>
+      <div style={{ 
+        marginBottom: 16, 
+        padding: "0 8px",
+        display: "flex", 
+        alignItems: "center" 
+      }}>
+        <div style={{
+          width: 4,
+          height: 20,
+          background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
+          borderRadius: 4,
+          marginRight: 12
+        }}></div>
+        <h3 style={{ 
+          margin: 0, 
+          fontSize: 18, 
+          fontWeight: 600, 
+          color: "#1e293b" 
+        }}>
+          Quick Actions
+        </h3>
+      </div>
+      
+      <Row gutter={[24, 24]}>
+        {actions.map((action, idx) => (
+          <Col xs={24} sm={12} lg={8} key={idx}>
+            <motion.div
+              whileHover={{ 
+                scale: 1.02, 
+                y: -4,
+                transition: { type: "spring", stiffness: 400, damping: 25 }
+              }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => action.link && router.push(action.link)}
+              style={{ cursor: "pointer", height: "100%" }}
+            >
+              <Card
+                hoverable
+                style={{
+                  borderRadius: 20,
+                  background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                  border: "none",
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  height: "100%",
+                  position: "relative",
+                  overflow: "hidden",
+                  transition: "all 0.3s ease",
+                }}
+                bodyStyle={{ 
+                  padding: "24px 20px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "16px"
+                }}
+              >
+                {/* Background accent */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 4,
+                    background: action.iconBg,
+                  }}
+                />
+
+                {/* Icon Container */}
+                <div
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 16,
+                    background: action.iconBg,
+                    color: action.iconColor,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 28,
+                    boxShadow: "0 6px 16px rgba(0, 0, 0, 0.15)",
+                    transition: "all 0.3s ease",
+                    flexShrink: 0,
+                  }}
+                  className="action-icon"
+                >
+                  {action.icon}
+                </div>
+
+                {/* Text Content */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h4 style={{ 
+                    margin: 0, 
+                    marginBottom: 4,
+                    fontSize: 16, 
+                    fontWeight: 600, 
+                    color: "#1e293b",
+                    lineHeight: 1.3
+                  }}>
+                    {action.title}
+                  </h4>
+                  <p style={{ 
+                    margin: 0,
+                    fontSize: 13, 
+                    color: "#64748b",
+                    lineHeight: 1.4,
+                    opacity: 0.8
+                  }}>
+                    {action.description}
+                  </p>
+                </div>
+
+                {/* Hover Arrow */}
+                <div
+                  style={{
+                    opacity: 0,
+                    transform: "translateX(-8px)",
+                    transition: "all 0.3s ease",
+                    color: "#4f46e5",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                  className="hover-arrow"
+                >
+                  →
+                </div>
+
+                {/* Hover Overlay */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: action.iconBg,
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                  className="hover-overlay"
+                />
+              </Card>
+
+              <style jsx>{`
+                .ant-card:hover .action-icon {
+                  transform: scale(1.1);
+                }
+                .ant-card:hover .hover-arrow {
+                  opacity: 1;
+                  transform: translateX(0);
+                }
+                .ant-card:hover .hover-overlay {
+                  opacity: 0.03;
+                }
+              `}</style>
+            </motion.div>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Optional: Quick Stats Row */}
+      <Row gutter={[24, 24]} style={{ marginTop: 32 }}>
+        <Col xs={24}>
+          <Card
+            style={{
+              borderRadius: 16,
+              background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+              border: "none",
+              textAlign: "center",
+              padding: "16px",
+            }}
+            bodyStyle={{ padding: "12px" }}
           >
-            {action.icon}
-          </div>
-
-          {/* Text */}
-          <div className="flex flex-col">
-            <h3 className="text-lg font-semibold" style={{ color: "var(--section-text)" }}>
-              {action.title}
-            </h3>
-            <p className="text-sm" style={{ color: "var(--section-text)" }}>
-              {action.description}
+            <p style={{ 
+              margin: 0, 
+              fontSize: 14, 
+              color: "#64748b",
+              fontWeight: 500 
+            }}>
+              💡 <strong>Pro Tip:</strong> Use quick actions to efficiently manage your platform. 
+              Most common tasks are just one click away!
             </p>
-          </div>
-
-          {/* Pulse accent */}
-          <div
-            className="absolute -top-2 -right-2 w-4 h-4 rounded-full animate-pulse"
-            style={{ background: "var(--section-primary)" }}
-          />
-        </div>
-      ))}
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

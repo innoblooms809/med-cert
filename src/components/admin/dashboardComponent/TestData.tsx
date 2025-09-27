@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card, Row, Col } from "antd";
+import { Card, Row, Col, Statistic } from "antd";
 import {
   BarChart,
   Bar,
@@ -14,6 +14,10 @@ import {
   PieChart,
   Pie,
   Cell,
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
 } from "recharts";
 
 interface Quiz {
@@ -33,6 +37,9 @@ const quizzes: Quiz[] = [
   { testType: "Objective", testFor: "Doctor", specialization: "ENT" },
   { testType: "Subjective", testFor: "Doctor", specialization: "Cardiology" },
   { testType: "Objective", testFor: "Nurse", specialization: "ICU" },
+  { testType: "Subjective", testFor: "Doctor", specialization: "Neurology" },
+  { testType: "Objective", testFor: "Nurse", specialization: "Emergency" },
+  { testType: "Subjective", testFor: "Nurse", specialization: "Pediatric" },
 ];
 
 export default function TestAnalytics() {
@@ -60,84 +67,335 @@ export default function TestAnalytics() {
     value: roleMap[key],
   }));
 
-  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444"];
+  // Line chart data for trend analysis
+  const monthlyData = [
+    { month: "Jan", Objective: 12, Subjective: 8 },
+    { month: "Feb", Objective: 18, Subjective: 10 },
+    { month: "Mar", Objective: 15, Subjective: 12 },
+    { month: "Apr", Objective: 22, Subjective: 15 },
+    { month: "May", Objective: 25, Subjective: 18 },
+    { month: "Jun", Objective: 30, Subjective: 20 },
+  ];
+
+  const COLORS = {
+    objective: "url(#objectiveGradient)",
+    subjective: "url(#subjectiveGradient)",
+    pie: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444"],
+    gradient: {
+      objectiveStart: "#4f46e5",
+      objectiveEnd: "#6366f1",
+      subjectiveStart: "#10b981",
+      subjectiveEnd: "#34d399"
+    }
+  };
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          background: "rgba(255, 255, 255, 0.95)",
+          padding: "12px 16px",
+          borderRadius: 12,
+          boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(10px)",
+          fontSize: 14,
+          fontWeight: 500,
+        }}>
+          <p style={{ margin: 0, color: "#1e293b", fontWeight: 600 }}>{label}</p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} style={{ 
+              margin: "4px 0 0 0", 
+              color: entry.color,
+              display: "flex",
+              alignItems: "center"
+            }}>
+              <span style={{
+                width: 8,
+                height: 8,
+                background: entry.color,
+                borderRadius: "50%",
+                marginRight: 8
+              }}></span>
+              {entry.dataKey}: <span style={{ fontWeight: 700, marginLeft: 4 }}>{entry.value}</span>
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Statistics
+  const totalTests = quizzes.length;
+  const objectiveTests = quizzes.filter(q => q.testType === "Objective").length;
+  const subjectiveTests = quizzes.filter(q => q.testType === "Subjective").length;
 
   return (
-    <Row gutter={[24, 24]} style={{ padding: 24 }}>
-      {/* Grouped Bar Chart */}
-      <Col xs={24} md={16}>
-        <Card
-          title="📊 Tests by Specialization & Type"
-          style={{
-            borderRadius: 16,
-            background: "var(--content-bg)", // theme background
-            color: "var(--section-text)", // theme text
-            boxShadow: "0 8px 24px rgba(79,70,229,0.15)", // match your cards shadow
-            border: "none",
-          }}
-        >
-          <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="specialization" stroke="var(--section-text)" />
-              <YAxis stroke="var(--section-text)" />
-              <Tooltip
-                contentStyle={{
-                  background: "var(--card-bg)",
-                  borderRadius: 8,
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
-                  color: "var(--section-text)",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="Objective" fill="#4f46e5" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Subjective" fill="#10b981" radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </Card>
-      </Col>
+    <div style={{ padding: "0 24px 24px 24px" }}>
+      {/* Statistics Row */}
+      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Total Tests"
+              value={totalTests}
+              valueStyle={{ color: "#4f46e5", fontSize: 32, fontWeight: 700 }}
+              suffix="tests"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Objective Tests"
+              value={objectiveTests}
+              valueStyle={{ color: "#10b981", fontSize: 32, fontWeight: 700 }}
+              suffix="tests"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Subjective Tests"
+              value={subjectiveTests}
+              valueStyle={{ color: "#f59e0b", fontSize: 32, fontWeight: 700 }}
+              suffix="tests"
+            />
+          </Card>
+        </Col>
+      </Row>
 
-      {/* Donut Chart */}
-      <Col xs={24} md={8}>
-        <Card
-          title="📊 Test Role Distribution"
-          style={{
-            borderRadius: 16,
-            background: "var(--content-bg)",
-            color: "var(--section-text)",
-            boxShadow: "0 8px 24px rgba(79,70,229,0.15)",
-            border: "none",
-          }}
-        >
-          <ResponsiveContainer width="100%" height={350}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                label={(entry) => `${entry.name} (${entry.value})`}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{
-                  background: "var(--card-bg)",
-                  borderRadius: 8,
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
-                  color: "var(--section-text)",
-                }}
-              />
-              <Legend verticalAlign="bottom" />
-            </PieChart>
-          </ResponsiveContainer>
-        </Card>
-      </Col>
-    </Row>
+      <Row gutter={[24, 24]}>
+        {/* Grouped Bar Chart */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                fontSize: 16, 
+                fontWeight: 600,
+                color: "#1e293b"
+              }}>
+                <div style={{
+                  width: 4,
+                  height: 20,
+                  background: COLORS.gradient.objectiveStart,
+                  borderRadius: 4,
+                  marginRight: 12
+                }}></div>
+                📊 Tests by Specialization & Type
+              </div>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              height: "100%",
+            }}
+            headStyle={{ 
+              borderBottom: "1px solid rgba(0,0,0,0.05)", 
+              padding: "20px 24px 16px",
+              fontSize: 16,
+              fontWeight: 600
+            }}
+            bodyStyle={{ padding: "16px" }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <defs>
+                  <linearGradient id="objectiveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.gradient.objectiveStart} stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor={COLORS.gradient.objectiveEnd} stopOpacity={0.9}/>
+                  </linearGradient>
+                  <linearGradient id="subjectiveGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.gradient.subjectiveStart} stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor={COLORS.gradient.subjectiveEnd} stopOpacity={0.9}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                <XAxis 
+                  dataKey="specialization" 
+                  stroke="#64748b" 
+                  fontSize={12}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis 
+                  stroke="#64748b" 
+                  fontSize={12}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend 
+                  wrapperStyle={{ 
+                    paddingTop: 10,
+                    fontSize: 12,
+                    fontWeight: 500 
+                  }}
+                />
+                <Bar 
+                  dataKey="Objective" 
+                  fill={COLORS.objective}
+                  radius={[6, 6, 0, 0]}
+                  maxBarSize={30}
+                />
+                <Bar 
+                  dataKey="Subjective" 
+                  fill={COLORS.subjective}
+                  radius={[6, 6, 0, 0]}
+                  maxBarSize={30}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+        </Col>
+
+        {/* Donut Chart with Trend Line */}
+        <Col xs={24} lg={12}>
+          <Card
+            title={
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                fontSize: 16, 
+                fontWeight: 600,
+                color: "#1e293b"
+              }}>
+                <div style={{
+                  width: 4,
+                  height: 20,
+                  background: COLORS.pie[0],
+                  borderRadius: 4,
+                  marginRight: 12
+                }}></div>
+                👥 Test Distribution & Trends
+              </div>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              height: "100%",
+            }}
+            headStyle={{ 
+              borderBottom: "1px solid rgba(0,0,0,0.05)", 
+              padding: "20px 24px 16px",
+              fontSize: 16,
+              fontWeight: 600
+            }}
+            bodyStyle={{ padding: "16px" }}
+          >
+            <Row gutter={[16, 16]}>
+              <Col xs={24} md={12}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={70}
+                      paddingAngle={2}
+                      label={({ value }) => value}
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={COLORS.pie[index % COLORS.pie.length]}
+                          stroke="white"
+                          strokeWidth={2}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div style={{ textAlign: "center", marginTop: 8 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>By Role</div>
+                </div>
+              </Col>
+              
+              <Col xs={24} md={12}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <AreaChart data={monthlyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis dataKey="month" stroke="#64748b" fontSize={10} />
+                    <YAxis stroke="#64748b" fontSize={10} />
+                    <Tooltip />
+                    <Area 
+                      type="monotone" 
+                      dataKey="Objective" 
+                      stackId="1"
+                      stroke="#4f46e5" 
+                      fill="url(#objectiveGradient)"
+                      fillOpacity={0.6}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="Subjective" 
+                      stackId="1"
+                      stroke="#10b981" 
+                      fill="url(#subjectiveGradient)"
+                      fillOpacity={0.6}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+                <div style={{ textAlign: "center", marginTop: 8 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>Monthly Trend</div>
+                </div>
+              </Col>
+            </Row>
+            
+            {/* Legend */}
+            <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16 }}>
+              {pieData.map((entry, index) => (
+                <div key={entry.name} style={{ display: "flex", alignItems: "center", fontSize: 12 }}>
+                  <div style={{
+                    width: 12,
+                    height: 12,
+                    background: COLORS.pie[index % COLORS.pie.length],
+                    borderRadius: 2,
+                    marginRight: 6
+                  }}></div>
+                  {entry.name} ({entry.value})
+                </div>
+              ))}
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 }

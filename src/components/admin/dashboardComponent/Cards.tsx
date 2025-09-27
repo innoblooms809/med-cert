@@ -13,7 +13,7 @@ const stats = [
     value: 24,
     icon: <BookOutlined />,
     color: "#4f46e5",
-    bg: "linear-gradient(135deg, #eef2ff, #e0e7ff)",
+    bg: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
     path: "/admin/courses",
   },
   {
@@ -21,7 +21,7 @@ const stats = [
     value: 18,
     icon: <FileTextOutlined />,
     color: "#ef4444",
-    bg: "linear-gradient(135deg, #fee2e2, #fecaca)",
+    bg: "linear-gradient(135deg, #ef4444 0%, #f87171 100%)",
     path: "/admin/tests",
   },
   {
@@ -29,7 +29,7 @@ const stats = [
     value: 356,
     icon: <UserOutlined />,
     color: "#10b981",
-    bg: "linear-gradient(135deg, #d1fae5, #a7f3d0)",
+    bg: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
     path: "/admin/users",
   },
   {
@@ -37,7 +37,7 @@ const stats = [
     value: "92%",
     icon: <CheckCircleOutlined />,
     color: "#f59e0b",
-    bg: "linear-gradient(135deg, #fef3c7, #fde68a)",
+    bg: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
     path: "/admin/reports",
   },
 ];
@@ -48,52 +48,106 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05, y: -5 }}
+      whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
       onClick={() => router.push(stat.path)}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", height: "100%" }}
     >
-     <Card
-  hoverable
-  style={{
-    borderRadius: 16,
-    padding: "16px",
-    border: "none",
-    background: "#ffffff", // card background
-    boxShadow: "0 6px 20px rgba(30,41,59,0.15), 0 10px 40px rgba(79,70,229,0.05)"
-  }}
->
+      <Card
+        hoverable
+        style={{
+          borderRadius: 20,
+          padding: "20px",
+          border: "none",
+          background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          height: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        styles={{body:{padding: 0, height: "100%" }}}
+      >
+        {/* Background accent */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 4,
+            background: stat.bg,
+          }}
+        />
+        
+        <div style={{ display: "flex", alignItems: "center", padding: "16px 8px" }}>
+          <div
+            style={{
+              fontSize: 24,
+              padding: 16,
+              borderRadius: 16,
+              background: stat.bg,
+              color: "white",
+              marginRight: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 56,
+              height: 56,
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              transition: "all 0.3s ease",
+            }}
+            className="stat-icon"
+          >
+            {stat.icon}
+          </div>
+          
+          <div style={{ flex: 1 }}>
+            <div style={{ 
+              fontSize: 28, 
+              fontWeight: 700, 
+              color: "#1e293b",
+              lineHeight: 1.2,
+              marginBottom: 4
+            }}>
+              {stat.value}
+            </div>
+            <div style={{ 
+              color: "#64748b", 
+              fontSize: 14, 
+              fontWeight: 500,
+              letterSpacing: "0.5px"
+            }}>
+              {stat.title}
+            </div>
+          </div>
+        </div>
 
-
-  <div style={{ display: "flex", alignItems: "center" }}>
-    <div
-      style={{
-        fontSize: 28,
-        padding: 16,
-        borderRadius: "50%",
-        background: stat.bg,
-        color: stat.color,
-        marginRight: 16,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 64,
-        height: 64,
-        boxShadow: `0 6px 16px ${stat.color}33`, // stronger icon shadow
-      }}
-    >
-      {stat.icon}
-    </div>
-    <div>
-      <div style={{ fontSize: 26, fontWeight: 700, color: "#1f2937" }}>
-        {stat.value}
-      </div>
-      <div style={{ color: "#6b7280", fontSize: 14 }}>{stat.title}</div>
-    </div>
-  </div>
-</Card>
-
+        {/* Hover effect overlay */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: stat.bg,
+            opacity: 0,
+            transition: "opacity 0.3s ease",
+            borderRadius: 20,
+          }}
+          className="hover-overlay"
+        />
+      </Card>
+      
+      <style jsx>{`
+        .stat-card:hover .stat-icon {
+          transform: scale(1.1);
+        }
+        .stat-card:hover .hover-overlay {
+          opacity: 0.05;
+        }
+      `}</style>
     </motion.div>
   );
 }
@@ -101,10 +155,10 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 // Main stats cards component
 export default function StatsCards() {
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: "24px 24px 0 24px" }}>
       <Row gutter={[24, 24]}>
         {stats.map((stat) => (
-          <Col xs={24} sm={12} md={6} key={stat.title}>
+          <Col xs={24} sm={12} lg={6} key={stat.title}>
             <StatCard stat={stat} />
           </Col>
         ))}

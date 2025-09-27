@@ -19,8 +19,8 @@ import {
 interface Course {
   id: string;
   title: string;
-  specialization: string; // e.g., "ENT", "Orthopedic"
-  courseRole: string; // "Doctor" | "Nurse"
+  specialization: string;
+  courseRole: string;
 }
 
 // Mock Data
@@ -63,51 +63,167 @@ export default function CoursesCharts() {
     value: roleMap[key],
   }));
 
-  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+  // Color scheme matching the stats cards
+  const COLORS = {
+    bar: "url(#barGradient)",
+    pie: ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"],
+    gradient: {
+      start: "#4f46e5",
+      end: "#6366f1"
+    }
+  };
 
-  const cardShadow = "0 6px 20px rgba(30,41,59,0.15), 0 10px 40px rgba(79,70,229,0.05)";
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          background: "rgba(255, 255, 255, 0.95)",
+          padding: "12px 16px",
+          borderRadius: 12,
+          boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(10px)",
+          fontSize: 14,
+          fontWeight: 500,
+        }}>
+          <p style={{ margin: 0, color: "#1e293b", fontWeight: 600 }}>{label}</p>
+          <p style={{ margin: "4px 0 0 0", color: COLORS.pie[0] }}>
+            Courses: <span style={{ fontWeight: 700 }}>{payload[0].value}</span>
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <Row gutter={[24, 24]} style={{ padding: 24 }}>
+    <Row gutter={[24, 24]} style={{ padding: "0 24px 24px 24px" }}>
       {/* Bar Chart: Courses per Specialization */}
       <Col xs={24} md={12}>
         <Card
-          title="📊 Courses by Specialization"
+          title={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
+                fontWeight: 600,
+                color: "#1e293b",
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+              }}
+            >
+              <div
+                style={{
+                  width: 4,
+                  height: 20,
+                  background: COLORS.gradient.start,
+                  borderRadius: 4,
+                  marginRight: 12,
+                }}
+              ></div>
+              📊 Courses by Specialization
+            </div>
+          }
           style={{
-            borderRadius: 16,
-            boxShadow: cardShadow,
-            background: "#fff",
+            borderRadius: 20,
+            background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
             border: "none",
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            height: "100%",
+          }}
+          styles={{
+            body: { padding: "16px" },
           }}
         >
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="specialization" stroke="#1f2937" />
-              <YAxis stroke="#1f2937" />
-              <Tooltip
-                contentStyle={{
-                  background: "#fff",
-                  borderRadius: 8,
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                }}
+            <BarChart
+              data={barData}
+              margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
+            >
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="0%"
+                    stopColor={COLORS.gradient.start}
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={COLORS.gradient.end}
+                    stopOpacity={0.9}
+                  />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#f1f5f9"
+                vertical={false}
               />
-              <Legend />
-              <Bar dataKey="courses" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+              <XAxis
+                dataKey="specialization"
+                stroke="#64748b"
+                fontSize={12}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                stroke="#64748b"
+                fontSize={12}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar
+                dataKey="courses"
+                fill={COLORS.bar}
+                radius={[8, 8, 0, 0]}
+                maxBarSize={40}
+              />
             </BarChart>
           </ResponsiveContainer>
         </Card>
       </Col>
 
+
       {/* Pie Chart: Courses per Role */}
       <Col xs={24} md={12}>
         <Card
-          title="📊 Courses by Role"
+          title={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
+                fontWeight: 600,
+                color: "#1e293b",
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+              }}
+            >
+              <div
+                style={{
+                  width: 4,
+                  height: 20,
+                  background: COLORS.pie[1],
+                  borderRadius: 4,
+                  marginRight: 12,
+                }}
+              ></div>
+              👥 Courses by Role
+            </div>
+          }
           style={{
-            borderRadius: 16,
-            boxShadow: cardShadow,
-            background: "#fff",
+            borderRadius: 20,
+            background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
             border: "none",
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            height: "100%",
+          }}
+          styles={{
+            body: { padding: "16px" },
           }}
         >
           <ResponsiveContainer width="100%" height={300}>
@@ -118,22 +234,44 @@ export default function CoursesCharts() {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
+                innerRadius={60}
                 outerRadius={100}
-                fill="#8884d8"
-                label={(entry) => `${entry.name} (${entry.value})`}
+                paddingAngle={2}
+                label={({ name, value, percent }) =>
+                  `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
+                }
+                labelLine={false}
               >
                 {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS.pie[index % COLORS.pie.length]}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
                 ))}
               </Pie>
               <Tooltip
                 contentStyle={{
-                  background: "#fff",
-                  borderRadius: 8,
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                  background: "rgba(255, 255, 255, 0.95)",
+                  borderRadius: 12,
+                  boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                  border: "none",
+                  backdropFilter: "blur(10px)",
+                  fontSize: 14,
+                  fontWeight: 500,
+                }}
+                formatter={(value, name) => [value, `${name} Courses`]}
+              />
+              <Legend
+                verticalAlign="bottom"
+                height={36}
+                wrapperStyle={{
+                  paddingTop: 20,
+                  fontSize: 12,
+                  fontWeight: 500,
                 }}
               />
-              <Legend verticalAlign="bottom" height={36} />
             </PieChart>
           </ResponsiveContainer>
         </Card>

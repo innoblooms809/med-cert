@@ -1,9 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Form, Input, Select, Checkbox, Button, Table, Space, Tag, Popconfirm } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Button,
+  Table,
+  Space,
+  Tag,
+  Popconfirm,
+  Modal,
+} from "antd";
 import type { ColumnsType } from "antd/es/table";
-import "antd/dist/reset.css"; // Import Ant Design styles
 
 const { Option } = Select;
 
@@ -17,6 +27,11 @@ interface User {
   certificate: boolean;
   hospital: string;
 }
+
+const SPECIALIZATIONS = {
+  Doctor: ["Cardiology", "Orthopedics", "Neurology", "Pediatrics", "Dermatology", "General Medicine"],
+  Nurse: ["Pediatric Care", "Emergency Care", "Surgical Assistance", "Intensive Care", "Geriatric Care", "Maternity Care"],
+};
 
 const DEMO_ROWS: User[] = [
   {
@@ -39,42 +54,133 @@ const DEMO_ROWS: User[] = [
     certificate: false,
     hospital: "City General Hospital",
   },
+  {
+    id: "d-1002",
+    name: "Dr. Fatima Khan",
+    role: "Doctor",
+    specialization: "Neurology",
+    register: "REG-2025-002",
+    subscription: "Yearly",
+    certificate: true,
+    hospital: "Royal Health Center",
+  },
+  {
+    id: "n-2002",
+    name: "Nurse Aisha Ali",
+    role: "Nurse",
+    specialization: "Emergency Care",
+    register: "NUR-2025-011",
+    subscription: "Free",
+    certificate: true,
+    hospital: "Royal Health Center",
+  },
+  {
+    id: "d-1003",
+    name: "Dr. Imran Malik",
+    role: "Doctor",
+    specialization: "Orthopedics",
+    register: "REG-2025-003",
+    subscription: "Monthly",
+    certificate: false,
+    hospital: "City General Hospital",
+  },
+  {
+    id: "n-2003",
+    name: "Nurse Fatima Noor",
+    role: "Nurse",
+    specialization: "Maternity Care",
+    register: "NUR-2025-012",
+    subscription: "Premium",
+    certificate: true,
+    hospital: "Healthcare Hospital",
+  },
+  {
+    id: "d-1004",
+    name: "Dr. Arjumand Khan",
+    role: "Doctor",
+    specialization: "Dermatology",
+    register: "REG-2025-004",
+    subscription: "Premium",
+    certificate: true,
+    hospital: "Healthcare Hospital",
+  },
+  {
+    id: "n-2004",
+    name: "Nurse Zainab Al Farsi",
+    role: "Nurse",
+    specialization: "Surgical Assistance",
+    register: "NUR-2025-013",
+    subscription: "Yearly",
+    certificate: false,
+    hospital: "Royal Health Center",
+  },
+  {
+    id: "d-1005",
+    name: "Dr. Omar Qureshi",
+    role: "Doctor",
+    specialization: "General Medicine",
+    register: "REG-2025-005",
+    subscription: "Free",
+    certificate: false,
+    hospital: "City General Hospital",
+  },
+  {
+    id: "n-2005",
+    name: "Nurse Layla Hassan",
+    role: "Nurse",
+    specialization: "Intensive Care",
+    register: "NUR-2025-014",
+    subscription: "Monthly",
+    certificate: true,
+    hospital: "Healthcare Hospital",
+  },
 ];
 
-const SPECIALIZATIONS = {
-  Doctor: ["Cardiology", "Orthopedics", "Neurology", "Pediatrics", "Dermatology", "General Medicine"],
-  Nurse: ["Pediatric Care", "Emergency Care", "Surgical Assistance", "Intensive Care", "Geriatric Care", "Maternity Care"],
-};
 
 export default function Users() {
   const [rows, setRows] = useState<User[]>(DEMO_ROWS);
+  const [showForm, setShowForm] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [form] = Form.useForm();
-  const role = form.getFieldValue("role") as "Doctor" | "Nurse";
 
+const role = Form.useWatch("role", form) as "Doctor" | "Nurse" | undefined;
+
+  const openForm = (user?: User) => {
+    if (user) {
+      setEditingUser(user);
+      form.setFieldsValue(user);
+    } else {
+      form.resetFields();
+      setEditingUser(null);
+    }
+    setShowForm(true);
+  };
+
+  const closeForm = () => {
+    form.resetFields();
+    setEditingUser(null);
+    setShowForm(false);
+  };
 
   const onFinish = (values: any) => {
     if (editingUser) {
-      // Save edit
       setRows((prev) =>
         prev.map((row) => (row.id === editingUser.id ? { ...editingUser, ...values } : row))
       );
-      setEditingUser(null);
     } else {
-      // Add new user
       const newUser: User = { id: Date.now().toString(), ...values };
       setRows((prev) => [newUser, ...prev]);
     }
-    form.resetFields();
-  };
-
-  const handleEdit = (record: User) => {
-    setEditingUser(record);
-    form.setFieldsValue(record);
+    closeForm();
   };
 
   const handleDelete = (id: string) => {
-    setRows((prev) => prev.filter((r) => r.id !== id));
+    Modal.confirm({
+      title: "Delete user?",
+      onOk: () => {
+        setRows((prev) => prev.filter((r) => r.id !== id));
+      },
+    });
   };
 
   const columns: ColumnsType<User> = [
@@ -82,7 +188,7 @@ export default function Users() {
     { title: "Role", dataIndex: "role", key: "role" },
     { title: "Specialization", dataIndex: "specialization", key: "specialization" },
     { title: "User Registered", dataIndex: "register", key: "register" },
-    { title: "User Subscription", dataIndex: "subscription", key: "subscription" },
+    { title: "Subscription", dataIndex: "subscription", key: "subscription" },
     {
       title: "Certificate",
       dataIndex: "certificate",
@@ -95,14 +201,8 @@ export default function Users() {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <Button type="link" onClick={() => handleEdit(record)}>
-            Edit
-          </Button>
-          <Popconfirm title="Delete this user?" onConfirm={() => handleDelete(record.id)}>
-            <Button type="link" danger>
-              Delete
-            </Button>
-          </Popconfirm>
+          <Button size="small" onClick={() => openForm(record)}>Edit</Button>
+          <Button size="small" danger onClick={() => handleDelete(record.id)}>Delete</Button>
         </Space>
       ),
     },
@@ -110,106 +210,67 @@ export default function Users() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h2>{editingUser ? "Edit User" : "User Registration"}</h2>
-      <Form
-  form={form}
-  layout="vertical"
-  onFinish={onFinish}
-  style={{
-    marginBottom: 24,
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "16px",
-  }}
->
-  <Form.Item
-    name="name"
-    label="Name"
-    rules={[{ required: true, message: "Name is required" }]}
-  >
-    <Input />
-  </Form.Item>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h2 style={{ fontSize: 20 }}>{showForm ? (editingUser ? "Edit User" : "Register User") : "Users List"}</h2>
+        {!showForm && (
+          <Button type="primary" style={{ background: "#7b1fa2" }} onClick={() => openForm()}>➕ Register User</Button>
+        )}
+      </div>
 
-  <Form.Item
-    name="role"
-    label="Role"
-    rules={[{ required: true, message: "Role is required" }]}
-  >
-    <Select
-      onChange={(val) => {
-        form.setFieldsValue({ specialization: "" });
-      }}
-    >
-      <Option value="Doctor">Doctor</Option>
-      <Option value="Nurse">Nurse</Option>
-    </Select>
-  </Form.Item>
+      {showForm && (
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
 
-  <Form.Item
-    name="specialization"
-    label="Specialization"
-    rules={[{ required: true, message: "Specialization is required" }]}
-  >
-    <Select>
-      {(SPECIALIZATIONS[role] || []).map((spec: any) => (
-        <Option key={spec} value={spec}>
-          {spec}
-        </Option>
-      ))}
-    </Select>
-  </Form.Item>
+            <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+              <Select onChange={() => form.setFieldsValue({ specialization: "" })}>
+                <Option value="Doctor">Doctor</Option>
+                <Option value="Nurse">Nurse</Option>
+              </Select>
+            </Form.Item>
 
-  <Form.Item
-    name="register"
-    label="User Registered"
-    rules={[{ required: true, message: "User Registration is required" }]}
-  >
-    <Input />
-  </Form.Item>
+            <Form.Item name="specialization" label="Specialization" rules={[{ required: true }]}>
+              <Select disabled={!role}>
+                {role && SPECIALIZATIONS[role].map((s:any) => (
+                  <Option key={s} value={s}>{s}</Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-  <Form.Item name="subscription" label="User Subscription" initialValue="Free">
-    <Select>
-      <Option value="Free">Free</Option>
-      <Option value="Monthly">Monthly</Option>
-      <Option value="Yearly">Yearly</Option>
-      <Option value="Premium">Premium</Option>
-    </Select>
-  </Form.Item>
+            <Form.Item name="register" label="User Registered" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
 
-  <Form.Item name="certificate" valuePropName="checked">
-    <Checkbox>Has Certificate</Checkbox>
-  </Form.Item>
+            <Form.Item name="subscription" label="Subscription" initialValue="Free">
+              <Select>
+                <Option value="Free">Free</Option>
+                <Option value="Monthly">Monthly</Option>
+                <Option value="Yearly">Yearly</Option>
+                <Option value="Premium">Premium</Option>
+              </Select>
+            </Form.Item>
 
-  <Form.Item
-    name="hospital"
-    label="Hospital"
-    rules={[{ required: true, message: "Hospital is required" }]}
-  >
-    <Input />
-  </Form.Item>
+            <Form.Item name="certificate" valuePropName="checked">
+              <Checkbox>Has Certificate</Checkbox>
+            </Form.Item>
 
-  {/* Submit buttons span both columns */}
-  <Form.Item style={{ gridColumn: "span 2" }}>
-    <Button type="primary" htmlType="submit">
-      {editingUser ? "Save Changes" : "Register User"}
-    </Button>
-    {editingUser && (
-      <Button
-        style={{ marginLeft: 8 }}
-        onClick={() => {
-          form.resetFields();
-          setEditingUser(null);
-        }}
-      >
-        Cancel
-      </Button>
-    )}
-  </Form.Item>
-</Form>
+            <Form.Item name="hospital" label="Hospital" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+          </div>
 
+          <Form.Item style={{ marginTop: 16 }}>
+            <Space>
+              <Button type="primary" htmlType="submit">{editingUser ? "Save Changes" : "Register User"}</Button>
+              <Button onClick={closeForm}>Cancel</Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      )}
 
-      <h2>Registered Users ({rows.length})</h2>
-      <Table columns={columns} dataSource={rows} rowKey="id" />
+      {!showForm && <Table columns={columns} dataSource={rows} rowKey="id" />}
     </div>
   );
 }

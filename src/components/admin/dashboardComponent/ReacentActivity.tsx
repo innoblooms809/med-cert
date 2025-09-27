@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card } from "antd";
+import { Card, Row, Col, Statistic } from "antd";
 import {
   BarChart,
   Bar,
@@ -11,7 +11,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell,
+  AreaChart,
+  Area,
+  Line,
 } from "recharts";
 
 const activityData = [
@@ -25,53 +27,333 @@ const activityData = [
 ];
 
 export default function WeeklyActivityTrend() {
+  const COLORS = {
+    enrolled: "url(#enrolledGradient)",
+    testAttempt: "url(#testAttemptGradient)", 
+    certificate: "url(#certificateGradient)",
+    gradient: {
+      enrolledStart: "#4f46e5",
+      enrolledEnd: "#6366f1",
+      testStart: "#f59e0b",
+      testEnd: "#fbbf24",
+      certificateStart: "#10b981",
+      certificateEnd: "#34d399"
+    }
+  };
+
+  // Calculate totals
+  const totalEnrolled = activityData.reduce((sum, day) => sum + day.enrolled, 0);
+  const totalTests = activityData.reduce((sum, day) => sum + day.testAttempt, 0);
+  const totalCertificates = activityData.reduce((sum, day) => sum + day.certificate, 0);
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          background: "rgba(255, 255, 255, 0.95)",
+          padding: "16px",
+          borderRadius: 12,
+          boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(10px)",
+          fontSize: 14,
+          fontWeight: 500,
+        }}>
+          <p style={{ 
+            margin: "0 0 12px 0", 
+            color: "#1e293b", 
+            fontWeight: 600,
+            fontSize: 15
+          }}>
+            {label}
+          </p>
+          {payload.map((entry: any, index: number) => (
+            <div key={index} style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              marginBottom: 8,
+              color: entry.color
+            }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                background: entry.color,
+                borderRadius: 2,
+                marginRight: 8
+              }}></div>
+              <span style={{ fontWeight: 600, minWidth: 100 }}>
+                {entry.dataKey === 'enrolled' ? 'Enrolled' : 
+                 entry.dataKey === 'testAttempt' ? 'Test Attempts' : 'Certificates'}:
+              </span>
+              <span style={{ fontWeight: 700, marginLeft: 8 }}>{entry.value}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <Card
-      title="📊 Weekly Activity Trend"
-      style={{
-        borderRadius: 16,
-        boxShadow: "0 8px 24px rgba(79,70,229,0.1)",
-        border: "none",
-        background: "var(--content-bg)",  // <-- This sets the card's background
-        marginTop: 24,
-      }}
-    >
-
-      <ResponsiveContainer width="100%" height={350}>
-        <BarChart data={activityData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-          <defs>
-            <linearGradient id="enrolledGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#4f46e5" stopOpacity={0.2} />
-            </linearGradient>
-            <linearGradient id="testAttemptGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.2} />
-            </linearGradient>
-            <linearGradient id="certificateGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#10b981" stopOpacity={0.2} />
-            </linearGradient>
-          </defs>
-
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis dataKey="date" stroke="#4b5563" />
-          <YAxis stroke="#4b5563" />
-          <Tooltip
-            contentStyle={{
-              background: "#fff",
-              borderRadius: 12,
-              boxShadow: "0 6px 16px rgba(79,70,229,0.1)",
+    <div style={{ padding: "0 24px 24px 24px" }}>
+      {/* Statistics Row */}
+      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-          />
-          <Legend verticalAlign="top" height={36} />
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Total Enrolled"
+              value={totalEnrolled}
+              valueStyle={{ color: COLORS.gradient.enrolledStart, fontSize: 28, fontWeight: 700 }}
+              prefix="👥"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Test Attempts"
+              value={totalTests}
+              valueStyle={{ color: COLORS.gradient.testStart, fontSize: 28, fontWeight: 700 }}
+              prefix="📝"
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card 
+            style={{ 
+              borderRadius: 16, 
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+            bodyStyle={{ padding: "20px" }}
+          >
+            <Statistic
+              title="Certificates"
+              value={totalCertificates}
+              valueStyle={{ color: COLORS.gradient.certificateStart, fontSize: 28, fontWeight: 700 }}
+              prefix="🎓"
+            />
+          </Card>
+        </Col>
+      </Row>
 
-          <Bar dataKey="enrolled" stackId="a" fill="url(#enrolledGradient)" radius={[6, 6, 0, 0]} />
-          <Bar dataKey="testAttempt" stackId="a" fill="url(#testAttemptGradient)" radius={[6, 6, 0, 0]} />
-          <Bar dataKey="certificate" stackId="a" fill="url(#certificateGradient)" radius={[6, 6, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
-    </Card>
+      <Row gutter={[24, 24]}>
+        {/* Stacked Bar Chart */}
+        <Col xs={24} lg={16}>
+          <Card
+            title={
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                fontSize: 16, 
+                fontWeight: 600,
+                color: "#1e293b"
+              }}>
+                <div style={{
+                  width: 4,
+                  height: 20,
+                  background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
+                  borderRadius: 4,
+                  marginRight: 12
+                }}></div>
+                📊 Weekly Activity Breakdown
+              </div>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              height: "100%",
+            }}
+            headStyle={{ 
+              borderBottom: "1px solid rgba(0,0,0,0.05)", 
+              padding: "20px 24px 16px",
+              fontSize: 16,
+              fontWeight: 600
+            }}
+            bodyStyle={{ padding: "16px" }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={activityData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <defs>
+                  <linearGradient id="enrolledGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.9}/>
+                    <stop offset="100%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.3}/>
+                  </linearGradient>
+                  <linearGradient id="testAttemptGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.gradient.testStart} stopOpacity={0.9}/>
+                    <stop offset="100%" stopColor={COLORS.gradient.testStart} stopOpacity={0.3}/>
+                  </linearGradient>
+                  <linearGradient id="certificateGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.9}/>
+                    <stop offset="100%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.3}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                <XAxis 
+                  dataKey="date" 
+                  stroke="#64748b" 
+                  fontSize={12}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis 
+                  stroke="#64748b" 
+                  fontSize={12}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend 
+                  wrapperStyle={{ 
+                    paddingTop: 10,
+                    fontSize: 12,
+                    fontWeight: 500 
+                  }}
+                />
+                <Bar 
+                  dataKey="enrolled" 
+                  stackId="a" 
+                  fill={COLORS.enrolled} 
+                  radius={[4, 4, 0, 0]}
+                  name="Enrolled"
+                />
+                <Bar 
+                  dataKey="testAttempt" 
+                  stackId="a" 
+                  fill={COLORS.testAttempt} 
+                  radius={[4, 4, 0, 0]}
+                  name="Test Attempts"
+                />
+                <Bar 
+                  dataKey="certificate" 
+                  stackId="a" 
+                  fill={COLORS.certificate} 
+                  radius={[4, 4, 0, 0]}
+                  name="Certificates"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+        </Col>
+
+        {/* Trend Overview */}
+        <Col xs={24} lg={8}>
+          <Card
+            title={
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                fontSize: 16, 
+                fontWeight: 600,
+                color: "#1e293b"
+              }}>
+                <div style={{
+                  width: 4,
+                  height: 20,
+                  background: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
+                  borderRadius: 4,
+                  marginRight: 12
+                }}></div>
+                📈 Activity Trends
+              </div>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              height: "100%",
+            }}
+            headStyle={{ 
+              borderBottom: "1px solid rgba(0,0,0,0.05)", 
+              padding: "20px 24px 16px",
+              fontSize: 16,
+              fontWeight: 600
+            }}
+            bodyStyle={{ padding: "16px" }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={activityData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <defs>
+                  <linearGradient id="totalGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                <XAxis 
+                  dataKey="date" 
+                  stroke="#64748b" 
+                  fontSize={11}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis 
+                  stroke="#64748b" 
+                  fontSize={11}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip />
+                <Area 
+                  type="monotone" 
+                  dataKey={data => data.enrolled + data.testAttempt + data.certificate}
+                  stroke="#8b5cf6"
+                  fill="url(#totalGradient)"
+                  strokeWidth={2}
+                  name="Total Activity"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="enrolled" 
+                  stroke="#4f46e5"
+                  strokeWidth={2}
+                  dot={{ fill: "#4f46e5", r: 3 }}
+                  name="Enrolled"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="certificate" 
+                  stroke="#10b981"
+                  strokeWidth={2}
+                  dot={{ fill: "#10b981", r: 3 }}
+                  name="Certificates"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+            
+            <div style={{ textAlign: "center", marginTop: 16 }}>
+              <p style={{ 
+                margin: 0, 
+                fontSize: 13, 
+                color: "#64748b",
+                fontWeight: 500
+              }}>
+                Total Weekly Activity: <strong>{totalEnrolled + totalTests + totalCertificates}</strong> events
+              </p>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 }

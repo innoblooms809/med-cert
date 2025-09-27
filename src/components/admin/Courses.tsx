@@ -35,8 +35,9 @@ interface CourseType {
 export default function Course() {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
+  const [showForm, setShowForm] = useState(false);
 
-  // Preloaded 5 dummy courses (Doctor and Nurse only)
+  // Preloaded 5 dummy courses
   const [courses, setCourses] = useState<CourseType[]>([
     {
       courseRole: "Doctor",
@@ -129,65 +130,64 @@ export default function Course() {
   };
 
   const columns = [
-  { title: "Role", dataIndex: "courseRole", key: "courseRole", width: 100 },
-  { title: "Specialization", dataIndex: "specialization", key: "specialization", width: 150 },
-  { title: "Title", dataIndex: "title", key: "title", width: 150 },
-  {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
-    ellipsis: true,
-    width: 250, // keeps buttons aligned, long text truncated
-    render: (text: string) => <span title={text}>{text}</span>,
-  },
-  {
-    title: "Banner",
-    dataIndex: "banner",
-    key: "banner",
-    width: 100,
-    render: (banner: string | File | null) =>
-      banner ? (
-        typeof banner === "string" ? (
-          <img src={banner} alt="banner" className="w-20 h-12 object-cover rounded" />
-        ) : (
-          <img src={URL.createObjectURL(banner)} alt="banner" className="w-20 h-12 object-cover rounded" />
-        )
-      ) : null,
-  },
-  {
-    title: "Video",
-    key: "video",
-    width: 120,
-    render: (_: any, record: CourseType) =>
-      record.video ? (
-        <a href={URL.createObjectURL(record.video)} target="_blank" rel="noreferrer">▶ Video</a>
-      ) : record.videoLink ? (
-        <a href={record.videoLink} target="_blank" rel="noreferrer">▶ Video Link</a>
-      ) : null,
-  },
-  { title: "Author", dataIndex: "author", key: "author", width: 150 },
-  { title: "Published", dataIndex: "publishedDate", key: "publishedDate", width: 120 },
-  {
-    title: "Expiry",
-    dataIndex: "expiryDays",
-    key: "expiryDays",
-    width: 100,
-    render: (days: number) => <Tag color="blue">{days} days</Tag>,
-  },
-  {
-    title: "Actions",
-    key: "actions",
-    width: 180,
-    render: (_: any, record: CourseType, index: number) => (
-      <Space>
-        <Button size="small" onClick={() => handleView(record)}>View</Button>
-        <Button size="small" type="primary" onClick={() => openEditModal(index)}>Edit</Button>
-        <Button size="small" danger onClick={() => handleDelete(index)}>Delete</Button>
-      </Space>
-    ),
-  },
-];
-
+    { title: "Role", dataIndex: "courseRole", key: "courseRole", width: 100 },
+    { title: "Specialization", dataIndex: "specialization", key: "specialization", width: 150 },
+    { title: "Title", dataIndex: "title", key: "title", width: 150 },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      ellipsis: true,
+      width: 250,
+      render: (text: string) => <span title={text}>{text}</span>,
+    },
+    {
+      title: "Banner",
+      dataIndex: "banner",
+      key: "banner",
+      width: 100,
+      render: (banner: string | File | null) =>
+        banner ? (
+          typeof banner === "string" ? (
+            <img src={banner} alt="banner" className="w-20 h-12 object-cover rounded" />
+          ) : (
+            <img src={URL.createObjectURL(banner)} alt="banner" className="w-20 h-12 object-cover rounded" />
+          )
+        ) : null,
+    },
+    {
+      title: "Video",
+      key: "video",
+      width: 120,
+      render: (_: any, record: CourseType) =>
+        record.video ? (
+          <a href={URL.createObjectURL(record.video)} target="_blank" rel="noreferrer">▶ Video</a>
+        ) : record.videoLink ? (
+          <a href={record.videoLink} target="_blank" rel="noreferrer">▶ Video Link</a>
+        ) : null,
+    },
+    { title: "Author", dataIndex: "author", key: "author", width: 150 },
+    { title: "Published", dataIndex: "publishedDate", key: "publishedDate", width: 120 },
+    {
+      title: "Expiry",
+      dataIndex: "expiryDays",
+      key: "expiryDays",
+      width: 100,
+      render: (days: number) => <Tag color="blue">{days} days</Tag>,
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      width: 180,
+      render: (_: any, record: CourseType, index: number) => (
+        <Space>
+          <Button size="small" onClick={() => handleView(record)}>View</Button>
+          <Button size="small" type="primary" onClick={() => openEditModal(index)}>Edit</Button>
+          <Button size="small" danger onClick={() => handleDelete(index)}>Delete</Button>
+        </Space>
+      ),
+    },
+  ];
 
   const onFinish = (values: any) => {
     const bannerFile = getUploadedFile(values.banner);
@@ -206,9 +206,10 @@ export default function Course() {
       expiryDays: values.expiryDays,
     };
 
-    setCourses((prev) => [...prev, newCourse]);
+    setCourses((prev) => [newCourse, ...prev]); // prepend new course
     message.success("Course created successfully!");
     form.resetFields();
+    setShowForm(false); // go back to list
   };
 
   const handleView = (course: CourseType) => {
@@ -287,69 +288,82 @@ export default function Course() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h2 style={{ fontSize: 20, marginBottom: 16 }}>Create Course</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h2 style={{ fontSize: 20 }}>{showForm ? "Create Course" : "Courses List"}</h2>
+        <Button type="primary" style={{ background: "#7b1fa2" }} onClick={() => setShowForm(!showForm)}>
+          {showForm ? "⬅ Back to List" : "➕ Create Course"}
+        </Button>
+      </div>
 
-      <Form form={form} layout="vertical" onFinish={onFinish}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <Form.Item label="Course Role" name="courseRole" rules={[{ required: true }]}>
-            <Select placeholder="Select Role">
-              <Option value="Doctor">Doctor</Option>
-              <Option value="Nurse">Nurse</Option>
-            </Select>
+      {showForm && (
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <Form.Item label="Course Role" name="courseRole" rules={[{ required: true }]}>
+              <Select placeholder="Select Role">
+                <Option value="Doctor">Doctor</Option>
+                <Option value="Nurse">Nurse</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="Specialization" name="specialization" rules={[{ required: true }]}>
+              <Select placeholder="Select Specialization" disabled={!role}>
+                {role && specializations[role].map((s) => (
+                  <Option key={s} value={s}>{s}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="Title" name="title" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="Author" name="author" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
+              <Upload beforeUpload={() => false} maxCount={1} listType="picture">
+                <Button icon={<UploadOutlined />}>Upload Banner</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item label="Upload Video" name="video" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
+              <Upload beforeUpload={() => false} maxCount={1}>
+                <Button icon={<UploadOutlined />}>Upload Video</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item label="Or Video Link" name="videoLink">
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="Expiry Days" name="expiryDays" rules={[{ required: true }]}>
+              <Select placeholder="Select expiry">
+                {expiryOptions.map((opt) => (
+                  <Option key={opt.value} value={opt.value}>{opt.label}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+
+          <Form.Item label="Description" name="description" rules={[{ required: true }]}>
+            <TextArea rows={4} />
           </Form.Item>
 
-          <Form.Item label="Specialization" name="specialization" rules={[{ required: true }]}>
-            <Select placeholder="Select Specialization" disabled={!role}>
-              {role && specializations[role].map((s) => (
-                <Option key={s} value={s}>{s}</Option>
-              ))}
-            </Select>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{ background: "#7b1fa2" }}>Create Course</Button>
           </Form.Item>
+        </Form>
+      )}
 
-          <Form.Item label="Title" name="title" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-
-          <Form.Item label="Author" name="author" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-
-          <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-            <Upload beforeUpload={() => false} maxCount={1} listType="picture">
-              <Button icon={<UploadOutlined />}>Upload Banner</Button>
-            </Upload>
-          </Form.Item>
-
-          <Form.Item label="Upload Video" name="video" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-            <Upload beforeUpload={() => false} maxCount={1}>
-              <Button icon={<UploadOutlined />}  >Upload Video</Button>
-            </Upload>
-          </Form.Item>
-
-          <Form.Item label="Or Video Link" name="videoLink">
-            <Input />
-          </Form.Item>
-
-          <Form.Item label="Expiry Days" name="expiryDays" rules={[{ required: true }]}>
-            <Select placeholder="Select expiry">
-              {expiryOptions.map((opt) => (
-                <Option key={opt.value} value={opt.value}>{opt.label}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </div>
-
-        <Form.Item label="Description" name="description" rules={[{ required: true }]}>
-          <TextArea rows={4} />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{background:"#7b1fa2"}}>Create Course</Button>
-        </Form.Item>
-      </Form>
-
-      <h2 style={{ fontSize: 20, marginTop: 32 }}>Courses List</h2>
-      <Table dataSource={courses} columns={columns}  rowKey={(record) => record.title} scroll={{ x: 'max-content' }} />
+      {!showForm && (
+        <Table
+          dataSource={courses}
+          columns={columns}
+          rowKey={(record) => record.title}
+          scroll={{ x: 'max-content' }}
+        />
+      )}
 
       {/* Edit Modal */}
       <Modal
@@ -396,7 +410,7 @@ export default function Course() {
               </Upload>
             </Form.Item>
 
-            <Form.Item label="Video Link" name="videoLink" >
+            <Form.Item label="Video Link" name="videoLink">
               <Input />
             </Form.Item>
 
