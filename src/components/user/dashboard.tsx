@@ -27,14 +27,21 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import Image from "next/image";
+import cardio from "@/../public/images/cardiology.jpg";
+import pedya from "@/../public/images/pharma.jpg";
+import radiology from "@/../public/images/ECG.jpeg";
+import ortho from "@/../public/images/artho.jpg";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const { Title, Paragraph } = Typography;
 
+import type { StaticImageData } from "next/image";
+
 interface Course {
   title: string;
-  image: string;
+  image: string | StaticImageData;
   desc: string;
   detail: string;
 }
@@ -73,28 +80,28 @@ export default function UserDashboardOverview({ dict }: { dict: any }) {
   const recommendedCourses: Course[] = [
     {
       title: "Advanced Cardiology",
-      image: "../../../public/images/cardiology.jpg",
+      image: cardio,
       desc: "Deep dive into modern cardiology practices.",
       detail:
         "This course covers advanced techniques in cardiology including interventions, imaging, and patient management.",
     },
     {
       title: "Pediatric Surgery",
-      image: "/Med-cert/pedya",
+      image: pedya,
       desc: "Comprehensive surgical care for children.",
       detail:
         "Detailed modules on pediatric surgical conditions, anesthesia, and child post-operative care.",
     },
     {
       title: "Radiology Essentials",
-      image: "/Med-cert/radio",
+      image: radiology,
       desc: "Fundamentals of diagnostic imaging and scans.",
       detail:
         "Covers X-ray, CT, MRI, and ultrasound basics with case-based examples for diagnostic understanding.",
     },
     {
       title: "Orthopedic Techniques",
-      image: "/Med-cert/artho.jpg",
+      image: ortho,
       desc: "Latest methods in bone and joint treatments.",
       detail:
         "Focus on trauma care, joint replacement techniques, and rehabilitation protocols.",
@@ -189,9 +196,11 @@ export default function UserDashboardOverview({ dict }: { dict: any }) {
               <Card key={idx} className="shadow">
                 <div className="flex items-center">
                   {/* Left: Image */}
-                  <img
+                  <Image
                     src={course.image}
                     alt={course.title}
+                    width={128}
+                    height={80}
                     className="w-32 h-20 rounded object-cover"
                   />
 
@@ -230,11 +239,13 @@ export default function UserDashboardOverview({ dict }: { dict: any }) {
           </Button>,
         ]}
       >
-        <img
-          src={selectedCourse?.image}
-          alt={selectedCourse?.title}
-          className="w-full h-52 object-cover rounded mb-4"
-        />
+        {selectedCourse && (
+          <Image
+            src={selectedCourse.image}
+            alt={selectedCourse.title}
+            className="w-full h-52 object-cover rounded mb-4"
+          />
+        )}
         <Paragraph>{selectedCourse?.detail}</Paragraph>
       </Modal>
     </div>
