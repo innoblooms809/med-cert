@@ -238,7 +238,7 @@ export default function CoursesCharts() {
                 outerRadius={100}
                 paddingAngle={2}
                 label={({ name, value, percent }) =>
-                  `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
+                  `${name}: ${value} (${((percent as number) * 100).toFixed(0)}%)`
                 }
                 labelLine={false}
               >
