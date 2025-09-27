@@ -261,20 +261,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
-import adminImg from "../../../public/images/cardiology.jpg";
+import adminImg from "../../../public/images/admin.jpg";
 import { Dropdown, Space } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export default function AdminHeader({
   onToggleSidebar,
 }: {
   onToggleSidebar: () => void;
 }) {
-  const router = useRouter();
-  const { lang } = useParams(); // ✅ get current lang
-  const [complianceReports, setComplianceReports] = useState<any[]>([]);
+  const { lang } = useParams(); 
+  const [complianceReports, setComplianceReports] = useState<unknown[]>([]);
 
   useEffect(() => {
     const reports = localStorage.getItem("complianceReports");
@@ -283,7 +282,6 @@ export default function AdminHeader({
     }
   }, []);
 
-  // ✅ now userMenu can access lang
   const userMenu = {
     items: [
       {
@@ -323,20 +321,24 @@ export default function AdminHeader({
         />
       </div>
 
-      {/* User Dropdown */}
-      <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-        <Dropdown menu={userMenu} placement="bottomRight">
-          <Space style={{ cursor: "pointer", color: "var(--header-text)" }}>
-            <Image
-              src={adminImg}
-              alt="Doctor"
-              width={100}
-              height={100}
-              className="rounded-full w-10 h-10 object-cover"
-            />
-          </Space>
-        </Dropdown>
-      </div>
+      {/* User Dropdown (Avatar + Name + Role together) */}
+      <Dropdown menu={userMenu} placement="bottomRight">
+        <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}>
+          <Image
+            src={adminImg}
+            alt="Admin"
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+          />
+          <div style={{ lineHeight: 1.2 }}>
+            <h3 style={{ margin: 0, fontWeight: 600, color: "var(--header-text)" }}>
+              Mohammed Al Rashid
+            </h3>
+            <p style={{ margin: 0, fontSize: 12, color: "gray" }}>Administrator</p>
+          </div>
+        </div>
+      </Dropdown>
     </div>
   );
 }

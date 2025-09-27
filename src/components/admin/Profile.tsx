@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -7,264 +6,425 @@ import {
   Avatar,
   Typography,
   Button,
-  Form,
-  Input,
-  Upload,
   Row,
   Col,
   Divider,
-  message,
+  Space,
+  Statistic,
+  Tag,
+  Progress,
+  List,
+  Badge,
 } from "antd";
-import { UploadOutlined, LogoutOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  EditOutlined,
+  UserOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  SettingOutlined,
+  SafetyCertificateOutlined,
+  TeamOutlined,
+  BookOutlined,
+  BarChartOutlined,
+  CalendarOutlined,
+  GlobalOutlined,
+  SecurityScanOutlined,
+} from "@ant-design/icons";
+import adminImg from "../../../public/images/admin.jpg";
+import Image from "next/image";
 
 const { Title, Text } = Typography;
 
-function Profile() {
+function AdminProfile() {
   const router = useRouter();
   const { lang } = useParams();
   const [user, setUser] = useState<any>(null);
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState<any>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [licensePreview, setLicensePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("medCert");
-    if (!storedUser) {
-      router.push(`/${lang}/auth/login`);
-      return;
-    }
+    const adminUser = {
+      firstName: "Mohammed",
+      lastName: "Al Rashid",
+      email: "mohammed.alrashid@admin.com",
+      role: "Senior Administrator",
+      phone: "+971-55-1234567",
+      createdAt: "2023-05-12T10:00:00Z",
+      lastLogin: "2024-12-19T08:30:00Z",
+      profileImage: adminImg,
+      bio: "System administrator with 5+ years of experience managing e-learning platforms. Specialized in user management, content moderation, and platform optimization.",
+      department: "Platform Operations",
+      location: "Dubai, UAE",
+      permissions: ["Full Access", "User Management", "Content Moderation", "Analytics"],
+      activity: [
+        { action: "Course Approved", time: "2 hours ago", type: "success" },
+        { action: "User Registered", time: "5 hours ago", type: "info" },
+        { action: "Report Resolved", time: "1 day ago", type: "success" },
+        { action: "System Updated", time: "2 days ago", type: "warning" },
+      ]
+    };
 
-    const userObj = JSON.parse(storedUser);
-    setUser(userObj);
-    setDraft(userObj);
-    setAvatarPreview(userObj.profileImage || null);
-    setLicensePreview(userObj.license || null);
-  }, [router, lang]);
-
-
-  const saveUserToStorage = (u: any) => {
-    const users = JSON.parse(localStorage.getItem("registered_users") || "[]");
-    const idx = users.findIndex((x: any) => x.email === u.email);
-    if (idx >= 0) users[idx] = u;
-    else users.push(u);
-    localStorage.setItem("registered_users", JSON.stringify(users));
-  };
-
-  const fileToBase64 = (file: File) =>
-    new Promise<string | null>((resolve, reject) => {
-      if (!file) return resolve(null);
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (err) => reject(err);
-      reader.readAsDataURL(file);
-    });
-
-  const handleSave = async () => {
-    const u = { ...draft };
-
-    if (u.profileImage && u.profileImage instanceof File) {
-      u.profileImage = await fileToBase64(u.profileImage);
-    }
-    if (u.license && u.license instanceof File) {
-      u.license = await fileToBase64(u.license);
-    }
-
-    setUser(u);
-    saveUserToStorage(u);
-    localStorage.setItem("current_user", u.email);
-    setEditing(false);
-    message.success("Profile saved");
-  };
+    setUser(adminUser);
+  }, []);
 
   const handleLogout = () => {
-  localStorage.removeItem("current_user");
-  localStorage.removeItem("role");
-  router.push(`/${lang}/auth/login`);
-};
-
+    localStorage.removeItem("current_user");
+    localStorage.removeItem("role");
+    router.push(`/${lang}/auth/login`);
+  };
 
   if (!user) return null;
 
+  const statsData = [
+    { icon: <TeamOutlined />, title: "Total Users", value: 1247, color: "#4f46e5", change: "+12%" },
+    { icon: <BookOutlined />, title: "Active Courses", value: 89, color: "#10b981", change: "+5%" },
+    { icon: <SafetyCertificateOutlined />, title: "Certificates", value: 856, color: "#f59e0b", change: "+23%" },
+    { icon: <BarChartOutlined />, title: "Tests Conducted", value: 2341, color: "#ef4444", change: "+8%" },
+  ];
+
+  const quickActions = [
+    { icon: "👥", title: "Manage Users", description: "User accounts & permissions" },
+    { icon: "📊", title: "View Analytics", description: "Platform performance" },
+    { icon: "⚙️", title: "Settings", description: "System configuration" },
+    { icon: "📋", title: "Reports", description: "Generate reports" },
+  ];
+
   return (
-    <Row gutter={16} style={{ padding: 24 }}>
-      {/* Left Column */}
-      <Col span={8}>
-        <Card
-          actions={[
-            user.role !== "admin" && (
-              <Button type="primary" onClick={() => router.push("/mycourses")}>
-                My Courses
-              </Button>
-            ),
-            <Button icon={<EditOutlined />} onClick={() => setEditing(true)}>
-              Edit Profile
-            </Button>,
-          ]}
-        >
-          <div style={{ textAlign: "center" }}>
-            <Avatar
-              size={120}
-              src={
-                avatarPreview ||
-                "https://www.shutterstock.com/image-photo/smiling-young-arab-man-doctor-600nw-2469373731.jpg"
-              }
-            />
-            <Title level={4} style={{ marginTop: 12 }}>
-              {user.firstName} {user.lastName}
-            </Title>
-            <Text type="secondary">
-              {user.role === "admin" ? "Administrator" : user.specialization}
-            </Text>
-            <div style={{ marginTop: 8 }}>
-              <Text type="secondary">
-                Member since {new Date(user.createdAt).toLocaleDateString()}
-              </Text>
-            </div>
-          </div>
-          {user.role !== "admin" && (
-            <Row gutter={16} style={{ marginTop: 16, textAlign: "center" }}>
-              <Col span={8}>
-                <Title level={5}>{user.stats?.enrolledCourses ?? 0}</Title>
-                <Text>Enrolled</Text>
-              </Col>
-              <Col span={8}>
-                <Title level={5}>{user.stats?.lecturesWatched ?? 0}</Title>
-                <Text>Watched</Text>
-              </Col>
-              <Col span={8}>
-                <Title level={5}>{user.stats?.submissions ?? 0}</Title>
-                <Text>Submissions</Text>
-              </Col>
-            </Row>
-          )}
-        </Card>
-
-        {user.role !== "admin" && (
-          <Card style={{ marginTop: 16 }} title="Medical License">
-            {licensePreview ? (
-              <>
-                <img
-                  src={licensePreview}
-                  alt="license"
-                  style={{ width: "100%", borderRadius: 6 }}
-                />
-                <div style={{ marginTop: 8 }}>
-                  <a href={user.license} download={`${user.email}-license.png`}>
-                    Download License
-                  </a>
+    <div style={{ padding: "24px", background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
+      <Row gutter={[24, 24]}>
+        {/* Left Column - Profile & Stats */}
+        <Col xs={24} lg={8}>
+          {/* Profile Card */}
+          <Card
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              marginBottom: 24,
+            }}
+            bodyStyle={{ padding: 24 }}
+          >
+            <div style={{ textAlign: "center", position: "relative" }}>
+              {/* Status Badge */}
+              <Badge 
+                dot 
+                color="#10b981" 
+                offset={[-5, 65]}
+                size="default"
+              >
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <Image
+                    src={user.profileImage}
+                    alt="Profile"
+                    width={120}
+                    height={120}
+                    style={{
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: "4px solid #ffffff",
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                    }}
+                  />
                 </div>
-              </>
-            ) : (
-              <Text type="secondary">No license uploaded</Text>
-            )}
-          </Card>
-        )}
-      </Col>
+              </Badge>
 
-      {/* Right Column */}
-      <Col span={16}>
-        <Card
-          title="Account Information"
-          extra={
-            <Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
-              Logout
-            </Button>
-          }
-        >
-          {!editing ? (
-            <>
-              <p>
-                <b>Full Name:</b> {user.firstName} {user.lastName}
-              </p>
-              <p>
-                <b>Email:</b> {user.email}
-              </p>
-              <p>
-                <b>Role:</b> {user.role}
-              </p>
-              {user.role !== "admin" && (
-                <p>
-                  <b>Specialization:</b> {user.specialization}
-                </p>
-              )}
-              <Divider />
-              <p>
-                <b>Password:</b> ********
-              </p>
-            </>
-          ) : (
-            <Form layout="vertical">
-              <Form.Item label="First Name">
-                <Input
-                  value={draft.firstName}
-                  onChange={(e) =>
-                    setDraft({ ...draft, firstName: e.target.value })
-                  }
-                />
-              </Form.Item>
-              <Form.Item label="Last Name">
-                <Input
-                  value={draft.lastName}
-                  onChange={(e) =>
-                    setDraft({ ...draft, lastName: e.target.value })
-                  }
-                />
-              </Form.Item>
-              {user.role !== "admin" && (
-                <Form.Item label="Specialization">
-                  <Input
-                    value={draft.specialization}
-                    onChange={(e) =>
-                      setDraft({ ...draft, specialization: e.target.value })
+              <Title level={3} style={{ marginTop: 16, marginBottom: 4, color: "#1e293b" }}>
+                {user.firstName} {user.lastName}
+              </Title>
+              
+              <Tag 
+                color="#4f46e5" 
+                style={{ 
+                  borderRadius: 16, 
+                  padding: "4px 16px", 
+                  fontWeight: 600,
+                  background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
+                  color: "white",
+                  border: "none",
+                }}
+              >
+                {user.role}
+              </Tag>
+              
+              <div style={{ marginTop: 12 }}>
+                <Text type="secondary" style={{ fontSize: 14 }}>
+                  <GlobalOutlined style={{ marginRight: 6 }} />
+                  {user.department} • {user.location}
+                </Text>
+              </div>
+
+              <Divider style={{ margin: "20px 0" }} />
+
+              {/* Quick Stats */}
+              <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
+                <Col span={12}>
+                  <Statistic
+                    title="Member Since"
+                    value={new Date(user.createdAt).getFullYear()}
+                    prefix={<CalendarOutlined />}
+                    valueStyle={{ fontSize: 18, color: "#4f46e5" }}
+                  />
+                </Col>
+                <Col span={12}>
+                  <Statistic
+                    title="Last Login"
+                    value="Today"
+                    valueStyle={{ fontSize: 18, color: "#10b981" }}
+                  />
+                </Col>
+              </Row>
+
+              {/* Action Buttons */}
+              <Space direction="vertical" style={{ width: "100%" }} size="middle">
+                <Button 
+                  type="primary" 
+                  icon={<EditOutlined />} 
+                  block
+                  style={{
+                    background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
+                    border: "none",
+                    borderRadius: 12,
+                    height: 40,
+                    fontWeight: 600,
+                  }}
+                >
+                  Edit Profile
+                </Button>
+                <Button 
+                  icon={<LogoutOutlined />} 
+                  block
+                  danger
+                  onClick={handleLogout}
+                  style={{
+                    borderRadius: 12,
+                    height: 40,
+                    fontWeight: 600,
+                  }}
+                >
+                  Logout
+                </Button>
+              </Space>
+            </div>
+          </Card>
+
+          {/* Permissions Card */}
+          <Card
+            title={
+              <span style={{ color: "#1e293b", fontWeight: 600 }}>
+                <SecurityScanOutlined style={{ marginRight: 8 }} />
+                Admin Permissions
+              </span>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            }}
+          >
+            <Space direction="vertical" style={{ width: "100%" }} size="small">
+              {user.permissions.map((permission: string, index: number) => (
+                <Tag
+                  key={index}
+                  color={index === 0 ? "blue" : index === 1 ? "green" : index === 2 ? "orange" : "purple"}
+                  style={{
+                    borderRadius: 12,
+                    padding: "4px 12px",
+                    margin: "2px 0",
+                    border: "none",
+                    fontWeight: 500,
+                  }}
+                >
+                  {permission}
+                </Tag>
+              ))}
+            </Space>
+          </Card>
+        </Col>
+
+        {/* Right Column - Details & Analytics */}
+        <Col xs={24} lg={16}>
+          {/* Stats Overview */}
+          <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+            {statsData.map((stat, index) => (
+              <Col xs={24} sm={12} key={index}>
+                <Card
+                  style={{
+                    borderRadius: 16,
+                    background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  }}
+                  bodyStyle={{ padding: 20 }}
+                >
+                  <Statistic
+                    title={
+                      <span style={{ color: "#64748b", fontSize: 14, fontWeight: 500 }}>
+                        {stat.icon} {stat.title}
+                      </span>
+                    }
+                    value={stat.value}
+                    valueStyle={{ 
+                      color: stat.color, 
+                      fontSize: 28, 
+                      fontWeight: 700,
+                    }}
+                    suffix={<span style={{ fontSize: 12, color: "#10b981", fontWeight: 600 }}>{stat.change}</span>}
+                  />
+                  <Progress 
+                    percent={Math.min(stat.value / 50, 100)} 
+                    showInfo={false}
+                    strokeColor={stat.color}
+                    trailColor="#f1f5f9"
+                    size="small"
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          <Row gutter={[24, 24]}>
+            <Col xs={24} lg={12}>
+              {/* Account Information */}
+              <Card
+                title={
+                  <span style={{ color: "#1e293b", fontWeight: 600 }}>
+                    <UserOutlined style={{ marginRight: 8 }} />
+                    Account Information
+                  </span>
+                }
+                style={{
+                  borderRadius: 20,
+                  background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                  border: "none",
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  height: "100%",
+                }}
+              >
+                <Space direction="vertical" style={{ width: "100%" }} size="middle">
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                    <MailOutlined style={{ marginRight: 12, color: '#4f46e5', fontSize: 16 }} />
+                    <div>
+                      <Text strong style={{ display: 'block' }}>Email</Text>
+                      <Text type="secondary">{user.email}</Text>
+                    </div>
+                  </div>
+                  
+                  <Divider style={{ margin: '8px 0' }} />
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                    <PhoneOutlined style={{ marginRight: 12, color: '#10b981', fontSize: 16 }} />
+                    <div>
+                      <Text strong style={{ display: 'block' }}>Phone</Text>
+                      <Text type="secondary">{user.phone}</Text>
+                    </div>
+                  </div>
+                  
+                  <Divider style={{ margin: '8px 0' }} />
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                    <SettingOutlined style={{ marginRight: 12, color: '#f59e0b', fontSize: 16 }} />
+                    <div>
+                      <Text strong style={{ display: 'block' }}>Department</Text>
+                      <Text type="secondary">{user.department}</Text>
+                    </div>
+                  </div>
+                </Space>
+              </Card>
+            </Col>
+
+            <Col xs={24} lg={12}>
+              {/* Quick Actions */}
+              <Card
+                title={
+                  <span style={{ color: "#1e293b", fontWeight: 600 }}>
+                    ⚡ Quick Actions
+                  </span>
+                }
+                style={{
+                  borderRadius: 20,
+                  background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                  border: "none",
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  height: "100%",
+                }}
+              >
+                <Row gutter={[12, 12]}>
+                  {quickActions.map((action, index) => (
+                    <Col span={12} key={index}>
+                      <Card
+                        hoverable
+                        style={{
+                          borderRadius: 12,
+                          border: "1px solid #e2e8f0",
+                          textAlign: "center",
+                          padding: "12px 8px",
+                          height: "100%",
+                        }}
+                        bodyStyle={{ padding: 8 }}
+                      >
+                        <div style={{ fontSize: 24, marginBottom: 8 }}>{action.icon}</div>
+                        <Text strong style={{ display: 'block', fontSize: 12 }}>{action.title}</Text>
+                        <Text type="secondary" style={{ fontSize: 10 }}>{action.description}</Text>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+
+          {/* Recent Activity */}
+          <Card
+            title={
+              <span style={{ color: "#1e293b", fontWeight: 600 }}>
+                📋 Recent Activity
+              </span>
+            }
+            style={{
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              border: "none",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              marginTop: 24,
+            }}
+          >
+            <List
+              dataSource={user.activity}
+              renderItem={(item: any) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={
+                      <div style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                        background: item.type === 'success' ? '#10b981' : 
+                                   item.type === 'warning' ? '#f59e0b' : '#4f46e5',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: 14,
+                      }}>
+                        {item.type === 'success' ? '✓' : item.type === 'warning' ? '⚡' : '👤'}
+                      </div>
+                    }
+                    title={item.action}
+                    description={
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        {item.time}
+                      </Text>
                     }
                   />
-                </Form.Item>
+                </List.Item>
               )}
-              <Form.Item label="Profile Image">
-                <Upload
-                  beforeUpload={(file) => {
-                    setDraft({ ...draft, profileImage: file });
-                    setAvatarPreview(URL.createObjectURL(file));
-                    return false;
-                  }}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />}>Upload Avatar</Button>
-                </Upload>
-              </Form.Item>
-              {user.role !== "admin" && (
-                <Form.Item label="License">
-                  <Upload
-                    beforeUpload={(file) => {
-                      setDraft({ ...draft, license: file });
-                      setLicensePreview(URL.createObjectURL(file));
-                      return false;
-                    }}
-                    showUploadList={false}
-                  >
-                    <Button icon={<UploadOutlined />}>Upload License</Button>
-                  </Upload>
-                </Form.Item>
-              )}
-              <Button type="primary" onClick={handleSave}>
-                Save
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={() => setEditing(false)}>
-                Cancel
-              </Button>
-            </Form>
-          )}
-        </Card>
-
-        <Card title="About" style={{ marginTop: 16 }}>
-          <Text>
-            {user.bio || "Add a short bio about yourself from edit profile."}
-          </Text>
-        </Card>
-      </Col>
-    </Row>
+            />
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 }
 
-export default Profile;
+export default AdminProfile;

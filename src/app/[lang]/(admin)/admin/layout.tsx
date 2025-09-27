@@ -43,6 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           bottom: 0,
           zIndex: 1000,
           overflow: "hidden",
+          
         }}
       >
         <div
