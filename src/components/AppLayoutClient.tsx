@@ -24,7 +24,7 @@ export default  function AppLayoutClient({ lang, children,dict}: AppLayoutClient
   return (
     <>
       {(!isAdminRoute && !isUserRoute )&& <Navbar dict={dict} lang={lang} />}
-      {children}
+      {children }
       {(!isAdminRoute && !isUserRoute  ) && <Footer dict={dict} lang={lang}/>}
     </>
   );

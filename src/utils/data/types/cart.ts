@@ -8,9 +8,6 @@ export interface Course {
   expiry?: string;
 }
 
-export interface CartItem extends Course {
-  price: number; // Always number after normalization
-}
 
 export interface CartContextType {
   cartItems: CartItem[];
@@ -19,3 +16,31 @@ export interface CartContextType {
   clearCart: () => void;
   getCartTotal: () => number;
 }
+
+export interface CheckoutFormData {
+  name: string;
+  card: string;
+  expiry: string;
+  cvc: string;
+  terms: boolean;
+}
+
+export interface CheckoutErrors {
+  name?: string;
+  card?: string;
+  expiry?: string;
+  cvc?: string;
+  terms?: string;
+}
+
+export type CheckoutStep = 'form' | 'otp' | 'success';
+
+export type CartItem = {
+  title: string;
+  createdBy?: string;
+  price?: number;
+  duration?: number;
+  description?: string;
+  img?: string;
+  href?: string;
+};

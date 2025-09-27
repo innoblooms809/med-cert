@@ -5,40 +5,53 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { useCart } from "@/components/cartContext";
 
 const { Meta } = Card;
 
 const homoeopathTests = [
   {
     title: "Principles of Homeopathy",
+    createdBy: 'Dr. Ashraf Khan',
+    duration:15,
     description: "Covers similia principle, potentization, and remedy selection.",
     img: "https://nigolifeline.com/wp-content/uploads/2023/09/7-cardinal-principles-of-homeopathy.jpg",
     href: "/tests/homeopathy-principles",
+    price:99,
   },
   {
     title: "Materia Medica",
+    createdBy: 'Dr. Ashraf Khan',
+    duration:15,
     description: "Learn about key remedies and their indications.",
     img: "https://www.herbalella.com/images/materiamedica.png",
     href: "/tests/materia-medica",
+    price:99,
   },
   {
     title: "Organon of Medicine",
+    createdBy: 'Dr. Ashraf Khan',
+    duration:15,
     description: "Study Hahnemann’s philosophy and therapeutic guidelines.",
     img: "https://www.thehealthsite.com/wp-content/uploads/2022/01/homeopathy-medicine-treatment-in-hindi.jpg",
     href: "/tests/organon",
+    price:99,
   },
   {
     title: "Case Taking & Analysis",
+    createdBy: 'Dr. Ashraf Khan',
+    duration:15,
     description: "Covers patient interview techniques and remedy matching.",
-    img: "https://framerusercontent.com/images/63XfAPUQFH4D0BWzoIjFJDUyks.png",
+    img: "https://nigolifeline.com/wp-content/uploads/2023/09/7-cardinal-principles-of-homeopathy.jpg",
     href: "/tests/case-taking",
+    price:99,
   },
 ];
 
 
 export default function Homoeopath() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} = useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -103,20 +116,29 @@ export default function Homoeopath() {
                   </div>
                 }
               >
-                <Meta
-                  title={test.title}
-                  description={
+              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
-                />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
-                >
-                  Start Test →
-                </Link>
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
+              />
+              {/* Buy Now button */}
+              <button
+                onClick={() => addToCart(test)}
+                className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-purple-700 transition"
+              >
+                Buy Now
+              </button>
               </Card>
             </div>
           ))}

@@ -104,7 +104,7 @@ export default function NavBar({ dict, lang }: NavBarProps) {
             </Link>
 
             {/* Cart */}
-            <Link href="/cart">
+            <Link href={`/${lang}/cart`}>
               <Badge
                 count={cartItems.length}
                 size="small"
@@ -131,7 +131,7 @@ export default function NavBar({ dict, lang }: NavBarProps) {
 
             {/* Signup Button - Tablet+ */}
             <li className="hidden md:flex">
-              <Link href="/signup">
+              <Link href={`/${lang}/auth/signup`}>
                 <button
                   type="button"
                   className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"

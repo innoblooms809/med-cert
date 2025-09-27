@@ -5,39 +5,14 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { useCart } from "@/components/cartContext";
+import { generalPhysicianTests } from "@/utils/data/courseData/courses";
 
 const { Meta } = Card;
 
-const generalPhysicianTests = [
-  {
-    title: "Obstetrics",
-    description: "Focus on pregnancy, labor, delivery, and postpartum care.",
-    img: "https://tse1.mm.bing.net/th/id/OIP.5eoHhDJ9XF4BEGAcmVCXSwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/obstetrics",
-  },
-  {
-    title: "Reproductive Endocrinology",
-    description: "Covers infertility, IVF, hormonal disorders, and reproductive health.",
-    img: "https://www.careinsurance.com/upload_master/media/posts/April2025/endocrinology.webp",
-    href: "/tests/reproductive-endocrinology",
-  },
-  {
-    title: "Gynecologic Oncology",
-    description: "Learn about cancers of the female reproductive system and treatments.",
-    img: "https://sunnybrook.ca/uploads/1/programs/odette-cancer/gyneonc/gynonc_vicus_171103_103-s.jpg",
-    href: "/tests/gynecologic-oncology",
-  },
-  {
-    title: "Maternal-Fetal Medicine",
-    description: "Covers high-risk pregnancies and fetal complications.",
-    img: "https://cache.careers360.mobi/media/presets/820X410/careers/banner_images/2020/7/22/General%20Physician.jpg",
-    href: "/tests/maternal-fetal-medicine",
-  },
-];
-
 export default function GeneralPhysician() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} =useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -102,20 +77,29 @@ export default function GeneralPhysician() {
                   </div>
                 }
               >
-                <Meta
-                  title={test.title}
-                  description={
+                              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
                 />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
+               {/* Buy Now button */}
+                <button
+                  onClick={() => addToCart(test)}
+                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
                 >
-                  Start Test →
-                </Link>
+                  Buy Now
+                </button>
               </Card>
             </div>
           ))}

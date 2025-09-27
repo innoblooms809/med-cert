@@ -5,40 +5,14 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { useCart } from "@/components/cartContext";
+import { dermatologistTests } from "@/utils/data/courseData/courses";
 
 const { Meta } = Card;
 
-const dermatologistTests = [
-  {
-    title: "Clinical Dermatology",
-    description: "Covers skin diseases, diagnosis, and topical treatments.",
-    img: "https://tse2.mm.bing.net/th/id/OIP.PKaqx1BxL8Ane3kUN-l97QHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/clinical-dermatology",
-  },
-  {
-    title: "Cosmetic Dermatology",
-    description: "Learn about botox, fillers, and aesthetic procedures.",
-    img: "https://elyzeemc.com/wp-content/uploads/2022/06/cosmetic-dermatology.png",
-    href: "/tests/cosmetic-dermatology",
-  },
-  {
-    title: "Pediatric Dermatology",
-    description: "Focus on skin conditions in infants and children.",
-    img: "https://tse3.mm.bing.net/th/id/OIP.nuBj1BFGlzcgEb3KuZKJgAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/pediatric-dermatology",
-  },
-  {
-    title: "Dermato-Oncology",
-    description: "Covers skin cancers and surgical interventions.",
-    img: "https://tse1.explicit.bing.net/th/id/OIP.AZ8fK026HNYpTwTLXs4PegHaDk?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/dermato-oncology",
-  },
-];
-
-
 export default function Dermatologist() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} =useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -56,7 +30,7 @@ export default function Dermatologist() {
             </p>
           </div>
           <Link
-            href="/tests/dentist"
+            href="/courses/dentist"
             className="text-[var(--section-primary)] hover:underline text-sm flex items-center gap-1"
           >
             View all →
@@ -103,20 +77,29 @@ export default function Dermatologist() {
                   </div>
                 }
               >
-                <Meta
-                  title={test.title}
-                  description={
+              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
                 />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
+                {/* Buy Now button */}
+                <button
+                  onClick={() => addToCart(test)}
+                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
                 >
-                  Start Test →
-                </Link>
+                  Buy Now
+                </button>
               </Card>
             </div>
           ))}

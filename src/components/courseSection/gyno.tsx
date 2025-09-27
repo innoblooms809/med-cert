@@ -5,39 +5,15 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { useCart } from "@/components/cartContext";
+import { gynecologistTests } from "@/utils/data/courseData/courses";
 
 const { Meta } = Card;
 
-const gynecologistTests = [
-  {
-    title: "Obstetrics",
-    description: "Focus on pregnancy, labor, delivery, and postpartum care.",
-    img: "https://tse1.mm.bing.net/th/id/OIP.5eoHhDJ9XF4BEGAcmVCXSwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/obstetrics",
-  },
-  {
-    title: "Reproductive Endocrinology",
-    description: "Covers infertility, IVF, hormonal disorders, and reproductive health.",
-    img: "https://tse3.mm.bing.net/th/id/OIP.Ik13Z6JDhESxar1l39wXDQHaE0?w=740&h=482&rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/reproductive-endocrinology",
-  },
-  {
-    title: "Gynecologic Oncology",
-    description: "Learn about cancers of the female reproductive system and treatments.",
-    img: "https://tse1.mm.bing.net/th/id/OIP.z7OhT5Xr02j46s5b2zu9fAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/gynecologic-oncology",
-  },
-  {
-    title: "Maternal-Fetal Medicine",
-    description: "Covers high-risk pregnancies and fetal complications.",
-    img: "https://tse1.explicit.bing.net/th/id/OIP.Jf1K3ZCurMB7cIn12XVnwQHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
-    href: "/tests/maternal-fetal-medicine",
-  },
-];
 
 export default function Gynecologist() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} =useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -103,20 +79,29 @@ export default function Gynecologist() {
                 }
 
               >
-                <Meta
-                  title={test.title}
-                  description={
+                              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
                 />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
+                {/* Buy Now button */}
+                <button
+                  onClick={() => addToCart(test)}
+                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
                 >
-                  Start Test →
-                </Link>
+                  Buy Now
+                </button>
               </Card>
             </div>
           ))}

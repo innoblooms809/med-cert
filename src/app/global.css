@@ -15,36 +15,71 @@ p, span, div, strong {
 
 /* Base Colors (Bootstrap-like vars) */
 :root {
-  --bs-primary: #2563eb;
-  --bs-success: #16a34a;
-  --bs-danger: #dc2626;
-  --bs-warning: #f59e0b;
-  --bs-info: #0ea5e9;
+  --bs-primary: #8500ac; /* Purple - Main brand color */
+  --bs-success: #28a745;
+  --bs-danger: #dc3545;
+  --bs-warning: #ffc107;
+  --bs-info: #17a2b8;
   --bs-light: #f8f9fa;
-  --bs-dark: #111827;
+  --bs-dark: #212529;
 
-  --text-color: #1f2937;
-  --heading-color: #194f90;
+  --text-color: #1e1e1e;
+  --heading-color: #4a005f; /* Darker purple for contrast */
 
-  --section-bg-1: #f9fafb;
+  --section-bg-1: #f9f9fb;
   --section-bg-2: #ffffff;
-  --section-bg-3: #f3f4f6;
+  --section-bg-3: #f3f3f6;
 
   --section-bg-dark-1: #1e1e1e;
   --section-bg-dark-2: #121212;
   --section-bg-dark-3: #2c2c2c;
 
-  --section-primary: #2563eb;
-  --section-accent: #3b82f6;
+  --section-primary: #8500ac;   /* Match logo */
+  --section-accent: #a94bcc;    /* Lighter purple for accents */
 
-  --main: #194f90;
-  --main2: #3294b4;
-  --main3: #ffffff;
-  --grey: #e5e7eb;
+  --main: #8500ac;
+  --main2: #a94bcc;             /* Accent purple */
+  --main3: #ffffff;             /* White contrast */
+  --grey: #e0e0e0;
 
-  --bs-body-color: #1f2937;
+  --bs-body-color: #1f1f1f;
   --bs-body-bg: #ffffff;
 }
+
+/* Dark Theme */
+.dark {
+  --bs-primary: #b266d4;       /* Softer purple for dark mode */
+  --text-color: #f5f5f5;
+  --bs-success: #28d97f;
+  --bs-danger: #ff6b6b;
+  --bs-warning: #ffe066;
+  --bs-info: #5edfff;
+  --bs-light: #2a2a2a;
+  --bs-dark: #f1f1f1;
+
+  --heading-color: #e6ccf3;    /* Light purple for headings */
+  --section-bg-1: #1e1e1e;
+  --section-bg-2: #121212;
+  --section-bg-3: #2c2c2c;
+
+  --section-bg-dark-1: #f0f0f0;
+  --section-bg-dark-2: #ffffff;
+  --section-bg-dark-3: #f3f4f6;
+
+  --section-text: #e5e7eb;
+
+  --section-primary: #a94bcc;  /* Accent purple */
+  --section-accent: #c87ee6;
+
+  --main: #5b0074;             /* Deep purple for contrast */
+  --main2: #a94bcc;            /* Match accent */
+  --main3: #1a1a1a;            /* Dark contrast */
+  --grey: #333333;
+
+  --bs-body-color: #e5e7eb;
+  --bs-body-bg: #0a0a0a;
+}
+
 
 /* Dark Theme (optional) */
 .dark {

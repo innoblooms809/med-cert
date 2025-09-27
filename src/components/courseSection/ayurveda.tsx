@@ -5,40 +5,13 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-
+import { useCart } from "@/components/cartContext";
+import { ayurvedaTests } from "@/utils/data/courseData/courses";
 const { Meta } = Card;
-
-const ayurvedaTests = [
-  {
-    title: "Basic Concepts of Ayurveda",
-    description: "Covers doshas, dhatus, and body constitution.",
-    img: "https://el-vergel.com/wp-content/uploads/2020/09/Kundan-ayurveda-edited.jpg",
-    href: "/tests/basic-ayurveda",
-  },
-  {
-    title: "Panchakarma Therapy",
-    description: "Learn detoxification techniques and rejuvenation therapies.",
-    img: "https://i.pinimg.com/originals/b3/89/7d/b3897d1398dcc1be56e4cebce64e5b19.jpg",
-    href: "/tests/panchakarma",
-  },
-  {
-    title: "Dravyaguna",
-    description: "Study medicinal herbs and their pharmacological actions.",
-    img: "https://i1.wp.com/www.nctayurvedacollege.in/wp-content/uploads/2017/12/dravyaguna-min.jpg?fit=449%2C300&ssl=1",
-    href: "/tests/dravyaguna",
-  },
-  {
-    title: "Ayurvedic Diagnosis",
-    description: "Covers nadi pariksha, prakriti analysis, and disease classification.",
-    img: "https://healthy-ojas.com/sites/default/files/natural/ayurveda-pulse-diagnosis.jpg",
-    href: "/tests/ayurvedic-diagnosis",
-  },
-];
-
 
 export default function Ayurveda() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} =useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -103,20 +76,29 @@ export default function Ayurveda() {
                   </div>
                 }
               >
-                <Meta
-                  title={test.title}
-                  description={
+              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
-                />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
+              />
+               {/* Buy Now button */}
+                <button
+                  onClick={() => addToCart(test)}
+                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
                 >
-                  Start Test →
-                </Link>
+                  Buy Now
+                </button>
               </Card>
             </div>
           ))}

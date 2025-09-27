@@ -5,40 +5,14 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { useCart } from "@/components/cartContext";
+import { entSpecialistTests } from "@/utils/data/courseData/courses";
 
 const { Meta } = Card;
 
-const entSpecialistTests = [
-  {
-    title: "Otology",
-    description: "Covers ear disorders, hearing loss, and tinnitus management.",
-    img: "https://ascentist.com/wp-content/uploads/2021/11/Otology-and-Neurotology-in-Kansas-City-MO.jpg",
-    href: "/tests/otology",
-  },
-  {
-    title: "Rhinology",
-    description: "Learn about nasal conditions, sinusitis, and allergy treatments.",
-    img: "https://fadlullahaksoy.com/en/wp-content/uploads/2019/12/Nasal-Diseases-Rhinology.jpg",
-    href: "/tests/rhinology",
-  },
-  {
-    title: "Laryngology",
-    description: "Focus on voice disorders, throat infections, and vocal cord care.",
-    img: "https://www.masseyeandear.org/assets/MEE/images/ent/education/laryngology-fellowship-banner.png",
-    href: "/tests/laryngology",
-  },
-  {
-    title: "Head & Neck Surgery",
-    description: "Covers surgical procedures for tumors and trauma.",
-    img: "https://www.oto-hns.northwestern.edu/images/1440x400/main_page-1440x600.jpg",
-    href: "/tests/head-neck-surgery",
-  },
-];
-
-
 export default function ENTSpecialist() {
   const carouselRef = useRef<any>(null);
-
+  const {addToCart} =useCart()
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
 
@@ -103,20 +77,29 @@ export default function ENTSpecialist() {
                   </div>
                 }
               >
-                <Meta
-                  title={test.title}
-                  description={
+              <Meta
+                title={test.title}
+                description={
+                  <div className="space-y-1">
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                  }
+                    <p className="text-sm font-medium text-gray-900 ">
+                      Instructor: {test.createdBy}
+                    </p>
+                    <p className="text-sm font-semibold text-[var(--section-primary)]">
+                      ${test.price}
+                    </p>
+                  </div>
+                }
                 />
-                <Link
-                  href={test.href}
-                  className="mt-3 inline-block text-[var(--section-primary)] text-sm font-medium hover:underline"
+                {/* Buy Now button */}
+                <button
+                  onClick={() => addToCart(test)}
+                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
                 >
-                  Start Test →
-                </Link>
+                  Buy Now
+                </button>
               </Card>
             </div>
           ))}
