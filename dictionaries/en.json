@@ -6,43 +6,175 @@
     "signup": "Sign Up",
     "searchPlaceholder": "Search for anything"
   },
-    "Cart": {
-        "cartTitle": "Cart",
-        "emptyCart": "Your cart is empty",
-        "remove": "Remove",
-        "checkout": "Checkout"
-    },
-    "Logins": {
-        "head": "Sign In to Your Med-compliance Account",
-        "para": " Welcome! You have reached to Med-compliance single sign-on page. The single sign-on page allows you to access many Med-compliance eServices with one user account.With a Med-compliance Single Sign-On, you can:",
-        "list1": "Use multiple eServices through one account",
-        "list2": "Manage your personal or organizational profile",
-        "list3": "Track applications, licenses, and compliance activities",
-        "welcome": {
-            "default": "Welcome To Med-compliance",
-            "dha": "Welcome To Med-compliance",
-            "admin": "Welcome Admin",
-            "facility": "Welcome To Med-compliance"
-        }
-    },
-    "dashboard":{
-      "user":{
-        "welcome": "Welcome To Your Dashboard",
-        "logout": "Logout",
-        "enrolledCourses": "Enrolled Courses",
-        "lecturesWatched": "Lectures Watched",
-        "submissions": "My Submissions",
-        "testSeries": "Test Series",
-        "score": "Score",
-        "activity": "Activity",
-        "quiz": "Quiz",
-        "submission": "Submission",
-        "courses": "Courses",
-        "recommendedCourses": "Recommended Courses",
-        "view": "View",
-        "close": "Close",
-        "enrollNow": "Enroll Now"
-      }
+  "Cart": {
+    "cartTitle": "Cart",
+    "emptyCart": "Your cart is empty",
+    "remove": "Remove",
+    "checkout": "Checkout"
+  },
+  "Logins": {
+    "head": "Sign In to Your Med-compliance Account",
+    "para": " Welcome! You have reached to Med-compliance single sign-on page. The single sign-on page allows you to access many Med-compliance eServices with one user account.With a Med-compliance Single Sign-On, you can:",
+    "list1": "Use multiple eServices through one account",
+    "list2": "Manage your personal or organizational profile",
+    "list3": "Track applications, licenses, and compliance activities",
+    "welcome": {
+      "default": "Welcome To Med-compliance",
+      "dha": "Welcome To Med-compliance",
+      "admin": "Welcome Admin",
+      "facility": "Welcome To Med-compliance"
     }
-    
+  },
+  "dashboard": {
+    "user": {
+      "welcome": "Welcome To Your Dashboard",
+      "logout": "Logout",
+      "enrolledCourses": "Enrolled Courses",
+      "lecturesWatched": "Lectures Watched",
+      "submissions": "My Submissions",
+      "testSeries": "Test Series",
+      "score": "Score",
+      "activity": "Activity",
+      "quiz": "Quiz",
+      "submission": "Submission",
+      "courses": "Courses",
+      "recommendedCourses": "Recommended Courses",
+      "view": "View",
+      "close": "Close",
+      "enrollNow": "Enroll Now"
+    }
+  },
+  "footer": {
+    "company": "Company",
+    "resources": "Resources",
+    "legal": "Legal",
+    "links": {
+      "medCertBusiness": "Med-Cert Business",
+      "teach": "Teach on Med-Cert",
+      "app": "Get the app",
+      "about": "About us",
+      "contact": "Contact us",
+      "careers": "Careers",
+      "blog": "Blog",
+      "help": "Help and Support",
+      "affiliate": "Affiliate",
+      "investors": "Investors",
+      "terms": "Terms",
+      "privacy": "Privacy policy",
+      "cookies": "Cookie settings",
+      "sitemap": "Sitemap",
+      "accessibility": "Accessibility statement"
+    },
+    "language": {
+      "en": "English",
+      "ar": "Arabic"
+    },
+    "copyright": "© {year} Med-Cert, Inc."
+  },
+  "reviewSection": {
+    "title": "What People Say",
+    "reviews": [
+      {
+        "id": 1,
+        "name": "Zayed",
+        "image": "https://randomuser.me/api/portraits/men/32.jpg",
+        "review": "This platform is amazing! The UI is clean and user-friendly. Highly recommended."
+      },
+      {
+        "id": 2,
+        "name": "Amina",
+        "image": "https://randomuser.me/api/portraits/women/44.jpg",
+        "review": "I really enjoyed the features. The quiz creation was seamless and fast."
+      },
+      {
+        "id": 3,
+        "name": "Malik",
+        "image": "https://randomuser.me/api/portraits/men/65.jpg",
+        "review": "Great experience overall. Support team was quick to respond to my queries."
+      }
+    ]
+  },
+  "navbar": {
+    "categories": "Categories",
+    "searchPlaceholder": "Search courses...",
+    "login": "Log in",
+    "signup": "Sign up",
+    "cart": "Cart",
+    "Dentist": "Dentist",
+    "Gynecologist": "Gynecologist",
+    "GeneralPhysician": "General Physician",
+    "Dermatologist": "Dermatologist",
+    "ENTSpecialist": "ENT Specialist",
+    "Homoeopath": "Homoeopath",
+    "Ayurveda": "Ayurveda"
+  },
+  "hero": {
+    "title": "Learn",
+    "highlight": "Healthcare Skills",
+    "subtitle": "Access professional courses designed for doctors and nurses. Upgrade your career with certifications and real-world learning.",
+    "stats": { "count": "500+", "courses": "Courses Available" },
+    "trending": "Trending Domains",
+    "domains": {
+      "dentist": "Dentist",
+      "gynecologist": "Gynecologist",
+      "physician": "General Physician",
+      "dermatologist": "Dermatologist",
+      "ent": "ENT Specialist",
+      "homoeopath": "Homoeopath",
+      "ayurveda": "Ayurveda"
+    }
+  },
+  "signup": {
+    "createAccount": "Create Account",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "role": "Role",
+    "specialization": "Specialization",
+    "uploadLicense": "Upload License",
+    "hospital": "Hospital",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login",
+
+    "doctor": "Doctor",
+    "nurse": "Nurse",
+
+    "specializations": {
+      "cardiologist": "Cardiologist",
+      "dermatologist": "Dermatologist",
+      "gynecologist": "Gynecologist",
+      "pediatrician": "Pediatrician",
+      "orthopedic": "Orthopedic",
+      "neurologist": "Neurologist",
+      "surgicalNurse": "Surgical Nurse",
+      "icuNurse": "ICU Nurse",
+      "pediatricNurse": "Pediatric Nurse",
+      "erNurse": "ER Nurse",
+      "oncologyNurse": "Oncology Nurse"
+    },
+
+    "requiredFirstName": "Please enter your first name",
+    "requiredLastName": "Please enter your last name",
+    "requiredEmail": "Please enter your email",
+    "validEmail": "Please enter a valid email",
+    "requiredPassword": "Please enter a password",
+    "requiredConfirmPassword": "Please confirm your password",
+    "passwordMismatch": "Passwords do not match",
+    "requiredRole": "Please select a role",
+    "requiredSpecialization": "Please select specialization",
+    "requiredLicense": "Please upload your license",
+    "requiredHospital": "Please enter your hospital name",
+
+    "firstNamePlaceholder": "John",
+    "lastNamePlaceholder": "Doe",
+    "passwordPlaceholder": "Enter password",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "specializationPlaceholder": "Select specialization",
+    "uploadLicenseBtn": "Upload License",
+    "hospitalPlaceholder": "Hospital Name",
+    "successMessage": "Signup successful!"
+  }
 }

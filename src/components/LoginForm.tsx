@@ -14,7 +14,7 @@ import {
   TeamOutlined
 } from "@ant-design/icons";
 
-export default function LoginForm() {
+export default function LoginForm({dict, lang}:any) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -247,7 +247,7 @@ export default function LoginForm() {
           <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
             Don't have an account?{' '}
             <a 
-              href="/signup" 
+              href={`/${lang}/auth/signUp`} 
               style={{
                 color: '#4f46e5',
                 fontWeight: 600,

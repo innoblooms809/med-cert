@@ -44,3 +44,4 @@ export type CartItem = {
   img?: string;
   href?: string;
 };
+
