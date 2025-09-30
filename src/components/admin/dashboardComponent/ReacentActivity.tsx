@@ -16,7 +16,29 @@ import {
   Line,
 } from "recharts";
 
-const activityData = [
+// Define interfaces for our data types
+interface ActivityDataItem {
+  date: string;
+  enrolled: number;
+  testAttempt: number;
+  certificate: number;
+}
+
+// Define types for tooltip
+interface TooltipPayloadItem {
+  dataKey: string;
+  value: number;
+  color: string;
+  payload?: Record<string, unknown>;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+const activityData: ActivityDataItem[] = [
   { date: "Mon", enrolled: 5, testAttempt: 3, certificate: 2 },
   { date: "Tue", enrolled: 8, testAttempt: 4, certificate: 3 },
   { date: "Wed", enrolled: 6, testAttempt: 2, certificate: 1 },
@@ -46,7 +68,7 @@ export default function WeeklyActivityTrend() {
   const totalTests = activityData.reduce((sum, day) => sum + day.testAttempt, 0);
   const totalCertificates = activityData.reduce((sum, day) => sum + day.certificate, 0);
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -67,7 +89,7 @@ export default function WeeklyActivityTrend() {
           }}>
             {label}
           </p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: TooltipPayloadItem, index: number) => (
             <div key={index} style={{
               display: "flex",
               alignItems: "center",
@@ -324,7 +346,7 @@ export default function WeeklyActivityTrend() {
                 <Tooltip />
                 <Area
                   type="monotone"
-                  dataKey={data => data.enrolled + data.testAttempt + data.certificate}
+                  dataKey={(data: ActivityDataItem) => data.enrolled + data.testAttempt + data.certificate}
                   stroke="#8b5cf6"
                   fill="url(#totalGradient)"
                   strokeWidth={2}

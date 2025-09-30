@@ -3,9 +3,7 @@
 import React from "react";
 import { Card, Row, Col, Statistic } from "antd";
 import {
-  BarChart,
   Bar,
-  LineChart,
   Line,
   XAxis,
   YAxis,
@@ -13,7 +11,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  Cell,
   Area,
   ComposedChart,
   AreaChart,
@@ -40,6 +37,20 @@ const certificateData = [
   { month: "Aug", certificates: 80, courses: 50 },
 ];
 
+// Define types for tooltip payload
+interface TooltipPayloadItem {
+  value: number;
+  dataKey: string;
+  color: string;
+  payload?: Record<string,unknown>;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
 export default function Charts() {
   const COLORS = {
     primary: "#4f46e5",
@@ -56,16 +67,7 @@ export default function Charts() {
     }
   };
 
-  const barColors = [
-    "url(#barGradient1)",
-    "url(#barGradient2)",
-    "url(#barGradient3)",
-    "url(#barGradient4)",
-    "url(#barGradient5)",
-    "url(#barGradient6)"
-  ];
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -86,7 +88,7 @@ export default function Charts() {
           }}>
             {label}
           </p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: TooltipPayloadItem, index: number) => (
             <div key={index} style={{
               display: "flex",
               alignItems: "center",

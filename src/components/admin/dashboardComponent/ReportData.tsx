@@ -26,6 +26,20 @@ interface Props {
   trends?: ActionTrend[];
 }
 
+// Define types for tooltip
+interface TooltipPayloadItem {
+  dataKey: string;
+  value: number;
+  color: string;
+  payload?: Record<string, unknown>;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
 // Sample trend data
 const sampleTrends: ActionTrend[] = [
   { day: "Mon", courses: 2, quizzes: 1, users: 5 },
@@ -52,7 +66,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -73,7 +87,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
           }}>
             {label}
           </p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: TooltipPayloadItem, index: number) => (
             <div key={index} style={{
               display: "flex",
               alignItems: "center",

@@ -14,8 +14,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
   AreaChart,
   Area,
 } from "recharts";
@@ -41,6 +39,20 @@ const quizzes: Quiz[] = [
   { testType: "Objective", testFor: "Nurse", specialization: "Emergency" },
   { testType: "Subjective", testFor: "Nurse", specialization: "Pediatric" },
 ];
+
+// Define types for tooltip
+interface TooltipPayloadItem {
+  dataKey: string;
+  value: number;
+  color: string;
+  payload?: Record<string, unknown>;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
 
 export default function TestAnalytics() {
   // Group bar chart data
@@ -89,7 +101,7 @@ export default function TestAnalytics() {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -103,7 +115,7 @@ export default function TestAnalytics() {
           fontWeight: 500,
         }}>
           <p style={{ margin: 0, color: "#1e293b", fontWeight: 600 }}>{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: TooltipPayloadItem, index: number) => (
             <p key={index} style={{
               margin: "4px 0 0 0",
               color: entry.color,

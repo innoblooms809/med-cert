@@ -1,5 +1,4 @@
 'use client';
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import {
   Form,
@@ -18,11 +17,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Image from "next/image";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
-import { useRouter } from "next/navigation";
-import "react-quill/dist/quill.snow.css";
 import { v4 as uuidv4 } from 'uuid';
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -62,27 +58,9 @@ interface CourseType {
   expiryDays: number;
 }
 
-interface QuillEditorProps {
-  value?: string;
-  onChange?: (val: string) => void;
-}
-
-// export const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
-//   return (
-//     <ReactQuill
-//       theme="snow"
-//       value={value}
-//       onChange={onChange}
-//       placeholder="Write course description..."
-//       style={{ height: 200, marginBottom: 40 }}
-//     />
-//   );
-// };
-
 export default function Course() {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
-  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const [description, setDescription] = useState('');
   const [editDescription, setEditDescription] = useState('');
@@ -435,7 +413,7 @@ export default function Course() {
                 style={{ width: '100%' }}
                 placeholder="0.00"
                 formatter={(value) => `AED ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') as any}
+                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') || ''}
               />
             </Form.Item>
 
@@ -486,14 +464,6 @@ export default function Course() {
               showCount
             />
           </Form.Item>
-
-          {/* <Form.Item
-            label="Full Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter course description" }]}
-          >
-            <QuillEditor value={description} onChange={setDescription} />
-          </Form.Item> */}
 
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ background: "#7b1fa2" }}>Create Course</Button>
@@ -557,7 +527,7 @@ export default function Course() {
                 style={{ width: '100%' }}
                 placeholder="0.00"
                 formatter={(value) => `AED ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') as any}
+                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') || ''}
               />
             </Form.Item>
 
@@ -608,14 +578,6 @@ export default function Course() {
               showCount
             />
           </Form.Item>
-
-          {/* <Form.Item
-            label="Full Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter course description" }]}
-          >
-            <QuillEditor value={editDescription} onChange={setEditDescription} />
-          </Form.Item> */}
 
           <Form.Item style={{ textAlign: "right" }}>
             <Space>

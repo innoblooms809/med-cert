@@ -23,6 +23,16 @@ interface Course {
   courseRole: string;
 }
 
+// Define proper types for the tooltip
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    payload?: Record<string,unknown>;
+  }>;
+  label?: string;
+}
+
 // Mock Data
 const courses: Course[] = [
   { id: "1", title: "ENT Basics", specialization: "ENT", courseRole: "Doctor" },
@@ -73,7 +83,7 @@ export default function CoursesCharts() {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -261,7 +271,7 @@ export default function CoursesCharts() {
                   fontSize: 14,
                   fontWeight: 500,
                 }}
-                formatter={(value, name) => [value, `${name} Courses`]}
+                formatter={(value: number, name: string) => [value, `${name} Courses`]}
               />
               <Legend
                 verticalAlign="bottom"

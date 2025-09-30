@@ -9,9 +9,9 @@ import RecentActivity from "./dashboardComponent/ReacentActivity";
 import Charts from "./dashboardComponent/Charts";
 import ProgressTable from "./dashboardComponent/ProgessTable";
 
-interface Props {
-  dict: any;
-}
+// interface Props {
+//   dict: any;
+// }
 
 const DashboardClient = () => {
   return (
