@@ -262,7 +262,7 @@
 import React, { useEffect, useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import adminImg from "../../../public/images/admin.jpg";
-import { Dropdown, Space } from "antd";
+import { Dropdown} from "antd";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -281,6 +281,7 @@ export default function AdminHeader({
       setComplianceReports(JSON.parse(reports));
     }
   }, []);
+  console.log(complianceReports)
 
   const userMenu = {
     items: [

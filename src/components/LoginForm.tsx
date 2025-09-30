@@ -13,6 +13,8 @@ import {
   SafetyCertificateOutlined,
   TeamOutlined
 } from "@ant-design/icons";
+import Image from "next/image";
+import image from "../../public/images/med-cert-logo.jpg"
 
 export default function LoginForm() {
   const router = useRouter();
@@ -79,7 +81,7 @@ export default function LoginForm() {
       <Card
         style={{
           width: '100%',
-          maxWidth: '400px',
+          maxWidth: '500px',
           borderRadius: '20px',
           border: 'none',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
@@ -97,7 +99,7 @@ export default function LoginForm() {
             alignItems: 'center',
             marginBottom: '16px'
           }}>
-            <div style={{
+            {/* <div style={{
               width: '60px',
               height: '60px',
               borderRadius: '50%',
@@ -108,9 +110,9 @@ export default function LoginForm() {
               marginRight: '12px'
             }}>
               <SafetyCertificateOutlined style={{ fontSize: '28px', color: 'white' }} />
-            </div>
+            </div> */}
             <div>
-              <h1 style={{
+              {/* <h1 style={{
                 margin: 0,
                 fontSize: '28px',
                 fontWeight: 700,
@@ -120,8 +122,9 @@ export default function LoginForm() {
                 backgroundClip: 'text'
               }}>
                 MedCert
-              </h1>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Medical Certification Platform</p>
+              </h1> */}
+              <Image src={image} alt="med-cert" width={200} height={40}/>
+              {/* <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Medical Certification Platform</p> */}
             </div>
           </div>
 

@@ -102,7 +102,7 @@ function AdminProfile() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               marginBottom: 24,
             }}
-            bodyStyle={{ padding: 24 }}
+            styles={{body: {padding: 24} }}
           >
             <div style={{ textAlign: "center", position: "relative" }}>
               {/* Status Badge */}
@@ -255,7 +255,7 @@ function AdminProfile() {
                     border: "none",
                     boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                   }}
-                  bodyStyle={{ padding: 20 }}
+                  styles={{body: {padding: 20 }}}
                 >
                   <Statistic
                     title={
@@ -361,7 +361,7 @@ function AdminProfile() {
                           padding: "12px 8px",
                           height: "100%",
                         }}
-                        bodyStyle={{ padding: 8 }}
+                        styles={{body: {padding: 8 }}}
                       >
                         <div style={{ fontSize: 24, marginBottom: 8 }}>{action.icon}</div>
                         <Text strong style={{ display: 'block', fontSize: 12 }}>{action.title}</Text>

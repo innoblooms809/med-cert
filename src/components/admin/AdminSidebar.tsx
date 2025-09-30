@@ -4,14 +4,25 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Layout, Menu } from "antd";
 import { adminSidebarItems } from "@/utils/sidebaritems";
-import { DashboardOutlined, FileTextOutlined, CopyOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  FileTextOutlined,
+  CopyOutlined,
+} from "@ant-design/icons";
 import "@/app/global.css";
 
 const { Sider } = Layout;
 const LOCAL_STORAGE_KEY = "medCert";
 
+// Define sidebar item shape
+interface SidebarItem {
+  key: string; // used by Menu
+  label: string;
+  path: string;
+}
+
 const iconMap: Record<string, React.ReactNode> = {
-  Dashboard: <DashboardOutlined  style={{ color: "var(--sidebar-text)" }} /> ,
+  Dashboard: <DashboardOutlined style={{ color: "var(--sidebar-text)" }} />,
   Courses: <FileTextOutlined />,
   Tests: <CopyOutlined />,
   Users: <FileTextOutlined />,
@@ -21,22 +32,33 @@ interface AdminSidebarProps {
   collapsed: boolean;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+}
+
 export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
-  const [user, setUser] = useState<any>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const [selectedKey, setSelectedKey] = useState<string>("");
-  const [adminbarItems, setAdminbarItems] = useState<any[]>([]);
+  const [adminbarItems, setAdminbarItems] = useState<SidebarItem[]>([]);
 
   // Load user from localStorage
   useEffect(() => {
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (stored) {
-      const parsedUser = JSON.parse(stored);
-      setUser(parsedUser);
+      try {
+        const parsedUser: User = JSON.parse(stored);
+        // setUser(parsedUser);
 
-      if (parsedUser.role === "admin") {
-        setAdminbarItems(adminSidebarItems);
-        setSelectedKey(adminSidebarItems[0]?.path);
+        if (parsedUser.role === "admin") {
+          setAdminbarItems(adminSidebarItems as SidebarItem[]);
+          setSelectedKey(adminSidebarItems[0]?.path || "");
+        }
+      } catch (err) {
+        console.error("Failed to parse user from localStorage", err);
       }
     }
   }, []);

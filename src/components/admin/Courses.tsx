@@ -1,5 +1,5 @@
 'use client';
-
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import {
   Form,
@@ -12,18 +12,48 @@ import {
   Space,
   message,
   Modal,
+  InputNumber,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import Image from "next/image";
+import type { UploadFile, UploadProps } from "antd/es/upload/interface";
+import { useRouter } from "next/navigation";
+import "react-quill/dist/quill.snow.css";
+import { v4 as uuidv4 } from 'uuid';
 
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const { Option } = Select;
 const { TextArea } = Input;
 
-interface CourseType {
+type UploadValue =
+  | UploadFile[]
+  | { fileList?: UploadFile[]; file?: UploadFile }
+  | null
+  | undefined;
+
+type FormValues = {
   courseRole: string;
   specialization: string;
   title: string;
+  shortDescription: string;
   description: string;
+  price: number;
+  banner?: UploadValue;
+  video?: UploadValue;
+  videoLink?: string;
+  author: string;
+  expiryDays: number;
+};
+
+interface CourseType {
+  id: string;
+  courseRole: string;
+  specialization: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  price: number;
   banner: string | File | null;
   video: File | null;
   videoLink: string;
@@ -32,18 +62,41 @@ interface CourseType {
   expiryDays: number;
 }
 
+interface QuillEditorProps {
+  value?: string;
+  onChange?: (val: string) => void;
+}
+
+// export const QuillEditor: React.FC<QuillEditorProps> = ({ value, onChange }) => {
+//   return (
+//     <ReactQuill
+//       theme="snow"
+//       value={value}
+//       onChange={onChange}
+//       placeholder="Write course description..."
+//       style={{ height: 200, marginBottom: 40 }}
+//     />
+//   );
+// };
+
 export default function Course() {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
+  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
+  const [description, setDescription] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   // Preloaded 5 dummy courses
   const [courses, setCourses] = useState<CourseType[]>([
     {
+      id: "1",
       courseRole: "Doctor",
       specialization: "Cardiology",
       title: "Heart Health Basics",
-      description: "Learn about cardiology essentials.",
+      shortDescription: "Learn about cardiology essentials.",
+      description: "This comprehensive course covers all the fundamental aspects of cardiology. You'll learn about heart anatomy, common cardiovascular diseases, diagnostic techniques, and treatment options.",
+      price: 99.99,
       banner: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800",
       video: null,
       videoLink: "https://youtu.be/nqZyIis6IJs?si=jS5c-O9yT_cCKwfK",
@@ -52,10 +105,13 @@ export default function Course() {
       expiryDays: 7,
     },
     {
+      id: "2",
       courseRole: "Doctor",
       specialization: "Neurology",
       title: "Brain Function & Disorders",
-      description: "Detailed guide to understanding brain functions.",
+      shortDescription: "Detailed guide to understanding brain functions.",
+      description: "Explore the complex world of neurology with this in-depth course. Understand brain functions, neurological disorders, diagnostic methods, and modern treatment approaches.",
+      price: 149.99,
       banner: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800",
       video: null,
       videoLink: "https://youtu.be/nqZyIis6IJs?si=jS5c-O9yT_cCKwfK",
@@ -64,10 +120,13 @@ export default function Course() {
       expiryDays: 10,
     },
     {
+      id: "3",
       courseRole: "Nurse",
       specialization: "Emergency Care",
       title: "ICU Care Essentials",
-      description: "Practical ICU nursing techniques and patient care.",
+      shortDescription: "Practical ICU nursing techniques and patient care.",
+      description: "Master the essential skills required for ICU nursing. Learn about critical care protocols, patient monitoring, emergency procedures, and advanced nursing techniques.",
+      price: 79.99,
       banner: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800",
       video: null,
       videoLink: "https://youtu.be/nqZyIis6IJs?si=jS5c-O9yT_cCKwfK",
@@ -76,10 +135,13 @@ export default function Course() {
       expiryDays: 30,
     },
     {
+      id: "4",
       courseRole: "Nurse",
       specialization: "Pediatrics",
       title: "Pediatric Nursing",
-      description: "Childcare and pediatric nursing best practices.",
+      shortDescription: "Childcare and pediatric nursing best practices.",
+      description: "Specialize in pediatric nursing with this comprehensive course. Learn about child development, common pediatric conditions, family-centered care, and specialized nursing interventions.",
+      price: 89.99,
       banner: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800",
       video: null,
       videoLink: "https://youtu.be/nqZyIis6IJs?si=jS5c-O9yT_cCKwfK",
@@ -88,10 +150,13 @@ export default function Course() {
       expiryDays: 7,
     },
     {
+      id: "5",
       courseRole: "Doctor",
       specialization: "Orthopedics",
       title: "Orthopedic Surgery Insights",
-      description: "Overview of orthopedic surgery and rehabilitation.",
+      shortDescription: "Overview of orthopedic surgery and rehabilitation.",
+      description: "Gain insights into orthopedic surgery procedures, rehabilitation protocols, and patient management. This course covers both surgical techniques and post-operative care.",
+      price: 199.99,
       banner: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800",
       video: null,
       videoLink: "https://youtu.be/nqZyIis6IJs?si=jS5c-O9yT_cCKwfK",
@@ -115,6 +180,26 @@ export default function Course() {
 
   const role = Form.useWatch("courseRole", form);
 
+  // Video upload validation
+  const videoUploadProps: UploadProps = {
+    beforeUpload: (file) => {
+      console.log('File type:', file.type);
+      console.log('File size:', file.size);
+      const isVideo = file.type.startsWith('video/');
+      if (!isVideo) {
+        message.error('You can only upload video files!');
+        return Upload.LIST_IGNORE;
+      }
+      const isLt500M = file.size / 1024 / 1024 < 500;
+      if (!isLt500M) {
+        message.error('Video must be smaller than 500MB!');
+        return Upload.LIST_IGNORE;
+      }
+      return false;
+    },
+    maxCount: 1,
+  };
+
   useEffect(() => {
     form.setFieldsValue({ specialization: undefined });
   }, [role, form]);
@@ -122,11 +207,12 @@ export default function Course() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const getUploadedFile = (val: any) => {
+  const getUploadedFile = (val: UploadValue): File | null => {
     if (!val) return null;
     if (Array.isArray(val)) return val[0]?.originFileObj ?? null;
-    if (val.fileList) return val.fileList[0]?.originFileObj ?? null;
-    return val.file?.originFileObj ?? null;
+    if ("fileList" in val && val.fileList) return val.fileList[0]?.originFileObj ?? null;
+    if ("file" in val && val.file) return val.file.originFileObj ?? null;
+    return null;
   };
 
   const columns = [
@@ -134,9 +220,16 @@ export default function Course() {
     { title: "Specialization", dataIndex: "specialization", key: "specialization", width: 150 },
     { title: "Title", dataIndex: "title", key: "title", width: 150 },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      width: 100,
+      render: (price: number) => `AED ${price.toFixed(2)}`,
+    },
+    {
+      title: "Short Description",
+      dataIndex: "shortDescription",
+      key: "shortDescription",
       ellipsis: true,
       width: 250,
       render: (text: string) => <span title={text}>{text}</span>,
@@ -149,9 +242,9 @@ export default function Course() {
       render: (banner: string | File | null) =>
         banner ? (
           typeof banner === "string" ? (
-            <img src={banner} alt="banner" className="w-20 h-12 object-cover rounded" />
+            <Image src={banner} alt="banner" width={80} height={48} className="object-cover rounded" />
           ) : (
-            <img src={URL.createObjectURL(banner)} alt="banner" className="w-20 h-12 object-cover rounded" />
+            <Image src={URL.createObjectURL(banner)} alt="banner" width={80} height={48} className="object-cover rounded" />
           )
         ) : null,
     },
@@ -159,7 +252,7 @@ export default function Course() {
       title: "Video",
       key: "video",
       width: 120,
-      render: (_: any, record: CourseType) =>
+      render: (_: unknown, record: CourseType) =>
         record.video ? (
           <a href={URL.createObjectURL(record.video)} target="_blank" rel="noreferrer">▶ Video</a>
         ) : record.videoLink ? (
@@ -179,7 +272,7 @@ export default function Course() {
       title: "Actions",
       key: "actions",
       width: 180,
-      render: (_: any, record: CourseType, index: number) => (
+      render: (_: unknown, record: CourseType, index: number) => (
         <Space>
           <Button size="small" onClick={() => handleView(record)}>View</Button>
           <Button size="small" type="primary" onClick={() => openEditModal(index)}>Edit</Button>
@@ -189,15 +282,18 @@ export default function Course() {
     },
   ];
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: FormValues) => {
     const bannerFile = getUploadedFile(values.banner);
     const videoFile = getUploadedFile(values.video);
 
     const newCourse: CourseType = {
+      id: uuidv4(),
       courseRole: values.courseRole,
       specialization: values.specialization,
       title: values.title,
-      description: values.description,
+      shortDescription: values.shortDescription,
+      description: description || values.description,
+      price: values.price,
       banner: bannerFile || null,
       video: videoFile || null,
       videoLink: values.videoLink || "",
@@ -206,10 +302,11 @@ export default function Course() {
       expiryDays: values.expiryDays,
     };
 
-    setCourses((prev) => [newCourse, ...prev]); // prepend new course
+    setCourses((prev) => [newCourse, ...prev]);
     message.success("Course created successfully!");
     form.resetFields();
-    setShowForm(false); // go back to list
+    setDescription('');
+    setShowForm(false);
   };
 
   const handleView = (course: CourseType) => {
@@ -221,12 +318,14 @@ export default function Course() {
           <p><b>Role:</b> {course.courseRole}</p>
           <p><b>Specialization:</b> {course.specialization}</p>
           <p><b>Title:</b> {course.title}</p>
+          <p><b>Price:</b> AED {course.price.toFixed(2)}</p>
+          <p><b>Short Description:</b> {course.shortDescription}</p>
           <p><b>Description:</b> {course.description}</p>
           <p><b>Author:</b> {course.author}</p>
           <p><b>Published:</b> {course.publishedDate}</p>
           <p><b>Expiry:</b> {course.expiryDays} days</p>
           {course.banner && typeof course.banner === "string" && (
-            <img src={course.banner} alt="banner" style={{ maxWidth: "100%", marginTop: 8 }} />
+            <Image src={course.banner} alt="banner" width={800} height={450} style={{ marginTop: 8 }} className="max-w-full object-cover rounded" />
           )}
         </div>
       ),
@@ -236,19 +335,22 @@ export default function Course() {
   const openEditModal = (index: number) => {
     const c = courses[index];
     setEditingIndex(index);
+    setEditDescription(c.description);
     editForm.setFieldsValue({
       courseRole: c.courseRole,
       specialization: c.specialization,
       title: c.title,
+      price: c.price,
       author: c.author,
       videoLink: c.videoLink,
       expiryDays: c.expiryDays,
+      shortDescription: c.shortDescription,
       description: c.description,
     });
     setIsEditModalOpen(true);
   };
 
-  const handleEditSubmit = (values: any) => {
+  const handleEditSubmit = (values: FormValues) => {
     if (editingIndex === null) return;
     const bannerFile = getUploadedFile(values.banner);
     const videoFile = getUploadedFile(values.video);
@@ -260,7 +362,9 @@ export default function Course() {
         courseRole: values.courseRole,
         specialization: values.specialization,
         title: values.title,
-        description: values.description,
+        shortDescription: values.shortDescription,
+        description: editDescription || values.description,
+        price: values.price,
         banner: bannerFile ?? copy[editingIndex].banner,
         video: videoFile ?? copy[editingIndex].video,
         videoLink: values.videoLink ?? copy[editingIndex].videoLink,
@@ -273,6 +377,7 @@ export default function Course() {
     message.success("Course updated");
     setIsEditModalOpen(false);
     setEditingIndex(null);
+    setEditDescription('');
     editForm.resetFields();
   };
 
@@ -298,7 +403,7 @@ export default function Course() {
       {showForm && (
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            <Form.Item label="Course Role" name="courseRole" rules={[{ required: true }]}>
+            <Form.Item label="Course For" name="courseRole" rules={[{ required: true }]}>
               <Select placeholder="Select Role">
                 <Option value="Doctor">Doctor</Option>
                 <Option value="Nurse">Nurse</Option>
@@ -313,27 +418,28 @@ export default function Course() {
               </Select>
             </Form.Item>
 
-            <Form.Item label="Title" name="title" rules={[{ required: true }]}>
+            <Form.Item label="Course Title" name="title" rules={[{ required: true }]}>
               <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Course Price (AED)"
+              name="price"
+              rules={[{ required: true, message: 'Please enter course price' }]}
+            >
+              <InputNumber
+                min={0}
+                max={10000}
+                step={0.01}
+                precision={2}
+                style={{ width: '100%' }}
+                placeholder="0.00"
+                formatter={(value) => `AED ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') as any}
+              />
             </Form.Item>
 
             <Form.Item label="Author" name="author" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-              <Upload beforeUpload={() => false} maxCount={1} listType="picture">
-                <Button icon={<UploadOutlined />}>Upload Banner</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item label="Upload Video" name="video" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-              <Upload beforeUpload={() => false} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Upload Video</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item label="Or Video Link" name="videoLink">
               <Input />
             </Form.Item>
 
@@ -344,11 +450,50 @@ export default function Course() {
                 ))}
               </Select>
             </Form.Item>
+
+            <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
+              <Upload beforeUpload={() => false} maxCount={1} listType="picture">
+                <Button icon={<UploadOutlined />}>Upload Banner</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item
+              label="Upload Video"
+              name="video"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => e && e.fileList}
+              extra="Only video files allowed (max 500MB)"
+            >
+              <Upload {...videoUploadProps}>
+                <Button icon={<UploadOutlined />}>Upload Video</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item label="Or Video Link" name="videoLink">
+              <Input placeholder="https://youtube.com/..." />
+            </Form.Item>
           </div>
 
-          <Form.Item label="Description" name="description" rules={[{ required: true }]}>
-            <TextArea rows={4} />
+          <Form.Item 
+            label="Short Description" 
+            name="shortDescription" 
+            rules={[{ required: true, message: 'Please enter short description' }]}
+          >
+            <TextArea 
+              rows={3} 
+              placeholder="Enter a brief summary of the course (this will be shown in the course list)..."
+              maxLength={200}
+              showCount
+            />
           </Form.Item>
+
+          {/* <Form.Item
+            label="Full Description"
+            name="description"
+            rules={[{ required: true, message: "Please enter course description" }]}
+          >
+            <QuillEditor value={description} onChange={setDescription} />
+          </Form.Item> */}
 
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ background: "#7b1fa2" }}>Create Course</Button>
@@ -360,7 +505,7 @@ export default function Course() {
         <Table
           dataSource={courses}
           columns={columns}
-          rowKey={(record) => record.title}
+          rowKey="id"
           scroll={{ x: 'max-content' }}
         />
       )}
@@ -369,7 +514,12 @@ export default function Course() {
       <Modal
         title="Edit Course"
         open={isEditModalOpen}
-        onCancel={() => { setIsEditModalOpen(false); setEditingIndex(null); editForm.resetFields(); }}
+        onCancel={() => {
+          setIsEditModalOpen(false);
+          setEditingIndex(null);
+          setEditDescription('');
+          editForm.resetFields();
+        }}
         footer={null}
         width={700}
       >
@@ -394,23 +544,24 @@ export default function Course() {
               <Input />
             </Form.Item>
 
+            <Form.Item
+              label="Course Price (AED)"
+              name="price"
+              rules={[{ required: true, message: 'Please enter course price' }]}
+            >
+              <InputNumber
+                min={0}
+                max={10000}
+                step={0.01}
+                precision={2}
+                style={{ width: '100%' }}
+                placeholder="0.00"
+                formatter={(value) => `AED ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value) => value?.replace(/AED\s?|(,*)/g, '') as any}
+              />
+            </Form.Item>
+
             <Form.Item label="Author" name="author" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-              <Upload beforeUpload={() => false} maxCount={1} listType="picture">
-                <Button icon={<UploadOutlined />}>Upload Banner</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item label="Upload Video" name="video" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
-              <Upload beforeUpload={() => false} maxCount={1}>
-                <Button icon={<UploadOutlined />}>Upload Video</Button>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item label="Video Link" name="videoLink">
               <Input />
             </Form.Item>
 
@@ -421,15 +572,58 @@ export default function Course() {
                 ))}
               </Select>
             </Form.Item>
+
+            <Form.Item label="Upload Banner" name="banner" valuePropName="fileList" getValueFromEvent={(e) => e && e.fileList}>
+              <Upload beforeUpload={() => false} maxCount={1} listType="picture">
+                <Button icon={<UploadOutlined />}>Upload Banner</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item
+              label="Upload Video"
+              name="video"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => e && e.fileList}
+              extra="Only video files allowed (max 500MB)"
+            >
+              <Upload {...videoUploadProps}>
+                <Button icon={<UploadOutlined />}>Upload Video</Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item label="Video Link" name="videoLink">
+              <Input placeholder="https://youtube.com/..." />
+            </Form.Item>
           </div>
 
-          <Form.Item label="Description" name="description" rules={[{ required: true }]}>
-            <TextArea rows={4} />
+          <Form.Item 
+            label="Short Description" 
+            name="shortDescription" 
+            rules={[{ required: true, message: 'Please enter short description' }]}
+          >
+            <TextArea 
+              rows={3} 
+              placeholder="Enter a brief summary of the course..."
+              maxLength={200}
+              showCount
+            />
           </Form.Item>
+
+          {/* <Form.Item
+            label="Full Description"
+            name="description"
+            rules={[{ required: true, message: "Please enter course description" }]}
+          >
+            <QuillEditor value={editDescription} onChange={setEditDescription} />
+          </Form.Item> */}
 
           <Form.Item style={{ textAlign: "right" }}>
             <Space>
-              <Button onClick={() => { setIsEditModalOpen(false); editForm.resetFields(); }}>Cancel</Button>
+              <Button onClick={() => {
+                setIsEditModalOpen(false);
+                setEditDescription('');
+                editForm.resetFields();
+              }}>Cancel</Button>
               <Button type="primary" htmlType="submit">Save</Button>
             </Space>
           </Form.Item>

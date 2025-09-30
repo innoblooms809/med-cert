@@ -16,6 +16,9 @@ export default  function AppLayoutClient({ lang, children,dict}: AppLayoutClient
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith(`/${lang}/admin`);
   const isUserRoute = pathname.startsWith(`/${lang}/user`);
+  const isLoginRoute=pathname.startsWith(`/${lang}/auth/login`)
+  const isSignUpRoute=pathname.startsWith(`/${lang}/auth/signup`)
+  
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = dict?.dir || (lang === "ar" ? "rtl" : "ltr");
@@ -23,9 +26,9 @@ export default  function AppLayoutClient({ lang, children,dict}: AppLayoutClient
 
   return (
     <>
-      {(!isAdminRoute && !isUserRoute )&& <Navbar dict={dict} lang={lang} />}
+      {(!isAdminRoute && !isUserRoute && !isLoginRoute )&& <Navbar dict={dict} lang={lang} />}
       {children }
-      {(!isAdminRoute && !isUserRoute  ) && <Footer dict={dict} lang={lang}/>}
+      {(!isAdminRoute && !isUserRoute && !isLoginRoute ) && <Footer dict={dict} lang={lang}/>}
     </>
   );
 }

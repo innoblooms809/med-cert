@@ -29,7 +29,7 @@ const activityData = [
 export default function WeeklyActivityTrend() {
   const COLORS = {
     enrolled: "url(#enrolledGradient)",
-    testAttempt: "url(#testAttemptGradient)", 
+    testAttempt: "url(#testAttemptGradient)",
     certificate: "url(#certificateGradient)",
     gradient: {
       enrolledStart: "#4f46e5",
@@ -59,18 +59,18 @@ export default function WeeklyActivityTrend() {
           fontSize: 14,
           fontWeight: 500,
         }}>
-          <p style={{ 
-            margin: "0 0 12px 0", 
-            color: "#1e293b", 
+          <p style={{
+            margin: "0 0 12px 0",
+            color: "#1e293b",
             fontWeight: 600,
             fontSize: 15
           }}>
             {label}
           </p>
           {payload.map((entry: any, index: number) => (
-            <div key={index} style={{ 
-              display: "flex", 
-              alignItems: "center", 
+            <div key={index} style={{
+              display: "flex",
+              alignItems: "center",
               marginBottom: 8,
               color: entry.color
             }}>
@@ -82,8 +82,8 @@ export default function WeeklyActivityTrend() {
                 marginRight: 8
               }}></div>
               <span style={{ fontWeight: 600, minWidth: 100 }}>
-                {entry.dataKey === 'enrolled' ? 'Enrolled' : 
-                 entry.dataKey === 'testAttempt' ? 'Test Attempts' : 'Certificates'}:
+                {entry.dataKey === 'enrolled' ? 'Enrolled' :
+                  entry.dataKey === 'testAttempt' ? 'Test Attempts' : 'Certificates'}:
               </span>
               <span style={{ fontWeight: 700, marginLeft: 8 }}>{entry.value}</span>
             </div>
@@ -99,14 +99,14 @@ export default function WeeklyActivityTrend() {
       {/* Statistics Row */}
       <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{body: {padding: "20px"} }}
           >
             <Statistic
               title="Total Enrolled"
@@ -117,14 +117,14 @@ export default function WeeklyActivityTrend() {
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{body: {padding: "20px"} }}
           >
             <Statistic
               title="Test Attempts"
@@ -135,14 +135,14 @@ export default function WeeklyActivityTrend() {
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{body: {padding: "20px"} }}
           >
             <Statistic
               title="Certificates"
@@ -159,10 +159,10 @@ export default function WeeklyActivityTrend() {
         <Col xs={24} lg={16}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -183,70 +183,74 @@ export default function WeeklyActivityTrend() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body:{
+                padding: "16px"
+              }
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={activityData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <defs>
                   <linearGradient id="enrolledGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.9}/>
-                    <stop offset="100%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.3}/>
+                    <stop offset="0%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.9} />
+                    <stop offset="100%" stopColor={COLORS.gradient.enrolledStart} stopOpacity={0.3} />
                   </linearGradient>
                   <linearGradient id="testAttemptGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={COLORS.gradient.testStart} stopOpacity={0.9}/>
-                    <stop offset="100%" stopColor={COLORS.gradient.testStart} stopOpacity={0.3}/>
+                    <stop offset="0%" stopColor={COLORS.gradient.testStart} stopOpacity={0.9} />
+                    <stop offset="100%" stopColor={COLORS.gradient.testStart} stopOpacity={0.3} />
                   </linearGradient>
                   <linearGradient id="certificateGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.9}/>
-                    <stop offset="100%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.3}/>
+                    <stop offset="0%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.9} />
+                    <stop offset="100%" stopColor={COLORS.gradient.certificateStart} stopOpacity={0.3} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#64748b" 
+                <XAxis
+                  dataKey="date"
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
-                <YAxis 
-                  stroke="#64748b" 
+                <YAxis
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend 
-                  wrapperStyle={{ 
+                <Legend
+                  wrapperStyle={{
                     paddingTop: 10,
                     fontSize: 12,
-                    fontWeight: 500 
+                    fontWeight: 500
                   }}
                 />
-                <Bar 
-                  dataKey="enrolled" 
-                  stackId="a" 
-                  fill={COLORS.enrolled} 
+                <Bar
+                  dataKey="enrolled"
+                  stackId="a"
+                  fill={COLORS.enrolled}
                   radius={[4, 4, 0, 0]}
                   name="Enrolled"
                 />
-                <Bar 
-                  dataKey="testAttempt" 
-                  stackId="a" 
-                  fill={COLORS.testAttempt} 
+                <Bar
+                  dataKey="testAttempt"
+                  stackId="a"
+                  fill={COLORS.testAttempt}
                   radius={[4, 4, 0, 0]}
                   name="Test Attempts"
                 />
-                <Bar 
-                  dataKey="certificate" 
-                  stackId="a" 
-                  fill={COLORS.certificate} 
+                <Bar
+                  dataKey="certificate"
+                  stackId="a"
+                  fill={COLORS.certificate}
                   radius={[4, 4, 0, 0]}
                   name="Certificates"
                 />
@@ -259,10 +263,10 @@ export default function WeeklyActivityTrend() {
         <Col xs={24} lg={8}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -283,56 +287,60 @@ export default function WeeklyActivityTrend() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body: {
+                padding: "16px"
+              }
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={activityData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <defs>
                   <linearGradient id="totalGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1}/>
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#64748b" 
+                <XAxis
+                  dataKey="date"
+                  stroke="#64748b"
                   fontSize={11}
                   axisLine={false}
                   tickLine={false}
                 />
-                <YAxis 
-                  stroke="#64748b" 
+                <YAxis
+                  stroke="#64748b"
                   fontSize={11}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip />
-                <Area 
-                  type="monotone" 
+                <Area
+                  type="monotone"
                   dataKey={data => data.enrolled + data.testAttempt + data.certificate}
                   stroke="#8b5cf6"
                   fill="url(#totalGradient)"
                   strokeWidth={2}
                   name="Total Activity"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="enrolled" 
+                <Line
+                  type="monotone"
+                  dataKey="enrolled"
                   stroke="#4f46e5"
                   strokeWidth={2}
                   dot={{ fill: "#4f46e5", r: 3 }}
                   name="Enrolled"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="certificate" 
+                <Line
+                  type="monotone"
+                  dataKey="certificate"
                   stroke="#10b981"
                   strokeWidth={2}
                   dot={{ fill: "#10b981", r: 3 }}
@@ -340,11 +348,11 @@ export default function WeeklyActivityTrend() {
                 />
               </AreaChart>
             </ResponsiveContainer>
-            
+
             <div style={{ textAlign: "center", marginTop: 16 }}>
-              <p style={{ 
-                margin: 0, 
-                fontSize: 13, 
+              <p style={{
+                margin: 0,
+                fontSize: 13,
                 color: "#64748b",
                 fontWeight: 500
               }}>

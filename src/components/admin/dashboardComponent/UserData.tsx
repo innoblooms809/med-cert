@@ -118,12 +118,12 @@ export default function QuickActions() {
                   overflow: "hidden",
                   transition: "all 0.3s ease",
                 }}
-                bodyStyle={{ 
+                styles={{body:{ 
                   padding: "24px 20px",
                   display: "flex",
                   alignItems: "center",
                   gap: "16px"
-                }}
+                }}}
               >
                 {/* Background accent */}
                 <div
@@ -240,7 +240,7 @@ export default function QuickActions() {
               textAlign: "center",
               padding: "16px",
             }}
-            bodyStyle={{ padding: "12px" }}
+            styles={{body: {padding: "12px"}}}
           >
             <p style={{ 
               margin: 0, 

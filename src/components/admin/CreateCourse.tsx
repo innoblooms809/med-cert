@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import { Form, Input, Button, Select, Upload, Card, Row, Col } from "antd";
+import { Form, Input, Button, Select, Upload, Card, Row, Col} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import type { UploadFile } from "antd/es/upload/interface";
+
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -13,6 +15,25 @@ const expiryOptions = [
   { value: 10, label: "10 days" },
   { value: 30, label: "30 days" },
 ];
+
+type UploadValue =
+  | UploadFile[]
+  | { fileList?: UploadFile[]; file?: UploadFile }
+  | null
+  | undefined;
+
+interface FormValues {
+  courseRole: string;
+  specialization: string;
+  title: string;
+  description: string;
+  banner?: UploadValue;
+  video?: UploadValue;
+  videoLink?: string;
+  author: string;
+  expiryDays: number;
+}
+
 
 const specializations: Record<string, string[]> = {
   Doctor: ["Cardiology", "Neurology", "Orthopedics"],
@@ -29,7 +50,7 @@ export default function CreateCourse() {
     form.setFieldsValue({ specialization: undefined });
   }, [role, form]);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: FormValues) => {
     console.log("New course created:", values);
     // ✅ Save logic here (API call or local state)
     router.push("/admin/courses"); // redirect after submit

@@ -104,8 +104,8 @@ export default function TestAnalytics() {
         }}>
           <p style={{ margin: 0, color: "#1e293b", fontWeight: 600 }}>{label}</p>
           {payload.map((entry: any, index: number) => (
-            <p key={index} style={{ 
-              margin: "4px 0 0 0", 
+            <p key={index} style={{
+              margin: "4px 0 0 0",
               color: entry.color,
               display: "flex",
               alignItems: "center"
@@ -136,14 +136,14 @@ export default function TestAnalytics() {
       {/* Statistics Row */}
       <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{ body: { padding: "20px" } }}
           >
             <Statistic
               title="Total Tests"
@@ -154,14 +154,14 @@ export default function TestAnalytics() {
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{ body: { padding: "20px" } }}
           >
             <Statistic
               title="Objective Tests"
@@ -172,14 +172,14 @@ export default function TestAnalytics() {
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card 
-            style={{ 
-              borderRadius: 16, 
+          <Card
+            style={{
+              borderRadius: 16,
               background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
               border: "none",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            bodyStyle={{ padding: "20px" }}
+            styles={{ body: { padding: "20px" } }}
           >
             <Statistic
               title="Subjective Tests"
@@ -196,10 +196,10 @@ export default function TestAnalytics() {
         <Col xs={24} lg={12}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -220,56 +220,58 @@ export default function TestAnalytics() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body: { padding: "16px" }
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={barData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <defs>
                   <linearGradient id="objectiveGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={COLORS.gradient.objectiveStart} stopOpacity={0.8}/>
-                    <stop offset="100%" stopColor={COLORS.gradient.objectiveEnd} stopOpacity={0.9}/>
+                    <stop offset="0%" stopColor={COLORS.gradient.objectiveStart} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={COLORS.gradient.objectiveEnd} stopOpacity={0.9} />
                   </linearGradient>
                   <linearGradient id="subjectiveGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={COLORS.gradient.subjectiveStart} stopOpacity={0.8}/>
-                    <stop offset="100%" stopColor={COLORS.gradient.subjectiveEnd} stopOpacity={0.9}/>
+                    <stop offset="0%" stopColor={COLORS.gradient.subjectiveStart} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={COLORS.gradient.subjectiveEnd} stopOpacity={0.9} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis 
-                  dataKey="specialization" 
-                  stroke="#64748b" 
+                <XAxis
+                  dataKey="specialization"
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
-                <YAxis 
-                  stroke="#64748b" 
+                <YAxis
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend 
-                  wrapperStyle={{ 
+                <Legend
+                  wrapperStyle={{
                     paddingTop: 10,
                     fontSize: 12,
-                    fontWeight: 500 
+                    fontWeight: 500
                   }}
                 />
-                <Bar 
-                  dataKey="Objective" 
+                <Bar
+                  dataKey="Objective"
                   fill={COLORS.objective}
                   radius={[6, 6, 0, 0]}
                   maxBarSize={30}
                 />
-                <Bar 
-                  dataKey="Subjective" 
+                <Bar
+                  dataKey="Subjective"
                   fill={COLORS.subjective}
                   radius={[6, 6, 0, 0]}
                   maxBarSize={30}
@@ -283,10 +285,10 @@ export default function TestAnalytics() {
         <Col xs={24} lg={12}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -307,13 +309,15 @@ export default function TestAnalytics() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body: { padding: "16px" }
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <Row gutter={[16, 16]}>
               <Col xs={24} md={12}>
@@ -328,11 +332,11 @@ export default function TestAnalytics() {
                       innerRadius={50}
                       outerRadius={70}
                       paddingAngle={2}
-                      label={({ value }) => value}
+                      label={({ value }) => String(value)}
                     >
                       {pieData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
+                        <Cell
+                          key={`cell-${index}`}
                           fill={COLORS.pie[index % COLORS.pie.length]}
                           stroke="white"
                           strokeWidth={2}
@@ -346,7 +350,7 @@ export default function TestAnalytics() {
                   <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>By Role</div>
                 </div>
               </Col>
-              
+
               <Col xs={24} md={12}>
                 <ResponsiveContainer width="100%" height={180}>
                   <AreaChart data={monthlyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -354,19 +358,19 @@ export default function TestAnalytics() {
                     <XAxis dataKey="month" stroke="#64748b" fontSize={10} />
                     <YAxis stroke="#64748b" fontSize={10} />
                     <Tooltip />
-                    <Area 
-                      type="monotone" 
-                      dataKey="Objective" 
+                    <Area
+                      type="monotone"
+                      dataKey="Objective"
                       stackId="1"
-                      stroke="#4f46e5" 
+                      stroke="#4f46e5"
                       fill="url(#objectiveGradient)"
                       fillOpacity={0.6}
                     />
-                    <Area 
-                      type="monotone" 
-                      dataKey="Subjective" 
+                    <Area
+                      type="monotone"
+                      dataKey="Subjective"
                       stackId="1"
-                      stroke="#10b981" 
+                      stroke="#10b981"
                       fill="url(#subjectiveGradient)"
                       fillOpacity={0.6}
                     />
@@ -377,7 +381,7 @@ export default function TestAnalytics() {
                 </div>
               </Col>
             </Row>
-            
+
             {/* Legend */}
             <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 16 }}>
               {pieData.map((entry, index) => (
