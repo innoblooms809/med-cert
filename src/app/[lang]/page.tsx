@@ -1,14 +1,16 @@
 // import LoginForm from "@/components/LoginForm";
-// import { getDictionary } from "../[lang]/dictionaries";
+import { getDictionary } from "../[lang]/dictionaries";
 // import Contact from "@/components/contact";
 import Hero from "@/components/hero";
 import DentistSection from "@/components/courseSection/dentist";
 import Gynecologist from "@/components/courseSection/gyno";
 import Ayurved from "@/components/courseSection/ayurveda";
-import Dermatologist from "@/components/courseSection/dermatologist";
-import ENTSpecialist from "@/components/courseSection/entSpecialist";
-import GeneralPhysician from "@/components/courseSection/generalPhysician";
-import Homeopath from "@/components/courseSection/homeopath";
+// import Dermatologist from "@/components/courseSection/dermatologist";
+// import ENTSpecialist from "@/components/courseSection/entSpecialist";
+// import GeneralPhysician from "@/components/courseSection/generalPhysician";
+// import Homeopath from "@/components/courseSection/homeopath";
+import CoursesSection from "@/components/courseSection/CourseSection";
+import ReviewCarousel from "@/components/reviewSection";
 
 
 // export type PageProps = {
@@ -18,13 +20,15 @@ import Homeopath from "@/components/courseSection/homeopath";
 // };
 
 
-export default async function Page() {
-  // { params,}: any
-  //  const {lang} = await params;                                                                                                                                                                 
-  //  const dict = await getDictionary(lang); 
+export default async function Page({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
+  
+  const {lang} = await params;
+  const dict = await getDictionary(lang); 
+  
   return (
     <>
-      <Hero/>
+      <Hero dict={dict} lang={lang}/>
+      <CoursesSection/>
       <section id="dentist" className="max-w-8xl mx-auto">
         <DentistSection/>
       </section>
@@ -34,7 +38,7 @@ export default async function Page() {
       <section id="ayurveda" className="max-w-8xl mx-auto">
         <Ayurved/>
       </section>
-      <section id="dermatologist" className="max-w-8xl mx-auto">
+      {/* <section id="dermatologist" className="max-w-8xl mx-auto">
         <Dermatologist/>
       </section>
       <section id="ent-Specialist" className="max-w-8xl mx-auto">
@@ -45,7 +49,8 @@ export default async function Page() {
       </section>
       <section id="homoeopath" className="max-w-8xl mx-auto">
         <Homeopath/>
-      </section>
+      </section> */}
+      <ReviewCarousel dict={dict}/>
     </>
   );
 }

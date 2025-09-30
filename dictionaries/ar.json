@@ -24,24 +24,157 @@
       "admin": "مرحباً بك أيها المسؤول",
       "facility": "مرحباً بك في Med-compliance"
     }
-  }, 
+  },
   "dashboard": {
     "user": {
-        "welcome": "مرحبًا بك في لوحة التحكم الخاصة بك",
-        "logout": "تسجيل خروج",
-        "enrolledCourses": "الدورات المسجلة",
-        "lecturesWatched": "المحاضرات التي تمت مشاهدتها",
-        "submissions": "التسليمات الخاصة بي",
-        "testSeries": "سلسلة الاختبارات",
-        "score": "النتيجة",
-        "activity": "النشاط",
-        "quiz": "اختبار قصير",
-        "submission": "تسليم",
-        "courses": "الدورات",
-        "recommendedCourses": "الدورات الموصى بها",
-        "view": "عرض",
-        "close": "إغلاق",
-        "enrollNow": "سجل الآن"
+      "welcome": "مرحبًا بك في لوحة التحكم الخاصة بك",
+      "logout": "تسجيل خروج",
+      "enrolledCourses": "الدورات المسجلة",
+      "lecturesWatched": "المحاضرات التي تمت مشاهدتها",
+      "submissions": "التسليمات الخاصة بي",
+      "testSeries": "سلسلة الاختبارات",
+      "score": "النتيجة",
+      "activity": "النشاط",
+      "quiz": "اختبار قصير",
+      "submission": "تسليم",
+      "courses": "الدورات",
+      "recommendedCourses": "الدورات الموصى بها",
+      "view": "عرض",
+      "close": "إغلاق",
+      "enrollNow": "سجل الآن"
     }
+  },
+  "footer": {
+    "company": "الشركة",
+    "resources": "الموارد",
+    "legal": "قانوني",
+    "links": {
+      "medCertBusiness": "أعمال Med-Cert",
+      "teach": "التدريس على Med-Cert",
+      "app": "احصل على التطبيق",
+      "about": "معلومات عنا",
+      "contact": "اتصل بنا",
+      "careers": "الوظائف",
+      "blog": "المدونة",
+      "help": "المساعدة والدعم",
+      "affiliate": "برنامج الشركاء",
+      "investors": "المستثمرون",
+      "terms": "الشروط",
+      "privacy": "سياسة الخصوصية",
+      "cookies": "إعدادات ملفات تعريف الارتباط",
+      "sitemap": "خريطة الموقع",
+      "accessibility": "بيان سهولة الاستخدام"
+    },
+    "language": {
+      "en": "الإنجليزية",
+      "ar": "العربية"
+    },
+    "copyright": "© {year} Med-Cert, Inc."
+  },
+  "reviewSection": {
+    "title": "آراء المستخدمين",
+    "reviews": [
+      {
+        "id": 1,
+        "name": "زايد",
+        "image": "https://randomuser.me/api/portraits/men/32.jpg",
+        "review": "هذا المنصة رائعة! واجهة المستخدم نظيفة وسهلة الاستخدام. أوصي بها بشدة."
+      },
+      {
+        "id": 2,
+        "name": "أمينة",
+        "image": "https://randomuser.me/api/portraits/women/44.jpg",
+        "review": "استمتعت حقًا بالمميزات. كان إنشاء الاختبارات سلسًا وسريعًا."
+      },
+      {
+        "id": 3,
+        "name": "مالك",
+        "image": "https://randomuser.me/api/portraits/men/65.jpg",
+        "review": "تجربة رائعة بشكل عام. فريق الدعم كان سريعًا في الرد على استفساراتي."
+      }
+    ]
+  },
+  "navbar": {
+    "categories": "الفئات",
+    "searchPlaceholder": "ابحث عن الدورات...",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "cart": "عربة التسوق",
+    "Dentist": "طبيب أسنان",
+    "Gynecologist": "طبيبة نسائية / طبيب نسائية",
+    "GeneralPhysician": "طبيب عام",
+    "Dermatologist": "طبيب جلدية",
+    "ENTSpecialist": "أخصائي أنف وأذن وحنجرة",
+    "Homoeopath": "طبيب المعالجة المثلية",
+    "Ayurveda": "طب الأيورفيدا"
+  },
+  "hero": {
+    "title": "تعلم",
+    "highlight": "مهارات الرعاية الصحية",
+    "subtitle": "الوصول إلى دورات مهنية مصممة للأطباء والممرضين. طوّر مسيرتك المهنية بالشهادات والتعلم الواقعي.",
+    "stats": { "count": "٥٠٠+", "courses": "دورات متاحة" },
+    "trending": "المجالات الرائجة",
+    "domains": {
+      "dentist": "طبيب أسنان",
+      "gynecologist": "طبيب نساء وتوليد",
+      "physician": "طبيب عام",
+      "dermatologist": "طبيب جلدية",
+      "ent": "أخصائي أنف وأذن وحنجرة",
+      "homoeopath": "طبيب هوميوپاثي",
+      "ayurveda": "طب أيورفيدا"
+    }
+  },
+  "signup": {
+    "createAccount": "إنشاء حساب",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "role": "الدور",
+    "specialization": "التخصص",
+    "uploadLicense": "تحميل الترخيص",
+    "hospital": "المستشفى",
+    "signUp": "تسجيل",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "login": "تسجيل الدخول",
+
+    "doctor": "طبيب",
+    "nurse": "ممرضة",
+
+    "specializations": {
+      "cardiologist": "طبيب قلب",
+      "dermatologist": "طبيب جلدية",
+      "gynecologist": "طبيب نساء",
+      "pediatrician": "طبيب أطفال",
+      "orthopedic": "طبيب عظام",
+      "neurologist": "طبيب أعصاب",
+      "surgicalNurse": "ممرضة جراحة",
+      "icuNurse": "ممرضة عناية مركزة",
+      "pediatricNurse": "ممرضة أطفال",
+      "erNurse": "ممرضة طوارئ",
+      "oncologyNurse": "ممرضة أورام"
+    },
+
+    "requiredFirstName": "الرجاء إدخال الاسم الأول",
+    "requiredLastName": "الرجاء إدخال اسم العائلة",
+    "requiredEmail": "الرجاء إدخال البريد الإلكتروني",
+    "validEmail": "الرجاء إدخال بريد إلكتروني صحيح",
+    "requiredPassword": "الرجاء إدخال كلمة المرور",
+    "requiredConfirmPassword": "الرجاء تأكيد كلمة المرور",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "requiredRole": "الرجاء اختيار الدور",
+    "requiredSpecialization": "الرجاء اختيار التخصص",
+    "requiredLicense": "الرجاء تحميل الترخيص",
+    "requiredHospital": "الرجاء إدخال اسم المستشفى",
+
+    "firstNamePlaceholder": "محمد",
+    "lastNamePlaceholder": "أحمد",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "confirmPasswordPlaceholder": "أعد إدخال كلمة المرور",
+    "specializationPlaceholder": "اختر التخصص",
+    "uploadLicenseBtn": "تحميل الترخيص",
+    "hospitalPlaceholder": "اسم المستشفى",
+    "successMessage": "تم التسجيل بنجاح!"
   }
 }

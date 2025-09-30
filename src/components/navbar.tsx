@@ -1,54 +1,73 @@
 "use client";
 import React, { useState } from "react";
-import { Drawer, Dropdown, Badge, MenuProps } from "antd";
+import { Drawer, Dropdown, Badge, MenuProps, Input, Button } from "antd";
 import {
   MenuOutlined,
   SearchOutlined,
   ShoppingCartOutlined,
   CloseOutlined,
   DownOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "./cartContext";
 import logo from "../../public/images/med-cert-logo.jpg";
 
+type Lang = "en" | "ar";
+
 interface NavBarProps {
-  dict: any;
-  lang: string;
+  dict: {
+    navbar: {
+      categories: string;
+      searchPlaceholder: string;
+      login: string;
+      signup: string;
+      cart: string;
+      Dentist:string,
+      Gynecologist:string,
+      GeneralPhysician:string,
+      Dermatologist:string,
+      ENTSpecialist:string,
+      Homoeopath:string,
+      Ayurveda:string,
+    };
+  };
+  lang: Lang;
 }
 
 export default function NavBar({ dict, lang }: NavBarProps) {
   const { cartItems } = useCart();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const categoriesItems: MenuProps["items"] = [
-    { key: "dentist", label: <Link href="#courses">Dentist</Link> },
-    { key: "gynecologist", label: <Link href="#courses">Gynecologist</Link> },
-    { key: "physician", label: <Link href="#courses">General Physician</Link> },
-    { key: "dermatologist", label: <Link href="#courses">Dermatologist</Link> },
-    { key: "ent", label: <Link href="#courses">ENT Specialist</Link> },
-    { key: "homoeopath", label: <Link href="#courses">Homoeopath</Link> },
-    { key: "ayurveda", label: <Link href="#courses">Ayurveda</Link> },
+    { key: "dentist", label: <Link href="#courses">{dict.navbar.Dentist}</Link> },
+    { key: "gynecologist", label: <Link href="#courses">{dict.navbar.Gynecologist}</Link> },
+    { key: "physician", label: <Link href="#courses">{dict.navbar.GeneralPhysician}</Link> },
+    { key: "dermatologist", label: <Link href="#courses">{dict.navbar.Dermatologist}</Link> },
+    { key: "ent", label: <Link href="#courses">{dict.navbar.ENTSpecialist}</Link> },
+    { key: "homoeopath", label: <Link href="#courses">{dict.navbar.Homoeopath}</Link> },
+    { key: "ayurveda", label: <Link href="#courses">{dict.navbar.Ayurveda}</Link> },
   ];
 
   const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
-    { label: <Link href="#courses">Categories</Link>, key: "categories" },
-    { label: <Link href="/mockquiz">Get Certified</Link>, key: "certified" },
-    { label: <Link href="/login">Log in</Link>, key: "login" },
-    { label: <Link href="/signup">Sign up</Link>, key: "signup" },
+    { label: <Link href="#courses">{dict.navbar.categories}</Link>, key: "categories" },
+    { label: <Link href={`/${lang}/auth/login`}>{dict.navbar.login}</Link>, key: "login" },
+    { label: <Link href={`/${lang}/auth/signUp`}>{dict.navbar.signup}</Link>, key: "signup" },
   ];
+
+  // Toggle language
+  const switchLang = lang === "en" ? "ar" : "en";
 
   return (
     <>
       <nav className="shadow-md py-2 px-4 z-50 bg-white sticky top-0">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           {/* Left Section: Hamburger + Logo */}
           <div className="flex items-center gap-2">
-            {/* Hamburger (mobile only) */}
             <button
               type="button"
               onClick={toggleSidebar}
@@ -58,7 +77,6 @@ export default function NavBar({ dict, lang }: NavBarProps) {
               <MenuOutlined className="text-lg" />
             </button>
 
-            {/* Logo */}
             <Link href="/">
               <Image
                 src={logo}
@@ -69,7 +87,8 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                 priority
               />
             </Link>
-            {/* Middle Section: Categories dropdown (desktop only) */}
+
+            {/* Categories dropdown (desktop only) */}
             <div className="hidden md:flex">
               <Dropdown
                 menu={{ items: categoriesItems }}
@@ -80,29 +99,25 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                   type="button"
                   className="px-3 py-2 flex items-center text-base hover:text-blue-600 transition-colors"
                 >
-                  Categories <DownOutlined className="ml-1" />
+                  {dict.navbar.categories} <DownOutlined className="ml-1" />
                 </button>
               </Dropdown>
             </div>
           </div>
 
-          {/* Right Section: Actions */}
+          {/* Middle Section: Search bar */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <Input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={dict.navbar.searchPlaceholder}
+              prefix={<SearchOutlined />}
+              className="max-w-md rounded-md"
+            />
+          </div>
+
+          {/* Right Section */}
           <div className="flex items-center gap-3">
-            {/* Search (mobile) */}
-            <button type="button" className="md:hidden p-2" aria-label="Search">
-              <SearchOutlined className="text-lg" />
-            </button>
-
-            {/* Get Certified (desktop) */}
-            <Link
-              href="/mockquiz"
-              className="hidden lg:inline-block rounded font-medium bg-white hover:bg-gray-900 hover:text-white transition-all"
-            >
-              <button type="button" className="px-4 py-2 font-semibold text-sm">
-                Get Certified
-              </button>
-            </Link>
-
             {/* Cart */}
             <Link href={`/${lang}/cart`}>
               <Badge
@@ -110,33 +125,40 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                 size="small"
                 style={{ backgroundColor: "red" }}
                 offset={[-5, 5]}
-                showZero={false}
+                showZero={false} 
               >
                 <ShoppingCartOutlined className="text-xl cursor-pointer" />
               </Badge>
             </Link>
 
-            {/* Login Button - Tablet+ */}
-            {/* Login Button - Tablet+ */}
+            {/* Language Switch */}
+            <Link href={`/${switchLang}`}>
+              <Button
+                icon={<GlobalOutlined />}
+                className="!border !border-gray-400 !bg-transparent !text-gray-700 hover:!bg-gray-100"
+              >
+                {lang === "en" ? "عربي" : "English"}
+              </Button>
+            </Link>
+
+            {/* Auth links (desktop only) */}
             <li className="hidden md:flex">
               <Link href={`/${lang}/auth/login`}>
                 <button
                   type="button"
                   className="border border-black font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-50 transition-colors"
                 >
-                  Log in
+                  {dict.navbar.login}
                 </button>
               </Link>
             </li>
-
-            {/* Signup Button - Tablet+ */}
             <li className="hidden md:flex">
-              <Link href={`/${lang}/auth/signup`}>
+              <Link href={`/${lang}/auth/signUp`}>
                 <button
                   type="button"
                   className="bg-black text-white font-bold text-base px-3 py-1.5 cursor-pointer hover:bg-gray-800 transition-colors"
                 >
-                  Sign up
+                  {dict.navbar.signup}
                 </button>
               </Link>
             </li>
@@ -144,7 +166,7 @@ export default function NavBar({ dict, lang }: NavBarProps) {
         </div>
       </nav>
 
-      {/* Mobile Sidebar Drawer */}
+      {/* Mobile Sidebar */}
       <Drawer
         title="Menu"
         placement="left"

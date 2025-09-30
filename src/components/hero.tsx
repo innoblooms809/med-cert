@@ -2,55 +2,115 @@
 
 import { Carousel } from "antd";
 import Image from "next/image";
-import hero1 from '../../public/images/hero1.jpg'
-import hero2 from '../../public/images/hero2.jpg'
-import hero3 from '../../public/images/hero3.png'
-import { 
-  MedicineBoxOutlined, 
-  WomanOutlined, 
-  UserOutlined, 
-  SkinOutlined, 
-  SoundOutlined, 
-  ExperimentOutlined, 
-  BranchesOutlined 
+import hero1 from "../../public/images/hero1.jpg";
+import hero2 from "../../public/images/hero2.jpg";
+import hero3 from "../../public/images/hero3.png";
+import {
+  MedicineBoxOutlined,
+  WomanOutlined,
+  UserOutlined,
+  SkinOutlined,
+  SoundOutlined,
+  ExperimentOutlined,
+  BranchesOutlined,
 } from "@ant-design/icons";
-const domains = [
-  { icon: <MedicineBoxOutlined />, label: "Dentist", color: "bg-yellow-100 text-yellow-700", link:"#dentist" },
-  { icon: <WomanOutlined />, label: "Gynecologist", color: "bg-green-100 text-green-700", link:"#gynecologist" },
-  { icon: <UserOutlined />, label: "General Physician", color: "bg-red-100 text-red-700", link:"#general-physician" },
-  { icon: <SkinOutlined />, label: "Dermatologist", color: "bg-purple-100 text-purple-700", link:"#dermatologist" },
-  { icon: <SoundOutlined />, label: "ent-Specialist", color: "bg-blue-100 text-blue-700", link:"#ent-Specialist" },
-  { icon: <ExperimentOutlined />, label: "Homoeopath", color: "bg-orange-100 text-orange-700", link:"#homoeopath" },
-  { icon: <BranchesOutlined />, label: "Ayurveda", color: "bg-orange-100 text-orange-700", link:"#ayurveda" },
-];
 
-export default function Hero() {
+type Lang = "en" | "ar";
+
+interface HeroProps {
+  dict: {
+    hero: {
+      title: string;
+      highlight: string;
+      subtitle: string;
+      stats: { courses: string; count: string };
+      trending: string;
+      domains: {
+        dentist: string;
+        gynecologist: string;
+        physician: string;
+        dermatologist: string;
+        ent: string;
+        homoeopath: string;
+        ayurveda: string;
+      };
+    };
+  };
+  lang: Lang;
+}
+
+export default function Hero({ dict, lang }: HeroProps) {
+  const domains = [
+    {
+      icon: <MedicineBoxOutlined />,
+      label: dict.hero.domains.dentist,
+      color: "bg-yellow-100 text-yellow-700",
+      link: "#dentist",
+    },
+    {
+      icon: <WomanOutlined />,
+      label: dict.hero.domains.gynecologist,
+      color: "bg-green-100 text-green-700",
+      link: "#gynecologist",
+    },
+    {
+      icon: <UserOutlined />,
+      label: dict.hero.domains.physician,
+      color: "bg-red-100 text-red-700",
+      link: "#general-physician",
+    },
+    {
+      icon: <SkinOutlined />,
+      label: dict.hero.domains.dermatologist,
+      color: "bg-purple-100 text-purple-700",
+      link: "#dermatologist",
+    },
+    {
+      icon: <SoundOutlined />,
+      label: dict.hero.domains.ent,
+      color: "bg-blue-100 text-blue-700",
+      link: "#ent-specialist",
+    },
+    {
+      icon: <ExperimentOutlined />,
+      label: dict.hero.domains.homoeopath,
+      color: "bg-orange-100 text-orange-700",
+      link: "#homoeopath",
+    },
+    {
+      icon: <BranchesOutlined />,
+      label: dict.hero.domains.ayurveda,
+      color: "bg-orange-100 text-orange-700",
+      link: "#ayurveda",
+    },
+  ];
+
   return (
     <>
       <section className="flex flex-col md:flex-row items-center justify-center gap-10 px-6 md:px-12 lg:px-20 pt-12 bg-[var(--section-bg-2)] text-[var(--section-text)]">
         {/* Left Side */}
         <div className="flex-1 max-w-xl space-y-6 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
-            Learn{" "}
-            <span className="text-[var(--section-primary)]">Healthcare Skills</span>{" "}
-            That Matter
+            {dict.hero.title}{" "}
+            <span className="text-[var(--section-primary)]">
+              {dict.hero.highlight}
+            </span>
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Access professional courses designed for doctors and nurses. Upgrade
-            your career with certifications and real-world learning.
+            {dict.hero.subtitle}
           </p>
           {/* Stats */}
           <div className="flex justify-center md:justify-start gap-8 mt-6">
             <div className="text-center">
               <h3 className="text-2xl font-bold text-[var(--section-primary)]">
-                500+
+                {dict.hero.stats.count}
               </h3>
-              <p className="text-sm">Courses Available</p>
+              <p className="text-sm">{dict.hero.stats.courses}</p>
             </div>
-            {/* More stats can be added here */}
           </div>
         </div>
-        {/* Right Side - Ant Design Carousel */}
+
+        {/* Right Side - Carousel */}
         <div className="flex-1 max-w-xl w-full">
           <Carousel autoplay infinite>
             <div>
@@ -84,22 +144,22 @@ export default function Hero() {
           </Carousel>
         </div>
       </section>
+
+      {/* Trending Domains */}
       <section className="flex justify-center items-center pb-12">
         <div className="mt-10">
-          <h3 className="text-lg font-semibold mb-4">Trending Domains</h3>
-          <div className="flex flex-wrap gap-4 items-center ">
+          <h3 className="text-lg font-semibold mb-4">{dict.hero.trending}</h3>
+          <div className="flex flex-wrap gap-4 items-center">
             {domains.map((domain, idx) => (
               <a href={domain.link} key={idx}>
-              <div
-                className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2 shadow-sm bg-white hover:shadow-md transition"
-              >
-                <div
-                  className={`flex items-center justify-center w-8 h-8 rounded-full ${domain.color}`}
-                >
-                  {domain.icon}
+                <div className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2 shadow-sm bg-white hover:shadow-md transition">
+                  <div
+                    className={`flex items-center justify-center w-8 h-8 rounded-full ${domain.color}`}
+                  >
+                    {domain.icon}
+                  </div>
+                  <span className="text-sm font-medium">{domain.label}</span>
                 </div>
-                <span className="text-sm font-medium">{domain.label}</span>
-              </div>
               </a>
             ))}
           </div>
