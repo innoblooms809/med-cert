@@ -44,13 +44,13 @@ export default function NavBar({ dict, lang }: NavBarProps) {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const categoriesItems: MenuProps["items"] = [
-    { key: "dentist", label: <Link href="#courses">{dict.navbar.Dentist}</Link> },
-    { key: "gynecologist", label: <Link href="#courses">{dict.navbar.Gynecologist}</Link> },
-    { key: "physician", label: <Link href="#courses">{dict.navbar.GeneralPhysician}</Link> },
-    { key: "dermatologist", label: <Link href="#courses">{dict.navbar.Dermatologist}</Link> },
-    { key: "ent", label: <Link href="#courses">{dict.navbar.ENTSpecialist}</Link> },
-    { key: "homoeopath", label: <Link href="#courses">{dict.navbar.Homoeopath}</Link> },
-    { key: "ayurveda", label: <Link href="#courses">{dict.navbar.Ayurveda}</Link> },
+    { key: "dentist", label: <Link href="/courses">{dict.navbar.Dentist}</Link> },
+    { key: "gynecologist", label: <Link href="/courses">{dict.navbar.Gynecologist}</Link> },
+    { key: "physician", label: <Link href="/courses">{dict.navbar.GeneralPhysician}</Link> },
+    { key: "dermatologist", label: <Link href="/courses">{dict.navbar.Dermatologist}</Link> },
+    { key: "ent", label: <Link href="/courses">{dict.navbar.ENTSpecialist}</Link> },
+    { key: "homoeopath", label: <Link href="/courses">{dict.navbar.Homoeopath}</Link> },
+    { key: "ayurveda", label: <Link href="/courses">{dict.navbar.Ayurveda}</Link> },
   ];
 
   const mobileMenuItems: { key: string; label: React.ReactElement }[] = [

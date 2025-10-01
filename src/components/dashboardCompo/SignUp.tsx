@@ -8,12 +8,8 @@ import { Row, Col } from "antd"; // ✅ add this
 
 const { Option } = Select;
 
-interface SignupProps {
-  dict: Dict;
-  lang: lang;
-}
 
-export default function SignupPage({ dict, lang}: SignupProps) {
+export default function SignupPage({ dict, lang}: any) {
   const [form] = Form.useForm();
   const [role, setRole] = useState<string>("doctor");
 
