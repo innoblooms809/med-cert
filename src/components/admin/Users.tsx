@@ -10,7 +10,6 @@ import {
   Table,
   Space,
   Tag,
-  Popconfirm,
   Modal,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -136,6 +135,16 @@ const DEMO_ROWS: User[] = [
   },
 ];
 
+// Define form values type
+interface UserFormValues {
+  name: string;
+  role: "Doctor" | "Nurse";
+  specialization: string;
+  register: string;
+  subscription: "Free" | "Monthly" | "Yearly" | "Premium";
+  certificate: boolean;
+  hospital: string;
+}
 
 export default function Users() {
   const [rows, setRows] = useState<User[]>(DEMO_ROWS);
@@ -143,7 +152,7 @@ export default function Users() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [form] = Form.useForm();
 
-const role = Form.useWatch("role", form) as "Doctor" | "Nurse" | undefined;
+  const role = Form.useWatch("role", form) as "Doctor" | "Nurse" | undefined;
 
   const openForm = (user?: User) => {
     if (user) {
@@ -162,7 +171,7 @@ const role = Form.useWatch("role", form) as "Doctor" | "Nurse" | undefined;
     setShowForm(false);
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: UserFormValues) => {
     if (editingUser) {
       setRows((prev) =>
         prev.map((row) => (row.id === editingUser.id ? { ...editingUser, ...values } : row))
@@ -233,7 +242,7 @@ const role = Form.useWatch("role", form) as "Doctor" | "Nurse" | undefined;
 
             <Form.Item name="specialization" label="Specialization" rules={[{ required: true }]}>
               <Select disabled={!role}>
-                {role && SPECIALIZATIONS[role].map((s:any) => (
+                {role && SPECIALIZATIONS[role].map((s: string) => (
                   <Option key={s} value={s}>{s}</Option>
                 ))}
               </Select>

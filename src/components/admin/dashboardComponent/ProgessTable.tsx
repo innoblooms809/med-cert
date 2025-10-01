@@ -110,7 +110,7 @@ export default function ProgressTable() {
       title: "🎓 Status",
       dataIndex: "certificate",
       key: "certificate",
-      render: (status: "Issued" | "Pending", record: UserProgress) => (
+      render: (status: "Issued" | "Pending") => (
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Tag
             style={{
@@ -169,11 +169,14 @@ export default function ProgressTable() {
           border: "none",
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         }}
-        headStyle={{ 
-          borderBottom: "1px solid rgba(0,0,0,0.05)", 
-          padding: "20px 24px 16px",
+        styles={{header:{
+         borderBottom: "1px solid rgba(0,0,0,0.05)", 
+          padding: "20px 24px 16px", 
+        },
+        body:{
+          padding: 0
+        }   
         }}
-        bodyStyle={{ padding: 0 }}
       >
         <Table
           columns={columns}
@@ -187,7 +190,7 @@ export default function ProgressTable() {
             }
           }}
           bordered={false}
-          rowClassName={(record, index) => "progress-table-row"}
+          // rowClassName={(record, index) => "progress-table-row"}
           style={{ 
             color: "#1e293b",
             border: "none",

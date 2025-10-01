@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Card,
-  Avatar,
   Typography,
   Button,
   Row,
@@ -33,16 +32,54 @@ import {
 } from "@ant-design/icons";
 import adminImg from "../../../public/images/admin.jpg";
 import Image from "next/image";
+import type { StaticImageData } from "next/image";
 
 const { Title, Text } = Typography;
+
+// Define interfaces for our data types
+interface ActivityItem {
+  action: string;
+  time: string;
+  type: "success" | "info" | "warning";
+}
+
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  phone: string;
+  createdAt: string;
+  lastLogin: string;
+  profileImage: StaticImageData;
+  bio: string;
+  department: string;
+  location: string;
+  permissions: string[];
+  activity: ActivityItem[];
+}
+
+interface StatData {
+  icon: React.ReactNode;
+  title: string;
+  value: number;
+  color: string;
+  change: string;
+}
+
+interface QuickAction {
+  icon: string;
+  title: string;
+  description: string;
+}
 
 function AdminProfile() {
   const router = useRouter();
   const { lang } = useParams();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const adminUser = {
+    const adminUser: User = {
       firstName: "Mohammed",
       lastName: "Al Rashid",
       email: "mohammed.alrashid@admin.com",
@@ -74,14 +111,14 @@ function AdminProfile() {
 
   if (!user) return null;
 
-  const statsData = [
+  const statsData: StatData[] = [
     { icon: <TeamOutlined />, title: "Total Users", value: 1247, color: "#4f46e5", change: "+12%" },
     { icon: <BookOutlined />, title: "Active Courses", value: 89, color: "#10b981", change: "+5%" },
     { icon: <SafetyCertificateOutlined />, title: "Certificates", value: 856, color: "#f59e0b", change: "+23%" },
     { icon: <BarChartOutlined />, title: "Tests Conducted", value: 2341, color: "#ef4444", change: "+8%" },
   ];
 
-  const quickActions = [
+  const quickActions: QuickAction[] = [
     { icon: "👥", title: "Manage Users", description: "User accounts & permissions" },
     { icon: "📊", title: "View Analytics", description: "Platform performance" },
     { icon: "⚙️", title: "Settings", description: "System configuration" },
@@ -102,7 +139,7 @@ function AdminProfile() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               marginBottom: 24,
             }}
-            bodyStyle={{ padding: 24 }}
+            styles={{body: {padding: 24} }}
           >
             <div style={{ textAlign: "center", position: "relative" }}>
               {/* Status Badge */}
@@ -255,7 +292,7 @@ function AdminProfile() {
                     border: "none",
                     boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                   }}
-                  bodyStyle={{ padding: 20 }}
+                  styles={{body: {padding: 20 }}}
                 >
                   <Statistic
                     title={
@@ -361,7 +398,7 @@ function AdminProfile() {
                           padding: "12px 8px",
                           height: "100%",
                         }}
-                        bodyStyle={{ padding: 8 }}
+                        styles={{body: {padding: 8 }}}
                       >
                         <div style={{ fontSize: 24, marginBottom: 8 }}>{action.icon}</div>
                         <Text strong style={{ display: 'block', fontSize: 12 }}>{action.title}</Text>
@@ -391,7 +428,7 @@ function AdminProfile() {
           >
             <List
               dataSource={user.activity}
-              renderItem={(item: any) => (
+              renderItem={(item: ActivityItem) => (
                 <List.Item>
                   <List.Item.Meta
                     avatar={

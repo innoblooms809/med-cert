@@ -11,7 +11,6 @@ import {
   Card,
   Typography,
   Table,
-  Space,
 } from "antd";
 
 const { Option } = Select;
@@ -30,6 +29,15 @@ interface QuizType {
   totalQuestions: string;
   marking: string;
   questions: Question[];
+}
+
+// Define form values type (excluding questions which are managed separately)
+interface QuizFormValues {
+  testType: string;
+  testFor: string;
+  specialization: string;
+  totalQuestions: string;
+  marking: string;
 }
 
 const specializations: Record<string, string[]> = {
@@ -179,7 +187,7 @@ export default function Tests() {
     setQuestions(updated);
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: QuizFormValues) => {
     const newQuiz: QuizType = { ...values, questions };
     setQuizzes([newQuiz, ...quizzes]); // prepend to list
     setQuestions([{ text: "", options: ["", "", "", ""], correct: null }]);
@@ -276,7 +284,7 @@ export default function Tests() {
                     >
                       <Select placeholder="Select Specialization" disabled={!testFor}>
                         {testFor &&
-                          specializations[testFor]?.map((spec) => (
+                          specializations[testFor]?.map((spec: string) => (
                             <Option key={spec} value={spec}>{spec}</Option>
                           ))}
                       </Select>
@@ -292,7 +300,7 @@ export default function Tests() {
               >
                 <Select placeholder="Select Total Questions">
                   {[10, 30, 50, 100].map((num) => (
-                    <Option key={num} value={num}>{num}</Option>
+                    <Option key={num} value={num.toString()}>{num}</Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -369,7 +377,7 @@ export default function Tests() {
         <Table
           columns={columns}
           dataSource={quizzes}
-          rowKey={(record: any, idx: any) => idx}
+          rowKey={(_, idx) => idx?.toString() || Math.random().toString()}
           pagination={false}
           bordered
         />

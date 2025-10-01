@@ -26,6 +26,20 @@ interface Props {
   trends?: ActionTrend[];
 }
 
+// Define types for tooltip
+interface TooltipPayloadItem {
+  dataKey: string;
+  value: number;
+  color: string;
+  payload?: Record<string, unknown>;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
 // Sample trend data
 const sampleTrends: ActionTrend[] = [
   { day: "Mon", courses: 2, quizzes: 1, users: 5 },
@@ -52,7 +66,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div style={{
@@ -65,18 +79,18 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
           fontSize: 14,
           fontWeight: 500,
         }}>
-          <p style={{ 
-            margin: "0 0 12px 0", 
-            color: "#1e293b", 
+          <p style={{
+            margin: "0 0 12px 0",
+            color: "#1e293b",
             fontWeight: 600,
             fontSize: 15
           }}>
             {label}
           </p>
-          {payload.map((entry: any, index: number) => (
-            <div key={index} style={{ 
-              display: "flex", 
-              alignItems: "center", 
+          {payload.map((entry: TooltipPayloadItem, index: number) => (
+            <div key={index} style={{
+              display: "flex",
+              alignItems: "center",
               marginBottom: 8,
               color: entry.color
             }}>
@@ -104,10 +118,10 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
         <Col xs={24} lg={16}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -128,13 +142,18 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body: {
+                padding: "16px"
+              }
+
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart
@@ -143,63 +162,63 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
               >
                 <defs>
                   <linearGradient id="coursesGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={COLORS.gradient.coursesStart} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={COLORS.gradient.coursesStart} stopOpacity={0.1}/>
+                    <stop offset="5%" stopColor={COLORS.gradient.coursesStart} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={COLORS.gradient.coursesStart} stopOpacity={0.1} />
                   </linearGradient>
                   <linearGradient id="quizzesGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={COLORS.gradient.quizzesStart} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={COLORS.gradient.quizzesStart} stopOpacity={0.1}/>
+                    <stop offset="5%" stopColor={COLORS.gradient.quizzesStart} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={COLORS.gradient.quizzesStart} stopOpacity={0.1} />
                   </linearGradient>
                   <linearGradient id="usersGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={COLORS.gradient.usersStart} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={COLORS.gradient.usersStart} stopOpacity={0.1}/>
+                    <stop offset="5%" stopColor={COLORS.gradient.usersStart} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={COLORS.gradient.usersStart} stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis 
-                  dataKey="day" 
-                  stroke="#64748b" 
+                <XAxis
+                  dataKey="day"
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
-                <YAxis 
-                  stroke="#64748b" 
+                <YAxis
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend 
+                <Legend
                   verticalAlign="top"
                   height={36}
-                  wrapperStyle={{ 
+                  wrapperStyle={{
                     paddingBottom: 10,
                     fontSize: 12,
-                    fontWeight: 500 
+                    fontWeight: 500
                   }}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="courses" 
-                  stroke={COLORS.gradient.coursesStart} 
-                  fill="url(#coursesGradient)" 
+                <Area
+                  type="monotone"
+                  dataKey="courses"
+                  stroke={COLORS.gradient.coursesStart}
+                  fill="url(#coursesGradient)"
                   strokeWidth={3}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="quizzes" 
-                  stroke={COLORS.gradient.quizzesStart} 
-                  fill="url(#quizzesGradient)" 
+                <Area
+                  type="monotone"
+                  dataKey="quizzes"
+                  stroke={COLORS.gradient.quizzesStart}
+                  fill="url(#quizzesGradient)"
                   strokeWidth={3}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="users" 
-                  stroke={COLORS.gradient.usersStart} 
-                  fill="url(#usersGradient)" 
+                <Area
+                  type="monotone"
+                  dataKey="users"
+                  stroke={COLORS.gradient.usersStart}
+                  fill="url(#usersGradient)"
                   strokeWidth={3}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
@@ -212,10 +231,10 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
         <Col xs={24} lg={8}>
           <Card
             title={
-              <div style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                fontSize: 16, 
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: 16,
                 fontWeight: 600,
                 color: "#1e293b"
               }}>
@@ -236,13 +255,16 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               height: "100%",
             }}
-            headStyle={{ 
-              borderBottom: "1px solid rgba(0,0,0,0.05)", 
-              padding: "20px 24px 16px",
-              fontSize: 16,
-              fontWeight: 600
+            styles={{
+              header: {
+                borderBottom: "1px solid rgba(0,0,0,0.05)",
+                padding: "20px 24px 16px",
+                fontSize: 16,
+                fontWeight: 600
+              },
+              body:
+                { padding: "16px" }
             }}
-            bodyStyle={{ padding: "16px" }}
           >
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
@@ -253,41 +275,41 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
                 margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                <XAxis 
-                  dataKey="day" 
-                  stroke="#64748b" 
+                <XAxis
+                  dataKey="day"
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
-                <YAxis 
-                  stroke="#64748b" 
+                <YAxis
+                  stroke="#64748b"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                 />
-                <Tooltip 
+                <Tooltip
                   formatter={(value) => [`${value} activities`, 'Total']}
                   labelFormatter={(label) => `Day: ${label}`}
                 />
-                <Bar 
-                  dataKey="total" 
+                <Bar
+                  dataKey="total"
                   fill="url(#peakGradient)"
                   radius={[6, 6, 0, 0]}
                 />
                 <defs>
                   <linearGradient id="peakGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
-                    <stop offset="100%" stopColor="#fbbf24" stopOpacity={0.9}/>
+                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8} />
+                    <stop offset="100%" stopColor="#fbbf24" stopOpacity={0.9} />
                   </linearGradient>
                 </defs>
               </BarChart>
             </ResponsiveContainer>
-            
+
             <div style={{ textAlign: "center", marginTop: 16 }}>
-              <p style={{ 
-                margin: 0, 
-                fontSize: 13, 
+              <p style={{
+                margin: 0,
+                fontSize: 13,
                 color: "#64748b",
               }}>
                 Shows total activities per day
