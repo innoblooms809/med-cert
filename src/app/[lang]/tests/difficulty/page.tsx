@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Button, Card } from "antd";
 import { useRouter } from "next/navigation";
 import {
@@ -21,11 +21,38 @@ const difficultyLevels = [
 
 export default function DifficultyPage() {
   const [level, setLevel] = useState("easy");
+  const [testInfo, setTestInfo] = useState<any>(null);
   const router = useRouter();
 
+  useEffect(() => {
+    // Get test info from sessionStorage
+    const storedTest = sessionStorage.getItem('currentTest');
+    if (storedTest) {
+      setTestInfo(JSON.parse(storedTest));
+    } else {
+      // Redirect back if no test selected
+      router.push('/tests');
+    }
+  }, [router]);
+
   const handleNext = () => {
+    // Store difficulty level
+    sessionStorage.setItem('testDifficulty', level);
     router.push("/tests/instructions");
   };
+
+  if (!testInfo) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh' 
+      }}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div
@@ -47,6 +74,18 @@ export default function DifficultyPage() {
           boxShadow: "0 12px 40px rgba(0,0,0,0.08)",
         }}
       >
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <Title level={4} style={{ color: "#666", marginBottom: 8 }}>
+            {testInfo.domain}
+          </Title>
+          <Title level={2} style={{ marginBottom: 10, fontWeight: 700 }}>
+            {testInfo.title}
+          </Title>
+          <p style={{ color: "#888", fontSize: 16 }}>
+            {testInfo.totalQuestions} questions • {testInfo.duration} minutes
+          </p>
+        </div>
+
         <Title
           level={2}
           style={{ textAlign: "center", marginBottom: 40, fontWeight: 700 }}
@@ -85,7 +124,7 @@ export default function DifficultyPage() {
                   ? "0 8px 20px rgba(22,119,255,0.15)"
                   : "0 2px 8px rgba(0,0,0,0.05)",
                 transform: level === item.key ? "scale(1.05)" : "scale(1)",
-                minWidth: 150, // smaller width to fit all cards
+                minWidth: 150,
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.03)";
