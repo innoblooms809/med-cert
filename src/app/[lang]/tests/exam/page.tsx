@@ -1,31 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert } from "antd";
+import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag } from "antd";
 import { useRouter } from "next/navigation";
-import { ClockCircleOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined } from "@ant-design/icons";
+import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
 
 const { Title, Text } = Typography;
+const { TextArea } = Input;
 
 export default function ExamPage() {
-  const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<Record<number, any>>({});
   const [timeLeft, setTimeLeft] = useState(0);
   const [testInfo, setTestInfo] = useState<any>(null);
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [answeredCount, setAnsweredCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
-    // Get test info from sessionStorage
     const storedTest = sessionStorage.getItem('currentTest');
-    if (storedTest) {
+    const storedQuestions = sessionStorage.getItem('examQuestions');
+    
+    if (storedTest && storedQuestions) {
       const test = JSON.parse(storedTest);
+      const examQuestions = JSON.parse(storedQuestions);
       setTestInfo(test);
-      setTimeLeft(test.duration * 60); // Convert minutes to seconds
-      setQuestions(test.questions || []);
+      setTimeLeft(test.duration * 60);
+      setQuestions(examQuestions);
       
-      // Load any previously saved answers
       const savedAnswers = sessionStorage.getItem('userAnswers');
       if (savedAnswers) {
         const parsedAnswers = JSON.parse(savedAnswers);
@@ -51,16 +54,22 @@ export default function ExamPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleAnswerSelect = (answer: string) => {
+  const handleAnswerSelect = (answer: any) => {
     const newAnswers = {
       ...userAnswers,
-      [currentQuestion]: answer
+      [currentQuestionIndex]: answer
     };
     setUserAnswers(newAnswers);
     setAnsweredCount(Object.keys(newAnswers).length);
-    
-    // Save answers to sessionStorage
     sessionStorage.setItem('userAnswers', JSON.stringify(newAnswers));
+  };
+
+  const handleTextAnswer = (text: string) => {
+    handleAnswerSelect({ type: 'text', value: text });
+  };
+
+  const handleCodeAnswer = (code: string) => {
+    handleAnswerSelect({ type: 'code', value: code });
   };
 
   const formatTime = (seconds: number) => {
@@ -74,9 +83,11 @@ export default function ExamPage() {
   const calculateScore = () => {
     let correct = 0;
     questions.forEach((question, index) => {
-      if (userAnswers[index + 1] === question.correctAnswer) {
+      const userAnswer = userAnswers[index];
+      if (question.type === 'mcq' && userAnswer?.value === question.answer) {
         correct++;
       }
+      // For other question types, we'd need more complex scoring logic
     });
     return correct;
   };
@@ -116,6 +127,118 @@ export default function ExamPage() {
     return userAnswers[questionIndex] ? "answered" : "unanswered";
   };
 
+  const renderQuestionContent = (question: TestQuestion) => {
+    const currentAnswer = userAnswers[currentQuestionIndex];
+
+    switch (question.type) {
+      case 'mcq':
+        return (
+          <Radio.Group
+            onChange={(e) => handleAnswerSelect({ type: 'mcq', value: e.target.value })}
+            value={currentAnswer?.value}
+            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+          >
+            {question.options?.map((opt: string, index: number) => (
+              <Radio
+                key={index}
+                value={opt}
+                style={{
+                  padding: "16px",
+                  border: "1px solid #d9d9d9",
+                  borderRadius: "8px",
+                  transition: "all 0.3s",
+                  fontSize: "16px",
+                  margin: 0
+                }}
+              >
+                {opt}
+              </Radio>
+            ))}
+          </Radio.Group>
+        );
+
+      case 'coding':
+        return (
+          <div>
+            {question.inputOutput && (
+              <Card size="small" style={{ marginBottom: 16, background: '#f8f9fa' }}>
+                <Text strong>Input/Output: </Text>
+                <Text>{question.inputOutput}</Text>
+              </Card>
+            )}
+            {question.solutionApproach && (
+              <Card size="small" style={{ marginBottom: 16, background: '#fff7e6' }}>
+                <Text strong>Solution Approach: </Text>
+                <Text>{question.solutionApproach}</Text>
+              </Card>
+            )}
+            <TextArea
+              placeholder="Write your code solution here..."
+              value={currentAnswer?.value || ''}
+              onChange={(e) => handleCodeAnswer(e.target.value)}
+              rows={12}
+              style={{ 
+                fontFamily: 'monospace',
+                fontSize: '14px'
+              }}
+            />
+          </div>
+        );
+
+      case 'theory':
+        return (
+          <TextArea
+            placeholder="Write your explanation here..."
+            value={currentAnswer?.value || ''}
+            onChange={(e) => handleTextAnswer(e.target.value)}
+            rows={8}
+            style={{ fontSize: '16px' }}
+          />
+        );
+
+      case 'output':
+        return (
+          <div>
+            {question.code && (
+              <Card size="small" style={{ marginBottom: 16, background: '#f0f5ff' }}>
+                <pre style={{ margin: 0, fontSize: '14px', fontFamily: 'monospace' }}>
+                  {question.code}
+                </pre>
+              </Card>
+            )}
+            <Input
+              placeholder="What will be the output?"
+              value={currentAnswer?.value || ''}
+              onChange={(e) => handleTextAnswer(e.target.value)}
+              style={{ fontSize: '16px' }}
+            />
+          </div>
+        );
+
+      case 'scenario':
+        return (
+          <div>
+            {question.idealSolution && (
+              <Card size="small" style={{ marginBottom: 16, background: '#f6ffed' }}>
+                <Text strong>Considerations: </Text>
+                <Text>{question.idealSolution}</Text>
+              </Card>
+            )}
+            <TextArea
+              placeholder="Describe your approach and solution..."
+              value={currentAnswer?.value || ''}
+              onChange={(e) => handleTextAnswer(e.target.value)}
+              rows={8}
+              style={{ fontSize: '16px' }}
+            />
+          </div>
+        );
+
+      default:
+        return <Text>Unsupported question type</Text>;
+    }
+  };
+
   if (!testInfo || questions.length === 0) {
     return (
       <div style={{ 
@@ -129,7 +252,7 @@ export default function ExamPage() {
     );
   }
 
-  const currentQ = questions[currentQuestion - 1];
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <Row style={{ minHeight: "100vh", background: "#fafafa" }}>
@@ -146,48 +269,38 @@ export default function ExamPage() {
           <Title level={4} style={{ color: "#666", marginBottom: 5 }}>
             {testInfo.title}
           </Title>
-          <Title level={3} style={{ marginBottom: 10 }}>
-            Question {currentQuestion} of {questions.length}
-          </Title>
-          <Text style={{ fontSize: 16, color: "#666" }}>
-            {currentQ.question}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+            <Title level={3} style={{ margin: 0 }}>
+              Question {currentQuestionIndex + 1} of {questions.length}
+            </Title>
+            <Tag color={
+              currentQuestion.difficulty === 'easy' ? 'green' : 
+              currentQuestion.difficulty === 'medium' ? 'orange' : 'red'
+            }>
+              {currentQuestion.difficulty}
+            </Tag>
+            <Tag icon={<CodeOutlined />}>
+              {getQuestionTypeDisplay(currentQuestion.type)}
+            </Tag>
+          </div>
+          <Text style={{ fontSize: 16, color: "#666", lineHeight: 1.6 }}>
+            {currentQuestion.question}
           </Text>
         </div>
 
-        <Radio.Group
-          onChange={(e) => handleAnswerSelect(e.target.value)}
-          value={userAnswers[currentQuestion]}
-          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-        >
-          {currentQ.options.map((opt: string, index: number) => (
-            <Radio
-              key={index}
-              value={opt}
-              style={{
-                padding: "16px",
-                border: "1px solid #d9d9d9",
-                borderRadius: "8px",
-                transition: "all 0.3s",
-                fontSize: "16px",
-                margin: 0
-              }}
-            >
-              {opt}
-            </Radio>
-          ))}
-        </Radio.Group>
+        {renderQuestionContent(currentQuestion)}
 
         {/* Navigation Buttons */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 30 }}>
           <Button
-            onClick={() => setCurrentQuestion(prev => Math.max(1, prev - 1))}
-            disabled={currentQuestion === 1}
+            onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+            disabled={currentQuestionIndex === 0}
           >
             Previous
           </Button>
           <Button
-            onClick={() => setCurrentQuestion(prev => Math.min(questions.length, prev + 1))}
-            disabled={currentQuestion === questions.length}
+            onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
+            disabled={currentQuestionIndex === questions.length - 1}
           >
             Next
           </Button>
@@ -245,26 +358,26 @@ export default function ExamPage() {
           </div>
 
           <Pagination
-            current={currentQuestion}
+            current={currentQuestionIndex + 1}
             total={questions.length}
             pageSize={1}
-            onChange={(page) => setCurrentQuestion(page)}
+            onChange={(page) => setCurrentQuestionIndex(page - 1)}
             style={{ margin: "15px 0" }}
           />
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
-            {questions.map((_, index) => (
+            {questions.map((question, index) => (
               <Button
-                key={index + 1}
-                type={currentQuestion === index + 1 ? "primary" : "default"}
+                key={index}
+                type={currentQuestionIndex === index ? "primary" : "default"}
                 shape="circle"
                 size="small"
-                onClick={() => setCurrentQuestion(index + 1)}
+                onClick={() => setCurrentQuestionIndex(index)}
                 style={{
-                  background: userAnswers[index + 1] ? '#52c41a' : 
-                             currentQuestion === index + 1 ? '#1890ff' : 'transparent',
-                  borderColor: userAnswers[index + 1] ? '#52c41a' : '#d9d9d9',
-                  color: userAnswers[index + 1] ? 'white' : 'inherit'
+                  background: userAnswers[index] ? '#52c41a' : 
+                             currentQuestionIndex === index ? '#1890ff' : 'transparent',
+                  borderColor: userAnswers[index] ? '#52c41a' : '#d9d9d9',
+                  color: userAnswers[index] ? 'white' : 'inherit'
                 }}
               >
                 {index + 1}

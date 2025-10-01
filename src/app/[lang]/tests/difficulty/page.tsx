@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Typography, Button, Card } from "antd";
+import { Typography, Button, Card, Tag, Row, Col } from "antd";
 import { useRouter } from "next/navigation";
 import {
   ThunderboltOutlined,
@@ -9,34 +9,59 @@ import {
   StarOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
+import { TestQuestion, getQuestionTypeDisplay, filterQuestionsByDifficulty } from "@/utils/testData";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const difficultyLevels = [
-  { key: "novice", label: "Novice", icon: <SmileOutlined />, color: "#d9f7be", desc: "Best for absolute beginners." },
-  { key: "easy", label: "Easy", icon: <StarOutlined />, color: "#bae7ff", desc: "Light practice for quick learners." },
-  { key: "medium", label: "Medium", icon: <ThunderboltOutlined />, color: "#fff7e6", desc: "Balanced mix of challenges." },
-  { key: "expert", label: "Expert", icon: <TrophyOutlined />, color: "#ffd6d6", desc: "Difficult questions for pros." },
+  { key: "all", label: "All Levels", icon: <SmileOutlined />, color: "#d9f7be", desc: "Mix of all difficulty levels" },
+  { key: "easy", label: "Easy", icon: <StarOutlined />, color: "#bae7ff", desc: "Beginner friendly questions" },
+  { key: "medium", label: "Medium", icon: <ThunderboltOutlined />, color: "#fff7e6", desc: "Balanced mix of challenges" },
+  { key: "hard", label: "Hard", icon: <TrophyOutlined />, color: "#ffd6d6", desc: "Advanced level challenges" },
 ];
 
 export default function DifficultyPage() {
-  const [level, setLevel] = useState("easy");
+  const [level, setLevel] = useState("all");
   const [testInfo, setTestInfo] = useState<any>(null);
+  const [questionStats, setQuestionStats] = useState<{type: string, count: number}[]>([]);
+  const [difficultyStats, setDifficultyStats] = useState<{difficulty: string, count: number}[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    // Get test info from sessionStorage
     const storedTest = sessionStorage.getItem('currentTest');
     if (storedTest) {
-      setTestInfo(JSON.parse(storedTest));
+      const test = JSON.parse(storedTest);
+      setTestInfo(test);
+      
+      // Calculate question type statistics
+      const typeCounts = test.questions.reduce((acc: any, question: TestQuestion) => {
+        acc[question.type] = (acc[question.type] || 0) + 1;
+        return acc;
+      }, {});
+      
+      const stats = Object.entries(typeCounts).map(([type, count]) => ({
+        type,
+        count: count as number
+      }));
+      setQuestionStats(stats);
+
+      // Calculate difficulty statistics
+      const difficultyCounts = test.questions.reduce((acc: any, question: TestQuestion) => {
+        acc[question.difficulty] = (acc[question.difficulty] || 0) + 1;
+        return acc;
+      }, {});
+      
+      const diffStats = Object.entries(difficultyCounts).map(([difficulty, count]) => ({
+        difficulty,
+        count: count as number
+      }));
+      setDifficultyStats(diffStats);
     } else {
-      // Redirect back if no test selected
       router.push('/tests');
     }
   }, [router]);
 
   const handleNext = () => {
-    // Store difficulty level
     sessionStorage.setItem('testDifficulty', level);
     router.push("/tests/instructions");
   };
@@ -54,6 +79,10 @@ export default function DifficultyPage() {
     );
   }
 
+  const filteredQuestions = level === 'all' 
+    ? testInfo.questions 
+    : testInfo.questions.filter((q: TestQuestion) => q.difficulty === level);
+
   return (
     <div
       style={{
@@ -67,7 +96,7 @@ export default function DifficultyPage() {
     >
       <Card
         style={{
-          maxWidth: 900,
+          maxWidth: 1000,
           width: "100%",
           padding: "30px 40px",
           borderRadius: 20,
@@ -84,13 +113,44 @@ export default function DifficultyPage() {
           <p style={{ color: "#888", fontSize: 16 }}>
             {testInfo.totalQuestions} questions • {testInfo.duration} minutes
           </p>
+          
+          {/* Question Statistics */}
+          <Row gutter={16} style={{ marginTop: 20 }}>
+            <Col span={12}>
+              <div style={{ background: '#f8f9fa', padding: 15, borderRadius: 8 }}>
+                <Title level={5} style={{ marginBottom: 10 }}>Question Types</Title>
+                {questionStats.map(stat => (
+                  <div key={stat.type} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <Text>{getQuestionTypeDisplay(stat.type)}</Text>
+                    <Tag color="blue">{stat.count}</Tag>
+                  </div>
+                ))}
+              </div>
+            </Col>
+            <Col span={12}>
+              <div style={{ background: '#f8f9fa', padding: 15, borderRadius: 8 }}>
+                <Title level={5} style={{ marginBottom: 10 }}>Difficulty Levels</Title>
+                {difficultyStats.map(stat => (
+                  <div key={stat.difficulty} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <Text>{stat.difficulty.charAt(0).toUpperCase() + stat.difficulty.slice(1)}</Text>
+                    <Tag color={
+                      stat.difficulty === 'easy' ? 'green' : 
+                      stat.difficulty === 'medium' ? 'orange' : 'red'
+                    }>
+                      {stat.count}
+                    </Tag>
+                  </div>
+                ))}
+              </div>
+            </Col>
+          </Row>
         </div>
 
         <Title
           level={2}
           style={{ textAlign: "center", marginBottom: 40, fontWeight: 700 }}
         >
-          🎯 Select Your Difficulty Level
+          🎯 Select Difficulty Level
         </Title>
 
         <div
@@ -164,6 +224,32 @@ export default function DifficultyPage() {
               <div style={{ fontSize: 13, color: "#666" }}>{item.desc}</div>
             </div>
           ))}
+        </div>
+
+        {/* Selected Questions Preview */}
+        <div style={{ 
+          background: '#f8f9fa', 
+          padding: 20, 
+          borderRadius: 12, 
+          marginBottom: 30,
+          border: '1px solid #e9ecef'
+        }}>
+          <Title level={4} style={{ marginBottom: 15 }}>
+            Selected Questions: {filteredQuestions.length}
+          </Title>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {filteredQuestions.slice(0, 8).map((question: TestQuestion, index: number) => (
+              <Tag key={index} color={
+                question.difficulty === 'easy' ? 'green' : 
+                question.difficulty === 'medium' ? 'orange' : 'red'
+              }>
+                Q{index + 1}: {question.type}
+              </Tag>
+            ))}
+            {filteredQuestions.length > 8 && (
+              <Tag>+{filteredQuestions.length - 8} more</Tag>
+            )}
+          </div>
         </div>
 
         <Button

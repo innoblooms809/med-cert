@@ -1,15 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Typography, Button, Input, Row, Col } from "antd";
+import { Typography, Button, Input, Row, Col, Tag, Divider } from "antd";
 import {
   FileTextOutlined,
   QuestionCircleOutlined,
   BulbOutlined,
   ClockCircleOutlined,
   SafetyOutlined,
+  CodeOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import { TestQuestion, getQuestionTypeDisplay, filterQuestionsByDifficulty } from "@/utils/testData";
 
 const { Title, Text } = Typography;
 
@@ -18,22 +20,31 @@ export default function InstructionsPage() {
   const [inputValue, setInputValue] = useState("");
   const [testInfo, setTestInfo] = useState<any>(null);
   const [difficulty, setDifficulty] = useState("");
+  const [filteredQuestions, setFilteredQuestions] = useState<TestQuestion[]>([]);
 
   useEffect(() => {
-    // Get test info and difficulty from sessionStorage
     const storedTest = sessionStorage.getItem('currentTest');
     const storedDifficulty = sessionStorage.getItem('testDifficulty');
     
     if (storedTest) {
-      setTestInfo(JSON.parse(storedTest));
-    }
-    if (storedDifficulty) {
-      setDifficulty(storedDifficulty);
+      const test = JSON.parse(storedTest);
+      setTestInfo(test);
+      
+      if (storedDifficulty) {
+        setDifficulty(storedDifficulty);
+        const filtered = filterQuestionsByDifficulty(test.questions, storedDifficulty);
+        setFilteredQuestions(filtered);
+      } else {
+        setFilteredQuestions(test.questions);
+        setDifficulty('all');
+      }
     }
   }, []);
 
   const handleStart = () => {
     if (inputValue.toLowerCase() === "start") {
+      // Store filtered questions for the exam
+      sessionStorage.setItem('examQuestions', JSON.stringify(filteredQuestions));
       router.push("/tests/exam");
     }
   };
@@ -50,6 +61,11 @@ export default function InstructionsPage() {
       </div>
     );
   }
+
+  const questionTypeCounts = filteredQuestions.reduce((acc: any, question) => {
+    acc[question.type] = (acc[question.type] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <div
@@ -77,7 +93,7 @@ export default function InstructionsPage() {
               <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
                 <QuestionCircleOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
-                  Questions: <b>{testInfo.totalQuestions}</b>
+                  Questions: <b>{filteredQuestions.length}</b>
                 </Text>
               </div>
               <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
@@ -89,14 +105,31 @@ export default function InstructionsPage() {
               <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
                 <FileTextOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
-                  Marks: <b>{testInfo.totalQuestions}</b>
+                  Marks: <b>{filteredQuestions.length}</b>
                 </Text>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <SafetyOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
-                  Passing: <b>{Math.ceil(testInfo.totalQuestions * 0.6)} marks</b>
+                  Passing: <b>{Math.ceil(filteredQuestions.length * 0.6)} marks</b>
                 </Text>
+              </div>
+
+              {/* Question Type Breakdown */}
+              <Divider />
+              <Title level={5}>Question Types:</Title>
+              <div style={{ marginTop: 10 }}>
+                {Object.entries(questionTypeCounts).map(([type, count]) => (
+                  <div key={type} style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    marginBottom: 8,
+                    padding: '4px 0'
+                  }}>
+                    <Text>{getQuestionTypeDisplay(type)}</Text>
+                    <Tag>{count as number}</Tag>
+                  </div>
+                ))}
               </div>
             </div>
           </Col>
@@ -115,7 +148,7 @@ export default function InstructionsPage() {
                 </p>
                 <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Total Questions:</span>
-                  <span>{testInfo.totalQuestions} Multiple Choice Questions</span>
+                  <span>{filteredQuestions.length} Mixed Format Questions</span>
                 </p>
                 <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Difficulty Level:</span>
@@ -127,6 +160,17 @@ export default function InstructionsPage() {
                 </p>
                 
                 <div style={{ marginTop: 20 }}>
+                  <Title level={5} style={{ marginBottom: 10 }}>Question Formats:</Title>
+                  <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
+                    <li><strong>Coding:</strong> Write code solutions with explanations</li>
+                    <li><strong>Multiple Choice:</strong> Select the correct answer</li>
+                    <li><strong>Theory:</strong> Explain concepts in your own words</li>
+                    <li><strong>Output Prediction:</strong> Predict code output</li>
+                    <li><strong>Scenario Based:</strong> Solve real-world problems</li>
+                  </ul>
+                </div>
+
+                <div style={{ marginTop: 20 }}>
                   <Title level={5} style={{ marginBottom: 10 }}>Important Guidelines:</Title>
                   <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
                     <li>Do not close the browser window or tab during the test</li>
@@ -135,6 +179,7 @@ export default function InstructionsPage() {
                     <li>All questions are mandatory</li>
                     <li>Test will auto-submit when time expires</li>
                     <li>No negative marking for wrong answers</li>
+                    <li>For coding questions, focus on both correctness and approach</li>
                   </ul>
                 </div>
               </div>

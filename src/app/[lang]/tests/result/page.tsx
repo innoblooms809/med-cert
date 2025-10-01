@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Button, Progress, Divider, Collapse, Tag, Statistic } from "antd";
+import { Card, Row, Col, Typography, Button, Progress, Divider, Collapse, Tag, Statistic, Alert } from "antd";
 import { useRouter } from "next/navigation";
 import {
   TrophyOutlined,
@@ -11,8 +11,10 @@ import {
   HomeOutlined,
   ReloadOutlined,
   StarOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  CodeOutlined
 } from "@ant-design/icons";
+import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -70,12 +72,151 @@ export default function ResultPage() {
   };
 
   const getQuestionStatus = (questionIndex: number) => {
-    const userAnswer = userAnswers[questionIndex + 1];
-    const correctAnswer = questions[questionIndex].correctAnswer;
+    const userAnswer = userAnswers[questionIndex];
+    const question = questions[questionIndex];
     
     if (!userAnswer) return { status: 'unattempted', color: 'default' };
-    if (userAnswer === correctAnswer) return { status: 'correct', color: 'success' };
-    return { status: 'incorrect', color: 'error' };
+    
+    if (question.type === 'mcq') {
+      const isCorrect = userAnswer.value === question.answer;
+      return { 
+        status: isCorrect ? 'correct' : 'incorrect', 
+        color: isCorrect ? 'success' : 'error' 
+      };
+    }
+    
+    return { status: 'attempted', color: 'processing' };
+  };
+
+  const renderQuestionReview = (question: TestQuestion, index: number) => {
+    const userAnswer = userAnswers[index];
+    const status = getQuestionStatus(index);
+
+    return (
+      <Panel 
+        key={index}
+        header={
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>
+              <strong>Question {index + 1}:</strong> {question.question}
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Tag>{getQuestionTypeDisplay(question.type)}</Tag>
+              <Tag color={status.color}>
+                {status.status === 'correct' && '✓ Correct'}
+                {status.status === 'incorrect' && '✗ Incorrect'}
+                {status.status === 'attempted' && '✓ Attempted'}
+                {status.status === 'unattempted' && '○ Unattempted'}
+              </Tag>
+            </div>
+          </div>
+        }
+      >
+        <div style={{ padding: '10px 0' }}>
+          {/* User's Answer */}
+          <div style={{ marginBottom: 15 }}>
+            <strong>Your Answer:</strong>
+            <div style={{ 
+              background: '#f8f9fa', 
+              padding: 12, 
+              borderRadius: 6, 
+              marginTop: 8,
+              border: '1px solid #e9ecef'
+            }}>
+              {userAnswer ? (
+                question.type === 'coding' ? (
+                  <pre style={{ margin: 0, fontSize: '14px' }}>{userAnswer.value}</pre>
+                ) : (
+                  <Text>{userAnswer.value}</Text>
+                )
+              ) : (
+                <Text type="secondary">Not attempted</Text>
+              )}
+            </div>
+          </div>
+
+          {/* Correct Answer (for MCQ) */}
+          {question.type === 'mcq' && question.answer && (
+            <div style={{ marginBottom: 15 }}>
+              <strong>Correct Answer:</strong>
+              <div style={{ 
+                background: '#f6ffed', 
+                padding: 12, 
+                borderRadius: 6, 
+                marginTop: 8,
+                border: '1px solid #b7eb8f'
+              }}>
+                <Text>{question.answer}</Text>
+              </div>
+            </div>
+          )}
+
+          {/* Explanation */}
+          {question.explanation && (
+            <div style={{ marginBottom: 15 }}>
+              <strong>Explanation:</strong>
+              <div style={{ marginTop: 8 }}>
+                <Text>{question.explanation}</Text>
+              </div>
+            </div>
+          )}
+
+          {/* Sample Solution for Coding */}
+          {question.sampleSolution && (
+            <div style={{ marginBottom: 15 }}>
+              <strong>Sample Solution:</strong>
+              <div style={{ 
+                background: '#f0f5ff', 
+                padding: 12, 
+                borderRadius: 6, 
+                marginTop: 8 
+              }}>
+                <pre style={{ margin: 0, fontSize: '14px' }}>{question.sampleSolution}</pre>
+              </div>
+            </div>
+          )}
+
+          {/* Expected Output */}
+          {question.expectedOutput && (
+            <div style={{ marginBottom: 15 }}>
+              <strong>Expected Output:</strong>
+              <div style={{ 
+                background: '#fff7e6', 
+                padding: 12, 
+                borderRadius: 6, 
+                marginTop: 8 
+              }}>
+                <pre style={{ margin: 0, fontSize: '14px' }}>{question.expectedOutput}</pre>
+              </div>
+            </div>
+          )}
+
+          {/* Ideal Solution for Scenario */}
+          {question.idealSolution && (
+            <div style={{ marginBottom: 15 }}>
+              <strong>Ideal Solution Approach:</strong>
+              <div style={{ marginTop: 8 }}>
+                <Text>{question.idealSolution}</Text>
+              </div>
+            </div>
+          )}
+
+          {/* Key Considerations */}
+          {question.keyConsiderations && (
+            <div>
+              <strong>Key Considerations:</strong>
+              <ul style={{ marginTop: 8, marginBottom: 0 }}>
+                {question.keyConsiderations.map((consideration: string, idx: number) => (
+                  <li key={idx} style={{ marginBottom: 4 }}>
+                    <Text>{consideration}</Text>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </Panel>
+    );
   };
 
   return (
@@ -108,15 +249,11 @@ export default function ResultPage() {
               {testInfo.title} • {testInfo.domain}
             </Text>
             {autoSubmitted && (
-              <div style={{ 
-                marginTop: 10,
-                padding: "8px 16px",
-                background: "rgba(255,255,255,0.2)",
-                borderRadius: 20,
-                display: "inline-block"
-              }}>
-                Auto-submitted when time expired
-              </div>
+              <Alert
+                message="Test was auto-submitted when time expired"
+                type="warning"
+                style={{ marginTop: 15, background: 'rgba(255,255,255,0.2)', border: 'none' }}
+              />
             )}
           </div>
 
@@ -258,62 +395,13 @@ export default function ResultPage() {
             <div style={{ marginTop: 30 }}>
               <Title level={3}>Detailed Question Review</Title>
               <Text style={{ color: "#666", fontSize: 16, display: 'block', marginBottom: 20 }}>
-                Review your answers and learn from your mistakes
+                Review your answers and learn from detailed explanations
               </Text>
 
               <Collapse accordion>
-                {questions.map((question: any, index: number) => {
-                  const questionNumber = index + 1;
-                  const userAnswer = userAnswers[questionNumber];
-                  const isCorrect = userAnswer === question.correctAnswer;
-                  const status = getQuestionStatus(index);
-                  
-                  return (
-                    <Panel 
-                      key={questionNumber}
-                      header={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <span>
-                            <strong>Question {questionNumber}:</strong> {question.question}
-                          </span>
-                          <Tag color={status.color}>
-                            {status.status === 'correct' && '✓ Correct'}
-                            {status.status === 'incorrect' && '✗ Incorrect'}
-                            {status.status === 'unattempted' && '○ Unattempted'}
-                          </Tag>
-                        </div>
-                      }
-                    >
-                      <div style={{ padding: '10px 0' }}>
-                        <div style={{ marginBottom: 15 }}>
-                          <strong>Your Answer:</strong>{' '}
-                          <span style={{ 
-                            color: isCorrect ? '#52c41a' : 
-                                   userAnswer ? '#f5222d' : '#faad14'
-                          }}>
-                            {userAnswer || 'Not attempted'}
-                          </span>
-                        </div>
-                        
-                        {!isCorrect && userAnswer && (
-                          <div style={{ marginBottom: 15 }}>
-                            <strong>Correct Answer:</strong>{' '}
-                            <span style={{ color: '#52c41a' }}>
-                              {question.correctAnswer}
-                            </span>
-                          </div>
-                        )}
-                        
-                        <div>
-                          <strong>Explanation:</strong>{' '}
-                          <span style={{ color: '#666' }}>
-                            {question.explanation}
-                          </span>
-                        </div>
-                      </div>
-                    </Panel>
-                  );
-                })}
+                {questions.map((question: TestQuestion, index: number) => 
+                  renderQuestionReview(question, index)
+                )}
               </Collapse>
             </div>
 
