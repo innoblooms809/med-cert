@@ -279,7 +279,7 @@ export default function Users() {
         </Form>
       )}
 
-      {!showForm && <Table columns={columns} dataSource={rows} rowKey="id" />}
+      {!showForm && <Table columns={columns} dataSource={rows} rowKey="id" scroll={{ x: 'max-content' }} />}
     </div>
   );
 }

@@ -380,6 +380,7 @@ export default function Tests() {
           rowKey={(_, idx) => idx?.toString() || Math.random().toString()}
           pagination={false}
           bordered
+          scroll={{ x: 'max-content' }}
         />
       )}
     </div>
