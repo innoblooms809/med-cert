@@ -1,13 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag } from "antd";
+import { useState, useEffect, useRef } from "react";
+import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag, Progress } from "antd";
 import { useRouter } from "next/navigation";
 import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined } from "@ant-design/icons";
 import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
+
+// Question type timing configuration (in seconds)
+const QUESTION_TIMINGS: Record<string, { min: number, max: number, recommended: number }> = {
+  'mcq': { min: 20, max: 30, recommended: 25 },
+  'theory': { min: 60, max: 180, recommended: 120 },
+  'output': { min: 30, max: 60, recommended: 45 },
+  'scenario': { min: 120, max: 300, recommended: 180 },
+  'coding': { min: 300, max: 420, recommended: 360 }
+};
 
 export default function ExamPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -16,6 +25,8 @@ export default function ExamPage() {
   const [testInfo, setTestInfo] = useState<any>(null);
   const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [answeredCount, setAnsweredCount] = useState(0);
+  const [questionTimeSpent, setQuestionTimeSpent] = useState<number>(0);
+  const questionStartTimeRef = useRef<number>(Date.now());
   const router = useRouter();
 
   useEffect(() => {
@@ -40,6 +51,7 @@ export default function ExamPage() {
     }
   }, [router]);
 
+  // Main timer for total test time
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((t) => {
@@ -53,6 +65,29 @@ export default function ExamPage() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // Question timer - reset when question changes and auto-move to next when time completes
+  useEffect(() => {
+    questionStartTimeRef.current = Date.now();
+    setQuestionTimeSpent(0);
+
+    const questionTimer = setInterval(() => {
+      const timeSpent = Math.floor((Date.now() - questionStartTimeRef.current) / 1000);
+      setQuestionTimeSpent(timeSpent);
+
+      // Auto move to next question when time completes
+      const currentQuestion = questions[currentQuestionIndex];
+      if (currentQuestion) {
+        const questionTiming = getQuestionTimingInfo(currentQuestion.type);
+        if (timeSpent >= questionTiming.recommended && currentQuestionIndex < questions.length - 1) {
+          // Auto move to next question
+          setCurrentQuestionIndex(prev => prev + 1);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(questionTimer);
+  }, [currentQuestionIndex, questions]); // Added questions to dependencies
 
   const handleAnswerSelect = (answer: any) => {
     const newAnswers = {
@@ -127,6 +162,24 @@ export default function ExamPage() {
     return userAnswers[questionIndex] ? "answered" : "unanswered";
   };
 
+  const getQuestionTimingInfo = (questionType: string) => {
+    return QUESTION_TIMINGS[questionType] || QUESTION_TIMINGS.mcq;
+  };
+
+  const getTimeProgressPercent = (questionType: string, timeSpent: number) => {
+    const timing = getQuestionTimingInfo(questionType);
+    return Math.min(100, (timeSpent / timing.recommended) * 100);
+  };
+
+  const getTimeColor = (questionType: string, timeSpent: number) => {
+    const timing = getQuestionTimingInfo(questionType);
+    const progressPercent = (timeSpent / timing.recommended) * 100;
+    
+    if (progressPercent < 50) return '#52c41a'; // Green
+    if (progressPercent < 80) return '#faad14'; // Orange
+    return '#f5222d'; // Red
+  };
+
   const renderQuestionContent = (question: TestQuestion) => {
     const currentAnswer = userAnswers[currentQuestionIndex];
 
@@ -161,7 +214,7 @@ export default function ExamPage() {
         return (
           <div>
             {question.inputOutput && (
-              <Card size="small" style={{ marginBottom: 16, background: '#f8f9fa' }}>
+              <Card size="small" style={{ marginBottom: 16, background: '#f0f5ff' }}>
                 <Text strong>Input/Output: </Text>
                 <Text>{question.inputOutput}</Text>
               </Card>
@@ -200,7 +253,7 @@ export default function ExamPage() {
         return (
           <div>
             {question.code && (
-              <Card size="small" style={{ marginBottom: 16, background: '#f0f5ff' }}>
+              <Card size="small" style={{ marginBottom: 16, background: '#f6ffed' }}>
                 <pre style={{ margin: 0, fontSize: '14px', fontFamily: 'monospace' }}>
                   {question.code}
                 </pre>
@@ -219,7 +272,7 @@ export default function ExamPage() {
         return (
           <div>
             {question.idealSolution && (
-              <Card size="small" style={{ marginBottom: 16, background: '#f6ffed' }}>
+              <Card size="small" style={{ marginBottom: 16, background: '#fff0f6' }}>
                 <Text strong>Considerations: </Text>
                 <Text>{question.idealSolution}</Text>
               </Card>
@@ -253,6 +306,9 @@ export default function ExamPage() {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const questionTiming = getQuestionTimingInfo(currentQuestion.type);
+  const timeProgressPercent = getTimeProgressPercent(currentQuestion.type, questionTimeSpent);
+  const timeColor = getTimeColor(currentQuestion.type, questionTimeSpent);
 
   return (
     <Row style={{ minHeight: "100vh", background: "#fafafa" }}>
@@ -288,6 +344,29 @@ export default function ExamPage() {
           </Text>
         </div>
 
+        {/* Question Time Progress */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <Text strong>Time on this question:</Text>
+            <Text style={{ color: timeColor, fontWeight: 'bold' }}>
+              {formatTime(questionTimeSpent)} / {formatTime(questionTiming.recommended)}
+            </Text>
+          </div>
+          <Progress 
+            percent={timeProgressPercent} 
+            strokeColor={timeColor}
+            showInfo={false}
+          />
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            Recommended: {questionTiming.min}-{questionTiming.max} seconds
+            {questionTimeSpent >= questionTiming.recommended && (
+              <span style={{ color: '#f5222d', fontWeight: 'bold', marginLeft: 8 }}>
+                • Time's up! Moving to next question...
+              </span>
+            )}
+          </Text>
+        </div>
+
         {renderQuestionContent(currentQuestion)}
 
         {/* Navigation Buttons */}
@@ -320,7 +399,7 @@ export default function ExamPage() {
         >
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 15 }}>
             <ClockCircleOutlined style={{ fontSize: 20, color: "#1890ff", marginRight: 10 }} />
-            <Title level={4} style={{ margin: 0 }}>Time Remaining</Title>
+            <Title level={4} style={{ margin: 0 }}>Total Time Remaining</Title>
           </div>
           <Text strong style={{ 
             fontSize: 28, 
@@ -341,6 +420,8 @@ export default function ExamPage() {
             />
           )}
         </div>
+
+        {/* Removed Question Timing Guide Panel */}
 
         <div
           style={{
