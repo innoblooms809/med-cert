@@ -75,12 +75,13 @@ export default function CoursesPage() {
       </aside>
 
       {/* Content */}
-      <main className="flex-1 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="flex-1 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((course) => (
             <Card
               key={course.id}
               hoverable
+              className="flex flex-col h-full"
               cover={
                 <img
                   src={course.img}

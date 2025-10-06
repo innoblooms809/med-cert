@@ -72,7 +72,7 @@ const Checkout: React.FC = () => {
 
     // Wait until step updates, then show OTP
     setTimeout(() => {
-        message.info(`Demo OTP: ${otp}`);
+        alert(`Demo OTP: ${otp}`);   // 👈 replaced message.info with alert
         otpRefs.current[0]?.focus();
     }, 200);
     };
@@ -114,7 +114,7 @@ const Checkout: React.FC = () => {
     setOtpError("");
 
     setTimeout(() => {
-        message.info(`New demo OTP: ${otp}`);
+        alert(`New demo OTP: ${otp}`); 
         otpRefs.current[0]?.focus();
     }, 200);
     };
@@ -166,7 +166,7 @@ const Checkout: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-indigo-100 p-4 py-8">
       {/* Payment form */}
       {step === "form" && (
-        <Card className="w-full max-w-md shadow-xl border-0" bodyStyle={{ padding: "24px" }}>
+        <Card className="w-full max-w-md shadow-xl border-0" styles={{ body:{padding: "24px"} }}>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold flex items-center gap-2">
               <CreditCardOutlined /> Payment Details

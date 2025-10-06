@@ -138,7 +138,7 @@ export default function TestsPage() {
         {trending.map((item) => (
           <Col key={item}>
             <Tag
-              onClick={() => setSelectedDomain(item)}
+              // onClick={() => setSelectedDomain(item)}
               color={selectedDomain === item ? "blue" : undefined}
               style={{
                 fontSize: 15,
@@ -286,16 +286,6 @@ export default function TestsPage() {
           ))}
         </Carousel>
       </div>
-
-      {/* Hover CSS */}
-      <style jsx global>{`
-        .start-btn:hover .anticon {
-          background: #e6f7ff;
-          border-radius: 50%;
-          transform: scale(1.2);
-          transition: all 0.3s ease;
-        }
-      `}</style>
     </div>
   );
 }

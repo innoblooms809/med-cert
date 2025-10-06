@@ -48,6 +48,7 @@ function CoursesBox({ sectionData, onAddToCart }: CoursesBoxProps) {
               type="primary"
               icon={<ShoppingCartOutlined />}
               onClick={() => onAddToCart(course)}
+              className="!bg-[var(--section-primary)] !text-white !border-none hover:!bg-purple-700 !px-4 !py-2 !rounded-md"
             >
               Add to Cart
             </Button>

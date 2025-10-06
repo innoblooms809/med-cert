@@ -32,7 +32,7 @@ export default function DentistSection() {
             </p>
           </div>
           <Link
-            href="/tests/dentist"
+            href="/courses"
             className="text-[var(--section-primary)] hover:underline text-sm flex items-center gap-1"
           >
             View all →
@@ -86,21 +86,23 @@ export default function DentistSection() {
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
                       {test.description}
                     </p>
-                    <p className="text-sm font-medium text-gray-900 ">
+                    {/* <p className="text-sm font-medium text-gray-900 ">
                       Instructor: {test.createdBy}
                     </p>
                     <p className="text-sm font-semibold text-[var(--section-primary)]">
                       ${test.price}
-                    </p>
+                    </p> */}
                   </div>
                 }/>
                 {/* Buy Now button */}
-                <button
-                  onClick={() => addToCart(test)}
-                  className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
-                >
-                  Buy Now
-                </button>
+                <Link href="/tests">
+                  <button
+                    // onClick={() => addToCart(test)}
+                    className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
+                  >
+                    Start Test
+                  </button>
+                </Link>
               </Card>
             </div>
           ))}
