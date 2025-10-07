@@ -1,14 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Layout } from "antd";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import "@/app/global.css";
+import en from "../../../../../dictionaries/en.json"
+import ar from "../../../../../dictionaries/ar.json"
 
 const { Header, Sider, Content } = Layout;
 const LOCAL_STORAGE_KEY = "medCert";
-
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children, params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }> | { lang: string };
+}) {
+  const resolvedParams = typeof params === "object" && "then" in params ? use(params) : params;
+  const lang = resolvedParams?.lang || "en";
+  const dict = lang === "ar" ? ar : en;
   const [collapsed, setCollapsed] = useState(false);
   const [role, setRole] = useState<"admin" | "user">("admin"); // default to admin
 
@@ -24,6 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, []);
 
   const themeClass = `${role}-theme`;
+  console.log("LANG:", lang, "DICT:", dict);
 
   return (
     <Layout className={themeClass} style={{ minHeight: "100vh" }}>
@@ -38,12 +48,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           background: "var(--sidebar-bg)",
           height: "100vh",
           position: "fixed",
-          left: 0,
+          left: lang === "ar" ? "auto" : 0,
+          right: lang === "ar" ? 0 : "auto",
           top: 0,
           bottom: 0,
           zIndex: 1000,
           overflow: "hidden",
-          
+
         }}
       >
         <div
@@ -53,13 +64,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             overflowX: "hidden",
           }}
         >
-          <AdminSidebar collapsed={collapsed} />
+          <AdminSidebar collapsed={collapsed} dict={dict} lang={lang} />
         </div>
       </Sider>
 
       <Layout
         style={{
-          marginLeft: collapsed ? 80 : 250,
+          marginLeft: lang === "ar" ? 0 : collapsed ? 80 : 250,
+          marginRight: lang === "ar" ? (collapsed ? 80 : 250) : 0,
           transition: "all 0.3s",
           backgroundColor: "var(--layout-bg)",
         }}
@@ -73,7 +85,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             justifyContent: "space-between",
           }}
         >
-          <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} />
+          <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} dict={dict} lang={lang} />
         </Header>
 
         <Content

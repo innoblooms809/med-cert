@@ -1,9 +1,12 @@
+import { getDictionary } from '@/app/[lang]/dictionaries';
 import Profile from '@/components/admin/Profile'
 import React from 'react'
-export default function Course() {
+export default async function Course({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
+   const {lang} = await params;
+     const dict = await getDictionary(lang); 
   return (
     <>
-    <Profile/>
+    <Profile dict={dict} lang={lang}/>
     </>
   )
 }

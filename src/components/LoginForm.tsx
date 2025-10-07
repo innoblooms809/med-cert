@@ -41,7 +41,8 @@ export default function LoginForm({dict, lang}:any) {
     setTimeout(() => {
       setLoading(false);
       message.success(`${simplifiedRole.toUpperCase()} login successful!`);
-      router.push(`/${simplifiedRole}/dashboard`);
+      // router.push(`/${simplifiedRole}/dashboard`);
+      router.push(`/${lang}/${simplifiedRole}/dashboard`);
     }, 500);
   };
 
@@ -134,21 +135,21 @@ export default function LoginForm({dict, lang}:any) {
             fontWeight: 600,
             color: '#1e293b'
           }}>
-            Welcome Back
+            {dict.login.title}
           </h2>
           <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-            Sign in to continue your medical learning journey
+            {dict.login.subtitle}
           </p>
         </div>
 
         <Form layout="vertical" onFinish={handleLogin}>
           <Form.Item
             name="email"
-            label={<span style={{ fontWeight: 600, color: '#374151' }}>Email Address</span>}
-            rules={[{ required: true, message: "Please enter your email" }]}
+            label={<span style={{ fontWeight: 600, color: '#374151' }}>{dict.login.emailLabel}</span>}
+            rules={[{ required: true, message: dict.login.emailRequired}]}
           >
             <Input 
-              placeholder="Enter your email address"
+              placeholder={dict.login.emailPlaceholder}
               prefix={<UserOutlined style={{ color: '#9ca3af' }} />}
               size="large"
               style={{
@@ -170,11 +171,11 @@ export default function LoginForm({dict, lang}:any) {
 
           <Form.Item
             name="password"
-            label={<span style={{ fontWeight: 600, color: '#374151' }}>Password</span>}
-            rules={[{ required: true, message: "Please enter your password" }]}
+            label={<span style={{ fontWeight: 600, color: '#374151' }}>{dict.login.passwordLabel}</span>}
+            rules={[{ required: true, message: dict.login.passwordRequired }]}
           >
             <Input.Password 
-              placeholder="Enter your password"
+              placeholder={dict.login.passwordPlaceholder}
               prefix={<LockOutlined style={{ color: '#9ca3af' }} />}
               size="large"
               iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
@@ -209,7 +210,7 @@ export default function LoginForm({dict, lang}:any) {
               alignItems: 'center',
               gap: '8px'
             }}>
-              ⚠️ {errorMsg}
+              ⚠️ {dict.login.invalidCredentials}
             </div>
           )}
 
@@ -239,16 +240,16 @@ export default function LoginForm({dict, lang}:any) {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.3)';
               }}
             >
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ?dict.login.signIn:dict.login.signingIn}
             </Button>
           </Form.Item>
         </Form>
 
-        <Divider style={{ color: '#9ca3af', fontSize: '12px' }}>or</Divider>
+        <Divider style={{ color: '#9ca3af', fontSize: '12px' }}>{dict.login.or}</Divider>
 
         <div style={{ textAlign: 'center' }}>
           <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-            Don't have an account?{' '}
+            {dict.login.noAccount}{' '}
             <a 
               href={`/${lang}/auth/signUp`} 
               style={{
@@ -264,7 +265,7 @@ export default function LoginForm({dict, lang}:any) {
                 e.currentTarget.style.color = '#4f46e5';
               }}
             >
-              Create account
+              {dict.login.createAccount}
             </a>
           </p>
         </div>
@@ -281,15 +282,15 @@ export default function LoginForm({dict, lang}:any) {
         }}>
           <div style={{ textAlign: 'center' }}>
             <HeartOutlined style={{ color: '#ef4444', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>Medical</div>
+            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.medical}</div>
           </div>
           <div style={{ textAlign: 'center' }}>
             <TeamOutlined style={{ color: '#10b981', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>Certified</div>
+            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.certified}</div>
           </div>
           <div style={{ textAlign: 'center' }}>
             <SafetyCertificateOutlined style={{ color: '#f59e0b', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>Secure</div>
+            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.secure}</div>
           </div>
         </div>
       </Card>

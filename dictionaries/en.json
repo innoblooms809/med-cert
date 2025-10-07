@@ -12,20 +12,92 @@
     "remove": "Remove",
     "checkout": "Checkout"
   },
-  "Logins": {
-    "head": "Sign In to Your Med-compliance Account",
-    "para": " Welcome! You have reached to Med-compliance single sign-on page. The single sign-on page allows you to access many Med-compliance eServices with one user account.With a Med-compliance Single Sign-On, you can:",
-    "list1": "Use multiple eServices through one account",
-    "list2": "Manage your personal or organizational profile",
-    "list3": "Track applications, licenses, and compliance activities",
-    "welcome": {
-      "default": "Welcome To Med-compliance",
-      "dha": "Welcome To Med-compliance",
-      "admin": "Welcome Admin",
-      "facility": "Welcome To Med-compliance"
-    }
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to continue your medical learning journey",
+    "emailLabel": "Email Address",
+    "emailRequired": "Please enter your email",
+    "emailPlaceholder": "Enter your email address",
+    "passwordLabel": "Password",
+    "passwordRequired": "Please enter your password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing In...",
+    "or": "or",
+    "invalidCredentials": "Invalid email or password",
+    "noAccount": "Don't have an account? Create account",
+    "createAccount": "Create account",
+    "medical": "Medical",
+    "certified": "Certified",
+    "secure": "Secure"
   },
   "dashboard": {
+    "admin": {
+      "header": {
+        "role": "Administrator",
+        "name": " Mohammed Al Rashid",
+        "profile": "Profile",
+        "logout": "Logout"
+      },
+      "sider": {
+        "brandCollapsed": "M+",
+        "brandFull": "Med + Cert",
+        "dashboard": "Dashboard",
+        "courses": "Courses",
+        "tests": "Tests",
+        "users": "Users"
+      },
+      "profile": {
+        "firstName":"Mohammed",
+        "lastName":"Al Rashid",
+        "role": "Senior Administrator",
+        "bio": "System administrator with 5+ years of experience managing e-learning platforms. Specialized in user management, content moderation, and platform optimization.",
+        "department": "Platform Operations",
+        "location": "Dubai, UAE",
+        "permissionsTitle": "Admin Permissions",
+        "permissions": {
+          "fullAccess": "Full Access",
+          "userManagement": "User Management",
+          "contentModeration": "Content Moderation",
+          "analytics": "Analytics"
+        },
+        "activity": {
+          "courseApproved": "Course Approved",
+          "userRegistered": "User Registered",
+          "reportResolved": "Report Resolved",
+          "systemUpdated": "System Updated"
+        },
+        "memberSince": "Member Since",
+        "lastLogin": "Last Login",
+        "editProfile": "Edit Profile",
+        "logout": "Logout",
+        "profileImageAlt": "Profile",
+        "stats": {
+          "totalUsers": "Total Users",
+          "activeCourses": "Active Courses",
+          "certificates": "Certificates",
+          "testsConducted": "Tests Conducted"
+        },
+        "quickActionsTitle": "Quick Actions",
+        "quickActions": {
+          "manageUsers": "Manage Users",
+          "manageUsersDesc": "User accounts & permissions",
+          "viewAnalytics": "View Analytics",
+          "viewAnalyticsDesc": "Platform performance",
+          "settings": "Settings",
+          "settingsDesc": "System configuration",
+          "reports": "Reports",
+          "reportsDesc": "Generate reports"
+        },
+        "recentActivity": "Recent Activity",
+        "accountInformation": {
+          "accountInformation": "Account Information",
+          "email": "Email",
+          "phone": "Phone",
+          "department": "Department"
+        }
+      }
+    },
     "user": {
       "welcome": "Welcome To Your Dashboard",
       "logout": "Logout",
@@ -112,7 +184,10 @@
     "title": "Learn",
     "highlight": "Healthcare Skills",
     "subtitle": "Access professional courses designed for doctors and nurses. Upgrade your career with certifications and real-world learning.",
-    "stats": { "count": "500+", "courses": "Courses Available" },
+    "stats": {
+      "count": "500+",
+      "courses": "Courses Available"
+    },
     "trending": "Trending Domains",
     "domains": {
       "dentist": "Dentist",
@@ -138,10 +213,8 @@
     "signUp": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Login",
-
     "doctor": "Doctor",
     "nurse": "Nurse",
-
     "specializations": {
       "cardiologist": "Cardiologist",
       "dermatologist": "Dermatologist",
@@ -155,7 +228,6 @@
       "erNurse": "ER Nurse",
       "oncologyNurse": "Oncology Nurse"
     },
-
     "requiredFirstName": "Please enter your first name",
     "requiredLastName": "Please enter your last name",
     "requiredEmail": "Please enter your email",
@@ -167,7 +239,6 @@
     "requiredSpecialization": "Please select specialization",
     "requiredLicense": "Please upload your license",
     "requiredHospital": "Please enter your hospital name",
-
     "firstNamePlaceholder": "John",
     "lastNamePlaceholder": "Doe",
     "passwordPlaceholder": "Enter password",

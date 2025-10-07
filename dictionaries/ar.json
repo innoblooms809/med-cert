@@ -12,20 +12,92 @@
     "remove": "إزالة",
     "checkout": "الدفع"
   },
-  "Logins": {
-    "head": "تسجيل الدخول إلى حساب Med-compliance الخاص بك",
-    "para": "مرحباً! لقد وصلت إلى صفحة تسجيل الدخول الموحد لـ Med-compliance...",
-    "list1": "استخدم خدمات متعددة من خلال حساب واحد",
-    "list2": "إدارة ملفك الشخصي أو المؤسسي",
-    "list3": "تتبع التطبيقات والتراخيص والأنشطة",
-    "welcome": {
-      "default": "مرحباً بك في Med-compliance",
-      "dha": "مرحباً بك في Med-compliance",
-      "admin": "مرحباً بك أيها المسؤول",
-      "facility": "مرحباً بك في Med-compliance"
-    }
+  "login": {
+    "title": "مرحبًا بعودتك",
+    "subtitle": "سجّل الدخول لمتابعة رحلتك التعليمية الطبية",
+    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailRequired": "يرجى إدخال عنوان البريد الإلكتروني",
+    "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordRequired": "يرجى إدخال كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "or": "أو",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "noAccount": "ليس لديك حساب؟ أنشئ حسابًا",
+    "createAccount": "أنشئ حسابًا",
+    "medical": "طبي",
+    "certified": "معتمد",
+    "secure": "آمن"
   },
   "dashboard": {
+    "admin": {
+      "header": {
+        "role": "مدير النظام",
+        "name": "محمد الراشد",
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل الخروج"
+      },
+      "sider": {
+        "brandCollapsed": "م+",
+        "brandFull": "ميد + سيرت",
+        "dashboard": "لوحة التحكم",
+        "courses": "الدورات",
+        "tests": "الاختبارات",
+        "users": "المستخدمون"
+      },
+      "profile": {
+        "firstName": "محمد",
+        "lastName": "الراشد",
+        "role": "مشرف أول",
+        "bio": "مسؤول النظام مع خبرة 5+ سنوات في إدارة منصات التعلم الإلكتروني. متخصص في إدارة المستخدمين، مراجعة المحتوى، وتحسين المنصة.",
+        "department": "عمليات المنصة",
+        "location": "دبي، الإمارات",
+        "permissionsTitle": "أذونات المشرف",
+        "permissions": {
+          "fullAccess": "وصول كامل",
+          "userManagement": "إدارة المستخدمين",
+          "contentModeration": "مراجعة المحتوى",
+          "analytics": "تحليلات"
+        },
+        "activity": {
+          "courseApproved": "تم اعتماد الدورة",
+          "userRegistered": "تم تسجيل مستخدم",
+          "reportResolved": "تم حل التقرير",
+          "systemUpdated": "تم تحديث النظام"
+        },
+        "memberSince": "عضو منذ",
+        "lastLogin": "آخر تسجيل دخول",
+        "editProfile": "تعديل الملف الشخصي",
+        "logout": "تسجيل الخروج",
+        "profileImageAlt": "الملف الشخصي",
+        "stats": {
+          "totalUsers": "إجمالي المستخدمين",
+          "activeCourses": "الدورات النشطة",
+          "certificates": "الشهادات",
+          "testsConducted": "الاختبارات المنجزة"
+        },
+        "quickActionsTitle": "الإجراءات السريعة",
+        "quickActions": {
+          "manageUsers": "إدارة المستخدمين",
+          "manageUsersDesc": "حسابات المستخدمين والأذونات",
+          "viewAnalytics": "عرض التحليلات",
+          "viewAnalyticsDesc": "أداء المنصة",
+          "settings": "الإعدادات",
+          "settingsDesc": "تهيئة النظام",
+          "reports": "التقارير",
+          "reportsDesc": "توليد التقارير"
+        },
+        "recentActivity": "النشاط الأخير",
+        "accountInformation": {
+          "accountInformation": "معلومات الحساب",
+          "email": "البريد الإلكتروني",
+          "phone": "رقم الهاتف",
+          "department": "القسم"
+        }
+      }
+    },
     "user": {
       "welcome": "مرحبًا بك في لوحة التحكم الخاصة بك",
       "logout": "تسجيل خروج",
@@ -112,7 +184,10 @@
     "title": "تعلم",
     "highlight": "مهارات الرعاية الصحية",
     "subtitle": "الوصول إلى دورات مهنية مصممة للأطباء والممرضين. طوّر مسيرتك المهنية بالشهادات والتعلم الواقعي.",
-    "stats": { "count": "٥٠٠+", "courses": "دورات متاحة" },
+    "stats": {
+      "count": "٥٠٠+",
+      "courses": "دورات متاحة"
+    },
     "trending": "المجالات الرائجة",
     "domains": {
       "dentist": "طبيب أسنان",
@@ -138,10 +213,8 @@
     "signUp": "تسجيل",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
     "login": "تسجيل الدخول",
-
     "doctor": "طبيب",
     "nurse": "ممرضة",
-
     "specializations": {
       "cardiologist": "طبيب قلب",
       "dermatologist": "طبيب جلدية",
@@ -155,7 +228,6 @@
       "erNurse": "ممرضة طوارئ",
       "oncologyNurse": "ممرضة أورام"
     },
-
     "requiredFirstName": "الرجاء إدخال الاسم الأول",
     "requiredLastName": "الرجاء إدخال اسم العائلة",
     "requiredEmail": "الرجاء إدخال البريد الإلكتروني",
@@ -167,7 +239,6 @@
     "requiredSpecialization": "الرجاء اختيار التخصص",
     "requiredLicense": "الرجاء تحميل الترخيص",
     "requiredHospital": "الرجاء إدخال اسم المستشفى",
-
     "firstNamePlaceholder": "محمد",
     "lastNamePlaceholder": "أحمد",
     "passwordPlaceholder": "أدخل كلمة المرور",

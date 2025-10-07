@@ -33,6 +33,9 @@ import {
 import adminImg from "../../../public/images/admin.jpg";
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
+import en from "../../../dictionaries/en.json"
+import ar from "../../../dictionaries/ar.json"
+
 
 const { Title, Text } = Typography;
 
@@ -73,35 +76,43 @@ interface QuickAction {
   description: string;
 }
 
-function AdminProfile() {
+function AdminProfile({dict,lang}:any) {
   const router = useRouter();
-  const { lang } = useParams();
+  // const { lang } = useParams();
   const [user, setUser] = useState<User | null>(null);
+  // const dict:any = lang === "ar" ? ar : en;
+  const profile=dict.dashboard.admin.profile;
+
 
   useEffect(() => {
     const adminUser: User = {
-      firstName: "Mohammed",
-      lastName: "Al Rashid",
+      firstName: profile.firstName ??"Mohammed",
+      lastName:profile.lastName ?? "Al Rashid",
       email: "mohammed.alrashid@admin.com",
-      role: "Senior Administrator",
+      role: profile.role ?? "Senior Administrator",
       phone: "+971-55-1234567",
       createdAt: "2023-05-12T10:00:00Z",
       lastLogin: "2024-12-19T08:30:00Z",
       profileImage: adminImg,
-      bio: "System administrator with 5+ years of experience managing e-learning platforms. Specialized in user management, content moderation, and platform optimization.",
-      department: "Platform Operations",
-      location: "Dubai, UAE",
-      permissions: ["Full Access", "User Management", "Content Moderation", "Analytics"],
+      bio: profile.bio || "System administrator with 5+ years of experience managing e-learning platforms. Specialized in user management, content moderation, and platform optimization.",
+      department: profile.department || "Platform Operations",
+      location: profile.location || "Dubai, UAE",
+      permissions: [
+        profile.permissions.fullAccess || "Full Access",
+        profile.permissions.userManagement || "User Management",
+        profile.permissions.contentModeration || "Content Moderation",
+        profile.permissions.analytics || "Analytics"
+      ],
       activity: [
-        { action: "Course Approved", time: "2 hours ago", type: "success" },
-        { action: "User Registered", time: "5 hours ago", type: "info" },
-        { action: "Report Resolved", time: "1 day ago", type: "success" },
-        { action: "System Updated", time: "2 days ago", type: "warning" },
+        { action: profile.activity.courseApproved || "Course Approved", time: "2 hours ago", type: "success" },
+        { action: profile.activity.userRegistered || "User Registered", time: "5 hours ago", type: "info" },
+        { action: profile.activity.reportResolved || "Report Resolved", time: "1 day ago", type: "success" },
+        { action: profile.activity.systemUpdated || "System Updated", time: "2 days ago", type: "warning" },
       ]
     };
 
     setUser(adminUser);
-  }, []);
+  }, [dict]);
 
   const handleLogout = () => {
     localStorage.removeItem("current_user");
@@ -112,17 +123,17 @@ function AdminProfile() {
   if (!user) return null;
 
   const statsData: StatData[] = [
-    { icon: <TeamOutlined />, title: "Total Users", value: 1247, color: "#4f46e5", change: "+12%" },
-    { icon: <BookOutlined />, title: "Active Courses", value: 89, color: "#10b981", change: "+5%" },
-    { icon: <SafetyCertificateOutlined />, title: "Certificates", value: 856, color: "#f59e0b", change: "+23%" },
-    { icon: <BarChartOutlined />, title: "Tests Conducted", value: 2341, color: "#ef4444", change: "+8%" },
+    { icon: <TeamOutlined />, title: profile.stats.totalUsers || "Total Users", value: 1247, color: "#4f46e5", change: "+12%" },
+    { icon: <BookOutlined />, title: profile.stats.activeCourses || "Active Courses", value: 89, color: "#10b981", change: "+5%" },
+    { icon: <SafetyCertificateOutlined />, title: profile.stats.certificates || "Certificates", value: 856, color: "#f59e0b", change: "+23%" },
+    { icon: <BarChartOutlined />, title: profile.stats.testsConducted || "Tests Conducted", value: 2341, color: "#ef4444", change: "+8%" },
   ];
 
   const quickActions: QuickAction[] = [
-    { icon: "👥", title: "Manage Users", description: "User accounts & permissions" },
-    { icon: "📊", title: "View Analytics", description: "Platform performance" },
-    { icon: "⚙️", title: "Settings", description: "System configuration" },
-    { icon: "📋", title: "Reports", description: "Generate reports" },
+    { icon: "👥", title: profile.quickActions.manageUsers || "Manage Users", description: profile.quickActions.manageUsersDesc || "User accounts & permissions" },
+    { icon: "📊", title: profile.quickActions.viewAnalytics || "View Analytics", description: profile.quickActions.viewAnalyticsDesc || "Platform performance" },
+    { icon: "⚙️", title: profile.quickActions.settings || "Settings", description: profile.quickActions.settingsDesc || "System configuration" },
+    { icon: "📋", title: profile.quickActions.reports || "Reports", description: profile.quickActions.reportsDesc || "Generate reports" },
   ];
 
   return (
@@ -139,20 +150,20 @@ function AdminProfile() {
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
               marginBottom: 24,
             }}
-            styles={{body: {padding: 24} }}
+            styles={{ body: { padding: 24 } }}
           >
             <div style={{ textAlign: "center", position: "relative" }}>
               {/* Status Badge */}
-              <Badge 
-                dot 
-                color="#10b981" 
+              <Badge
+                dot
+                color="#10b981"
                 offset={[-5, 65]}
                 size="default"
               >
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                   <Image
                     src={user.profileImage}
-                    alt="Profile"
+                    alt={profile.profileImageAlt || "Profile"}
                     width={120}
                     height={120}
                     style={{
@@ -168,12 +179,12 @@ function AdminProfile() {
               <Title level={3} style={{ marginTop: 16, marginBottom: 4, color: "#1e293b" }}>
                 {user.firstName} {user.lastName}
               </Title>
-              
-              <Tag 
-                color="#4f46e5" 
-                style={{ 
-                  borderRadius: 16, 
-                  padding: "4px 16px", 
+
+              <Tag
+                color="#4f46e5"
+                style={{
+                  borderRadius: 16,
+                  padding: "4px 16px",
                   fontWeight: 600,
                   background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
                   color: "white",
@@ -182,7 +193,7 @@ function AdminProfile() {
               >
                 {user.role}
               </Tag>
-              
+
               <div style={{ marginTop: 12 }}>
                 <Text type="secondary" style={{ fontSize: 14 }}>
                   <GlobalOutlined style={{ marginRight: 6 }} />
@@ -196,7 +207,7 @@ function AdminProfile() {
               <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
                 <Col span={12}>
                   <Statistic
-                    title="Member Since"
+                    title={profile.memberSince || "Member Since"}
                     value={new Date(user.createdAt).getFullYear()}
                     prefix={<CalendarOutlined />}
                     valueStyle={{ fontSize: 18, color: "#4f46e5" }}
@@ -204,7 +215,7 @@ function AdminProfile() {
                 </Col>
                 <Col span={12}>
                   <Statistic
-                    title="Last Login"
+                    title={profile.lastLogin || "Last Login"}
                     value="Today"
                     valueStyle={{ fontSize: 18, color: "#10b981" }}
                   />
@@ -213,9 +224,9 @@ function AdminProfile() {
 
               {/* Action Buttons */}
               <Space direction="vertical" style={{ width: "100%" }} size="middle">
-                <Button 
-                  type="primary" 
-                  icon={<EditOutlined />} 
+                <Button
+                  type="primary"
+                  icon={<EditOutlined />}
                   block
                   style={{
                     background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
@@ -225,10 +236,10 @@ function AdminProfile() {
                     fontWeight: 600,
                   }}
                 >
-                  Edit Profile
+                  {profile.editProfile || "Edit Profile"}
                 </Button>
-                <Button 
-                  icon={<LogoutOutlined />} 
+                <Button
+                  icon={<LogoutOutlined />}
                   block
                   danger
                   onClick={handleLogout}
@@ -238,7 +249,7 @@ function AdminProfile() {
                     fontWeight: 600,
                   }}
                 >
-                  Logout
+                  {profile.logout || "Logout"}
                 </Button>
               </Space>
             </div>
@@ -249,7 +260,7 @@ function AdminProfile() {
             title={
               <span style={{ color: "#1e293b", fontWeight: 600 }}>
                 <SecurityScanOutlined style={{ marginRight: 8 }} />
-                Admin Permissions
+                {profile.permissionsTitle}
               </span>
             }
             style={{
@@ -292,7 +303,7 @@ function AdminProfile() {
                     border: "none",
                     boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                   }}
-                  styles={{body: {padding: 20 }}}
+                  styles={{ body: { padding: 20 } }}
                 >
                   <Statistic
                     title={
@@ -301,15 +312,15 @@ function AdminProfile() {
                       </span>
                     }
                     value={stat.value}
-                    valueStyle={{ 
-                      color: stat.color, 
-                      fontSize: 28, 
+                    valueStyle={{
+                      color: stat.color,
+                      fontSize: 28,
                       fontWeight: 700,
                     }}
                     suffix={<span style={{ fontSize: 12, color: "#10b981", fontWeight: 600 }}>{stat.change}</span>}
                   />
-                  <Progress 
-                    percent={Math.min(stat.value / 50, 100)} 
+                  <Progress
+                    percent={Math.min(stat.value / 50, 100)}
                     showInfo={false}
                     strokeColor={stat.color}
                     trailColor="#f1f5f9"
@@ -327,7 +338,7 @@ function AdminProfile() {
                 title={
                   <span style={{ color: "#1e293b", fontWeight: 600 }}>
                     <UserOutlined style={{ marginRight: 8 }} />
-                    Account Information
+                    {profile.accountInformation.accountInformation}
                   </span>
                 }
                 style={{
@@ -342,27 +353,27 @@ function AdminProfile() {
                   <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
                     <MailOutlined style={{ marginRight: 12, color: '#4f46e5', fontSize: 16 }} />
                     <div>
-                      <Text strong style={{ display: 'block' }}>Email</Text>
+                      <Text strong style={{ display: 'block' }}> {profile.accountInformation.email}</Text>
                       <Text type="secondary">{user.email}</Text>
                     </div>
                   </div>
-                  
+
                   <Divider style={{ margin: '8px 0' }} />
-                  
+
                   <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
                     <PhoneOutlined style={{ marginRight: 12, color: '#10b981', fontSize: 16 }} />
                     <div>
-                      <Text strong style={{ display: 'block' }}>Phone</Text>
+                      <Text strong style={{ display: 'block' }}>{profile.accountInformation.phone}</Text>
                       <Text type="secondary">{user.phone}</Text>
                     </div>
                   </div>
-                  
+
                   <Divider style={{ margin: '8px 0' }} />
-                  
+
                   <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
                     <SettingOutlined style={{ marginRight: 12, color: '#f59e0b', fontSize: 16 }} />
                     <div>
-                      <Text strong style={{ display: 'block' }}>Department</Text>
+                      <Text strong style={{ display: 'block' }}>{profile.accountInformation.department}</Text>
                       <Text type="secondary">{user.department}</Text>
                     </div>
                   </div>
@@ -375,7 +386,7 @@ function AdminProfile() {
               <Card
                 title={
                   <span style={{ color: "#1e293b", fontWeight: 600 }}>
-                    ⚡ Quick Actions
+                    ⚡{profile.quickActionsTitle}
                   </span>
                 }
                 style={{
@@ -398,7 +409,7 @@ function AdminProfile() {
                           padding: "12px 8px",
                           height: "100%",
                         }}
-                        styles={{body: {padding: 8 }}}
+                        styles={{ body: { padding: 8 } }}
                       >
                         <div style={{ fontSize: 24, marginBottom: 8 }}>{action.icon}</div>
                         <Text strong style={{ display: 'block', fontSize: 12 }}>{action.title}</Text>
@@ -415,7 +426,7 @@ function AdminProfile() {
           <Card
             title={
               <span style={{ color: "#1e293b", fontWeight: 600 }}>
-                📋 Recent Activity
+                📋 {profile.recentActivity}
               </span>
             }
             style={{
@@ -436,8 +447,8 @@ function AdminProfile() {
                         width: 32,
                         height: 32,
                         borderRadius: 8,
-                        background: item.type === 'success' ? '#10b981' : 
-                                   item.type === 'warning' ? '#f59e0b' : '#4f46e5',
+                        background: item.type === 'success' ? '#10b981' :
+                          item.type === 'warning' ? '#f59e0b' : '#4f46e5',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
