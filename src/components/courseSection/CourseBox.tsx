@@ -7,9 +7,10 @@ const { Meta } = Card;
 type CoursesBoxProps = {
   sectionData: any[];
   onAddToCart: (course: any) => void;
+  dict: any;
 };
 
-function CoursesBox({ sectionData, onAddToCart }: CoursesBoxProps) {
+function CoursesBox({ sectionData, onAddToCart, dict }: CoursesBoxProps) {
   if (!sectionData) return <p>No courses available</p>;
 
   return (
@@ -50,7 +51,7 @@ function CoursesBox({ sectionData, onAddToCart }: CoursesBoxProps) {
               onClick={() => onAddToCart(course)}
               className="!bg-[var(--section-primary)] !text-white !border-none hover:!bg-purple-700 !px-4 !py-2 !rounded-md"
             >
-              Add to Cart
+              {dict.buttonText.addtoCart}
             </Button>
           </div>
         </Card>

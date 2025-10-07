@@ -1,6 +1,4 @@
-// import LoginForm from "@/components/LoginForm";
 import { getDictionary } from "../[lang]/dictionaries";
-// import Contact from "@/components/contact";
 import Hero from "@/components/hero";
 import DentistSection from "@/components/courseSection/dentist";
 import Gynecologist from "@/components/courseSection/gyno";
@@ -12,46 +10,41 @@ import Ayurved from "@/components/courseSection/ayurveda";
 import CoursesSection from "@/components/courseSection/CourseSection";
 import ReviewCarousel from "@/components/reviewSection";
 
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: "en" | "ar" }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
 
-// export type PageProps = {
-//   params: {
-//     lang: "en" | "ar";
-//   };
-// };
-
-
-export default async function Page({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
-  
-  const {lang} = await params;
-  const dict = await getDictionary(lang); 
-  
   return (
     <>
-      <Hero dict={dict} lang={lang}/>
-      <CoursesSection/>
+      <Hero dict={dict} lang={lang} />
+      <CoursesSection dict={dict} />
       <section id="dentist" className="max-w-8xl mx-auto">
-        <DentistSection/>
+        <DentistSection dict={dict} />
       </section>
       <section id="gynecologist" className="max-w-8xl mx-auto">
-        <Gynecologist/>
+        <Gynecologist dict={dict} />
       </section>
       <section id="ayurveda" className="max-w-8xl mx-auto">
-        <Ayurved/>
+        <Ayurved dict={dict} />
       </section>
+      <ReviewCarousel dict={dict} />
+
       {/* <section id="dermatologist" className="max-w-8xl mx-auto">
-        <Dermatologist/>
+        <Dermatologist dict={dict} />
       </section>
       <section id="ent-Specialist" className="max-w-8xl mx-auto">
-        <ENTSpecialist/>
+        <ENTSpecialist dict={dict} />
       </section>
       <section id="general-physician" className="max-w-8xl mx-auto">
-        <GeneralPhysician/>
+        <GeneralPhysician dict={dict} />
       </section>
       <section id="homoeopath" className="max-w-8xl mx-auto">
-        <Homeopath/>
+        <Homeopath dict={dict} />
       </section> */}
-      <ReviewCarousel dict={dict}/>
     </>
   );
 }
-
