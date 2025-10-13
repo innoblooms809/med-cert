@@ -33,7 +33,7 @@ export default function AdminLayout({
   }, []);
 
   const themeClass = `${role}-theme`;
-  console.log("LANG:", lang, "DICT:", dict);
+  // console.log("LANG:", lang, "DICT:", dict);
 
   return (
     <Layout className={themeClass} style={{ minHeight: "100vh" }}>

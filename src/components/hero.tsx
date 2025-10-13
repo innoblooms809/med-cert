@@ -123,7 +123,7 @@ export default function Hero({ dict, lang }: HeroProps) {
                 priority
               />
             </div>
-            <div>
+            <div>  
               <Image
                 src={hero2}
                 alt="Hero Slide 2"

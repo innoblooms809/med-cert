@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "./cartContext";
+import { usePathname, useRouter } from "next/navigation";
 import logo from "../../public/images/med-cert-logo.jpg";
 
 type Lang = "en" | "ar";
@@ -24,13 +25,13 @@ interface NavBarProps {
       login: string;
       signup: string;
       cart: string;
-      Dentist:string,
-      Gynecologist:string,
-      GeneralPhysician:string,
-      Dermatologist:string,
-      ENTSpecialist:string,
-      Homoeopath:string,
-      Ayurveda:string,
+      Dentist: string;
+      Gynecologist: string;
+      GeneralPhysician: string;
+      Dermatologist: string;
+      ENTSpecialist: string;
+      Homoeopath: string;
+      Ayurveda: string;
     };
   };
   lang: Lang;
@@ -40,26 +41,36 @@ export default function NavBar({ dict, lang }: NavBarProps) {
   const { cartItems } = useCart();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
+  const router = useRouter();
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  // Improved language switching function
+  const switchLanguage = (newLang: Lang) => {
+    // Remove current language prefix from pathname
+    const pathWithoutLang = pathname.replace(/^\/(en|ar)/, "") || "/";
+    
+    // Navigate to the same path with new language
+    router.push(`/${newLang}${pathWithoutLang}`);
+  };
+
   const categoriesItems: MenuProps["items"] = [
-    { key: "dentist", label: <Link href="/courses">{dict.navbar.Dentist}</Link> },
-    { key: "gynecologist", label: <Link href="/courses">{dict.navbar.Gynecologist}</Link> },
-    { key: "physician", label: <Link href="/courses">{dict.navbar.GeneralPhysician}</Link> },
-    { key: "dermatologist", label: <Link href="/courses">{dict.navbar.Dermatologist}</Link> },
-    { key: "ent", label: <Link href="/courses">{dict.navbar.ENTSpecialist}</Link> },
-    { key: "homoeopath", label: <Link href="/courses">{dict.navbar.Homoeopath}</Link> },
-    { key: "ayurveda", label: <Link href="/courses">{dict.navbar.Ayurveda}</Link> },
+    { key: "dentist", label: <Link href={`/${lang}/courses`}>{dict.navbar.Dentist}</Link> },
+    { key: "gynecologist", label: <Link href={`/${lang}/courses`}>{dict.navbar.Gynecologist}</Link> },
+    { key: "physician", label: <Link href={`/${lang}/courses`}>{dict.navbar.GeneralPhysician}</Link> },
+    { key: "dermatologist", label: <Link href={`/${lang}/courses`}>{dict.navbar.Dermatologist}</Link> },
+    { key: "ent", label: <Link href={`/${lang}/courses`}>{dict.navbar.ENTSpecialist}</Link> },
+    { key: "homoeopath", label: <Link href={`/${lang}/courses`}>{dict.navbar.Homoeopath}</Link> },
+    { key: "ayurveda", label: <Link href={`/${lang}/courses`}>{dict.navbar.Ayurveda}</Link> },
   ];
 
   const mobileMenuItems: { key: string; label: React.ReactElement }[] = [
-    { label: <Link href="#courses">{dict.navbar.categories}</Link>, key: "categories" },
+    { label: <Link href={`/${lang}/courses`}>{dict.navbar.categories}</Link>, key: "categories" },
     { label: <Link href={`/${lang}/auth/login`}>{dict.navbar.login}</Link>, key: "login" },
     { label: <Link href={`/${lang}/auth/signUp`}>{dict.navbar.signup}</Link>, key: "signup" },
   ];
 
-  // Toggle language
   const switchLang = lang === "en" ? "ar" : "en";
 
   return (
@@ -77,7 +88,7 @@ export default function NavBar({ dict, lang }: NavBarProps) {
               <MenuOutlined className="text-lg" />
             </button>
 
-            <Link href="/">
+            <Link href={`/${lang}`}>
               <Image
                 src={logo}
                 alt="med-cert-logo"
@@ -125,24 +136,23 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                 size="small"
                 style={{ backgroundColor: "red" }}
                 offset={[-5, 5]}
-                showZero={false} 
+                showZero={false}
               >
                 <ShoppingCartOutlined className="text-xl cursor-pointer" />
               </Badge>
             </Link>
 
             {/* Language Switch */}
-            <Link href={`/${switchLang}`}>
-              <Button
-                icon={<GlobalOutlined />}
-                className="!border !border-gray-400 !bg-transparent !text-gray-700 hover:!bg-gray-100"
-              >
-                {lang === "en" ? "عربي" : "English"}
-              </Button>
-            </Link>
+            <Button
+              icon={<GlobalOutlined />}
+              className="!border !border-gray-400 !bg-transparent !text-gray-700 hover:!bg-gray-100"
+              onClick={() => switchLanguage(switchLang)}
+            >
+              {lang === "en" ? "عربي" : "English"}
+            </Button>
 
             {/* Auth links (desktop only) */}
-            <li className="hidden md:flex">
+            <div className="hidden md:flex">
               <Link href={`/${lang}/auth/login`}>
                 <button
                   type="button"
@@ -151,8 +161,8 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                   {dict.navbar.login}
                 </button>
               </Link>
-            </li>
-            <li className="hidden md:flex">
+            </div>
+            <div className="hidden md:flex">
               <Link href={`/${lang}/auth/signUp`}>
                 <button
                   type="button"
@@ -161,7 +171,7 @@ export default function NavBar({ dict, lang }: NavBarProps) {
                   {dict.navbar.signup}
                 </button>
               </Link>
-            </li>
+            </div>
           </div>
         </div>
       </nav>
