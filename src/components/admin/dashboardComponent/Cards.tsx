@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { Card, Row, Col } from "antd";
 import { BookOutlined, FileTextOutlined, UserOutlined, CheckCircleOutlined } from "@ant-design/icons";
@@ -7,9 +6,12 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 // Stats data
+export default function StatsCards({dict,lang}:any) {
+
+const card=dict.dashboard.admin.stats
 const stats = [
   {
-    title: "Total Courses",
+    title: card.totalCourses,
     value: 24,
     icon: <BookOutlined />,
     color: "#4f46e5",
@@ -17,7 +19,7 @@ const stats = [
     path: "/admin/courses",
   },
   {
-    title: "Total Tests",
+    title: card.totalTests,
     value: 18,
     icon: <FileTextOutlined />,
     color: "#ef4444",
@@ -25,7 +27,7 @@ const stats = [
     path: "/admin/tests",
   },
   {
-    title: "Active Users",
+    title: card.activeUsers,
     value: 356,
     icon: <UserOutlined />,
     color: "#10b981",
@@ -33,17 +35,21 @@ const stats = [
     path: "/admin/users",
   },
   {
-    title: "Completion Rate",
+    title: card.completionRate,
     value: "92%",
     icon: <CheckCircleOutlined />,
     color: "#f59e0b",
     bg: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
-    path: "/admin/reports",
+    path: "/admin/courses",
   },
 ];
 
 // Single stat card
-function StatCard({ stat }: { stat: typeof stats[0] }) {
+function StatCard({ stat,lang }: { stat: typeof stats[0];lang:any }) {
+   const handleClick = () => {
+      router.push(`/${lang}${stat.path}`); // ✅ Keep current language in URL
+    };
+
   const router = useRouter();
 
   return (
@@ -51,7 +57,7 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      onClick={() => router.push(stat.path)}
+      onClick={handleClick}
       style={{ cursor: "pointer", height: "100%" }}
     >
       <Card
@@ -153,13 +159,13 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
 }
 
 // Main stats cards component
-export default function StatsCards() {
+
   return (
     <div style={{ padding: "24px 24px 0 24px" }}>
       <Row gutter={[24, 24]}>
         {stats.map((stat) => (
           <Col xs={24} sm={12} lg={6} key={stat.title}>
-            <StatCard stat={stat} />
+            <StatCard stat={stat} lang={lang} />
           </Col>
         ))}
       </Row>

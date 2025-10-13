@@ -9,11 +9,12 @@ import RecentActivity from "./dashboardComponent/ReacentActivity";
 import Charts from "./dashboardComponent/Charts";
 import ProgressTable from "./dashboardComponent/ProgessTable";
 
-// interface Props {
-//   dict: any;
-// }
+interface Props {
+  dict: any;
+  lang:any;
+}
 
-const DashboardClient = () => {
+const DashboardClient = ({dict,lang}:Props) => {
   return (
     <div
       className="space-y-2 p-2"
@@ -23,10 +24,10 @@ const DashboardClient = () => {
       }}
     >
       <div className="grid grid-cols-1 gap-4">
-        <DashboardCards />
+        <DashboardCards dict={dict} lang={lang} />
       </div>
       <div className="grid grid-cols-1 gap-4">
-        <CourseData />
+        <CourseData dict={dict} lang={lang}/>
       </div>
       <div className="grid grid-cols-1 gap-4">
         <TestData />
