@@ -36,7 +36,7 @@ export default function AdminHeader({
       },
       {
         key: "logout",
-        label: <Link href={`/${lang}/auth/login`}>{dict.dashboard.admin.header.role}</Link>,
+        label: <Link href={`/${lang}/auth/login`}>{dict.dashboard.admin.header.logout}</Link>,
       },
     ],
   };
