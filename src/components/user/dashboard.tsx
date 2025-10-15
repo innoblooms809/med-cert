@@ -113,11 +113,11 @@ export default function UserDashboardOverview({ dict }: { dict: any }) {
       {/* Main Content */}
       <div className="flex flex-col flex-1">
         {/* Header */}
-        <div className="h-16 bg-gray-100 flex items-center px-6 shadow overflow-hidden">
+        {/* <div className="h-16 bg-gray-100 flex items-center px-6 shadow overflow-hidden">
           <div className="scrolling-header font-bold text-lg px-3 py-1 text-white rounded">
             {dict?.welcome || "Welcome To Your Dashboard"} Rufiadah Shafi 🥳
           </div>
-        </div>
+        </div> */}
 
         {/* Content Area */}
         <div className="p-6 bg-gray-50 flex-1 overflow-y-auto">

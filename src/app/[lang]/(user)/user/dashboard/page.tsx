@@ -1,5 +1,6 @@
 import { getDictionary } from "@/app/[lang]/dictionaries";
-import UserDashboardOverview from "@/components/user/dashboard";
+import UserDashboardClient from "@/components/user/userDashboardClient";
+// import UserDashboardOverview from "@/components/user/dashboard";
 
 export default async function DashboardPage({ params }: { params: Promise<{ lang: "en" | "ar" }>}) {
   
@@ -8,7 +9,9 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
 
   return (
     <>
-    <UserDashboardOverview dict={dict}/>
+    {/* <UserDashboardOverview dict={dict}/> */}
+    <UserDashboardClient dict={dict} lang={lang}/>
+
   </>
    )
 }
