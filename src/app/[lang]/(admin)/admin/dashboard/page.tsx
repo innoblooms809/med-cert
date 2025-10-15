@@ -9,7 +9,7 @@ export default async function DashboardPage( { params }: { params: Promise<{ lan
 
   return (
     <>
-    <DashboardClient />
+    <DashboardClient dict={dict} lang={lang}/>
   </>
    )
 }

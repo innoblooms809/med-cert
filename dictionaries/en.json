@@ -96,6 +96,19 @@
           "phone": "Phone",
           "department": "Department"
         }
+      },
+       "stats": {
+      "totalCourses": "Total Courses",
+      "totalTests": "Total Tests",
+      "activeUsers": "Active Users",
+      "completionRate": "Completion Rate"
+    },
+      "charts": {
+        "coursesBySpecialization": "Courses by Specialization",
+        "coursesByRole": "Courses by Role",
+         "coursesLabel": "Courses",
+        "roleLabel": "Role",
+        "specializationLabel": "Specialization"
       }
     },
     "user": {

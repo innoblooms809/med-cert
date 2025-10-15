@@ -96,6 +96,19 @@
           "phone": "رقم الهاتف",
           "department": "القسم"
         }
+      },
+      "stats": {
+        "totalCourses": "إجمالي الدورات",
+        "totalTests": "إجمالي الاختبارات",
+        "activeUsers": "المستخدمون النشطون",
+        "completionRate": "معدل الإكمال"
+      },
+      "charts": {
+        "coursesBySpecialization": " الدورات حسب التخصص",
+        "coursesByRole": "الدورات حسب الدور",
+        "coursesLabel": "الدورات",
+        "roleLabel": "الدور",
+        "specializationLabel": "التخصص"
       }
     },
     "user": {
@@ -308,7 +321,6 @@
           "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
         }
       ],
-
       "طبيب النساء والتوليد": [
         {
           "id": 1,
@@ -365,7 +377,6 @@
           "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
         }
       ],
-
       "الطبيب العام": [
         {
           "id": 1,
@@ -422,7 +433,6 @@
           "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
         }
       ],
-
       "طبيب الجلدية": [
         {
           "id": 1,
@@ -697,7 +707,6 @@
     "title1": "طبيب الأسنان",
     "title2": "اختبارات تجريبية",
     "subtitle": "أتقن طب الأسنان من خلال اختبارات الممارسة عبر التخصصات.",
-
     "dentistTests": [
       {
         "title": "جراحة الفم",
