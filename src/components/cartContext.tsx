@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type CartItem = {
+  name: any;
   title: string;
   createdBy?: string;
   price: number;

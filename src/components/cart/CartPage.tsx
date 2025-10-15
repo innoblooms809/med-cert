@@ -5,6 +5,9 @@ import { Button, Empty, Input, message, Popconfirm } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
+import visa from '@/../../public/images/visa.webp'
+import mastercard from '@/../../public/images/mastercard.webp'
+import paypal from '@/../../public/images/paypal.webp'
 
 export default function CartPage({dict,lang}:any) {
   const { cartItems, removeFromCart } = useCart();
@@ -33,7 +36,7 @@ export default function CartPage({dict,lang}:any) {
         <div className="lg:col-span-7 bg-white dark:bg-[var(--content-bg)] border rounded-xl shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold">Shopping Cart</h1>
-            <Link href="/courses" className="text-sm text-[var(--section-primary)] hover:underline">
+            <Link href="/" className="text-sm text-[var(--section-primary)] hover:underline">
               Continue shopping
             </Link>
           </div>
@@ -91,7 +94,7 @@ export default function CartPage({dict,lang}:any) {
             </div>
           )}
         </div>
-
+        
         {/* Right - Summary (30%) */}
         <aside className="lg:col-span-3">
           {/* Sticky on large screens, normal flow on small screens */}
@@ -128,9 +131,9 @@ export default function CartPage({dict,lang}:any) {
               <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">OR</div>
 
               <div className="flex justify-center gap-3 mt-4">
-                <img src="/images/paypal.png" alt="PayPal" className="h-6" />
-                <img src="/images/visa.png" alt="Visa" className="h-6" />
-                <img src="/images/mastercard.png" alt="Mastercard" className="h-6" />
+                <Image src={paypal} alt="PayPal" className="h-10 w-auto" width={1024} height={559}/>
+                <Image src={visa} alt="Visa" className="h-10 w-auto" width={1024} height={559}/>
+                <Image src={mastercard} alt="Mastercard" className="h-10 w-auto" width={1024} height={559}/>
               </div>
             </div>
           </div>

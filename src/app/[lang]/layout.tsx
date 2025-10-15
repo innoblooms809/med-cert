@@ -5,7 +5,7 @@ import "../global.css";
 
 export const metadata: Metadata = {
   title: "Med-Cert App",
-  description: "Multilingual support with Next.js and Tailwind",
+  description: "Empowering healthcare professionals with certification courses",
 };
 
 export async function generateStaticParams() {
