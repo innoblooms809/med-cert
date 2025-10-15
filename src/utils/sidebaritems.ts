@@ -32,8 +32,8 @@ export const userSidebarItems: userbarItem[] = [
 ];
 
 export const adminSidebarItems: adminbarItem[] = [
-  { label: "Dashboard", path: "/admin/dashboard" },
-  { label: "Courses", path: "/admin/courses" },
-  { label: "Tests", path: "/admin/tests" },
-  { label: "Users", path: "/admin/users" },
+  { label: "Dashboard", path: "/dashboard" },
+  { label: "Courses", path: "/courses" },
+  { label: "Tests", path: "/tests" },
+  { label: "Users", path: "/users" },
 ];

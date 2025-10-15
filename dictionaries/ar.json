@@ -12,20 +12,92 @@
     "remove": "إزالة",
     "checkout": "الدفع"
   },
-  "Logins": {
-    "head": "تسجيل الدخول إلى حساب Med-compliance الخاص بك",
-    "para": "مرحباً! لقد وصلت إلى صفحة تسجيل الدخول الموحد لـ Med-compliance...",
-    "list1": "استخدم خدمات متعددة من خلال حساب واحد",
-    "list2": "إدارة ملفك الشخصي أو المؤسسي",
-    "list3": "تتبع التطبيقات والتراخيص والأنشطة",
-    "welcome": {
-      "default": "مرحباً بك في Med-compliance",
-      "dha": "مرحباً بك في Med-compliance",
-      "admin": "مرحباً بك أيها المسؤول",
-      "facility": "مرحباً بك في Med-compliance"
-    }
+  "login": {
+    "title": "مرحبًا بعودتك",
+    "subtitle": "سجّل الدخول لمتابعة رحلتك التعليمية الطبية",
+    "emailLabel": "عنوان البريد الإلكتروني",
+    "emailRequired": "يرجى إدخال عنوان البريد الإلكتروني",
+    "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordRequired": "يرجى إدخال كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "or": "أو",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "noAccount": "ليس لديك حساب؟ أنشئ حسابًا",
+    "createAccount": "أنشئ حسابًا",
+    "medical": "طبي",
+    "certified": "معتمد",
+    "secure": "آمن"
   },
   "dashboard": {
+    "admin": {
+      "header": {
+        "role": "مدير النظام",
+        "name": "محمد الراشد",
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل الخروج"
+      },
+      "sider": {
+        "brandCollapsed": "م+",
+        "brandFull": "ميد + سيرت",
+        "dashboard": "لوحة التحكم",
+        "courses": "الدورات",
+        "tests": "الاختبارات",
+        "users": "المستخدمون"
+      },
+      "profile": {
+        "firstName": "محمد",
+        "lastName": "الراشد",
+        "role": "مشرف أول",
+        "bio": "مسؤول النظام مع خبرة 5+ سنوات في إدارة منصات التعلم الإلكتروني. متخصص في إدارة المستخدمين، مراجعة المحتوى، وتحسين المنصة.",
+        "department": "عمليات المنصة",
+        "location": "دبي، الإمارات",
+        "permissionsTitle": "أذونات المشرف",
+        "permissions": {
+          "fullAccess": "وصول كامل",
+          "userManagement": "إدارة المستخدمين",
+          "contentModeration": "مراجعة المحتوى",
+          "analytics": "تحليلات"
+        },
+        "activity": {
+          "courseApproved": "تم اعتماد الدورة",
+          "userRegistered": "تم تسجيل مستخدم",
+          "reportResolved": "تم حل التقرير",
+          "systemUpdated": "تم تحديث النظام"
+        },
+        "memberSince": "عضو منذ",
+        "lastLogin": "آخر تسجيل دخول",
+        "editProfile": "تعديل الملف الشخصي",
+        "logout": "تسجيل الخروج",
+        "profileImageAlt": "الملف الشخصي",
+        "stats": {
+          "totalUsers": "إجمالي المستخدمين",
+          "activeCourses": "الدورات النشطة",
+          "certificates": "الشهادات",
+          "testsConducted": "الاختبارات المنجزة"
+        },
+        "quickActionsTitle": "الإجراءات السريعة",
+        "quickActions": {
+          "manageUsers": "إدارة المستخدمين",
+          "manageUsersDesc": "حسابات المستخدمين والأذونات",
+          "viewAnalytics": "عرض التحليلات",
+          "viewAnalyticsDesc": "أداء المنصة",
+          "settings": "الإعدادات",
+          "settingsDesc": "تهيئة النظام",
+          "reports": "التقارير",
+          "reportsDesc": "توليد التقارير"
+        },
+        "recentActivity": "النشاط الأخير",
+        "accountInformation": {
+          "accountInformation": "معلومات الحساب",
+          "email": "البريد الإلكتروني",
+          "phone": "رقم الهاتف",
+          "department": "القسم"
+        }
+      }
+    },
     "user": {
       "welcome": "مرحبًا بك في لوحة التحكم الخاصة بك",
       "logout": "تسجيل خروج",
@@ -112,7 +184,10 @@
     "title": "تعلم",
     "highlight": "مهارات الرعاية الصحية",
     "subtitle": "الوصول إلى دورات مهنية مصممة للأطباء والممرضين. طوّر مسيرتك المهنية بالشهادات والتعلم الواقعي.",
-    "stats": { "count": "٥٠٠+", "courses": "دورات متاحة" },
+    "stats": {
+      "count": "٥٠٠+",
+      "courses": "دورات متاحة"
+    },
     "trending": "المجالات الرائجة",
     "domains": {
       "dentist": "طبيب أسنان",
@@ -138,10 +213,8 @@
     "signUp": "تسجيل",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
     "login": "تسجيل الدخول",
-
     "doctor": "طبيب",
     "nurse": "ممرضة",
-
     "specializations": {
       "cardiologist": "طبيب قلب",
       "dermatologist": "طبيب جلدية",
@@ -155,7 +228,6 @@
       "erNurse": "ممرضة طوارئ",
       "oncologyNurse": "ممرضة أورام"
     },
-
     "requiredFirstName": "الرجاء إدخال الاسم الأول",
     "requiredLastName": "الرجاء إدخال اسم العائلة",
     "requiredEmail": "الرجاء إدخال البريد الإلكتروني",
@@ -167,7 +239,6 @@
     "requiredSpecialization": "الرجاء اختيار التخصص",
     "requiredLicense": "الرجاء تحميل الترخيص",
     "requiredHospital": "الرجاء إدخال اسم المستشفى",
-
     "firstNamePlaceholder": "محمد",
     "lastNamePlaceholder": "أحمد",
     "passwordPlaceholder": "أدخل كلمة المرور",
@@ -176,5 +247,685 @@
     "uploadLicenseBtn": "تحميل الترخيص",
     "hospitalPlaceholder": "اسم المستشفى",
     "successMessage": "تم التسجيل بنجاح!"
+  },
+  "course": {
+    "title": "مجموعة واسعة من الدورات",
+    "subtitle": "اختر من بين دورات الفيديو عبر الإنترنت مع إضافات جديدة تُنشر كل شهر",
+    "courseData": {
+      "طبيب الأسنان": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات جراحة الأسنان",
+          "createdBy": "د. سميث",
+          "description": "دليل شامل للمبادئ الأساسية لجراحة الأسنان، يغطي الأدوات الأساسية والتقنيات الإجرائية وبروتوكولات سلامة المرضى. تعلم كيفية إدارة بيئات الجراحة وضمان نتائج مثالية لمختلف العمليات السنية.",
+          "price": 49,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "إتقان علاج قناة الجذر",
+          "createdBy": "د. ألين",
+          "description": "إتقان خطوة بخطوة لعلاج قناة الجذر، بما في ذلك الأدوات المتقدمة وتقنيات الري والمناقشات القائمة على الحالات. فهم كيفية تشخيص أمراض اللب وإجراء علاجات لب الأسنان بدقة.",
+          "price": 59,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "تقنيات تبييض الأسنان",
+          "createdBy": "د. لي",
+          "description": "تعلم طرق تبييض الأسنان المهنية باستخدام العوامل القائمة على البيروكسيد والتقنيات المساعدة بالليزر والقوالب المخصصة. استكشف العلم وراء سلامة المينا والفعالية طويلة المدى لملفات المرضى المختلفة.",
+          "price": 39,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "أساسيات نظافة الفم",
+          "createdBy": "د. باتيل",
+          "description": "فهم أساسيات نظافة الفم، بما في ذلك تقنيات التنظيف وعادات الخيط الطبي ودور الفلورايد. تعلم كيفية تثقيف المرضى للعناية اليومية الأفضل والوقاية من مشاكل الأسنان الشائعة مثل البلاك والتهاب اللثة.",
+          "price": 29,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "دليل زراعة الأسنان",
+          "createdBy": "د. براون",
+          "description": "تدريب شامل على زراعة الأسنان، من التشخيص الأولي وتقييم العظم إلى الوضع الجراحي والصيانة بعد الجراحة. استكشف مواد الزراعة والاندماج العظمي واستراتيجيات النجاح طويلة المدى.",
+          "price": 69,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "طب أسنان الأطفال",
+          "createdBy": "د. جرين",
+          "description": "تدريب مركّز على طب أسنان الأطفال، والتعامل مع التشريح السني الفريد للأطفال وإدارة السلوك والرعاية الوقائية. تعلم كيفية إنشاء بيئة عيادة مناسبة للأطفال ومعالجة احتياجات تقويم الأسنان المبكرة.",
+          "price": 55,
+          "img": "https://toothfairyapp.co.uk/wp-content/uploads/african-american-man-patient-dental-chair-dentist-office-doctor-practice-concept-professional-dentist-helping-his-patient-dentistry-medical-drilling-patient-s-teeth-clinic-1-scaled.jpg"
+        }
+      ],
+
+      "طبيب النساء والتوليد": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات الرعاية السابقة للولادة",
+          "createdBy": "د. جونسون",
+          "description": "يغطي جميع مراحل الرعاية السابقة للولادة، من الحمل إلى الولادة، مما يضمن رحلة حمل صحية للأم والطفل. تعلم مراقبة الجنين والإرشادات الغذائية واستراتيجيات الدعم العاطفي.",
+          "price": 49,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "الحمل عالي الخطورة",
+          "createdBy": "د. إيفانز",
+          "description": "نهج عملي لتحديد وإدارة حالات الحمل عالية الخطورة، بما في ذلك سكري الحمل وتسمم الحمل والحمل المتعدد. فهم كيفية تنسيق الرعاية عبر التخصصات والاستجابة للمضاعفات.",
+          "price": 69,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "طوارئ التوليد",
+          "createdBy": "د. وايت",
+          "description": "تدريب للتعامل مع حالات الطوارئ التوليدية الحرجة مثل النزيف بعد الولادة وعسر ولادة الكتف والانزياح. اكتسب الثقة في اتخاذ القرار السريع وبروتوكولات الطوارئ في أجنحة الولادة.",
+          "price": 79,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "علاجات العقم",
+          "createdBy": "د. يونغ",
+          "description": "نظرة عامة متعمقة على علاجات العقم، بما في ذلك التلقيح داخل الرحم وأطفال الأنابيب والعلاجات الهرمونية. استكشف التقنيات الإنجابية وتقنيات الإرشاد للأزواج الذين يواجهون تحديات الخصوبة.",
+          "price": 59,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "اضطرابات الدورة الشهرية",
+          "createdBy": "د. هيل",
+          "description": "تشخيص وإدارة اضطرابات الدورة الشهرية التي تؤثر على النساء في جميع الأعمار، من المراهقة إلى انقطاع الطمث. تعلم علاج حالات مثل متلازمة تكيس المبايض وانقطاع الطمث وعسر الطمث بالتدخلات الطبية ونمط الحياة.",
+          "price": 45,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "الرعاية بعد الولادة",
+          "createdBy": "د. كينغ",
+          "description": "إرشادات للرعاية الفعالة بعد الولادة، معالجة التعافي الجسدي ودعم الرضاعة الطبيعية والفحص الصحي النفسي. فهم كيفية مراقبة صحة الأم وتعزيز الترابط مع المولود الجديد.",
+          "price": 39,
+          "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
+        }
+      ],
+
+      "الطبيب العام": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات الرعاية الصحية الأولية",
+          "createdBy": "د. آدامز",
+          "description": "مقدمة في ممارسات الرعاية الصحية الأولية والرعاية المركزة على المريض، مع التركيز على الطب الوقائي والتشخيص المبكر. تعلم كيفية بناء الثقة والعلاقات طويلة المدى مع المرضى عبر الفئات الديموغرافية.",
+          "price": 39,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "إدارة ارتفاع ضغط الدم",
+          "createdBy": "د. ديفيس",
+          "description": "تقنيات قائمة على الأدلة لتشخيص وعلاج ارتفاع ضغط الدم، بما في ذلك تعديلات نمط الحياة والخيارات الدوائية واستراتيجيات المراقبة. فهم تأثير الأمراض المصاحبة والتزام المريض.",
+          "price": 49,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "التحكم في السكري",
+          "createdBy": "د. ويلسون",
+          "description": "إرشادات حول نمط الحياة والنظام الغذائي والدواء لإدارة مرض السكري، مع التركيز على التحكم في سكر الدم والعلاج بالأنسولين وتعليم المريض. استكشف المضاعفات مثل الاعتلال العصبي واعتلال الشبكية.",
+          "price": 59,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "الأمراض المعدية الشائعة",
+          "createdBy": "د. مارتن",
+          "description": "تشخيص وعلاج الأمراض المعدية الشائعة عبر الفئات العمرية، بما في ذلك التهابات الجهاز التنفسي وأمراض الجهاز الهضمي والأمراض المنقولة بالنواقل. تعلم تفسير نتائج المختبر ووصف المضادات الميكروبية المناسبة.",
+          "price": 45,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "أساسيات طب الطوارئ",
+          "createdBy": "د. لوبيز",
+          "description": "تعلم كيفية التعامل مع حالات الطوارئ الطبية ومواقف الرعاية العاجلة بفعالية، من السكتة القلبية إلى الحساسية المفرطة. اكتسب المهارات في الفرز والاستقرار وبروتوكولات الإحالة.",
+          "price": 69,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "نظرة عامة على طب الأسرة",
+          "createdBy": "د. ووكر",
+          "description": "فهم شامل لطب الأسرة والرعاية الشاملة، ودمج الصحة الجسدية والعاطفية والاجتماعية. استكشف إدارة الأمراض المزمنة واستمرارية الرعاية عبر الأجيال.",
+          "price": 55,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        }
+      ],
+
+      "طبيب الجلدية": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات العناية بالبشرة",
+          "createdBy": "د. ألين",
+          "description": "ممارسات العناية الأساسية بالبشرة للوقاية والحفاظ على بشرة صحية، بما في ذلك روتين التنظيف والترطيب والحماية من الشمس. تعلم كيفية تخصيص الأنظمة لأنواع البشرة والحالات المختلفة.",
+          "price": 39,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "علاجات حب الشباب",
+          "createdBy": "د. كلارك",
+          "description": "نهج سريري لعلاج حب الشباب والوقاية من تكراره، باستخدام العوامل الموضعية والأدوية الفموية والتدخلات الإجرائية. فهم التأثيرات الهرمونية والآثار النفسية.",
+          "price": 49,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "الصدفية والإكزيما",
+          "createdBy": "د. لويس",
+          "description": "إدارة حالات الجلد المزمنة مثل الإكزيما والصدفية، مع رؤى في العلاجات المناعية ومحفزات نمط الحياة واستشارة المريض. استكشف استراتيجيات الرعاية طويلة المدى والوقاية من التوهجات.",
+          "price": 59,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "طب الجلد بالليزر",
+          "createdBy": "د. هول",
+          "description": "تدريب عملي على إجراءات طب الجلد المتقدمة القائمة على الليزر، بما في ذلك إزالة الشعر وتصحيح التصبغ وعلاج الندوب. تعلم بروتوكولات السلامة والرعاية بعد الإجراء.",
+          "price": 69,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "طب الجلد التجميلي",
+          "createdBy": "د. ألين",
+          "description": "طب الجلد التجميلي والجمالي لتعزيز ثقة المريض، covering البوتوكس، والحشوات، والتقشير الكيميائي، وتجديد الشباب. فهم الاعتبارات الأخلاقية وتوقعات المريض.",
+          "price": 79,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "طب جلدية الأطفال",
+          "createdBy": "د. سكوت",
+          "description": "طب جلدية الأطفال focusing on قضايا جلد الأطفال والعلاجات، مثل طفح الحفاض، الوحمات، والتهاب الجلد التأتبي. تعلم العلاجات المناسبة للعمر وتقنيات التوجيه الأبوي.",
+          "price": 55,
+          "img": "https://www.orthobethesda.com/wp-content/uploads/2020/12/What-is-a-Sports-Medicine-Physician.jpg"
+        }
+      ],
+      "أخصائي الأنف والأذن والحنجرة": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات تشريح الأنف والأذن والحنجرة",
+          "createdBy": "د. باركر",
+          "description": "نظرة عامة مفصلة على تشريح الأنف والأذن والحنجرة وأهميته السريرية، بما في ذلك الجهاز السمعي والممرات الأنفية والهياكل الحنجرية. تعلم كيف يعزز المعرفة التشريحية التشخيص والتخطيط الجراحي.",
+          "price": 39,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "علاجات فقدان السمع",
+          "createdBy": "د. كامبل",
+          "description": "تشخيص وطرق علاج المرضى الذين يعانون من فقدان السمع، من قياس السمع إلى زراعة القوقعة. فهم الأسباب مثل تصلب الأذن والالتهابات والتنكس المرتبط بالعمر.",
+          "price": 49,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "التهاب الأنف التحسسي",
+          "createdBy": "د. ريفيرا",
+          "description": "أسباب وأعراض وعلاجات التهاب الأنف التحسسي ومشاكل الجيوب الأنفية، بما في ذلك مضادات الهيستامين وبخاخات الأنف والخيارات الجراحية. تعلم كيفية التمييز بين المظاهر التحسسية والمعدية.",
+          "price": 45,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "جراحة الجيوب الأنفية",
+          "createdBy": "د. مورفي",
+          "description": "تدريب جراحي عملي لإدارة حالات الجيوب الأنفية المزمنة، مثل جراحة الجيوب الأنفية بالمنظار وتوسيع الجيوب بالبالون. استكشف التقييم قبل الجراحة والرعاية بعدها.",
+          "price": 59,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "اضطرابات الصوت",
+          "createdBy": "د. بيلي",
+          "description": "طرق الرعاية وإعادة التأهيل للمرضى الذين يعانون من اضطرابات الصوت، بما في ذلك شلل الحبال الصوتية والعقيدات واضطراب النطق الوظيفي. تعلم تقنيات العلاج والتدخلات الجراحية.",
+          "price": 69,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "إدارة توقف التنفس أثناء النوم",
+          "createdBy": "د. كوبر",
+          "description": "نهج لتشخيص وإدارة توقف التنفس أثناء النوم من خلال الأنف والأذن والحنجرة، بما في ذلك علاج الضغط الهوائي الإيجابي واستئصال اللوزتين واللحمية وتغييرات نمط الحياة. فهم الرابط بين تشريح المسالك الهوائية ونوعية النوم.",
+          "price": 75,
+          "img": "https://healthinfo.healthengine.com.au/assets/iStock-1051318054-1024x683.jpg"
+        }
+      ],
+      "أخصائي المعالجة المثلية": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "مقدمة في المعالجة المثلية",
+          "createdBy": "د. مورغان",
+          "description": "المفاهيم الأساسية للمعالجة المثلية ونهجها الشامل للصحة، مع التركيز على قانون المشابهات والعلاج الفردي. تعلم الفلسفة وراء اختيار العلاج وتقييم المريض.",
+          "price": 29,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "علاجات لنزلات البرد الشائعة",
+          "createdBy": "د. بيل",
+          "description": "علاجات منزلية عملية لإدارة نزلات البرد والإنفلونزا والأمراض الموسمية، باستخدام مواد شائعة مثل البلادونا والأكونيت والبرايونيا. فهم الجرعة والفعالية ومطابقة الأعراض.",
+          "price": 35,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "إدارة الأمراض المزمنة",
+          "createdBy": "د. ريد",
+          "description": "استراتيجيات المعالجة المثلية لإدارة الأمراض المزمنة طويلة المدى، بما في ذلك التهاب المفاصل والصداع النصفي واضطرابات الجهاز الهضمي. استكشف العلاجات الدستورية ومتابعة الحالات.",
+          "price": 49,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "صيدلية المعالجة المثلية",
+          "createdBy": "د. كوك",
+          "description": "مهارات الصيدلية لإعداد والتعامل مع علاجات المعالجة المثلية، بما في ذلك تقنيات التخفيف والاهتزاز وبروتوكولات التخزين. تعلم المعايير التنظيمية وممارسات السلامة.",
+          "price": 45,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "دراسات الحالة في المعالجة المثلية",
+          "createdBy": "د. بروكس",
+          "description": "تعلم قائم على الحالات لتطبيق المعالجة المثلية في سيناريوهات حقيقية، مع تواريخ مرضية مفصلة، واختيار العلاج، وتتبع النتائج. تطوير المنطق السريري ومهارات التوثيق.",
+          "price": 55,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "مادة ميديكا المتقدمة",
+          "createdBy": "د. وارد",
+          "description": "مادة ميديكا المتقدمة وتطبيقاتها في الإعدادات السريرية، واستكشاف ملفات العلاج والنقاط الرئيسية والتحليل المقارن. تعميق فهمك لعلاقات العلاج ونظرية الميازم.",
+          "price": 65,
+          "img": "https://tse4.mm.bing.net/th/id/OIP.no0GPHVluikFW2ee1P4VIQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+        }
+      ],
+      "الطب الأيورفيدا": [
+        {
+          "id": 1,
+          "expiry": 7,
+          "title": "أساسيات الأيورفيدا",
+          "createdBy": "د. شاه",
+          "description": "تعلم مبادئ الأيورفيدا ودورها في الرعاية الصحية الحديثة، بما في ذلك مفهوم الدوشا والدهات والعناصر الخمسة. فهم كيفية تقييم البراكريتي والفيكريتي في المرضى.",
+          "price": 29,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        },
+        {
+          "id": 2,
+          "expiry": 7,
+          "title": "النظام الغذائي والتغذية في الأيورفيدا",
+          "createdBy": "د. ميهتا",
+          "description": "الممارسات الغذائية وإرشادات التغذية المتجذرة في الأيورفيدا، مع التركيز على الأكل الموسمي والنار الهضمية (أجني) وتوافق الطعام. تعلم كيفية إنشاء خطط وجبات مخصصة.",
+          "price": 39,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        },
+        {
+          "id": 3,
+          "expiry": 7,
+          "title": "علاج بانشاكارما",
+          "createdBy": "د. ناير",
+          "description": "الخصائص الطبية واستخدامات الأعشاب الأيورفيدية الشائعة مثل الأشواغاندا والترفالا والبراهمي. تعلم كيفية تحضير المرق والمساحيق والزيوت للاستخدام العلاجي.",
+          "price": 49,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        },
+        {
+          "id": 4,
+          "expiry": 7,
+          "title": "الأعشاب الأيورفيدية",
+          "createdBy": "د. آير",
+          "description": "دمج اليوجا والأيورفيدا لتحقيق الصحة والسلامة المتوازنة، والجمع بين الوضعيات الجسدية وتقنيات التنفس والتأمل. فهم كيفية محاذاة الجسد والعقل والروح.",
+          "price": 45,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        },
+        {
+          "id": 5,
+          "expiry": 7,
+          "title": "اليوجا والأيورفيدا",
+          "createdBy": "د. مينون",
+          "description": "نهج شامل لتحقيق انسجام العقل والجسد والروح من خلال فلسفة الأيورفيدا، وروتين الحياة، والممارسات الروحية. استكشف الطقوس اليومية (ديناشاريا) والأنظمة الموسمية (ريتوتشاريا).",
+          "price": 55,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        },
+        {
+          "id": 6,
+          "expiry": 7,
+          "title": "الشفاء الشامل",
+          "createdBy": "د. بيلاي",
+          "description": "تقنيات إزالة السموم وتجديد الشباب مع علاج بانشاكارما، بما في ذلك فامانا وفيريتشانا وباستي وناسيا وراكتاموكشانا. استكشف المؤشرات وموانع الاستعمال والرعاية بعد العلاج.",
+          "price": 65,
+          "img": "https://th.bing.com/th/id/R.de24b88f4d2dde8419688153e2dede56?rik=aTT4oqifGl%2bSow&riu=http%3a%2f%2fwww.deepayurveda.com.au%2fcdn%2fshop%2farticles%2fa02c62e32f7f60eb165583126298dd2a.jpg%3fv%3d1693280186&ehk=4rYyWvXdHjLPI4oTyuWcadkyFi2PBbUtkRnYLIzl068%3d&risl=&pid=ImgRaw&r=0"
+        }
+      ]
+    }
+  },
+  "buttonText": {
+    "viewAll": "عرض الكل",
+    "startTest": "ابدأ الاختبار",
+    "addtoCart": "أضف إلى السلة"
+  },
+  "ayurved": {
+    "title1": "دورات لـ",
+    "title2": "الأيورفيدا",
+    "subtitle": "أتقن طب الأسنان من خلال اختبارات تدريبية عبر التخصصات.",
+    "ayurvedTests": [
+      {
+        "price": 199,
+        "duration": 30,
+        "img": "https://el-vergel.com/wp-content/uploads/2020/09/Kundan-ayurveda-edited.jpg",
+        "href": "/tests/basic-ayurveda",
+        "title": "المفاهيم الأساسية للأيورفيدا",
+        "description": "يشمل الدوشا، الداتو، وتركيبة الجسم."
+      },
+      {
+        "price": 199,
+        "duration": 30,
+        "img": "https://i.pinimg.com/originals/b3/89/7d/b3897d1398dcc1be56e4cebce64e5b19.jpg",
+        "href": "/tests/panchakarma",
+        "title": "علاج بانشاكارما",
+        "description": "تعلم تقنيات إزالة السموم والعلاجات التجديدية."
+      },
+      {
+        "price": 199,
+        "duration": 30,
+        "img": "https://i1.wp.com/www.nctayurvedacollege.in/wp-content/uploads/2017/12/dravyaguna-min.jpg?fit=449%2C300&ssl=1",
+        "href": "/tests/dravyaguna",
+        "title": "درافياجونا",
+        "description": "دراسة الأعشاب الطبية وتأثيراتها الدوائية."
+      },
+      {
+        "price": 199,
+        "duration": 30,
+        "img": "https://healthy-ojas.com/sites/default/files/natural/ayurveda-pulse-diagnosis.jpg",
+        "href": "/tests/ayurvedic-diagnosis",
+        "title": "التشخيص الأيورفيدي",
+        "description": "يشمل فحص النبض، تحليل البراكريتي، وتصنيف الأمراض."
+      }
+    ]
+  },
+  "dentist": {
+    "title1": "طبيب الأسنان",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "أتقن طب الأسنان من خلال اختبارات الممارسة عبر التخصصات.",
+
+    "dentistTests": [
+      {
+        "title": "جراحة الفم",
+        "description": "يغطي الإجراءات الجراحية، التخدير، وإدارة الحالات الطارئة.",
+        "price": 99,
+        "duration": 45,
+        "img": "https://www.lovettdental.com/wp-content/uploads/2020/08/oral-surgery.jpeg",
+        "href": "/tests/oral-surgery"
+      },
+      {
+        "title": "تقويم الأسنان",
+        "description": "يتناول الأقواس، المصففات، وتقنيات محاذاة الأسنان.",
+        "price": 99,
+        "duration": 45,
+        "img": "https://www.newcastledentalcare.com.au/wp-content/uploads/2022/12/How-do-orthodontics-work-1200x675.jpg",
+        "href": "/tests/orthodontics"
+      },
+      {
+        "title": "علاج جذور الأسنان",
+        "description": "تعلّم حول إجراءات قناة الجذر وعلاجات اللب السني.",
+        "price": 99,
+        "duration": 45,
+        "img": "https://tse3.mm.bing.net/th/id/OIP.gzaJgwdaougcnz0mJ5zr2wHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/endodontics"
+      },
+      {
+        "title": "Periodontics",
+        "description": "Covers gum diseases and modern periodontal treatments.",
+        "price": 99,
+        "duration": 45,
+        "img": "/materials/dentist4.jpg",
+        "href": "/tests/periodontics"
+      }
+    ]
+  },
+  "dermatologist": {
+    "title1": "طبيب الأمراض الجلدية",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "اختبر معلوماتك في الأمراض الجلدية عبر تخصصات متعددة.",
+    "dermatologistTests": [
+      {
+        "title": "الأمراض الجلدية السريرية",
+        "description": "يشمل أمراض الجلد، التشخيص، والعلاجات الموضعية.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse2.mm.bing.net/th/id/OIP.PKaqx1BxL8Ane3kUN-l97QHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/clinical-dermatology"
+      },
+      {
+        "title": "الأمراض الجلدية التجميلية",
+        "description": "تعرف على البوتوكس، الفيلرز، والإجراءات التجميلية.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://elyzeemc.com/wp-content/uploads/2022/06/cosmetic-dermatology.png",
+        "href": "/tests/cosmetic-dermatology"
+      },
+      {
+        "title": "الأمراض الجلدية للأطفال",
+        "description": "يركز على حالات الجلد لدى الرضع والأطفال.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse3.mm.bing.net/th/id/OIP.nuBj1BFGlzcgEb3KuZKJgAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/pediatric-dermatology"
+      },
+      {
+        "title": "الأورام الجلدية",
+        "description": "يشمل سرطانات الجلد والتدخلات الجراحية.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse1.explicit.bing.net/th/id/OIP.AZ8fK026HNYpTwTLXs4PegHaDk?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/dermato-oncology"
+      }
+    ]
+  },
+  "entSpecialist": {
+    "title1": "أخصائي الأنف والأذن والحنجرة",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "تدرب على تشخيص وعلاج اضطرابات الأنف والأذن والحنجرة.",
+    "entSpecialistTests": [
+      {
+       "title": "علم الأذن",
+        "description": "يشمل اضطرابات الأذن، فقدان السمع، وإدارة الطنين.",
+        "price": 99,
+        "duration": 120,
+        "img": "https://ascentist.com/wp-content/uploads/2021/11/Otology-and-Neurotology-in-Kansas-City-MO.jpg",
+        "href": "/tests/otology"
+      },
+      {
+        "title": "علم الأنف",
+        "description": "تعرف على حالات الأنف، التهاب الجيوب الأنفية، وعلاجات الحساسية.",
+        "price": 99,
+        "duration": 120,
+        "img": "https://fadlullahaksoy.com/en/wp-content/uploads/2019/12/Nasal-Diseases-Rhinology.jpg",
+        "href": "/tests/rhinology"
+      },
+      {
+        "title": "علم الحنجرة",
+        "description": "يركز على اضطرابات الصوت، التهابات الحلق، والعناية بالأحبال الصوتية.",
+        "price": 99,
+        "duration": 120,
+        "img": "https://www.masseyeandear.org/assets/MEE/images/ent/education/laryngology-fellowship-banner.png",
+        "href": "/tests/laryngology"
+      },
+      {
+        "title": "جراحة الرأس والرقبة",
+        "description": "يشمل الإجراءات الجراحية للأورام والصدمات.",
+        "price": 99,
+        "duration": 120,
+        "img": "https://www.oto-hns.northwestern.edu/images/1440x400/main_page-1440x600.jpg",
+        "href": "/tests/head-neck-surgery"
+      }
+    ]
+  },
+  "generalPhysician": {
+    "title1": "الطبيب العام",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "اختبر مهاراتك الطبية العامة في مجالات متعددة.",
+    "generalPhysicianTests": [
+      {
+        "title": "التوليد",
+        "description": "يركز على الحمل، الولادة، والرعاية بعد الولادة.",
+        "price": 99,
+        "duration": 30,
+        "img": "https://tse1.mm.bing.net/th/id/OIP.5eoHhDJ9XF4BEGAcmVCXSwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/obstetrics"
+      },
+      {
+        "title": "الغدد الصماء التناسلية",
+        "description": "يشمل العقم، التلقيح الصناعي، واضطرابات الهرمونات.",
+        "price": 99,
+        "duration": 30,
+        "img": "https://www.careinsurance.com/upload_master/media/posts/April2025/endocrinology.webp",
+        "href": "/tests/reproductive-endocrinology"
+      },
+      {
+        "title": "أورام النساء",
+        "description": "تعرف على سرطانات الجهاز التناسلي الأنثوي والعلاجات.",
+        "price": 99,
+        "duration": 30,
+        "img": "https://sunnybrook.ca/uploads/1/programs/odette-cancer/gyneonc/gynonc_vicus_171103_103-s.jpg",
+        "href": "/tests/gynecologic-oncology"
+      },
+      {
+        "title": "طب الأم والجنين",
+        "description": "يشمل حالات الحمل عالية الخطورة ومضاعفات الجنين.",
+        "price": 99,
+        "duration": 30,
+        "img": "https://cache.careers360.mobi/media/presets/820X410/careers/banner_images/2020/7/22/General%20Physician.jpg",
+        "href": "/tests/maternal-fetal-medicine"
+      }
+    ]
+  },
+  "gynecologist": {
+    "title1": "طبيبة نسائية",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "اختبر معرفتك في طب النساء والتوليد عبر تخصصات متعددة.",
+    "gynecologistTests": [
+      {
+        "title": "التوليد",
+        "description": "يركز على الحمل، الولادة، والرعاية بعد الولادة.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse1.mm.bing.net/th/id/OIP.5eoHhDJ9XF4BEGAcmVCXSwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/obstetrics"
+      },
+      {
+        "title": "الغدد الصماء التناسلية",
+        "description": "يشمل العقم، التلقيح الصناعي، واضطرابات الهرمونات.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse3.mm.bing.net/th/id/OIP.Ik13Z6JDhESxar1l39wXDQHaE0?w=740&h=482&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/reproductive-endocrinology"
+      },
+      {
+         "title": "أورام النساء",
+        "description": "تعرف على سرطانات الجهاز التناسلي الأنثوي والعلاجات.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse1.mm.bing.net/th/id/OIP.z7OhT5Xr02j46s5b2zu9fAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/gynecologic-oncology"
+      },
+      {
+        "title": "طب الأم والجنين",
+        "description": "يشمل حالات الحمل عالية الخطورة ومضاعفات الجنين.",
+        "price": 99,
+        "duration": 60,
+        "img": "https://tse1.explicit.bing.net/th/id/OIP.Jf1K3ZCurMB7cIn12XVnwQHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "href": "/tests/maternal-fetal-medicine"
+      }
+    ]
+  },
+  "homoeopath": {
+    "title1": "الطبيب المعالج بالطب البديل",
+    "title2": "اختبارات تجريبية",
+    "subtitle": "اختبر معرفتك في المبادئ والعلاجات الخاصة بالطب البديل.",
+    "homoeopathTests": [
+      {
+        "title": "مبادئ الطب البديل",
+        "description": "يشمل مبدأ التشابه، التخفيف، واختيار العلاج المناسب.",
+        "duration": 15,
+        "img": "https://nigolifeline.com/wp-content/uploads/2023/09/7-cardinal-principles-of-homeopathy.jpg",
+        "href": "/tests/homeopathy-principles",
+        "price": 99
+      },
+      {
+        "title": "مادة طبية",
+        "description": "تعرف على العلاجات الرئيسية ودواعي استخدامها.",
+        "duration": 15,
+        "img": "https://www.herbalella.com/images/materiamedica.png",
+        "href": "/tests/materia-medica",
+        "price": 99
+      },
+      {
+        "title": "أورغانون الطب",
+        "description": "دراسة فلسفة هانيمان والإرشادات العلاجية.",
+        "duration": 15,
+        "img": "https://www.thehealthsite.com/wp-content/uploads/2022/01/homeopathy-medicine-treatment-in-hindi.jpg",
+        "href": "/tests/organon",
+        "price": 99
+      },
+      {
+        "title": "أخذ وتحليل الحالة",
+        "description": "يشمل تقنيات مقابلة المرضى ومطابقة العلاج.",
+        "duration": 15,
+        "img": "https://nigolifeline.com/wp-content/uploads/2023/09/7-cardinal-principles-of-homeopathy.jpg",
+        "href": "/tests/case-taking",
+        "price": 99
+      }
+    ]
   }
 }

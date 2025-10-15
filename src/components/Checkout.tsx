@@ -258,7 +258,7 @@ const Checkout: React.FC = () => {
               {otpValues.map((value, index) => (
                 <input
                   key={index}
-                  ref={(el) => (otpRefs.current[index] = el)}
+                  ref={(el) => { otpRefs.current[index] = el; }}
                   value={value}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}

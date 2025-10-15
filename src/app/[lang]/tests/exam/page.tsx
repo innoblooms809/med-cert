@@ -174,7 +174,7 @@ export default function ExamPage() {
   const getTimeColor = (questionType: string, timeSpent: number) => {
     const timing = getQuestionTimingInfo(questionType);
     const progressPercent = (timeSpent / timing.recommended) * 100;
-    
+     
     if (progressPercent < 50) return '#52c41a'; // Green
     if (progressPercent < 80) return '#faad14'; // Orange
     return '#f5222d'; // Red
@@ -361,7 +361,7 @@ export default function ExamPage() {
             Recommended: {questionTiming.min}-{questionTiming.max} seconds
             {questionTimeSpent >= questionTiming.recommended && (
               <span style={{ color: '#f5222d', fontWeight: 'bold', marginLeft: 8 }}>
-                • Time's up! Moving to next question...
+                • Times up! Moving to next question...
               </span>
             )}
           </Text>

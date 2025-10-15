@@ -263,7 +263,7 @@ export default function TestsPage() {
                         <div>{test.totalQuestions} questions • {test.duration} mins</div>
                         <div style={{ marginTop: 4 }}>
                           {Array.from(new Set(test.questions.map(q => q.type))).slice(0, 3).map(type => (
-                            <Tag key={type} size="small" style={{ margin: '2px' }}>
+                            <Tag key={type} style={{ margin: '2px', fontSize: '12px', padding: '2px 6px' }}>
                               {type}
                             </Tag>
                           ))}

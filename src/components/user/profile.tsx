@@ -270,7 +270,7 @@ export default function UserProfile() {
               </Tabs.TabPane>
 
               <Tabs.TabPane tab="Security" key="2">
-                <ChangePassword user={user} onSave={(updated) => { setUser(updated); saveUserToStorage(updated); }} />
+                <ChangePassword user={user} onSave={(updated:any) => { setUser(updated); saveUserToStorage(updated); }} />
               </Tabs.TabPane>
 
               <Tabs.TabPane tab="About" key="3">

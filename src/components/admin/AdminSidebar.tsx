@@ -30,6 +30,8 @@ const iconMap: Record<string, React.ReactNode> = {
 
 interface AdminSidebarProps {
   collapsed: boolean;
+  dict?: any;
+  lang?: string;
 }
 
 interface User {
@@ -39,7 +41,7 @@ interface User {
   role?: string;
 }
 
-export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
+export default function AdminSidebar({ collapsed, dict, lang }: AdminSidebarProps) {
   // const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const [selectedKey, setSelectedKey] = useState<string>("");
@@ -62,7 +64,8 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
       }
     }
   }, []);
-
+  const isRTL = lang === "ar";
+  console.log(dict.dashboard.admin.sider.brandFull, "asdfghjhgfd")
   return (
     <Sider
       collapsible
@@ -73,20 +76,22 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
         background: "var(--sidebar-bg)",
         color: "var(--sidebar-text)",
         overflow: "hidden",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
       {/* Sidebar Header */}
       <div
         className={`text-xl font-bold text-white py-4 px-4 transition-all duration-300`}
         style={{
-          textAlign: collapsed ? "center" : "left",
+          textAlign: collapsed ? "center" : isRTL ? "right" : "left",
           background: "var(--sidebar-bg)",
           color: "var(--sidebar-text)",
           borderBottom: "1px solid var(--section-border)",
           fontSize: collapsed ? "1rem" : "1.25rem",
         }}
       >
-        {collapsed ? "M+" : "Med + Cert"}
+        {collapsed ? dict.dashboard.admin.sider.brandCollapsed || "M+" : dict.dashboard.admin.sider.brandFull || "Med + Cert"}
+
       </div>
 
       {/* Menu */}
@@ -97,19 +102,20 @@ export default function AdminSidebar({ collapsed }: AdminSidebarProps) {
         selectedKeys={[selectedKey]}
         onClick={({ key }) => {
           setSelectedKey(key);
-          router.push(key);
+          router.push(`/${lang}/admin${key}`);
         }}
         style={{
           background: "var(--sidebar-bg)",
           color: "var(--sidebar-text)",
           borderRight: "none",
           marginTop: 20,
+          textAlign: isRTL ? "right" : "left",
         }}
         items={adminbarItems.flatMap((item, index) => {
           const menuItem = {
             key: item.path,
-            icon: iconMap[item.label],
-            label: item.label,
+            icon: iconMap[item.label] || null,
+            label: dict.dashboard.admin.sider?.[item.label.toLowerCase()] ?? item.label,
           };
           // Add divider after each item except last
           if (index < adminbarItems.length - 1) {
