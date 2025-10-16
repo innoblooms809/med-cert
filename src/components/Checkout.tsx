@@ -1,29 +1,46 @@
-'use client';
+"use client";
 import React, { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Card, Button, Input, Checkbox, Form, Result, Space, Divider, Tag, message,Alert } from "antd";
-import { 
-  CreditCardOutlined, 
-  SafetyCertificateOutlined, 
+import {
+  Card,
+  Button,
+  Input,
+  Checkbox,
+  Form,
+  Result,
+  Space,
+  Divider,
+  Tag,
+  message,
+  Alert,
+} from "antd";
+import {
+  CreditCardOutlined,
+  SafetyCertificateOutlined,
   CheckCircleOutlined,
   DownloadOutlined,
-  ArrowLeftOutlined
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { useCart } from "@/components/cartContext";
-import { CheckoutFormData, CheckoutErrors, CheckoutStep } from "@/utils/data/types/cart";
+import {
+  CheckoutFormData,
+  CheckoutErrors,
+  CheckoutStep,
+} from "@/utils/data/types/cart";
 
 const GST_RATE = 0.18;
 
 const Checkout: React.FC = () => {
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
-  
+
   const [step, setStep] = useState<CheckoutStep>("form");
   const [form] = Form.useForm();
   const [errors, setErrors] = useState<CheckoutErrors>({});
   const [generatedOtp, setGeneratedOtp] = useState<string>("");
   const [otpValues, setOtpValues] = useState<string[]>(new Array(6).fill(""));
   const [otpError, setOtpError] = useState<string>("");
+  const [purchasedItems, setPurchasedItems] = useState(cartItems); // Store items before clearing cart
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Totals
@@ -50,8 +67,9 @@ const Checkout: React.FC = () => {
       newErrors.expiry = "Expiry must be MM/YY";
     }
 
-    if (!/^\d{3,4}$/.test(values.cvc || "")) {
-      newErrors.cvc = "CVC must be 3 or 4 digits";
+    // Changed from 3-4 digits to exactly 3 digits
+    if (!/^\d{3}$/.test(values.cvv || "")) {
+      newErrors.cvv = "CVV must be 3 digits";
     }
 
     if (!values.terms) newErrors.terms = "You must accept terms & privacy";
@@ -61,7 +79,7 @@ const Checkout: React.FC = () => {
   }, [form]);
 
   // Submit payment
-    const handleFormSubmit = async (values: CheckoutFormData) => {
+  const handleFormSubmit = async (values: CheckoutFormData) => {
     if (!validateForm()) return;
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
@@ -70,13 +88,15 @@ const Checkout: React.FC = () => {
     setOtpError("");
     setStep("otp");
 
+    // Store purchased items before clearing cart
+    setPurchasedItems([...cartItems]);
+
     // Wait until step updates, then show OTP
     setTimeout(() => {
-        alert(`Demo OTP: ${otp}`);   // 👈 replaced message.info with alert
-        otpRefs.current[0]?.focus();
+      alert(`Demo OTP: ${otp}`);
+      otpRefs.current[0]?.focus();
     }, 200);
-    };
-
+  };
 
   // OTP logic
   const handleOtpChange = (index: number, value: string) => {
@@ -87,7 +107,10 @@ const Checkout: React.FC = () => {
     if (value && index < 5) otpRefs.current[index + 1]?.focus();
   };
 
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleOtpKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Backspace" && !otpValues[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
       const newOtpValues = [...otpValues];
@@ -107,21 +130,134 @@ const Checkout: React.FC = () => {
     clearCart();
   };
 
-    const resendOtp = () => {
+  const resendOtp = () => {
     const otp = String(Math.floor(100000 + Math.random() * 900000));
     setGeneratedOtp(otp);
     setOtpValues(new Array(6).fill(""));
     setOtpError("");
 
     setTimeout(() => {
-        alert(`New demo OTP: ${otp}`); 
-        otpRefs.current[0]?.focus();
+      alert(`New demo OTP: ${otp}`);
+      otpRefs.current[0]?.focus();
     }, 200);
-    };
+  };
 
+  // Download receipt as PDF
+  // Download receipt as PDF
+  const handleDownloadReceipt = async () => {
+    const itemsToDisplay = purchasedItems.length > 0 ? purchasedItems : cartItems;
+
+    if (itemsToDisplay.length === 0) {
+      message.error("No items found for receipt");
+      return;
+    }
+
+    const receiptSubtotal = itemsToDisplay.reduce((acc, item) => acc + item.price, 0);
+    const receiptGst = receiptSubtotal * GST_RATE;
+    const receiptTotal = Number((receiptSubtotal + receiptGst).toFixed(2));
+
+    try {
+      message.loading({ content: "Generating receipt...", key: "receipt", duration: 0 });
+
+      const html2canvas = (await import("html2canvas")).default;
+      const jsPDF = (await import("jspdf")).default;
+
+      // Create receipt container (make it visible off-screen, not opacity: 0)
+      const receiptDiv = document.createElement("div");
+      receiptDiv.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: -9999px;
+        width: 600px;
+        background: white;
+        color: #1f2937;
+        padding: 32px;
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        z-index: 10000;
+      `;
+
+      receiptDiv.innerHTML = `
+        <div style="text-align: center; margin-bottom: 16px;">
+          <h1 style="font-size: 24px; font-weight: bold; color: #2563eb; margin: 0 0 16px 0;">EduCourse - Payment Receipt</h1>
+        </div>
+
+        <div style="border-bottom: 1px solid #d1d5db; margin-bottom: 16px; padding-bottom: 8px;">
+          <p style="margin: 4px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+          <p style="margin: 4px 0;"><strong>Time:</strong> ${new Date().toLocaleTimeString()}</p>
+          <p style="margin: 4px 0;"><strong>Transaction ID:</strong> ${Math.random()
+            .toString(36)
+            .substring(2, 10)
+            .toUpperCase()}</p>
+        </div>
+
+        <h2 style="font-size: 18px; font-weight: 600; color: #2563eb; border-bottom: 1px solid #d1d5db; margin-bottom: 12px; padding-bottom: 4px;">Purchased Courses</h2>
+
+        ${itemsToDisplay
+          .map(
+            (item) => `
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+            <div>
+              <p style="font-weight: 600; margin: 0;">${item.title || item.name}</p>
+              <p style="font-size: 14px; color: #6b7280; margin: 0;">${item.createdBy || "Instructor"}</p>
+            </div>
+            <p style="font-weight: 600; color: #3b82f6; margin: 0;">$${(item.price || 0).toFixed(2)}</p>
+          </div>
+        `
+          )
+          .join("")}
+
+        <div style="margin-top: 16px; border-top: 1px solid #d1d5db; padding-top: 8px;">
+          <p style="display: flex; justify-content: space-between; margin: 4px 0;">
+            <span>Subtotal:</span>
+            <span>$${receiptSubtotal.toFixed(2)}</span>
+          </p>
+          <p style="display: flex; justify-content: space-between; margin: 4px 0;">
+            <span>GST (18%):</span>
+            <span>$${receiptGst.toFixed(2)}</span>
+          </p>
+          <p style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; color: #2563eb; margin: 8px 0 0 0;">
+            <span>Total:</span>
+            <span>$${receiptTotal.toFixed(2)}</span>
+          </p>
+        </div>
+
+        <div style="text-align: center; font-size: 14px; color: #6b7280; margin-top: 24px; border-top: 1px solid #d1d5db; padding-top: 16px;">
+          <p style="margin: 4px 0;">Thank you for your purchase!</p>
+          <p style="color: #2563eb; font-weight: 600; margin: 4px 0;">Happy Learning!</p>
+        </div>
+      `;
+
+      document.body.appendChild(receiptDiv);
+
+      // Wait for styles and layout to render
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      const canvas = await html2canvas(receiptDiv, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 190;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 10, 10, imgWidth, imgHeight);
+      pdf.save(`receipt-${Date.now()}.pdf`);
+
+      document.body.removeChild(receiptDiv);
+      message.success({ content: "Receipt downloaded successfully!", key: "receipt" });
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      message.error({ content: "Failed to download receipt. Please try again.", key: "receipt" });
+    }
+  };
 
   const handleBackToCourses = () => router.push("/");
-  const handleDownloadReceipt = () => message.success("Receipt download placeholder");
 
   // Confetti effect
   const Confetti: React.FC = () => (
@@ -130,14 +266,14 @@ const Checkout: React.FC = () => {
         <div
           key={i}
           className={`absolute w-2 h-5 rounded-sm opacity-90 animate-bounce
-            ${i % 6 === 0 ? 'bg-red-400' : ''}
-            ${i % 6 === 1 ? 'bg-yellow-400' : ''}
-            ${i % 6 === 2 ? 'bg-green-400' : ''}
-            ${i % 6 === 3 ? 'bg-blue-400' : ''}
-            ${i % 6 === 4 ? 'bg-purple-400' : ''}
-            ${i % 6 === 5 ? 'bg-pink-400' : ''}`}
+            ${i % 6 === 0 ? "bg-red-400" : ""}
+            ${i % 6 === 1 ? "bg-yellow-400" : ""}
+            ${i % 6 === 2 ? "bg-green-400" : ""}
+            ${i % 6 === 3 ? "bg-blue-400" : ""}
+            ${i % 6 === 4 ? "bg-purple-400" : ""}
+            ${i % 6 === 5 ? "bg-pink-400" : ""}`}
           style={{
-            left: `${8 + (i * 4)}%`,
+            left: `${8 + i * 4}%`,
             animationDelay: `${i * 0.1}s`,
             animationDuration: `${2 + i * 0.1}s`,
           }}
@@ -155,7 +291,11 @@ const Checkout: React.FC = () => {
             status="info"
             title="Your cart is empty"
             subTitle="Please add some courses before proceeding to checkout"
-            extra={<Button type="primary" onClick={() => router.push("/")}>Browse Courses</Button>}
+            extra={
+              <Button type="primary" onClick={() => router.push("/")}>
+                Browse Courses
+              </Button>
+            }
           />
         </Card>
       </div>
@@ -166,7 +306,10 @@ const Checkout: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-indigo-100 p-4 py-8">
       {/* Payment form */}
       {step === "form" && (
-        <Card className="w-full max-w-md shadow-xl border-0" styles={{ body:{padding: "24px"} }}>
+        <Card
+          className="w-full max-w-md shadow-xl border-0"
+          styles={{ body: { padding: "24px" } }}
+        >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold flex items-center gap-2">
               <CreditCardOutlined /> Payment Details
@@ -196,7 +339,11 @@ const Checkout: React.FC = () => {
                 return digits.replace(/(\d{4})(?=\d)/g, "$1 ");
               }}
             >
-              <Input size="large" placeholder="Valid card number" maxLength={19} />
+              <Input
+                size="large"
+                placeholder="Valid card number"
+                maxLength={19}
+              />
             </Form.Item>
 
             <div className="grid grid-cols-2 gap-4">
@@ -207,21 +354,29 @@ const Checkout: React.FC = () => {
                 help={errors.expiry}
                 getValueFromEvent={(e) => {
                   let value = onlyDigits(e.target.value).slice(0, 4);
-                  if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
+                  if (value.length > 2)
+                    value = value.slice(0, 2) + "/" + value.slice(2);
                   return value;
                 }}
               >
-                <Input size="large" placeholder="MM/YY" maxLength={5} inputMode="numeric" />
+                <Input
+                  size="large"
+                  placeholder="MM/YY"
+                  maxLength={5}
+                  inputMode="numeric"
+                />
               </Form.Item>
 
               <Form.Item
-                name="cvc"
-                label="CVC"
-                validateStatus={errors.cvc ? "error" : ""}
-                help={errors.cvc}
-                getValueFromEvent={(e) => onlyDigits(e.target.value).slice(0, 4)}
+                name="cvv"
+                label="CVV"
+                validateStatus={errors.cvv ? "error" : ""}
+                help={errors.cvv}
+                getValueFromEvent={(e) =>
+                  onlyDigits(e.target.value).slice(0, 3)
+                }
               >
-                <Input.Password size="large" placeholder="CVC" maxLength={4} />
+                <Input.Password size="large" placeholder="CVV" maxLength={3} />
               </Form.Item>
             </div>
 
@@ -231,7 +386,12 @@ const Checkout: React.FC = () => {
               validateStatus={errors.terms ? "error" : ""}
               help={errors.terms}
             >
-              <Checkbox>I accept the <a href="#privacy" className="text-purple-600">terms & privacy</a></Checkbox>
+              <Checkbox>
+                I accept the{" "}
+                <a href="#privacy" className="text-purple-600">
+                  terms & privacy
+                </a>
+              </Checkbox>
             </Form.Item>
 
             <Button type="primary" htmlType="submit" size="large" block>
@@ -241,7 +401,9 @@ const Checkout: React.FC = () => {
             <Divider dashed>Accepted Payment Methods</Divider>
             <div className="flex flex-wrap gap-2 justify-center">
               {["VISA", "MasterCard", "Google Pay", "Apple Pay"].map((m) => (
-                <Tag key={m} color="blue">{m}</Tag>
+                <Tag key={m} color="blue">
+                  {m}
+                </Tag>
               ))}
             </div>
           </Form>
@@ -250,7 +412,10 @@ const Checkout: React.FC = () => {
 
       {/* OTP */}
       {step === "otp" && (
-        <Card className="w-full max-w-md shadow-xl border-0 text-center" bodyStyle={{ padding: "24px" }}>
+        <Card
+          className="w-full max-w-md shadow-xl border-0 text-center"
+          bodyStyle={{ padding: "24px" }}
+        >
           <SafetyCertificateOutlined className="text-4xl text-blue-500 mb-4" />
           <h3 className="text-xl font-bold mb-2">Enter OTP</h3>
           <form onSubmit={submitOtp} className="space-y-6">
@@ -258,7 +423,9 @@ const Checkout: React.FC = () => {
               {otpValues.map((value, index) => (
                 <input
                   key={index}
-                  ref={(el) => { otpRefs.current[index] = el; }}
+                  ref={(el) => {
+                    otpRefs.current[index] = el;
+                  }}
                   value={value}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
@@ -270,9 +437,19 @@ const Checkout: React.FC = () => {
             </div>
             {otpError && <Alert message={otpError} type="error" showIcon />}
             <Space direction="vertical" className="w-full">
-              <Button type="primary" htmlType="submit" size="large">Submit Code</Button>
-              <Button type="link" onClick={resendOtp}>Resend Code</Button>
-              <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => setStep("form")}>Back to payment</Button>
+              <Button type="primary" htmlType="submit" size="large">
+                Submit Code
+              </Button>
+              <Button type="link" onClick={resendOtp}>
+                Resend Code
+              </Button>
+              <Button
+                type="text"
+                icon={<ArrowLeftOutlined />}
+                onClick={() => setStep("form")}
+              >
+                Back to payment
+              </Button>
             </Space>
           </form>
         </Card>
@@ -281,15 +458,34 @@ const Checkout: React.FC = () => {
       {/* Success */}
       {step === "success" && (
         <div className="relative w-full max-w-2xl">
-          <Card className="shadow-2xl border-0 text-center relative z-10" bodyStyle={{ padding: "40px" }}>
+          <Card
+            className="shadow-2xl border-0 text-center relative z-10"
+            bodyStyle={{ padding: "40px" }}
+          >
             <Result
               icon={<CheckCircleOutlined className="text-green-500" />}
               status="success"
               title="Transaction Successful!"
-              subTitle={`Your payment of $${totalAmount.toFixed(2)} has been processed successfully.`}
+              subTitle={`Your payment of $${totalAmount.toFixed(
+                2
+              )} has been processed successfully.`}
               extra={[
-                <Button key="courses" type="primary" size="large" onClick={handleBackToCourses}>Back to Courses</Button>,
-                <Button key="receipt" icon={<DownloadOutlined />} size="large" onClick={handleDownloadReceipt}>Download Receipt</Button>,
+                <Button
+                  key="courses"
+                  type="primary"
+                  size="large"
+                  onClick={handleBackToCourses}
+                >
+                  Back to Courses
+                </Button>,
+                <Button
+                  key="receipt"
+                  icon={<DownloadOutlined />}
+                  size="large"
+                  onClick={handleDownloadReceipt}
+                >
+                  Download Receipt
+                </Button>,
               ]}
             />
           </Card>

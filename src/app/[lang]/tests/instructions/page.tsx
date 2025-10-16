@@ -8,10 +8,10 @@ import {
   BulbOutlined,
   ClockCircleOutlined,
   SafetyOutlined,
-  CodeOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { TestQuestion, getQuestionTypeDisplay, filterQuestionsByDifficulty } from "@/utils/testData";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const { Title, Text } = Typography;
 
@@ -21,6 +21,9 @@ export default function InstructionsPage() {
   const [testInfo, setTestInfo] = useState<any>(null);
   const [difficulty, setDifficulty] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState<TestQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [currentStep, setCurrentStep] = useState("Initializing Test Environment");
 
   useEffect(() => {
     const storedTest = sessionStorage.getItem('currentTest');
@@ -41,13 +44,51 @@ export default function InstructionsPage() {
     }
   }, []);
 
+  const simulateLoading = () => {
+    setIsLoading(true);
+    setLoadingProgress(0);
+    setCurrentStep("Initializing Test Environment");
+
+    const steps = [
+      { progress: 25, step: "Loading Questions" },
+      { progress: 50, step: "Setting Up Timer" },
+      { progress: 75, step: "Preparing Interface" },
+      { progress: 100, step: "Ready to Start" }
+    ];
+
+    let currentStepIndex = 0;
+
+    const interval = setInterval(() => {
+      if (currentStepIndex < steps.length) {
+        setLoadingProgress(steps[currentStepIndex].progress);
+        setCurrentStep(steps[currentStepIndex].step);
+        currentStepIndex++;
+      } else {
+        clearInterval(interval);
+        // Store filtered questions and navigate to exam
+        sessionStorage.setItem('examQuestions', JSON.stringify(filteredQuestions));
+        router.push("/tests/exam");
+      }
+    }, 2000);
+  };
+
   const handleStart = () => {
     if (inputValue.toLowerCase() === "start") {
-      // Store filtered questions for the exam
-      sessionStorage.setItem('examQuestions', JSON.stringify(filteredQuestions));
-      router.push("/tests/exam");
+      simulateLoading();
     }
   };
+
+  // Show loading screen if loading
+  if (isLoading) {
+    return (
+      <LoadingScreen
+        testTitle={testInfo?.title || "Test"}
+        domain={testInfo?.domain || "Domain"}
+        progress={loadingProgress}
+        currentStep={currentStep}
+      />
+    );
+  }
 
   if (!testInfo) {
     return (
@@ -195,21 +236,28 @@ export default function InstructionsPage() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     style={{ flex: 1, height: 45, fontSize: 16, borderRadius: "8px 0 0 8px" }}
+                    disabled={isLoading}
                   />
                   <Button
                     type="primary"
                     size="large"
-                    disabled={inputValue.toLowerCase() !== "start"}
+                    disabled={inputValue.toLowerCase() !== "start" || isLoading}
                     onClick={handleStart}
                     style={{
                       height: 45,
                       fontSize: 16,
                       borderRadius: "0 8px 8px 0",
                     }}
+                    loading={isLoading}
                   >
-                    Start Test →
+                    {isLoading ? "Starting..." : "Start Test →"}
                   </Button>
                 </div>
+                {isLoading && (
+                  <Text type="secondary" style={{ display: 'block', marginTop: 8, fontSize: 12 }}>
+                    Please wait while we prepare your test environment...
+                  </Text>
+                )}
               </div>
             </div>
           </Col>

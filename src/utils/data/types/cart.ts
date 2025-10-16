@@ -29,7 +29,7 @@ export interface CheckoutErrors {
   name?: string;
   card?: string;
   expiry?: string;
-  cvc?: string;
+  cvv?: string;
   terms?: string;
 }
 

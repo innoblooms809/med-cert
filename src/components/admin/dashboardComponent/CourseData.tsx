@@ -32,7 +32,9 @@ interface CustomTooltipProps {
   }>;
   label?: string;
 }
-
+export default function CoursesCharts({ dict, lang }: any) {
+  const chartsText = dict.dashboard.admin.charts;
+  console.log(chartsText,"sdfghjkjhgfd")
 // Mock Data
 const courses: Course[] = [
   { id: "1", title: "ENT Basics", specialization: "ENT", courseRole: "Doctor" },
@@ -52,7 +54,6 @@ const courses: Course[] = [
   { id: "15", title: "Emergency Nursing", specialization: "ICU", courseRole: "Nurse" },
 ];
 
-export default function CoursesCharts() {
   // Aggregate data for bar chart (courses per specialization)
   const specializationMap: Record<string, number> = {};
   courses.forEach((c) => {
@@ -98,7 +99,7 @@ export default function CoursesCharts() {
         }}>
           <p style={{ margin: 0, color: "#1e293b", fontWeight: 600 }}>{label}</p>
           <p style={{ margin: "4px 0 0 0", color: COLORS.pie[0] }}>
-            Courses: <span style={{ fontWeight: 700 }}>{payload[0].value}</span>
+            {chartsText.coursesLabel}:{" "} <span style={{ fontWeight: 700 }}>{payload[0].value}</span>
           </p>
         </div>
       );
@@ -132,7 +133,7 @@ export default function CoursesCharts() {
                   marginRight: 12,
                 }}
               ></div>
-              📊 Courses by Specialization
+              📊 {chartsText.coursesBySpecialization}
             </div>
           }
           style={{
@@ -221,7 +222,7 @@ export default function CoursesCharts() {
                   marginRight: 12,
                 }}
               ></div>
-              👥 Courses by Role
+              👥 {chartsText.coursesByRole}
             </div>
           }
           style={{
