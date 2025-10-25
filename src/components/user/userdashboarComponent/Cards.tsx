@@ -5,6 +5,7 @@ import {
     BookOutlined,
     VideoCameraOutlined,
     CheckCircleOutlined,
+    SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -20,7 +21,7 @@ export default function Cards({ dict, lang }: { dict: any; lang: any }) {
             path: "/user/myCourse",
         },
         {
-            title: dict?.lecturesWatched || "Lectures Watched",
+            title: dict?.lecturesWatched || "Lectures Completed",
             value: 45,
             icon: <VideoCameraOutlined />,
             color: "#ef4444",
@@ -28,11 +29,19 @@ export default function Cards({ dict, lang }: { dict: any; lang: any }) {
             path: "/user/myCourse",
         },
         {
-            title: dict?.submissions || "My Submissions",
+            title: dict?.testsTaken || "Tests Taken",
             value: 8,
             icon: <CheckCircleOutlined />,
             color: "#10b981",
             bg: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+            path: "/user/myCourse",
+        },
+        {
+            title: dict?.certificates || "Certificates",
+            value: 3,
+            icon: <SafetyCertificateOutlined />,
+            color: "#f59e0b",
+            bg: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
             path: "/user/myCourse",
         },
     ];
@@ -140,13 +149,13 @@ export default function Cards({ dict, lang }: { dict: any; lang: any }) {
                 </Card>
 
                 <style jsx>{`
-          .stat-card:hover .stat-icon {
-            transform: scale(1.1);
-          }
-          .stat-card:hover .hover-overlay {
-            opacity: 0.05;
-          }
-        `}</style>
+                    .stat-card:hover .stat-icon {
+                        transform: scale(1.1);
+                    }
+                    .stat-card:hover .hover-overlay {
+                        opacity: 0.05;
+                    }
+                `}</style>
             </motion.div>
         );
     }
@@ -155,7 +164,7 @@ export default function Cards({ dict, lang }: { dict: any; lang: any }) {
         <div style={{ padding: "24px 24px 0 24px" }}>
             <Row gutter={[24, 24]}>
                 {stats.map((stat) => (
-                    <Col xs={24} sm={12} lg={8} key={stat.title}>
+                    <Col xs={24} sm={12} lg={6} key={stat.title}>
                         <StatCard stat={stat} lang={lang} />
                     </Col>
                 ))}
