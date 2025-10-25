@@ -5,6 +5,7 @@ import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input,
 import { useRouter } from "next/navigation";
 import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined } from "@ant-design/icons";
 import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
+import CodeEditor from "@/components/CodeEditor";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -87,7 +88,7 @@ export default function ExamPage() {
     }, 1000);
 
     return () => clearInterval(questionTimer);
-  }, [currentQuestionIndex, questions]); // Added questions to dependencies
+  }, [currentQuestionIndex, questions]);
 
   const handleAnswerSelect = (answer: any) => {
     const newAnswers = {
@@ -225,16 +226,39 @@ export default function ExamPage() {
                 <Text>{question.solutionApproach}</Text>
               </Card>
             )}
-            <TextArea
-              placeholder="Write your code solution here..."
-              value={currentAnswer?.value || ''}
-              onChange={(e) => handleCodeAnswer(e.target.value)}
-              rows={12}
-              style={{ 
-                fontFamily: 'monospace',
-                fontSize: '14px'
-              }}
-            />
+            <div style={{ marginBottom: 16 }}>
+              <Text strong style={{ display: 'block', marginBottom: 8 }}>
+                Write your code solution below:
+              </Text>
+              <CodeEditor
+                value={currentAnswer?.value || ''}
+                onChange={handleCodeAnswer}
+                language="javascript"
+                height="300px"
+              />
+            </div>
+            {question.sampleSolution && (
+              <Card 
+                size="small" 
+                style={{ marginBottom: 16, background: '#f6ffed' }}
+                title={
+                  <Text strong style={{ color: '#389e0d' }}>
+                    💡 Sample Solution (For Reference)
+                  </Text>
+                }
+              >
+                <pre style={{ 
+                  margin: 0, 
+                  fontSize: '12px', 
+                  fontFamily: 'monospace',
+                  background: 'transparent',
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-all'
+                }}>
+                  {question.sampleSolution}
+                </pre>
+              </Card>
+            )}
           </div>
         );
 
@@ -420,8 +444,6 @@ export default function ExamPage() {
             />
           )}
         </div>
-
-        {/* Removed Question Timing Guide Panel */}
 
         <div
           style={{

@@ -46,7 +46,7 @@ export default function Cards({ dict, lang }: { dict: any; lang: any }) {
         };
 
         return (
-            <motion.div
+            <motion.div 
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}

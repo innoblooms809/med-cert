@@ -13,6 +13,7 @@
     "@ant-design/plots": "^2.6.3",
     "@antv/g2": "^5.3.5",
     "@heroicons/react": "^2.2.0",
+    "@monaco-editor/react": "^4.7.0",
     "antd": "^5.27.4",
     "antd-phone-input": "^0.3.14",
     "chart.js": "^4.5.0",

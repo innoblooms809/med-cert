@@ -138,7 +138,7 @@ export default function TestsPage() {
         {trending.map((item) => (
           <Col key={item}>
             <Tag
-              // onClick={() => setSelectedDomain(item)}
+              onClick={() => setSelectedDomain(item)}
               color={selectedDomain === item ? "blue" : undefined}
               style={{
                 fontSize: 15,
