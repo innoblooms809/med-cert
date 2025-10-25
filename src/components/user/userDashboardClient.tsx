@@ -1,6 +1,13 @@
 "";
 import React from "react";
 import Cards from "./userdashboarComponent/Cards";
+import Charts from "./userdashboarComponent/Charts";
+import OngoingCourses from "./userdashboarComponent/OngoingCourse";
+import RecommendedCourses from "./userdashboarComponent/RecomendedCourse";
+import RecentActivity from "./userdashboarComponent/ReacentActivity";
+import UpcomingTests from "./userdashboarComponent/UpcomingTests";
+import LearningProgress from "./userdashboarComponent/LearningProcess";
+import QuickActions from "./userdashboarComponent/QuickAction";
 interface Props {
   dict: any;
   lang:any;
@@ -20,20 +27,21 @@ const UserDashboardClient = ({dict,lang}:Props) => {
         <Cards dict={dict} lang={lang} />
       </div>
       <div className="grid grid-cols-1 gap-4">
-        {/* <CourseData dict={dict} lang={lang}/> */}
+        <Charts dict={dict} lang={lang}/>
       </div>
-      <div className="grid grid-cols-1 gap-4">
-        
+      <div className="grid grid-cols-2 gap-4">
+        <OngoingCourses dict={dict} lang={lang}/>
+         <RecommendedCourses dict={dict} lang={lang}/>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-       
+      <div className="grid grid-cols-2 gap-4">
+      <RecentActivity  dict={dict} lang={lang}/>
+      <UpcomingTests dict={dict} lang={lang}/>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
       
-      </div>
-      <div className="grid grid-cols-1 gap-4">
-       
+      <div className="grid grid-cols-2 gap-4">
+       <LearningProgress dict={dict} lang={lang}/>
+       <QuickActions dict={dict} lang={lang}/>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
