@@ -10,19 +10,20 @@ import mastercard from '@/../../public/images/mastercard.webp'
 import paypal from '@/../../public/images/paypal.webp'
 
 export default function CartPage({dict,lang}:any) {
+  const cartText = dict.cart;
   const { cartItems, removeFromCart } = useCart();
 
   const handleCheckout = () => {
     if (cartItems.length === 0) {
-      message.warning("Your cart is empty!");
+      message.warning(cartText.emptyCart);
       return;
     }
-    message.success("Proceeding to checkout 🎉 (Integrate payment later)");
+    message.success(cartText.checkout);
   };
 
   const handleRemove = (index: number) => {
     removeFromCart(index);
-    message.success("Item removed from cart");
+    message.success(cartText.removeText);
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0), 0);
@@ -35,14 +36,14 @@ export default function CartPage({dict,lang}:any) {
         {/* Left - Items (70%) */}
         <div className="lg:col-span-7 bg-white dark:bg-[var(--content-bg)] border rounded-xl shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold">Shopping Cart</h1>
+            <h1 className="text-3xl font-bold">{cartText.shoppingCart}</h1>
             <Link href="/" className="text-sm text-[var(--section-primary)] hover:underline">
-              Continue shopping
+              {cartText.continueShopping}
             </Link>
           </div>
 
           {cartItems.length === 0 ? (
-            <Empty description="Your cart is empty" />
+            <Empty description={cartText.emptyCart} />
           ) : (
             <div className="space-y-6">
               {cartItems.map((item, idx) => (
@@ -64,18 +65,18 @@ export default function CartPage({dict,lang}:any) {
                       {item.description}
                     </p>
                     <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                      <div><strong>Instructor:</strong> {item.createdBy || "Unknown"}</div>
-                      <div><strong>Duration:</strong> {item.duration} mins</div>
+                      <div><strong>{cartText.Instructor}:</strong> {item.createdBy || "Unknown"}</div>
+                      <div><strong>{cartText.Duration}:</strong> {item.duration} {cartText.mins}</div>
                     </div>
                   </div>
 
                   {/* price + remove */}
                   <div className="flex flex-col items-end ">
                     <Popconfirm
-                      title="Remove this item from cart?"
+                      title={cartText.removeItemCart}
                       onConfirm={() => handleRemove(idx)}
-                      okText="Yes"
-                      cancelText="No"
+                      okText={cartText.Yes}
+                      cancelText={cartText.No}
                     >
                       <button
                         aria-label="Remove item"
@@ -100,10 +101,10 @@ export default function CartPage({dict,lang}:any) {
           {/* Sticky on large screens, normal flow on small screens */}
           <div className="lg:sticky lg:top-24">
             <div className="border rounded-xl shadow-lg p-6 bg-white dark:bg-[var(--content-bg)]">
-              <h2 className="text-xl font-semibold mb-4">Summary</h2>
+              <h2 className="text-xl font-semibold mb-4">{cartText.Summary}</h2>
 
               <div className="flex justify-between text-gray-700 dark:text-gray-300 mb-2">
-                <span>Subtotal</span>
+                <span>{cartText.Subtotal}</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
 
@@ -113,22 +114,22 @@ export default function CartPage({dict,lang}:any) {
               </div>
 
               <div className="flex justify-between text-lg font-bold mb-6">
-                <span>Order Total</span>
+                <span>{cartText.OrderTotal}</span>
                 <span className="text-[var(--section-primary)]">${total.toFixed(2)}</span>
               </div>
 
               <div className="flex gap-2 mb-4">
                 <Input placeholder="Coupon Code" />
-                <Button type="default">Apply</Button>
+                <Button type="default">{cartText.Apply}</Button>
               </div>
 
               <Link href={`/${lang}/checkout`}>
                 <Button type="primary" size="large" block className="bg-[var(--section-primary)]">
-                  Proceed to Checkout
+                  {cartText.ProceedtoCheckout}
                 </Button>
               </Link>
 
-              <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">OR</div>
+              <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">{cartText.OR}</div>
 
               <div className="flex justify-center gap-3 mt-4">
                 <Image src={paypal} alt="PayPal" className="h-10 w-auto" width={1024} height={559}/>

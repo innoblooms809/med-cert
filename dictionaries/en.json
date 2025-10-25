@@ -1295,5 +1295,26 @@
         "href": "/tests/repertory-and-remedy-selection"
       }
     ]
-  }
+  },
+  "cart":{
+    "emptyCart":"Your cart is empty!",
+    "checkout": "Proceeding to checkout 🎉 (Integrate payment later)",
+    "removeText":"Item removed from cart",
+    "shoppingCart":"Shopping Cart",
+    "continueShopping":"Continue shopping",
+    "Instructor":"Instructor",
+    "Duration":"Duration",
+    "mins":"mins",
+    "Yes":"Yes",
+    "No":"No",
+    "Summary":"Summary",
+    "Subtotal":"Subtotal",
+    "OrderTotal":"Order Total",
+    "Apply":"Apply",
+    "ProceedtoCheckout":"Proceed to Checkout",
+    "OR":"OR",
+    "removeItemCart":"Remove this item from cart?"
+
+  }, 
+  "checkout":"checkout"
 }

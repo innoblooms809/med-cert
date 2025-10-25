@@ -1,8 +1,14 @@
-import React from 'react';
-import Checkout from '@/components/Checkout';
+// import { getDictionary } from "@/app/[lang]/dictionaries";
+import { getDictionary } from "../../[lang]/dictionaries";
+import Checkout from "@/components/Checkout";
 
-const CheckoutPage: React.FC = () => {
-  return <Checkout />;
-};
+export default async function CheckoutPage({params}: {params: Promise<{ lang: "en" | "ar" }>}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
 
-export default CheckoutPage;
+  return (
+    <>
+      <Checkout dict={dict} lang={lang} />
+    </>
+  );
+}

@@ -30,7 +30,8 @@ import {
 
 const GST_RATE = 0.18;
 
-const Checkout: React.FC = () => {
+export default function Checkout ({dict, lang}:any) {
+  const chekout = dict.checkout
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
 
@@ -495,5 +496,3 @@ const Checkout: React.FC = () => {
     </div>
   );
 };
-
-export default Checkout;
