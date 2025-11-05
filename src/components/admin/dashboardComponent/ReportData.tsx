@@ -51,7 +51,8 @@ const sampleTrends: ActionTrend[] = [
   { day: "Sun", courses: 2, quizzes: 2, users: 4 },
 ];
 
-export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
+export default function QuickActionsTrend({dict,lang, trends = sampleTrends}:any) {
+  const reportData=dict.dashboard.admin.reportData
   const COLORS = {
     courses: "url(#coursesGradient)",
     quizzes: "url(#quizzesGradient)",
@@ -132,7 +133,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                📈 Weekly Activity Trends
+                📈 {reportData.weeklyActivity}
               </div>
             }
             style={{
@@ -245,7 +246,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                🚀 Peak Activity
+                🚀 {reportData.peakActivity}
               </div>
             }
             style={{
@@ -268,7 +269,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
           >
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
-                data={trends.map(day => ({
+                data={trends.map((day:any) => ({
                   day: day.day,
                   total: day.courses + day.quizzes + day.users
                 }))}
@@ -312,7 +313,7 @@ export default function QuickActionsTrend({ trends = sampleTrends }: Props) {
                 fontSize: 13,
                 color: "#64748b",
               }}>
-                Shows total activities per day
+                {reportData.showstotalActivities}
               </p>
             </div>
           </Card>

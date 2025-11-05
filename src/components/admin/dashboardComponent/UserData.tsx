@@ -14,58 +14,60 @@ interface Action {
   link?: string;
 }
 
-const actions: Action[] = [
+
+export default function QuickActions({dict,lang}:any) {
+  const userData=dict.dashboard.admin.userData
+
+  const actions: Action[] = [
   {
-    title: "Create New Course",
-    description: "Add a new course to the platform",
+    title: userData.createCourse,
+    description: userData.addCourse,
     icon: "📚",
     iconBg: "linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)",
     iconColor: "#fff",
     link: "/admin/courses/new",
   },
   {
-    title: "Create New Quiz",
-    description: "Add a new quiz to the platform",
+    title: userData.createQuiz,
+    description: userData.addQuiz,
     icon: "📝",
     iconBg: "linear-gradient(135deg, #ef4444 0%, #f87171 100%)",
     iconColor: "#fff",
     link: "/admin/quizzes/new",
   },
   {
-    title: "Manage Users",
-    description: "View and manage all users",
+    title: userData.manageUsers,
+    description: userData.viewUsers,
     icon: "👥",
     iconBg: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
     iconColor: "#fff",
     link: "/admin/users",
   },
   {
-    title: "View Reports",
-    description: "Analytics and performance insights",
+    title: userData.viewReport,
+    description: userData.analytics,
     icon: "📊",
     iconBg: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
     iconColor: "#fff",
     link: "/admin/reports",
   },
   {
-    title: "System Settings",
-    description: "Configure platform settings",
+    title: userData.systemSetting,
+    description:userData.configure,
     icon: "⚙️",
     iconBg: "linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)",
     iconColor: "#fff",
     link: "/admin/settings",
   },
   {
-    title: "Help Center",
-    description: "Get support and documentation",
+    title: userData.helpCenter,
+    description: userData.getSupport,
     icon: "❓",
     iconBg: "linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)",
     iconColor: "#fff",
     link: "/admin/help",
   },
 ];
-
-export default function QuickActions() {
   const router = useRouter();
 
   return (
@@ -89,7 +91,7 @@ export default function QuickActions() {
           fontWeight: 600, 
           color: "#1e293b" 
         }}>
-          Quick Actions
+          {userData.quickActions}
         </h3>
       </div>
       
@@ -248,8 +250,7 @@ export default function QuickActions() {
               color: "#64748b",
               fontWeight: 500 
             }}>
-              💡 <strong>Pro Tip:</strong> Use quick actions to efficiently manage your platform. 
-              Most common tasks are just one click away!
+              💡 <strong>{userData.proTip}:</strong> {userData.useQuick}
             </p>
           </Card>
         </Col>

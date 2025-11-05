@@ -54,7 +54,7 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-export default function TestAnalytics() {
+export default function TestAnalytics({dict,lang}:any) {
   // Group bar chart data
   const barMap: Record<string, { Objective: number; Subjective: number }> = {};
   quizzes.forEach((q) => {
@@ -143,6 +143,8 @@ export default function TestAnalytics() {
   const objectiveTests = quizzes.filter(q => q.testType === "Objective").length;
   const subjectiveTests = quizzes.filter(q => q.testType === "Subjective").length;
 
+  const test=dict.dashboard.admin.tests
+
   return (
     <div style={{ padding: "0 24px 24px 24px" }}>
       {/* Statistics Row */}
@@ -158,7 +160,7 @@ export default function TestAnalytics() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Total Tests"
+              title={test.stats.totalTests}
               value={totalTests}
               valueStyle={{ color: "#4f46e5", fontSize: 32, fontWeight: 700 }}
               suffix="tests"
@@ -176,7 +178,7 @@ export default function TestAnalytics() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Objective Tests"
+              title={test.stats.objectiveTests}
               value={objectiveTests}
               valueStyle={{ color: "#10b981", fontSize: 32, fontWeight: 700 }}
               suffix="tests"
@@ -194,7 +196,7 @@ export default function TestAnalytics() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Subjective Tests"
+              title={test.stats.subjectiveTests}
               value={subjectiveTests}
               valueStyle={{ color: "#f59e0b", fontSize: 32, fontWeight: 700 }}
               suffix="tests"
@@ -222,7 +224,7 @@ export default function TestAnalytics() {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                📊 Tests by Specialization & Type
+                📊 {test.charts.testsBySpecialization}
               </div>
             }
             style={{
@@ -311,7 +313,7 @@ export default function TestAnalytics() {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                👥 Test Distribution & Trends
+                👥 {test.charts.testDistribution}
               </div>
             }
             style={{
@@ -359,7 +361,7 @@ export default function TestAnalytics() {
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{ textAlign: "center", marginTop: 8 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>By Role</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>{test.charts.byRole}</div>
                 </div>
               </Col>
 
@@ -389,7 +391,7 @@ export default function TestAnalytics() {
                   </AreaChart>
                 </ResponsiveContainer>
                 <div style={{ textAlign: "center", marginTop: 8 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>Monthly Trend</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1e293b" }}>{test.charts.monthlyTrend}</div>
                 </div>
               </Col>
             </Row>
