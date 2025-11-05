@@ -84,7 +84,7 @@ export default function Hero({ dict, lang }: HeroProps) {
       link: "#ayurveda",
     },
   ];
-
+// console.log("Saroj Sharma")
   return (
     <>
       <section className="flex flex-col md:flex-row items-center justify-center gap-10 px-6 md:px-12 lg:px-20 pt-12 bg-[var(--section-bg-2)] text-[var(--section-text)]">

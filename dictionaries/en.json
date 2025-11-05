@@ -97,16 +97,16 @@
           "department": "Department"
         }
       },
-       "stats": {
-      "totalCourses": "Total Courses",
-      "totalTests": "Total Tests",
-      "activeUsers": "Active Users",
-      "completionRate": "Completion Rate"
-    },
+      "stats": {
+        "totalCourses": "Total Courses",
+        "totalTests": "Total Tests",
+        "activeUsers": "Active Users",
+        "completionRate": "Completion Rate"
+      },
       "charts": {
         "coursesBySpecialization": "Courses by Specialization",
         "coursesByRole": "Courses by Role",
-         "coursesLabel": "Courses",
+        "coursesLabel": "Courses",
         "roleLabel": "Role",
         "specializationLabel": "Specialization"
       }
@@ -1296,25 +1296,69 @@
       }
     ]
   },
-  "cart":{
-    "emptyCart":"Your cart is empty!",
+  "cart": {
+    "emptyCart": "Your cart is empty!",
     "checkout": "Proceeding to checkout 🎉 (Integrate payment later)",
-    "removeText":"Item removed from cart",
-    "shoppingCart":"Shopping Cart",
-    "continueShopping":"Continue shopping",
-    "Instructor":"Instructor",
-    "Duration":"Duration",
-    "mins":"mins",
-    "Yes":"Yes",
-    "No":"No",
-    "Summary":"Summary",
-    "Subtotal":"Subtotal",
-    "OrderTotal":"Order Total",
-    "Apply":"Apply",
-    "ProceedtoCheckout":"Proceed to Checkout",
-    "OR":"OR",
-    "removeItemCart":"Remove this item from cart?"
-
-  }, 
-  "checkout":"checkout"
+    "removeText": "Item removed from cart",
+    "shoppingCart": "Shopping Cart",
+    "continueShopping": "Continue shopping",
+    "Instructor": "Instructor",
+    "Duration": "Duration",
+    "mins": "mins",
+    "Yes": "Yes",
+    "No": "No",
+    "Summary": "Summary",
+    "Subtotal": "Subtotal",
+    "OrderTotal": "Order Total",
+    "Apply": "Apply",
+    "ProceedtoCheckout": "Proceed to Checkout",
+    "OR": "OR",
+    "removeItemCart": "Remove this item from cart?"
+  },
+  "checkout": {
+    "text": {
+      "checkText": "Checkout",
+      "fname": "Full name is required",
+      "cardValid": "Enter a valid card number (12–19 digits)",
+      "expiry": "Expiry must be MM/YY",
+      "cvv": "CVV must be 3 digits",
+      "tc": "You must accept terms & privacy",
+      "code": "Please enter the 6-digit code",
+      "try": "Invalid code. Try again",
+      "noItem": "No items found for receipt",
+      "empty": "Your cart is empty",
+      "addItemMsg": "Please add some courses before proceeding to checkout",
+      "browse": "Browse Courses",
+      "pay": "Payment Details",
+      "card": "Cardholder Name",
+      "cardName": "Full name on card",
+      "cardNum": "Card Number",
+      "valid": "Valid card number",
+      "exp": "Expiry (MM/YY)",
+      "cvvN": "CVV",
+      "iAccept": "I accept the",
+      "termP": "terms & privacy",
+      "validate": "Validate & Process Payment",
+      "payMethod": "Accepted Payment Methods",
+      "visa": "VISA",
+      "masterCard": "MasterCard",
+      "gpay": "Gpay",
+      "aPay": "Apple Pay",
+      "otp": "Enter OTP",
+      "subm": "Submit Code",
+      "resend": "Resend Code",
+      "backto": "Back to payment",
+      "backtoC": "Back to Courses",
+      "downRec": "Download Receipt"
+    },
+    "paymentSlip": {
+      "heading": "EduCourse - Payment Receipt",
+      "date": "Date:",
+      "time": "Time:",
+      "trans": "Transaction ID:",
+      "purchased": "Purchased Courses",
+      "inst": "Instructor",
+      "thankText": "Thank you for your purchase!"
+    }
+  }
 }

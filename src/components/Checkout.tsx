@@ -31,7 +31,8 @@ import {
 const GST_RATE = 0.18;
 
 export default function Checkout ({dict, lang}:any) {
-  const chekout = dict.checkout
+  const checkout = dict.checkout.text
+  const receipt = dict.checkout.paymentSlip
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
 
@@ -56,24 +57,24 @@ export default function Checkout ({dict, lang}:any) {
     const values = form.getFieldsValue();
     const newErrors: CheckoutErrors = {};
 
-    if (!values.name?.trim()) newErrors.name = "Full name is required";
+    if (!values.name?.trim()) newErrors.name = checkout.checkText;
 
     const digitsCard = onlyDigits(values.card || "");
     if (!digitsCard || digitsCard.length < 12 || digitsCard.length > 19) {
-      newErrors.card = "Enter a valid card number (12–19 digits)";
+      newErrors.card = checkout.fname;
     }
 
     const exp = values.expiry?.trim() || "";
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp)) {
-      newErrors.expiry = "Expiry must be MM/YY";
+      newErrors.expiry = checkout.expiry;
     }
 
     // Changed from 3-4 digits to exactly 3 digits
     if (!/^\d{3}$/.test(values.cvv || "")) {
-      newErrors.cvv = "CVV must be 3 digits";
+      newErrors.cvv = checkout.cvv;
     }
 
-    if (!values.terms) newErrors.terms = "You must accept terms & privacy";
+    if (!values.terms) newErrors.terms = checkout.tc;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -123,8 +124,8 @@ export default function Checkout ({dict, lang}:any) {
   const submitOtp = (e: React.FormEvent) => {
     e.preventDefault();
     const entered = otpValues.join("");
-    if (entered.length < 6) return setOtpError("Please enter the 6-digit code");
-    if (entered !== generatedOtp) return setOtpError("Invalid code. Try again");
+    if (entered.length < 6) return setOtpError(checkout.code);
+    if (entered !== generatedOtp) return setOtpError(checkout.try);
 
     setOtpError("");
     setStep("success");
@@ -149,7 +150,7 @@ export default function Checkout ({dict, lang}:any) {
     const itemsToDisplay = purchasedItems.length > 0 ? purchasedItems : cartItems;
 
     if (itemsToDisplay.length === 0) {
-      message.error("No items found for receipt");
+      message.error(checkout.notItem);
       return;
     }
 
@@ -182,19 +183,19 @@ export default function Checkout ({dict, lang}:any) {
 
       receiptDiv.innerHTML = `
         <div style="text-align: center; margin-bottom: 16px;">
-          <h1 style="font-size: 24px; font-weight: bold; color: #2563eb; margin: 0 0 16px 0;">EduCourse - Payment Receipt</h1>
+          <h1 style="font-size: 24px; font-weight: bold; color: #2563eb; margin: 0 0 16px 0;">${receipt.heading}</h1>
         </div>
 
         <div style="border-bottom: 1px solid #d1d5db; margin-bottom: 16px; padding-bottom: 8px;">
-          <p style="margin: 4px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
-          <p style="margin: 4px 0;"><strong>Time:</strong> ${new Date().toLocaleTimeString()}</p>
-          <p style="margin: 4px 0;"><strong>Transaction ID:</strong> ${Math.random()
+          <p style="margin: 4px 0;"><strong>${receipt.date}</strong> ${new Date().toLocaleDateString()}</p>
+          <p style="margin: 4px 0;"><strong>${receipt.time}</strong> ${new Date().toLocaleTimeString()}</p>
+          <p style="margin: 4px 0;"><strong>${receipt.trans}</strong> ${Math.random()
             .toString(36)
             .substring(2, 10)
             .toUpperCase()}</p>
         </div>
 
-        <h2 style="font-size: 18px; font-weight: 600; color: #2563eb; border-bottom: 1px solid #d1d5db; margin-bottom: 12px; padding-bottom: 4px;">Purchased Courses</h2>
+        <h2 style="font-size: 18px; font-weight: 600; color: #2563eb; border-bottom: 1px solid #d1d5db; margin-bottom: 12px; padding-bottom: 4px;">${receipt.purchased}</h2>
 
         ${itemsToDisplay
           .map(
@@ -202,7 +203,7 @@ export default function Checkout ({dict, lang}:any) {
           <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
             <div>
               <p style="font-weight: 600; margin: 0;">${item.title || item.name}</p>
-              <p style="font-size: 14px; color: #6b7280; margin: 0;">${item.createdBy || "Instructor"}</p>
+              <p style="font-size: 14px; color: #6b7280; margin: 0;">${item.createdBy || receipt.inst}</p>
             </div>
             <p style="font-weight: 600; color: #3b82f6; margin: 0;">$${(item.price || 0).toFixed(2)}</p>
           </div>
@@ -226,7 +227,7 @@ export default function Checkout ({dict, lang}:any) {
         </div>
 
         <div style="text-align: center; font-size: 14px; color: #6b7280; margin-top: 24px; border-top: 1px solid #d1d5db; padding-top: 16px;">
-          <p style="margin: 4px 0;">Thank you for your purchase!</p>
+          <p style="margin: 4px 0;">${receipt.thankText}</p>
           <p style="color: #2563eb; font-weight: 600; margin: 4px 0;">Happy Learning!</p>
         </div>
       `;
@@ -290,11 +291,11 @@ export default function Checkout ({dict, lang}:any) {
         <Card className="w-full max-w-md text-center">
           <Result
             status="info"
-            title="Your cart is empty"
-            subTitle="Please add some courses before proceeding to checkout"
+            title= {checkout.empty}
+            subTitle={checkout.addItemMsg}
             extra={
               <Button type="primary" onClick={() => router.push("/")}>
-                Browse Courses
+                {checkout.browse}
               </Button>
             }
           />
@@ -313,7 +314,7 @@ export default function Checkout ({dict, lang}:any) {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold flex items-center gap-2">
-              <CreditCardOutlined /> Payment Details
+              <CreditCardOutlined /> {checkout.pay}
             </h3>
             <Tag color="orange" className="text-base font-semibold py-1 px-3">
               ${totalAmount.toFixed(2)}
@@ -323,16 +324,16 @@ export default function Checkout ({dict, lang}:any) {
           <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
             <Form.Item
               name="name"
-              label="Cardholder Name"
+              label={checkout.card}
               validateStatus={errors.name ? "error" : ""}
               help={errors.name}
             >
-              <Input size="large" placeholder="Full name on card" />
+              <Input size="large" placeholder={checkout.cardName} />
             </Form.Item>
 
             <Form.Item
               name="card"
-              label="Card Number"
+              label={checkout.cardNum}
               validateStatus={errors.card ? "error" : ""}
               help={errors.card}
               getValueFromEvent={(e) => {
@@ -342,7 +343,7 @@ export default function Checkout ({dict, lang}:any) {
             >
               <Input
                 size="large"
-                placeholder="Valid card number"
+                placeholder={checkout.valid}
                 maxLength={19}
               />
             </Form.Item>
@@ -350,7 +351,7 @@ export default function Checkout ({dict, lang}:any) {
             <div className="grid grid-cols-2 gap-4">
               <Form.Item
                 name="expiry"
-                label="Expiry (MM/YY)"
+                label={checkout.exp}
                 validateStatus={errors.expiry ? "error" : ""}
                 help={errors.expiry}
                 getValueFromEvent={(e) => {
@@ -370,14 +371,14 @@ export default function Checkout ({dict, lang}:any) {
 
               <Form.Item
                 name="cvv"
-                label="CVV"
+                label={checkout.cvvN}
                 validateStatus={errors.cvv ? "error" : ""}
                 help={errors.cvv}
                 getValueFromEvent={(e) =>
                   onlyDigits(e.target.value).slice(0, 3)
                 }
               >
-                <Input.Password size="large" placeholder="CVV" maxLength={3} />
+                <Input.Password size="large" placeholder={checkout.cvvN} maxLength={3} />
               </Form.Item>
             </div>
 
@@ -388,20 +389,20 @@ export default function Checkout ({dict, lang}:any) {
               help={errors.terms}
             >
               <Checkbox>
-                I accept the{" "}
+                {checkout.iAccept}{" "}
                 <a href="#privacy" className="text-purple-600">
-                  terms & privacy
+                  {checkout.termP}
                 </a>
               </Checkbox>
             </Form.Item>
 
             <Button type="primary" htmlType="submit" size="large" block>
-              Validate & Process Payment
+              {checkout.validate}
             </Button>
 
-            <Divider dashed>Accepted Payment Methods</Divider>
+            <Divider dashed>{checkout.payMethod}</Divider>
             <div className="flex flex-wrap gap-2 justify-center">
-              {["VISA", "MasterCard", "Google Pay", "Apple Pay"].map((m) => (
+              {[checkout.visa, checkout.masterCard, checkout.gpay, checkout.aPay].map((m) => (
                 <Tag key={m} color="blue">
                   {m}
                 </Tag>
@@ -418,7 +419,7 @@ export default function Checkout ({dict, lang}:any) {
           bodyStyle={{ padding: "24px" }}
         >
           <SafetyCertificateOutlined className="text-4xl text-blue-500 mb-4" />
-          <h3 className="text-xl font-bold mb-2">Enter OTP</h3>
+          <h3 className="text-xl font-bold mb-2">{receipt.otp}</h3>
           <form onSubmit={submitOtp} className="space-y-6">
             <div className="flex justify-center gap-2">
               {otpValues.map((value, index) => (
@@ -439,17 +440,17 @@ export default function Checkout ({dict, lang}:any) {
             {otpError && <Alert message={otpError} type="error" showIcon />}
             <Space direction="vertical" className="w-full">
               <Button type="primary" htmlType="submit" size="large">
-                Submit Code
+                {receipt.subm}
               </Button>
               <Button type="link" onClick={resendOtp}>
-                Resend Code
+                {receipt.resend}
               </Button>
               <Button
                 type="text"
                 icon={<ArrowLeftOutlined />}
                 onClick={() => setStep("form")}
               >
-                Back to payment
+                {receipt.backto}
               </Button>
             </Space>
           </form>
@@ -477,7 +478,7 @@ export default function Checkout ({dict, lang}:any) {
                   size="large"
                   onClick={handleBackToCourses}
                 >
-                  Back to Courses
+                  {receipt.backtoC}
                 </Button>,
                 <Button
                   key="receipt"
@@ -485,7 +486,7 @@ export default function Checkout ({dict, lang}:any) {
                   size="large"
                   onClick={handleDownloadReceipt}
                 >
-                  Download Receipt
+                  {receipt.downRec}
                 </Button>,
               ]}
             />
