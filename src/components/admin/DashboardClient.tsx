@@ -30,12 +30,12 @@ const DashboardClient = ({dict,lang}:Props) => {
         <CourseData dict={dict} lang={lang}/>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        <TestData />
+        <TestData  dict={dict} lang={lang}/>
       </div>
-      <UserData />
+      <UserData dict={dict} lang={lang}/>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
         {/* Other cards here... */}
-        <ReportData />
+        <ReportData  dict={dict} lang={lang}/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
         <ProgressTable />

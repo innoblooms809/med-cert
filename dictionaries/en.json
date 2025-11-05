@@ -97,18 +97,53 @@
           "department": "Department"
         }
       },
-       "stats": {
-      "totalCourses": "Total Courses",
-      "totalTests": "Total Tests",
-      "activeUsers": "Active Users",
-      "completionRate": "Completion Rate"
-    },
+      "stats": {
+        "totalCourses": "Total Courses",
+        "totalTests": "Total Tests",
+        "activeUsers": "Active Users",
+        "completionRate": "Completion Rate"
+      },
       "charts": {
         "coursesBySpecialization": "Courses by Specialization",
         "coursesByRole": "Courses by Role",
-         "coursesLabel": "Courses",
+        "coursesLabel": "Courses",
         "roleLabel": "Role",
         "specializationLabel": "Specialization"
+      },
+      "tests": {
+        "stats": {
+          "totalTests": "Total Tests",
+          "objectiveTests": "Objective Tests",
+          "subjectiveTests": "Subjective Tests"
+        },
+        "charts": {
+          "testsBySpecialization": "Tests by Specialization & Type",
+          "testDistribution": "Test Distribution & Trends",
+          "byRole": "By Role",
+          "monthlyTrend": "Monthly Trend"
+        }
+      },
+      "userData": {
+        "quickActions": "Quick Actions",
+        "createCourse": "Create New Course",
+        "addCourse": "Add a new course to the platform",
+        "createQuiz": "Create New Quiz",
+        "addQuiz": "Add a new quiz to the platform",
+        "manageUsers": "Manage Users",
+        "viewUsers": "View and manage all users",
+        "viewReport": "View Reports",
+        "analytics": "Analytics and performance insights",
+        "systemSetting": "System Settings",
+        "configure": "Configure platform settings",
+        "helpCenter": "Help Center",
+        "getSupport": "Get support and documentation",
+        "proTip": "Pro Tip",
+        "useQuick": "Use quick actions to efficiently manage your platform.Most common tasks are just one click away!"
+      },
+      "reportData": {
+        "weeklyActivity": "Weekly Activity Trends",
+        "peakActivity":" Peak Activity",
+        "showstotalActivities": " Shows total activities per day"
       }
     },
     "user": {
@@ -377,7 +412,6 @@
           "img": "https://tse1.explicit.bing.net/th/id/OIP.W2VIbw_FJTmyqsAx53PGvgHaEU?rs=1&pid=ImgDetMain&o=7&rm=3"
         }
       ],
-
       "General Physician": [
         {
           "id": 1,
@@ -669,7 +703,6 @@
     "title1": "Ayurveda",
     "title2": "Mock Tests",
     "subtitle": "Master dentistry with practice tests across specializations.",
-
     "ayurvedTests": [
       {
         "title": "Basic Concepts of Ayurveda",
@@ -709,7 +742,6 @@
     "title1": "Dentist",
     "title2": "Mock Tests",
     "subtitle": "Master dentistry with practice tests across specializations.",
-
     "dentistTests": [
       {
         "title": "Oral Surgery",
@@ -1296,25 +1328,24 @@
       }
     ]
   },
-  "cart":{
-    "emptyCart":"Your cart is empty!",
+  "cart": {
+    "emptyCart": "Your cart is empty!",
     "checkout": "Proceeding to checkout 🎉 (Integrate payment later)",
-    "removeText":"Item removed from cart",
-    "shoppingCart":"Shopping Cart",
-    "continueShopping":"Continue shopping",
-    "Instructor":"Instructor",
-    "Duration":"Duration",
-    "mins":"mins",
-    "Yes":"Yes",
-    "No":"No",
-    "Summary":"Summary",
-    "Subtotal":"Subtotal",
-    "OrderTotal":"Order Total",
-    "Apply":"Apply",
-    "ProceedtoCheckout":"Proceed to Checkout",
-    "OR":"OR",
-    "removeItemCart":"Remove this item from cart?"
-
-  }, 
-  "checkout":"checkout"
+    "removeText": "Item removed from cart",
+    "shoppingCart": "Shopping Cart",
+    "continueShopping": "Continue shopping",
+    "Instructor": "Instructor",
+    "Duration": "Duration",
+    "mins": "mins",
+    "Yes": "Yes",
+    "No": "No",
+    "Summary": "Summary",
+    "Subtotal": "Subtotal",
+    "OrderTotal": "Order Total",
+    "Apply": "Apply",
+    "ProceedtoCheckout": "Proceed to Checkout",
+    "OR": "OR",
+    "removeItemCart": "Remove this item from cart?"
+  },
+  "checkout": "checkout"
 }

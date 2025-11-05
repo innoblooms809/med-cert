@@ -109,6 +109,41 @@
         "coursesLabel": "الدورات",
         "roleLabel": "الدور",
         "specializationLabel": "التخصص"
+      },
+      "tests": {
+        "stats": {
+          "totalTests": "إجمالي الاختبارات",
+          "objectiveTests": "الاختبارات الموضوعية",
+          "subjectiveTests": "الاختبارات الذاتية"
+        },
+        "charts": {
+          "testsBySpecialization": "الاختبارات حسب التخصص والنوع",
+          "testDistribution": "توزيع الاختبارات والاتجاهات",
+          "byRole": "حسب الدور",
+          "monthlyTrend": "الاتجاه الشهري"
+        }
+      },
+      "userData": {
+        "quickActions": "إجراءات سريعة",
+        "createCourse": "إنشاء دورة جديدة",
+        "addCourse": "إضافة دورة جديدة إلى المنصة",
+        "createQuiz": "إنشاء اختبار جديد",
+        "addQuiz": "إضافة اختبار جديد إلى المنصة",
+        "manageUsers": "إدارة المستخدمين",
+        "viewUsers": "عرض وإدارة جميع المستخدمين",
+        "viewReport": "عرض التقارير",
+        "analytics": "التحليلات ورؤى الأداء",
+        "systemSetting": "إعدادات النظام",
+        "configure": "تكوين إعدادات المنصة",
+        "helpCenter": "مركز المساعدة",
+        "getSupport": "الحصول على الدعم والوثائق",
+        "proTip": "نصيحة احترافية",
+        "useQuick": "استخدم الإجراءات السريعة لإدارة المنصة بكفاءة. معظم المهام الشائعة لا تتطلب سوى نقرة واحدة!"
+      },
+      "reportData": {
+        "weeklyActivity": "اتجاهات النشاط الأسبوعي",
+        "peakActivity": "ذروة النشاط",
+        "showstotalActivities": "يعرض إجمالي الأنشطة لكل يوم"
       }
     },
     "user": {
