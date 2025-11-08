@@ -240,7 +240,7 @@ export default function LoginForm({dict, lang}:any) {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.3)';
               }}
             >
-              {loading ?dict.login.signIn:dict.login.signingIn}
+              {loading ?dict.login.signingIn:dict.login.signIn}
             </Button>
           </Form.Item>
         </Form>
