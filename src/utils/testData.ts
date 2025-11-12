@@ -458,7 +458,7 @@ export const getQuestionTypeDisplay = (type: string): string => {
     'mcq': 'Multiple Choice', 
     'theory': 'Theory Question',
     'output': 'Output Prediction',
-    'scenario': 'Scenario Based'
+    'scenario': 'Scenario Based' 
   };
   return typeMap[type] || type;
 };
