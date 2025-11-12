@@ -32,10 +32,11 @@ const getInitials = (name: string) => {
   return name.split(' ').map(n => n[0]).join('').toUpperCase();
 };
 
-export default function ProgressTable() {
+export default function ProgressTable({dict,lang}:any) {
+  const progressData=dict.dashboard.admin.progressTable
   const columns = [
     {
-      title: "👤 User",
+      title: `👤${progressData.title.user}`,
       dataIndex: "name",
       key: "name",
       render: (text: string, record: UserProgress) => (
@@ -66,7 +67,7 @@ export default function ProgressTable() {
       ),
     },
     {
-      title: "📚 Course",
+      title: `📚 ${progressData.title.course}`,
       dataIndex: "course",
       key: "course",
       render: (text: string) => (
@@ -74,7 +75,7 @@ export default function ProgressTable() {
       ),
     },
     {
-      title: "📊 Progress",
+      title: `📊  ${progressData.title.progress}`,
       dataIndex: "score",
       key: "score",
       render: (score: number) => (
@@ -107,7 +108,7 @@ export default function ProgressTable() {
       ),
     },
     {
-      title: "🎓 Status",
+      title: `🎓 ${progressData.title.status}`,
       dataIndex: "certificate",
       key: "certificate",
       render: (status: "Issued" | "Pending") => (
@@ -160,7 +161,7 @@ export default function ProgressTable() {
               borderRadius: 4,
               marginRight: 12
             }}></div>
-            📋 User Progress Tracking
+            📋 {progressData.UserProgressTracking}
           </div>
         }
         style={{
