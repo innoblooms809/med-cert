@@ -144,6 +144,15 @@
         "weeklyActivity": "اتجاهات النشاط الأسبوعي",
         "peakActivity": "ذروة النشاط",
         "showstotalActivities": "يعرض إجمالي الأنشطة لكل يوم"
+      },
+      "progressTable": {
+        "UserProgressTracking": "تتبع تقدم المستخدمين",
+        "title": {
+          "user": "المستخدم",
+          "course": "الدورة التدريبية",
+          "progress": "التقدم",
+          "status": "الحالة"
+        }
       }
     },
     "user": {

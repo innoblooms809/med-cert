@@ -144,6 +144,15 @@
         "weeklyActivity": "Weekly Activity Trends",
         "peakActivity":" Peak Activity",
         "showstotalActivities": " Shows total activities per day"
+      },
+      "progressTable":{
+         "UserProgressTracking":" User Progress Tracking",
+         "title":{
+          "user":"User",
+          "course":"Course",
+          "progress":"Progress",
+          "status":"Status"
+         }
       }
     },
     "user": {
