@@ -1392,5 +1392,133 @@
       "inst": "المدرب",
       "thankText": "شكراً لك على شرائك!"
     }
+  },
+  "userdashboard": {
+    "enrolledCourses": "الدورات المسجلة",
+    "lecturesWatched": "المحاضرات المكتملة",
+    "testsTaken": "الاختبارات المقدمة",
+    "certificates": "الشهادات"
+  },
+  "charts": {
+    "weeklyLearningActivity": "النشاط الأسبوعي للتعلم",
+    "courseProgress": "تقدم الدورة",
+    "lecturesWatched": "المحاضرات المشاهدة",
+    "testsCompleted": "الاختبارات المكتملة",
+    "weekDays": ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"],
+    "courseStatusLabels": ["مكتمل", "قيد التنفيذ", "غير مبدوء", "متأخر"]
+  },
+  "learningProgress": {
+    "title": "تقدم التعلم",
+    "completed": "اكتمل"
+  },
+  "learningProgressData": {
+    "courseCompletion": "إكمال الدورة",
+    "testSuccessRate": "معدل نجاح الاختبارات",
+    "learningConsistency": "اتساق التعلم"
+  },
+  "quickActions": {
+    "title": "إجراءات سريعة"
+  },
+  "quickActionsData": {
+    "browseCourses": "تصفح الدورات",
+    "myLearning": "تعلمي",
+    "takeTest": "أداء الاختبار",
+    "certificates": "الشهادات"
+  },
+  "recentActivity": {
+    "title": "النشاطات الأخيرة"
+  },
+  "recentActivityData": {
+    "watched": "شاهد",
+    "completed": "أنجز",
+    "earned": "حصل على",
+    "downloaded": "تم التنزيل",
+
+    "cardiacLecture": "محاضرة اضطرابات نظم القلب",
+    "advancedCardiology": "طب القلب المتقدم",
+    "emergencyQuiz": "اختبار طب الطوارئ",
+    "emergencyProcedures": "إجراءات الطوارئ",
+    "blsCertificate": "شهادة دعم الحياة الأساسي",
+    "blsTraining": "تدريب دعم الحياة الأساسي",
+    "guidelinesPdf": "إرشادات سريرية PDF",
+    "medicalProtocols": "البروتوكولات الطبية",
+
+    "twoHoursAgo": "منذ ساعتين",
+    "oneDayAgo": "منذ يوم واحد",
+    "twoDaysAgo": "منذ يومين",
+    "threeDaysAgo": "منذ 3 أيام"
+  },
+  "upcomingTests": {
+    "title": "الاختبارات القادمة",
+    "startTest": "ابدأ الاختبار",
+    "due": "الموعد النهائي",
+    "questions": "أسئلة",
+    "high": "عالية",
+    "medium": "متوسطة",
+    "low": "منخفضة"
+  },
+  "upcomingTestsData": {
+    "cardiologyExam": "الامتحان النهائي في أمراض القلب",
+    "advancedCardiology": "أمراض القلب المتقدمة",
+    "jan15": "2024-01-15",
+    "sixtyMinutes": "60 دقيقة",
+    "upcoming": "قادم",
+    "patientSafety": "تقييم سلامة المرضى",
+    "healthProtocols": "بروتوكولات الرعاية الصحية",
+    "jan18": "2024-01-18",
+    "fortyFiveMinutes": "45 دقيقة",
+    "available": "متاح",
+    "ethicsQuiz": "اختبار الأخلاقيات الطبية",
+    "profEthics": "الأخلاقيات المهنية",
+    "jan20": "2024-01-20",
+    "thirtyMinutes": "30 دقيقة"
+  },
+  "ongoingCourses": {
+    "title": "تابع التعلم",
+    "viewAll": "عرض الكل",
+    "next": "التالي",
+    "continue": "متابعة"
+  },
+  "ongoingCoursesData": {
+    "advancedCardiology": "أمراض القلب المتقدمة",
+    "drSarah": "الدكتورة سارة جونسون",
+    "fourHrThirty": "4 ساعات و30 دقيقة",
+    "twoHoursAgo": "منذ ساعتين",
+    "heartFailure": "إدارة فشل القلب",
+
+    "emergencyMedicine": "الطب الطارئ",
+    "drMike": "الدكتور مايك تشين",
+    "sixHrFifteen": "6 ساعات و15 دقيقة",
+    "oneDayAgo": "منذ يوم واحد",
+    "traumaAssessment": "تقييم الصدمات",
+
+    "pediatricCare": "رعاية الأطفال",
+    "drEmily": "الدكتورة إميلي ديفيس",
+    "threeHrFortyFive": "3 ساعات و45 دقيقة",
+    "threeDaysAgo": "منذ 3 أيام",
+    "childDevelopment": "نمو الطفل"
+  },
+  "recommendedCourses": {
+    "title": "دورات موصى بها لك",
+    "enroll": "التحق الآن"
+  },
+  "recommendedCoursesData": {
+    "medicalEthics": "الأخلاقيات الطبية في الممارسة",
+    "drRobert": "الدكتور روبرت ويلسون",
+    "twoHrFifteen": "ساعتان و15 دقيقة",
+    "intermediate": "متوسط",
+    "ethics": "الأخلاقيات",
+
+    "advancedSurgery": "التقنيات الجراحية المتقدمة",
+    "drLisa": "الدكتورة ليزا بارك",
+    "fiveHrThirty": "5 ساعات و30 دقيقة",
+    "advanced": "متقدم",
+    "surgery": "الجراحة",
+
+    "digitalHealth": "الابتكارات في الصحة الرقمية",
+    "drJames": "الدكتور جيمس كومار",
+    "threeHrFortyFive": "3 ساعات و45 دقيقة",
+    "beginner": "مبتدئ",
+    "technology": "التكنولوجيا"
   }
 }

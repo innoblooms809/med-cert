@@ -1,4 +1,3 @@
-// RecentActivity.jsx
 "use client";
 import React from "react";
 import { Card, Timeline } from "antd";
@@ -9,47 +8,46 @@ import {
   TrophyOutlined 
 } from "@ant-design/icons";
 
-export default function RecentActivity({ dict, lang }:any) {
+export default function RecentActivity({ dict, lang }: any) {
   const activities = [
     {
       type: "video",
-      action: "Watched",
-      title: "Cardiac Arrhythmias Lecture",
-      course: "Advanced Cardiology",
-      time: "2 hours ago",
+      action: dict?.recentActivityData?.watched || "Watched",
+      title: dict?.recentActivityData?.cardiacLecture || "Cardiac Arrhythmias Lecture",
+      course: dict?.recentActivityData?.advancedCardiology || "Advanced Cardiology",
+      time: dict?.recentActivityData?.twoHoursAgo || "2 hours ago",
       icon: <PlayCircleOutlined style={{ color: "#1890ff" }} />,
       color: "blue"
     },
     {
       type: "test",
-      action: "Completed",
-      title: "Emergency Medicine Quiz",
-      course: "Emergency Procedures",
-      time: "1 day ago",
+      action: dict?.recentActivityData?.completed || "Completed",
+      title: dict?.recentActivityData?.emergencyQuiz || "Emergency Medicine Quiz",
+      course: dict?.recentActivityData?.emergencyProcedures || "Emergency Procedures",
+      time: dict?.recentActivityData?.oneDayAgo || "1 day ago",
       icon: <CheckCircleOutlined style={{ color: "#52c41a" }} />,
       color: "green"
     },
     {
       type: "certificate",
-      action: "Earned",
-      title: "Basic Life Support Certificate",
-      course: "BLS Training",
-      time: "2 days ago",
+      action: dict?.recentActivityData?.earned || "Earned",
+      title: dict?.recentActivityData?.blsCertificate || "Basic Life Support Certificate",
+      course: dict?.recentActivityData?.blsTraining || "BLS Training",
+      time: dict?.recentActivityData?.twoDaysAgo || "2 days ago",
       icon: <TrophyOutlined style={{ color: "#faad14" }} />,
       color: "orange"
     },
     {
       type: "material",
-      action: "Downloaded",
-      title: "Clinical Guidelines PDF",
-      course: "Medical Protocols",
-      time: "3 days ago",
+      action: dict?.recentActivityData?.downloaded || "Downloaded",
+      title: dict?.recentActivityData?.guidelinesPdf || "Clinical Guidelines PDF",
+      course: dict?.recentActivityData?.medicalProtocols || "Medical Protocols",
+      time: dict?.recentActivityData?.threeDaysAgo || "3 days ago",
       icon: <FileTextOutlined style={{ color: "#722ed1" }} />,
       color: "purple"
     }
   ];
 
-  // Convert activities to Timeline items format
   const timelineItems = activities.map((activity, index) => ({
     key: index,
     color: activity.color,
@@ -71,7 +69,7 @@ export default function RecentActivity({ dict, lang }:any) {
 
   return (
     <Card 
-      title={dict?.recentActivity || "Recent Activity"} 
+      title={dict?.recentActivity?.title || "Recent Activity"} 
       style={{ borderRadius: 12 }}
     >
       <Timeline items={timelineItems} />

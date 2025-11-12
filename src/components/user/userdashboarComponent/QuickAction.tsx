@@ -1,4 +1,3 @@
-// QuickActions.jsx
 "use client";
 import React from "react";
 import { Card, Row, Col, Button } from "antd";
@@ -6,42 +5,42 @@ import {
   BookOutlined, 
   PlayCircleOutlined, 
   FileTextOutlined,
-  TrophyOutlined,
-  SettingOutlined,
-  QuestionCircleOutlined
+  TrophyOutlined
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
-export default function QuickActions({ dict, lang }:any) {
+export default function QuickActions({ dict, lang }: any) {
   const quickActions = [
     {
-      title: "Browse Courses",
+      title: dict?.quickActionsData?.browseCourses || "Browse Courses",
       icon: <BookOutlined />,
       path: "/user/myCourse",
       color: "#1890ff"
     },
     {
-      title: "My Learning",
+      title: dict?.quickActionsData?.myLearning || "My Learning",
       icon: <PlayCircleOutlined />,
       path: "/user/myCourse",
       color: "#52c41a"
     },
     {
-      title: "Take Test",
+      title: dict?.quickActionsData?.takeTest || "Take Test",
       icon: <FileTextOutlined />,
       path: "/user/myCourse",
       color: "#fa8c16"
     },
     {
-      title: "Certificates",
+      title: dict?.quickActionsData?.certificates || "Certificates",
       icon: <TrophyOutlined />,
-      path: "/user/myCourse", 
+      path: "/user/myCourse",
       color: "#722ed1"
     }
   ];
-const router=useRouter()
+
+  const router = useRouter();
+
   return (
-    <Card title={dict?.quickActions || "Quick Actions"} style={{ borderRadius: 12 }}>
+    <Card title={dict?.quickActions?.title || "Quick Actions"} style={{ borderRadius: 12 }}>
       <Row gutter={[12, 12]}>
         {quickActions.map((action, index) => (
           <Col span={12} key={index}>

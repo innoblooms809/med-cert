@@ -185,7 +185,7 @@ export default function ResultPage() {
                 padding: 12, 
                 borderRadius: 6, 
                 marginTop: 8,
-                border: '1px solid #ffbb96'
+                border: '1px solid #ffbb96',
               }}>
                 <Text type="secondary" style={{ color: '#d46b08' }}>
                   ❌ Not attempted
@@ -311,6 +311,8 @@ export default function ResultPage() {
                 border: '1px solid #91d5ff',
                 lineHeight: 1.6
               }}>
+
+
                 <Text>{question.inputOutput}</Text>
               </div>
             </div>

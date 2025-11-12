@@ -164,6 +164,7 @@
       "enrollNow": "Enroll Now"
     }
   },
+  
   "footer": {
     "company": "Company",
     "resources": "Resources",
@@ -1392,5 +1393,134 @@
       "inst": "Instructor",
       "thankText": "Thank you for your purchase!"
     }
+  },
+  
+  "userdashboard": {
+    "enrolledCourses": "Enrolled Courses",
+    "lecturesWatched": "Lectures Completed",
+    "testsTaken": "Tests Taken",
+    "certificates": "Certificates"
+},
+"charts": {
+    "weeklyLearningActivity": "Weekly Learning Activity",
+    "courseProgress": "Course Progress",
+    "lecturesWatched": "Lectures Watched",
+    "testsCompleted": "Tests Completed",
+    "weekDays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "courseStatusLabels": ["Completed", "In Progress", "Not Started", "Behind Schedule"]
+  },
+  "learningProgress": {
+    "title": "Learning Progress",
+    "completed": "completed"
+  },
+  "learningProgressData": {
+    "courseCompletion": "Course Completion",
+    "testSuccessRate": "Test Success Rate",
+    "learningConsistency": "Learning Consistency"
+  },
+   "quickActions": {
+    "title": "Quick Actions"
+  },
+  "quickActionsData": {
+    "browseCourses": "Browse Courses",
+    "myLearning": "My Learning",
+    "takeTest": "Take Test",
+    "certificates": "Certificates"
+  },
+   "recentActivity": {
+    "title": "Recent Activity"
+  },
+  "recentActivityData": {
+    "watched": "Watched",
+    "completed": "Completed",
+    "earned": "Earned",
+    "downloaded": "Downloaded",
+
+    "cardiacLecture": "Cardiac Arrhythmias Lecture",
+    "advancedCardiology": "Advanced Cardiology",
+    "emergencyQuiz": "Emergency Medicine Quiz",
+    "emergencyProcedures": "Emergency Procedures",
+    "blsCertificate": "Basic Life Support Certificate",
+    "blsTraining": "BLS Training",
+    "guidelinesPdf": "Clinical Guidelines PDF",
+    "medicalProtocols": "Medical Protocols",
+
+    "twoHoursAgo": "2 hours ago",
+    "oneDayAgo": "1 day ago",
+    "twoDaysAgo": "2 days ago",
+    "threeDaysAgo": "3 days ago"
+  },
+  "upcomingTests": {
+    "title": "Upcoming Tests",
+    "startTest": "Start Test",
+    "due": "Due",
+    "questions": "questions",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "upcomingTestsData": {
+    "cardiologyExam": "Cardiology Final Exam",
+    "advancedCardiology": "Advanced Cardiology",
+    "jan15": "2024-01-15",
+    "sixtyMinutes": "60 minutes",
+    "upcoming": "Upcoming",
+    "patientSafety": "Patient Safety Assessment",
+    "healthProtocols": "Healthcare Protocols",
+    "jan18": "2024-01-18",
+    "fortyFiveMinutes": "45 minutes",
+    "available": "Available",
+    "ethicsQuiz": "Medical Ethics Quiz",
+    "profEthics": "Professional Ethics",
+    "jan20": "2024-01-20",
+    "thirtyMinutes": "30 minutes"
+  },
+  "ongoingCourses": {
+    "title": "Continue Learning",
+    "viewAll": "View All",
+    "next": "Next",
+    "continue": "Continue"
+  },
+  "ongoingCoursesData": {
+    "advancedCardiology": "Advanced Cardiology",
+    "drSarah": "Dr. Sarah Johnson",
+    "fourHrThirty": "4h 30m",
+    "twoHoursAgo": "2 hours ago",
+    "heartFailure": "Heart Failure Management",
+
+    "emergencyMedicine": "Emergency Medicine",
+    "drMike": "Dr. Mike Chen",
+    "sixHrFifteen": "6h 15m",
+    "oneDayAgo": "1 day ago",
+    "traumaAssessment": "Trauma Assessment",
+
+    "pediatricCare": "Pediatric Care",
+    "drEmily": "Dr. Emily Davis",
+    "threeHrFortyFive": "3h 45m",
+    "threeDaysAgo": "3 days ago",
+    "childDevelopment": "Child Development"
+  },
+  "recommendedCourses": {
+    "title": "Recommended for You",
+    "enroll": "Enroll"
+  },
+  "recommendedCoursesData": {
+    "medicalEthics": "Medical Ethics in Practice",
+    "drRobert": "Dr. Robert Wilson",
+    "twoHrFifteen": "2h 15m",
+    "intermediate": "Intermediate",
+    "ethics": "Ethics",
+
+    "advancedSurgery": "Advanced Surgical Techniques",
+    "drLisa": "Dr. Lisa Park",
+    "fiveHrThirty": "5h 30m",
+    "advanced": "Advanced",
+    "surgery": "Surgery",
+
+    "digitalHealth": "Digital Health Innovations",
+    "drJames": "Dr. James Kumar",
+    "threeHrFortyFive": "3h 45m",
+    "beginner": "Beginner",
+    "technology": "Technology"
   }
 }

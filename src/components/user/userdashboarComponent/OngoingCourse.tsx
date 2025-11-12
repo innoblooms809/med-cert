@@ -1,63 +1,62 @@
-// OngoingCourses.jsx
 "use client";
 import React from "react";
 import { Card, List, Progress, Button, Tag } from "antd";
-import { PlayCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { PlayCircleOutlined } from "@ant-design/icons";
 
-export default function OngoingCourses({ dict, lang }:any) {
+export default function OngoingCourses({ dict, lang }: any) {
   const ongoingCourses = [
     {
       id: 1,
-      title: "Advanced Cardiology",
-      instructor: "Dr. Sarah Johnson",
+      title: dict?.ongoingCoursesData?.advancedCardiology || "Advanced Cardiology",
+      instructor: dict?.ongoingCoursesData?.drSarah || "Dr. Sarah Johnson",
       progress: 65,
       thumbnail: "/images/cardiology.jpg",
-      duration: "4h 30m",
-      lastAccessed: "2 hours ago",
-      nextLesson: "Heart Failure Management"
+      duration: dict?.ongoingCoursesData?.fourHrThirty || "4h 30m",
+      lastAccessed: dict?.ongoingCoursesData?.twoHoursAgo || "2 hours ago",
+      nextLesson: dict?.ongoingCoursesData?.heartFailure || "Heart Failure Management",
     },
     {
       id: 2,
-      title: "Emergency Medicine",
-      instructor: "Dr. Mike Chen",
+      title: dict?.ongoingCoursesData?.emergencyMedicine || "Emergency Medicine",
+      instructor: dict?.ongoingCoursesData?.drMike || "Dr. Mike Chen",
       progress: 30,
-      thumbnail: "/images/emergency.jpg", 
-      duration: "6h 15m",
-      lastAccessed: "1 day ago",
-      nextLesson: "Trauma Assessment"
+      thumbnail: "/images/emergency.jpg",
+      duration: dict?.ongoingCoursesData?.sixHrFifteen || "6h 15m",
+      lastAccessed: dict?.ongoingCoursesData?.oneDayAgo || "1 day ago",
+      nextLesson: dict?.ongoingCoursesData?.traumaAssessment || "Trauma Assessment",
     },
     {
       id: 3,
-      title: "Pediatric Care",
-      instructor: "Dr. Emily Davis",
+      title: dict?.ongoingCoursesData?.pediatricCare || "Pediatric Care",
+      instructor: dict?.ongoingCoursesData?.drEmily || "Dr. Emily Davis",
       progress: 45,
       thumbnail: "/images/pediatrics.jpg",
-      duration: "3h 45m",
-      lastAccessed: "3 days ago",
-      nextLesson: "Child Development"
-    }
+      duration: dict?.ongoingCoursesData?.threeHrFortyFive || "3h 45m",
+      lastAccessed: dict?.ongoingCoursesData?.threeDaysAgo || "3 days ago",
+      nextLesson: dict?.ongoingCoursesData?.childDevelopment || "Child Development",
+    },
   ];
 
   return (
-    <Card 
-      title={dict?.ongoingCourses || "Continue Learning"} 
-      extra={<Button type="link">View All</Button>}
+    <Card
+      title={dict?.ongoingCourses?.title || "Continue Learning"}
+      extra={<Button type="link">{dict?.ongoingCourses?.viewAll || "View All"}</Button>}
       style={{ borderRadius: 12 }}
     >
       <List
         dataSource={ongoingCourses}
-        renderItem={course => (
+        renderItem={(course) => (
           <List.Item>
             <div style={{ display: "flex", width: "100%", alignItems: "flex-start" }}>
-              <img 
-                src={course.thumbnail} 
+              <img
+                src={course.thumbnail}
                 alt={course.title}
-                style={{ 
-                  width: 80, 
-                  height: 60, 
-                  borderRadius: 8, 
+                style={{
+                  width: 80,
+                  height: 60,
+                  borderRadius: 8,
                   objectFit: "cover",
-                  marginRight: 16 
+                  marginRight: 16,
                 }}
               />
               <div style={{ flex: 1 }}>
@@ -66,21 +65,27 @@ export default function OngoingCourses({ dict, lang }:any) {
                   {course.instructor} • {course.duration}
                 </div>
                 <Progress percent={course.progress} size="small" />
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: 8,
+                  }}
+                >
                   <span style={{ fontSize: 12, color: "#666" }}>
-                    Next: {course.nextLesson}
+                    {dict?.ongoingCourses?.next || "Next"}: {course.nextLesson}
                   </span>
                   <Tag color="blue" style={{ fontSize: 12 }}>
                     {course.lastAccessed}
                   </Tag>
                 </div>
               </div>
-              <Button 
-                type="primary" 
+              <Button
+                type="primary"
                 icon={<PlayCircleOutlined />}
                 style={{ marginLeft: 12 }}
               >
-                Continue
+                {dict?.ongoingCourses?.continue || "Continue"}
               </Button>
             </div>
           </List.Item>
