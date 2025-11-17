@@ -48,7 +48,8 @@ const activityData: ActivityDataItem[] = [
   { date: "Sun", enrolled: 3, testAttempt: 2, certificate: 1 },
 ];
 
-export default function WeeklyActivityTrend() {
+export default function RecentActivity({dict,lang}:any) {
+  const RecentActivity=dict.dashboard.admin.RecentActivity
   const COLORS = {
     enrolled: "url(#enrolledGradient)",
     testAttempt: "url(#testAttemptGradient)",
@@ -131,7 +132,7 @@ export default function WeeklyActivityTrend() {
             styles={{body: {padding: "20px"} }}
           >
             <Statistic
-              title="Total Enrolled"
+              title={RecentActivity.totalEnrolled}
               value={totalEnrolled}
               valueStyle={{ color: COLORS.gradient.enrolledStart, fontSize: 28, fontWeight: 700 }}
               prefix="👥"
@@ -149,7 +150,7 @@ export default function WeeklyActivityTrend() {
             styles={{body: {padding: "20px"} }}
           >
             <Statistic
-              title="Test Attempts"
+              title={RecentActivity.testAttempts}
               value={totalTests}
               valueStyle={{ color: COLORS.gradient.testStart, fontSize: 28, fontWeight: 700 }}
               prefix="📝"
@@ -167,7 +168,7 @@ export default function WeeklyActivityTrend() {
             styles={{body: {padding: "20px"} }}
           >
             <Statistic
-              title="Certificates"
+              title={RecentActivity.certificates}
               value={totalCertificates}
               valueStyle={{ color: COLORS.gradient.certificateStart, fontSize: 28, fontWeight: 700 }}
               prefix="🎓"
@@ -195,7 +196,7 @@ export default function WeeklyActivityTrend() {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                📊 Weekly Activity Breakdown
+                📊 {RecentActivity.weeklyActivityBreakdown}
               </div>
             }
             style={{
@@ -299,7 +300,7 @@ export default function WeeklyActivityTrend() {
                   borderRadius: 4,
                   marginRight: 12
                 }}></div>
-                📈 Activity Trends
+                📈 {RecentActivity.activityTrends}
               </div>
             }
             style={{
