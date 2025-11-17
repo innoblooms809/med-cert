@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -71,18 +70,18 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
   useEffect(() => {
     const userData = {
       id: 1,
-      firstName: "Ahmed",
-      lastName: "Al Mansouri",
+      firstName: dict?.profile?.firstName || "Ahmed",
+      lastName: dict?.profile?.lastName || "Al Mansouri",
       email: "ahmed.mansouri@dha.gov.ae",
       phone: "+971 50 123 4567",
-      specialization: "Cardiology",
+      specialization: dict?.profile?.specialization || "Cardiology",
       licenseNumber: "DHA-MED-2023-12345",
-      hospital: "Dubai Hospital",
-      experience: "8 years",
+      hospital: dict?.profile?.hospital || "Dubai Hospital",
+      experience: dict?.profile?.experience || "8 years",
       profileImage: null,
       license: null,
       createdAt: new Date("2020-05-15").toISOString(),
-      bio: "Senior Cardiologist with 8 years of experience in interventional cardiology. Specialized in cardiac catheterization and heart failure management. Passionate about medical education and continuous professional development.",
+      bio: dict?.profile?.bio || "Senior Cardiologist with 8 years of experience in interventional cardiology. Specialized in cardiac catheterization and heart failure management. Passionate about medical education and continuous professional development.",
       stats: {
         enrolledCourses: 12,
         lecturesWatched: 45,
@@ -94,10 +93,15 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
         averageScore: 87,
       },
       subscription: {
-        plan: "Professional",
+        plan: dict?.subscription?.professional || "Professional",
         status: "active",
         renewsOn: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        features: ["All Courses", "Certificates", "Priority Support", "Advanced Content"]
+        features: [
+          dict?.subscription?.features?.allCourses || "All Courses",
+          dict?.subscription?.features?.certificates || "Certificates",
+          dict?.subscription?.features?.prioritySupport || "Priority Support",
+          dict?.subscription?.features?.advancedContent || "Advanced Content"
+        ]
       },
       preferences: {
         emailNotifications: true,
@@ -112,11 +116,11 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
     setDraft(userData);
     setAvatarPreview(userData.profileImage);
     setLicensePreview(userData.license);
-  }, []);
+  }, [dict]);
 
   const saveUserToStorage = (u: any) => {
     console.log("Saving user:", u);
-    message.success("Profile updated successfully!");
+    message.success(dict?.messages?.profileUpdated || "Profile updated successfully!");
   };
 
   const handleStartEdit = () => {
@@ -151,7 +155,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
       const imageUrl = URL.createObjectURL(info.file.originFileObj);
       setAvatarPreview(imageUrl);
       setDraft({ ...draft, profileImage: imageUrl });
-      message.success('Avatar uploaded successfully');
+      message.success(dict?.messages?.avatarUploaded || 'Avatar uploaded successfully');
     }
   };
 
@@ -160,16 +164,16 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
       const imageUrl = URL.createObjectURL(info.file.originFileObj);
       setLicensePreview(imageUrl);
       setDraft({ ...draft, license: imageUrl });
-      message.success('License uploaded successfully');
+      message.success(dict?.messages?.licenseUploaded || 'License uploaded successfully');
     }
   };
 
   // Chart data for insights
   const weeklyProgressData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    labels: dict?.charts?.weekDays || ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
       {
-        label: "Learning Hours",
+        label: dict?.charts?.learningHours || "Learning Hours",
         data: [2, 3, 1.5, 4, 2.5, 1, 0],
         borderColor: "#1890ff",
         backgroundColor: "rgba(24, 144, 255, 0.1)",
@@ -180,10 +184,10 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
   };
 
   const performanceData = {
-    labels: ["Cardiology", "Emergency", "Pediatrics", "Surgery", "Radiology"],
+    labels: dict?.charts?.specialties || ["Cardiology", "Emergency", "Pediatrics", "Surgery", "Radiology"],
     datasets: [
       {
-        label: "Test Scores (%)",
+        label: dict?.charts?.testScores || "Test Scores (%)",
         data: [92, 85, 78, 88, 82],
         backgroundColor: [
           "rgba(24, 144, 255, 0.8)",
@@ -211,7 +215,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
   if (!user) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div>Loading profile...</div>
+        <div>{dict?.loading || "Loading profile..."}</div>
       </div>
     );
   }
@@ -221,12 +225,12 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">My Profile</h1>
-          <p className="text-gray-600">Manage your professional profile and track progress</p>
+          <h1 className="text-3xl font-bold text-blue-600 mb-2">{dict?.title || "My Profile"}</h1>
+          <p className="text-gray-600">{dict?.subtitle || "Manage your professional profile and track progress"}</p>
         </div>
         <Space>
           <Button onClick={() => router.push(`/user/dashboard`)}>
-            Back to Dashboard
+            {dict?.buttons?.backToDashboard || "Back to Dashboard"}
           </Button>
         </Space>
       </div>
@@ -252,14 +256,14 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                 />
               </Badge>
               <h2 className="text-2xl font-bold text-white mt-4 mb-2">
-                Dr. {user.firstName} {user.lastName}
+                {dict?.profile?.doctorTitle || "Dr."} {user.firstName} {user.lastName}
               </h2>
               <Tag className="bg-blue-500 text-white border-0 rounded-full px-4 py-1 font-semibold text-sm">
                 {user.specialization}
               </Tag>
               <div className="flex items-center justify-center mt-4 text-blue-100">
                 <CalendarOutlined className="mr-2" />
-                Member since: {new Date(user.createdAt).toLocaleDateString()}
+                {dict?.profile?.memberSince || "Member since"}: {new Date(user.createdAt).toLocaleDateString()}
               </div>
             </div>
 
@@ -267,21 +271,21 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
               <div className="grid grid-cols-3 gap-4 mb-6 text-center">
                 <div>
                   <div className="text-2xl font-bold text-blue-600">{user.stats?.enrolledCourses}</div>
-                  <div className="text-gray-600 text-sm">Courses</div>
+                  <div className="text-gray-600 text-sm">{dict?.stats?.courses || "Courses"}</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-green-500">{user.stats?.certificates}</div>
-                  <div className="text-gray-600 text-sm">Certificates</div>
+                  <div className="text-gray-600 text-sm">{dict?.stats?.certificates || "Certificates"}</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-orange-500">{user.stats?.averageScore}%</div>
-                  <div className="text-gray-600 text-sm">Avg Score</div>
+                  <div className="text-gray-600 text-sm">{dict?.stats?.avgScore || "Avg Score"}</div>
                 </div>
               </div>
 
               <div className="mb-6">
                 <div className="flex justify-between mb-2">
-                  <span className="font-semibold">Overall Progress</span>
+                  <span className="font-semibold">{dict?.stats?.overallProgress || "Overall Progress"}</span>
                   <span>{user.stats?.completionRate}%</span>
                 </div>
                 <Progress
@@ -301,7 +305,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   icon={<BookOutlined />}
                   className="h-12"
                 >
-                  My Courses
+                  {dict?.buttons?.myCourses || "My Courses"}
                 </Button>
                 <Button
                   block
@@ -309,7 +313,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   icon={<EditOutlined />}
                   className="h-12"
                 >
-                  Edit Profile
+                  {dict?.buttons?.editProfile || "Edit Profile"}
                 </Button>
               </div>
             </div>
@@ -320,7 +324,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
             title={
               <span className="flex items-center text-lg font-semibold">
                 <SafetyCertificateOutlined className="text-green-500 mr-2" />
-                Medical License
+                {dict?.license?.title || "Medical License"}
               </span>
             }
             className="shadow-lg rounded-2xl border-0"
@@ -332,26 +336,26 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   alt="license"
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
-                <div className="font-semibold mb-2">License No: {user.licenseNumber}</div>
+                <div className="font-semibold mb-2">{dict?.license?.licenseNo || "License No"}: {user.licenseNumber}</div>
                 <Button
                   type="link"
                   icon={<DownloadOutlined />}
-                  onClick={() => message.info("Downloading license...")}
+                  onClick={() => message.info(dict?.messages?.downloadingLicense || "Downloading license...")}
                   className="text-blue-600"
                 >
-                  Download License
+                  {dict?.buttons?.downloadLicense || "Download License"}
                 </Button>
               </div>
             ) : (
               <div className="text-center py-6">
                 <SafetyCertificateOutlined className="text-5xl text-gray-300 mb-4" />
-                <div className="text-gray-500 mb-4">No license uploaded</div>
+                <div className="text-gray-500 mb-4">{dict?.license?.noLicense || "No license uploaded"}</div>
                 <Button
                   type="dashed"
                   onClick={() => setActiveTab("1")}
                   className="mt-2"
                 >
-                  Upload License
+                  {dict?.buttons?.uploadLicense || "Upload License"}
                 </Button>
               </div>
             )}
@@ -365,7 +369,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
             title={
               <span className="flex items-center text-lg font-semibold">
                 <CrownOutlined className="text-yellow-500 mr-2" />
-                Subscription Plan
+                {dict?.subscription?.title || "Subscription Plan"}
               </span>
             }
             className="shadow-lg rounded-2xl border-0"
@@ -378,7 +382,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-blue-600 mb-2">{user.subscription?.plan}</h3>
               <p className="text-gray-500">
-                Renews on {new Date(user.subscription?.renewsOn).toLocaleDateString()}
+                {dict?.subscription?.renewsOn || "Renews on"} {new Date(user.subscription?.renewsOn).toLocaleDateString()}
               </p>
             </div>
 
@@ -397,7 +401,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
               onClick={() => setActiveTab("5")}
               className="h-12 bg-gradient-to-r from-yellow-400 to-yellow-500 border-0 text-black font-semibold hover:from-yellow-500 hover:to-yellow-600"
             >
-              Manage Subscription
+              {dict?.buttons?.manageSubscription || "Manage Subscription"}
             </Button>
           </Card>
 
@@ -412,7 +416,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   label: (
                     <span className="flex items-center">
                       <UserOutlined className="mr-2" />
-                      Account Info
+                      {dict?.tabs?.accountInfo || "Account Info"}
                     </span>
                   ),
                   children: (
@@ -421,33 +425,33 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-6">
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Full Name</label>
-                              <p className="text-lg">Dr. {user.firstName} {user.lastName}</p>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.fullName || "Full Name"}</label>
+                              <p className="text-sm">{dict?.profile?.doctorTitle || "Dr."} {user.firstName} {user.lastName}</p>
                             </div>
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Specialization</label>
-                              <p className="text-lg">{user.specialization}</p>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.specialization || "Specialization"}</label>
+                              <p className="text-sm">{user.specialization}</p>
                             </div>
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Hospital</label>
-                              <p className="text-lg">{user.hospital}</p>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.hospital || "Hospital"}</label>
+                              <p className="text-sm">{user.hospital}</p>
                             </div>
                           </div>
                           <div className="space-y-6">
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Email</label>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.email || "Email"}</label>
                               <div className="flex items-center">
                                 <MailOutlined className="text-blue-500 mr-2" />
-                                <p className="text-lg">{user.email}</p>
+                                <p className="text-sm">{user.email}</p>
                               </div>
                             </div>
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Phone</label>
-                              <p className="text-lg">{user.phone}</p>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.phone || "Phone"}</label>
+                              <p className="text-sm">{user.phone}</p>
                             </div>
                             <div>
-                              <label className="block text-gray-600 text-sm mb-1">Experience</label>
-                              <p className="text-lg">{user.experience}</p>
+                              <label className="block text-gray-600 text-sm mb-1">{dict?.form?.experience || "Experience"}</label>
+                              <p className="text-sm">{user.experience}</p>
                             </div>
                           </div>
                         </div>
@@ -455,7 +459,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                         <div className="space-y-4">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <label className="block text-sm font-medium mb-2">First Name</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.firstName || "First Name"}</label>
                               <Input
                                 value={draft.firstName}
                                 onChange={(e) => handleChange('firstName', e.target.value)}
@@ -463,7 +467,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-medium mb-2">Last Name</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.lastName || "Last Name"}</label>
                               <Input
                                 value={draft.lastName}
                                 onChange={(e) => handleChange('lastName', e.target.value)}
@@ -473,22 +477,22 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <label className="block text-sm font-medium mb-2">Specialization</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.specialization || "Specialization"}</label>
                               <Select
                                 value={draft.specialization}
                                 onChange={(value) => handleChange('specialization', value)}
                                 className="w-full"
                               >
-                                <Option value="Cardiology">Cardiology</Option>
-                                <Option value="Emergency Medicine">Emergency Medicine</Option>
-                                <Option value="Pediatrics">Pediatrics</Option>
-                                <Option value="Surgery">Surgery</Option>
-                                <Option value="Radiology">Radiology</Option>
-                                <Option value="General Practice">General Practice</Option>
+                                <Option value="Cardiology">{dict?.specializations?.cardiology || "Cardiology"}</Option>
+                                <Option value="Emergency Medicine">{dict?.specializations?.emergency || "Emergency Medicine"}</Option>
+                                <Option value="Pediatrics">{dict?.specializations?.pediatrics || "Pediatrics"}</Option>
+                                <Option value="Surgery">{dict?.specializations?.surgery || "Surgery"}</Option>
+                                <Option value="Radiology">{dict?.specializations?.radiology || "Radiology"}</Option>
+                                <Option value="General Practice">{dict?.specializations?.general || "General Practice"}</Option>
                               </Select>
                             </div>
                             <div>
-                              <label className="block text-sm font-medium mb-2">Hospital</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.hospital || "Hospital"}</label>
                               <Input
                                 value={draft.hospital}
                                 onChange={(e) => handleChange('hospital', e.target.value)}
@@ -498,7 +502,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <label className="block text-sm font-medium mb-2">Email</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.email || "Email"}</label>
                               <Input
                                 value={draft.email}
                                 onChange={(e) => handleChange('email', e.target.value)}
@@ -506,7 +510,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-medium mb-2">Phone</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.phone || "Phone"}</label>
                               <Input
                                 value={draft.phone}
                                 onChange={(e) => handleChange('phone', e.target.value)}
@@ -516,7 +520,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <label className="block text-sm font-medium mb-2">Profile Image</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.profileImage || "Profile Image"}</label>
                               <Upload
                                 accept="image/*"
                                 showUploadList={false}
@@ -527,11 +531,11 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                                 }}
                                 onChange={handleAvatarUpload}
                               >
-                                <Button icon={<CameraOutlined />}>Upload Avatar</Button>
+                                <Button icon={<CameraOutlined />}>{dict?.buttons?.uploadAvatar || "Upload Avatar"}</Button>
                               </Upload>
                             </div>
                             <div>
-                              <label className="block text-sm font-medium mb-2">Medical License</label>
+                              <label className="block text-sm font-medium mb-2">{dict?.form?.medicalLicense || "Medical License"}</label>
                               <Upload
                                 accept="image/*,.pdf"
                                 showUploadList={false}
@@ -542,14 +546,14 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                                 }}
                                 onChange={handleLicenseUpload}
                               >
-                                <Button icon={<FileTextOutlined />}>Upload License</Button>
+                                <Button icon={<FileTextOutlined />}>{dict?.buttons?.uploadLicense || "Upload License"}</Button>
                               </Upload>
                             </div>
                           </div>
 
                           <div className="flex space-x-3 pt-4">
-                            <Button type="primary" onClick={handleSave}>Save Changes</Button>
-                            <Button onClick={handleCancel}>Cancel</Button>
+                            <Button type="primary" onClick={handleSave}>{dict?.buttons?.saveChanges || "Save Changes"}</Button>
+                            <Button onClick={handleCancel}>{dict?.buttons?.cancel || "Cancel"}</Button>
                           </div>
                         </div>
                       )}
@@ -561,26 +565,26 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   label: (
                     <span className="flex items-center">
                       <LockOutlined className="mr-2" />
-                      Security
+                      {dict?.tabs?.security || "Security"}
                     </span>
                   ),
-                  children: <ChangePassword user={user} onSave={(updated: any) => { setUser(updated); saveUserToStorage(updated); }} />,
+                  children: <ChangePassword user={user} onSave={(updated: any) => { setUser(updated); saveUserToStorage(updated); }} dict={dict} />,
                 },
                 {
                   key: "3",
                   label: (
                     <span className="flex items-center">
                       <EditOutlined className="mr-2" />
-                      About
+                      {dict?.tabs?.about || "About"}
                     </span>
                   ),
                   children: (
                     <div className="py-4">
                       <div className="flex justify-between items-start mb-6">
                         <div className="flex-1">
-                          <h4 className="text-lg font-semibold mb-3">Professional Bio</h4>
+                          <h4 className="text-lg font-semibold mb-3">{dict?.about?.professionalBio || "Professional Bio"}</h4>
                           <p className="text-gray-700 leading-relaxed">
-                            {user.bio || "Add a professional bio about yourself, your medical background, and professional interests."}
+                            {user.bio || dict?.about?.bioPlaceholder || "Add a professional bio about yourself, your medical background, and professional interests."}
                           </p>
                         </div>
                         <Button
@@ -588,20 +592,20 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                           size="small"
                           onClick={() => setBioModalOpen(true)}
                         >
-                          Edit Bio
+                          {dict?.buttons?.editBio || "Edit Bio"}
                         </Button>
                       </div>
 
                       <Divider />
 
-                      <h4 className="text-lg font-semibold mb-4">Professional Details</h4>
+                      <h4 className="text-lg font-semibold mb-4">{dict?.about?.professionalDetails || "Professional Details"}</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-gray-600 text-sm mb-1">License Number</label>
+                          <label className="block text-gray-600 text-sm mb-1">{dict?.form?.licenseNumber || "License Number"}</label>
                           <p>{user.licenseNumber}</p>
                         </div>
                         <div>
-                          <label className="block text-gray-600 text-sm mb-1">Years of Experience</label>
+                          <label className="block text-gray-600 text-sm mb-1">{dict?.form?.yearsExperience || "Years of Experience"}</label>
                           <p>{user.experience}</p>
                         </div>
                       </div>
@@ -613,7 +617,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   label: (
                     <span className="flex items-center">
                       <TrophyOutlined className="mr-2" />
-                      Insights
+                      {dict?.tabs?.insights || "Insights"}
                     </span>
                   ),
                   children: (
@@ -621,25 +625,25 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                       <div className="grid grid-cols-3 gap-4 mb-8">
                         <Card className="text-center bg-blue-50 border-0 shadow-sm">
                           <div className="text-2xl font-bold text-blue-600">{user.stats?.enrolledCourses}</div>
-                          <div className="text-gray-600">Enrolled Courses</div>
+                          <div className="text-gray-600">{dict?.stats?.enrolledCourses || "Enrolled Courses"}</div>
                         </Card>
                         <Card className="text-center bg-green-50 border-0 shadow-sm">
                           <div className="text-2xl font-bold text-green-600">{user.stats?.lecturesWatched}</div>
-                          <div className="text-gray-600">Lectures Watched</div>
+                          <div className="text-gray-600">{dict?.stats?.lecturesWatched || "Lectures Watched"}</div>
                         </Card>
                         <Card className="text-center bg-orange-50 border-0 shadow-sm">
                           <div className="text-2xl font-bold text-orange-600">{user.stats?.certificates}</div>
-                          <div className="text-gray-600">Certificates Earned</div>
+                          <div className="text-gray-600">{dict?.stats?.certificatesEarned || "Certificates Earned"}</div>
                         </Card>
                       </div>
 
                       <Divider />
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                        <Card title="Weekly Learning Progress" className="h-80">
+                        <Card title={dict?.charts?.weeklyProgress || "Weekly Learning Progress"} className="h-80">
                           <Line data={weeklyProgressData} options={chartOptions} />
                         </Card>
-                        <Card title="Specialty Performance" className="h-80">
+                        <Card title={dict?.charts?.specialtyPerformance || "Specialty Performance"} className="h-80">
                           <Doughnut data={performanceData} options={chartOptions} />
                         </Card>
                       </div>
@@ -651,45 +655,45 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   label: (
                     <span className="flex items-center">
                       <CrownOutlined className="mr-2" />
-                      Subscription
+                      {dict?.tabs?.subscription || "Subscription"}
                     </span>
                   ),
                   children: (
                     <div className="py-4">
-                      <h4 className="text-xl font-semibold mb-2">Current Plan: {user.subscription?.plan}</h4>
-                      <p className="text-gray-600 mb-6">Your subscription is active and will renew automatically</p>
+                      <h4 className="text-xl font-semibold mb-2">{dict?.subscription?.currentPlan || "Current Plan"}: {user.subscription?.plan}</h4>
+                      <p className="text-gray-600 mb-6">{dict?.subscription?.activeStatus || "Your subscription is active and will renew automatically"}</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Card className="border border-gray-300">
                           <div className="flex justify-between items-center mb-4">
-                            <h5 className="text-lg font-semibold">Basic Plan</h5>
-                            <span className="text-gray-600">$0/month</span>
+                            <h5 className="text-lg font-semibold">{dict?.subscription?.basic || "Basic Plan"}</h5>
+                            <span className="text-gray-600">$0/{dict?.subscription?.month || "month"}</span>
                           </div>
                           <ul className="space-y-2 mb-6">
-                            <li>• Access to basic courses</li>
-                            <li>• Community support</li>
-                            <li>• Limited certificates</li>
+                            <li>• {dict?.subscription?.features?.basic1 || "Access to basic courses"}</li>
+                            <li>• {dict?.subscription?.features?.basic2 || "Community support"}</li>
+                            <li>• {dict?.subscription?.features?.basic3 || "Limited certificates"}</li>
                           </ul>
                           <Button type="default" block disabled>
-                            Current Plan
+                            {dict?.subscription?.currentPlan || "Current Plan"}
                           </Button>
                         </Card>
                         <Card className="border-2 border-blue-500 relative">
                           <div className="absolute -top-3 right-4 bg-blue-500 text-white px-3 py-1 rounded text-sm font-semibold">
-                            RECOMMENDED
+                            {dict?.subscription?.recommended || "RECOMMENDED"}
                           </div>
                           <div className="flex justify-between items-center mb-4">
-                            <h5 className="text-lg font-semibold">Professional Plan</h5>
-                            <span className="text-gray-600">$29/month</span>
+                            <h5 className="text-lg font-semibold">{dict?.subscription?.professional || "Professional Plan"}</h5>
+                            <span className="text-gray-600">$29/{dict?.subscription?.month || "month"}</span>
                           </div>
                           <ul className="space-y-2 mb-6">
-                            <li>• All courses unlocked</li>
-                            <li>• Professional certificates</li>
-                            <li>• Priority support</li>
-                            <li>• Advanced content</li>
+                            <li>• {dict?.subscription?.features?.pro1 || "All courses unlocked"}</li>
+                            <li>• {dict?.subscription?.features?.pro2 || "Professional certificates"}</li>
+                            <li>• {dict?.subscription?.features?.pro3 || "Priority support"}</li>
+                            <li>• {dict?.subscription?.features?.pro4 || "Advanced content"}</li>
                           </ul>
                           <Button type="primary" block>
-                            Upgrade Now
+                            {dict?.buttons?.upgradeNow || "Upgrade Now"}
                           </Button>
                         </Card>
                       </div>
@@ -701,43 +705,43 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                   label: (
                     <span className="flex items-center">
                       <BellOutlined className="mr-2" />
-                      Notifications
+                      {dict?.tabs?.notifications || "Notifications"}
                     </span>
                   ),
                   children: (
                     <div className="py-4">
-                      <h4 className="text-xl font-semibold mb-6">Notification Preferences</h4>
+                      <h4 className="text-xl font-semibold mb-6">{dict?.notifications?.title || "Notification Preferences"}</h4>
                       <Form layout="vertical" className="space-y-4">
-                        <Form.Item label="Email Notifications">
+                        <Form.Item label={dict?.notifications?.email || "Email Notifications"}>
                           <Switch
                             checked={user.preferences?.emailNotifications}
                             onChange={(checked) => handleChange('preferences', { ...user.preferences, emailNotifications: checked })}
                           />
                         </Form.Item>
-                        <Form.Item label="Course Reminders">
+                        <Form.Item label={dict?.notifications?.courseReminders || "Course Reminders"}>
                           <Switch
                             checked={user.preferences?.courseReminders}
                             onChange={(checked) => handleChange('preferences', { ...user.preferences, courseReminders: checked })}
                           />
                         </Form.Item>
-                        <Form.Item label="Newsletter">
+                        <Form.Item label={dict?.notifications?.newsletter || "Newsletter"}>
                           <Switch
                             checked={user.preferences?.newsletter}
                             onChange={(checked) => handleChange('preferences', { ...user.preferences, newsletter: checked })}
                           />
                         </Form.Item>
-                        <Form.Item label="Language">
+                        <Form.Item label={dict?.notifications?.language || "Language"}>
                           <Select
                             value={user.preferences?.language}
                             onChange={(value) => handleChange('preferences', { ...user.preferences, language: value })}
                             className="w-48"
                           >
                             <Option value="en">English</Option>
-                            <Option value="ar">Arabic</Option>
+                            <Option value="ar">العربية</Option>
                           </Select>
                         </Form.Item>
-                        <Button type="primary" onClick={() => message.success("Preferences saved!")}>
-                          Save Preferences
+                        <Button type="primary" onClick={() => message.success(dict?.messages?.preferencesSaved || "Preferences saved!")}>
+                          {dict?.buttons?.savePreferences || "Save Preferences"}
                         </Button>
                       </Form>
                     </div>
@@ -751,19 +755,19 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
 
       {/* Bio Edit Modal */}
       <Modal
-        title="Edit Professional Bio"
+        title={dict?.modals?.editBio || "Edit Professional Bio"}
         open={bioModalOpen}
         onCancel={() => setBioModalOpen(false)}
         onOk={() => handleBioSave(draft?.bio || "")}
-        okText="Save Bio"
-        cancelText="Cancel"
+        okText={dict?.buttons?.saveBio || "Save Bio"}
+        cancelText={dict?.buttons?.cancel || "Cancel"}
         width={600}
       >
         <TextArea
           rows={6}
           value={draft?.bio}
           onChange={(e) => setDraft({ ...draft, bio: e.target.value })}
-          placeholder="Share your medical background, specialization, professional interests, and any achievements..."
+          placeholder={dict?.modals?.bioPlaceholder || "Share your medical background, specialization, professional interests, and any achievements..."}
           className="mt-4"
         />
       </Modal>
@@ -772,20 +776,20 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
 }
 
 // Password Change Component
-function ChangePassword({ user, onSave }: any) {
+function ChangePassword({ user, onSave, dict }: any) {
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirm, setConfirm] = useState("");
 
   const handleChange = () => {
-    if (!user) return message.error("No user found");
-    if (oldPass !== user.password) return message.error("Current password is incorrect");
-    if (newPass.length < 6) return message.error("New password must be at least 6 characters");
-    if (newPass !== confirm) return message.error("New passwords do not match");
+    if (!user) return message.error(dict?.errors?.noUser || "No user found");
+    if (oldPass !== user.password) return message.error(dict?.errors?.incorrectPassword || "Current password is incorrect");
+    if (newPass.length < 6) return message.error(dict?.errors?.passwordLength || "New password must be at least 6 characters");
+    if (newPass !== confirm) return message.error(dict?.errors?.passwordMismatch || "New passwords do not match");
 
     const updatedUser = { ...user, password: newPass };
     onSave(updatedUser);
-    message.success("Password updated successfully!");
+    message.success(dict?.messages?.passwordUpdated || "Password updated successfully!");
     setOldPass("");
     setNewPass("");
     setConfirm("");
@@ -795,31 +799,31 @@ function ChangePassword({ user, onSave }: any) {
     <div className="py-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Current Password</label>
+          <label className="block text-sm font-medium mb-2">{dict?.form?.currentPassword || "Current Password"}</label>
           <Input.Password
-            placeholder="Enter current password"
+            placeholder={dict?.placeholders?.currentPassword || "Enter current password"}
             value={oldPass}
             onChange={(e) => setOldPass(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">New Password</label>
+          <label className="block text-sm font-medium mb-2">{dict?.form?.newPassword || "New Password"}</label>
           <Input.Password
-            placeholder="Enter new password"
+            placeholder={dict?.placeholders?.newPassword || "Enter new password"}
             value={newPass}
             onChange={(e) => setNewPass(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">Confirm New Password</label>
+          <label className="block text-sm font-medium mb-2">{dict?.form?.confirmPassword || "Confirm New Password"}</label>
           <Input.Password
-            placeholder="Confirm new password"
+            placeholder={dict?.placeholders?.confirmPassword || "Confirm new password"}
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
           />
         </div>
       </div>
-      <Button type="primary" onClick={handleChange}>Update Password</Button>
+      <Button type="primary" onClick={handleChange}>{dict?.buttons?.updatePassword || "Update Password"}</Button>
     </div>
   );
 }

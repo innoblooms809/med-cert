@@ -7,7 +7,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ la
   const dict = await getDictionary(lang);
   return (
    <>
-   <UserProfile/>
+   <UserProfile dict={dict.userProfile} lang={lang}/>
    </>
   )
 }

@@ -1520,5 +1520,228 @@
     "threeHrFortyFive": "3 ساعات و45 دقيقة",
     "beginner": "مبتدئ",
     "technology": "التكنولوجيا"
+  },
+  
+
+  "myCourses": {
+    "title": "دوراتك"
+  },
+
+  "buttons": {
+    "play": "تشغيل",
+    "back": "عودة",
+    "startTest": "بدء الاختبار",
+    "viewResult": "عرض النتيجة"
+  },
+
+  "tabs": {
+    "announcements": "الإعلانات",
+    "tests": "سلسلة الاختبارات",
+    "pdfs": "ملفات PDF الداعمة"
+  },
+
+  "labels": {
+    "language": "اللغة"
+  },
+
+  "messages": {
+    "redirectQuiz": "يتم تحويلك إلى صفحة الاختبار التجريبي...",
+    "completeTestFirst": "يرجى إكمال الاختبار أولاً!",
+    "showingResult": "عرض النتيجة لـ"
+  },
+
+  "languageMixed": "إنجليزي / عربي",
+  "languageEnglish": "إنجليزي",
+  "languageArabic": "عربي",
+
+  "myCoursesData": {
+    "lecture1": "المحاضرة 1 - تشريح القلب",
+    "lecture1Desc": "نظرة عامة على حجرات القلب والصمامات والأوعية الدموية الرئيسية.",
+    "lecture1A1": "جلسة شكوك مباشرة يوم الجمعة",
+    "lecture1A2": "المهمة مستحقة الأسبوع القادم",
+    "heartQuiz": "اختبار تشريح القلب",
+    "mcq": "أسئلة اختيار من متعدد في التشريح",
+
+    "lecture2": "المحاضرة 2 - أساسيات تخطيط القلب ECG",
+    "lecture2Desc": "كيفية قراءة تخطيط القلب والتعرف على الأنماط الشائعة.",
+    "lecture2A1": "سيتم فتح الاختبار يوم الأحد",
+    "ecgTest": "اختبار أنماط ECG",
+
+    "lecture3": "المحاضرة 3 - علم أدوية القلب",
+    "lecture3Desc": "الأدوية الأساسية المستخدمة في حالات الطوارئ القلبية وتأثيراتها.",
+    "lecture3A1": "تم رفع ورقة تدريب الأسئلة",
+    "pharmaQuiz": "اختبار علم الأدوية",
+
+    "lecture4": "المحاضرة 4 - التدخلات القلبية",
+    "lecture4Desc": "أساسيات القسطرة القلبية (PCI) ومؤشراتها — مناقشة حالات.",
+    "lecture4A1": "مناقشة دراسة حالة يوم الأربعاء",
+    "interQuiz": "اختبار التدخلات"
+  },
+  
+  "userProfile": {
+    "title": "ملفي الشخصي",
+    "subtitle": "إدارة ملفك المهني ومتابعة التقدم",
+    "loading": "جاري تحميل الملف...",
+    
+    "profile": {
+      "doctorTitle": "د.",
+      "firstName": "أحمد",
+      "lastName": "المنصوري",
+      "specialization": "أمراض القلب",
+      "hospital": "مستشفى دبي",
+      "experience": "8 سنوات",
+      "memberSince": "عضو منذ",
+      "bio": "طبيب قلب استشاري بخبرة 8 سنوات في طب القلب التدخلي. متخصص في قسطرة القلب وإدارة قصور القلب. شغوف بالتعليم الطبي والتطوير المهني المستمر."
+    },
+    
+    "stats": {
+      "courses": "الدورات",
+      "certificates": "الشهادات",
+      "avgScore": "متوسط النقاط",
+      "overallProgress": "التقدم العام",
+      "enrolledCourses": "الدورات المسجلة",
+      "lecturesWatched": "المحاضرات المشاهدة",
+      "certificatesEarned": "الشهادات المكتسبة"
+    },
+    
+    "license": {
+      "title": "الرخصة الطبية",
+      "licenseNo": "رقم الرخصة",
+      "noLicense": "لا توجد رخصة مرفوعة"
+    },
+    
+    "subscription": {
+      "title": "خطة الاشتراك",
+      "professional": "المحترف",
+      "renewsOn": "تجدد في",
+      "currentPlan": "الخطة الحالية",
+      "activeStatus": "اشتراكك نشط وسيتم تجديده تلقائياً",
+      "basic": "الخطة الأساسية",
+      "month": "شهر",
+      "recommended": "مُوصى به",
+      "features": {
+        "allCourses": "جميع الدورات",
+        "certificates": "الشهادات",
+        "prioritySupport": "دعم أولوي",
+        "advancedContent": "محتوى متقدم",
+        "basic1": "الوصول للدورات الأساسية",
+        "basic2": "دعم المجتمع",
+        "basic3": "شهادات محدودة",
+        "pro1": "جميع الدورات مفتوحة",
+        "pro2": "شهادات احترافية",
+        "pro3": "دعم أولوي",
+        "pro4": "محتوى متقدم"
+      }
+    },
+    
+    "tabs": {
+      "accountInfo": "معلومات الحساب",
+      "security": "الأمان",
+      "about": "حول",
+      "insights": "الإحصائيات",
+      "subscription": "الاشتراك",
+      "notifications": "الإشعارات"
+    },
+    
+    "form": {
+      "fullName": "الاسم الكامل",
+      "specialization": "التخصص",
+      "hospital": "المستشفى",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "experience": "الخبرة",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "profileImage": "صورة الملف",
+      "medicalLicense": "الرخصة الطبية",
+      "licenseNumber": "رقم الرخصة",
+      "yearsExperience": "سنوات الخبرة",
+      "currentPassword": "كلمة المرور الحالية",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور الجديدة"
+    },
+    
+    "specializations": {
+      "cardiology": "أمراض القلب",
+      "emergency": "الطب الطارئ",
+      "pediatrics": "طب الأطفال",
+      "surgery": "الجراحة",
+      "radiology": "الأشعة",
+      "general": "الممارسة العامة"
+    },
+    
+    "about": {
+      "professionalBio": "السيرة الذاتية المهنية",
+      "bioPlaceholder": "أضف سيرة ذاتية مهنية عن نفسك، خلفيتك الطبية، والاهتمامات المهنية.",
+      "professionalDetails": "التفاصيل المهنية"
+    },
+    
+    "charts": {
+      "weekDays": ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"],
+      "learningHours": "ساعات التعلم",
+      "specialties": ["أمراض القلب", "الطوارئ", "طب الأطفال", "الجراحة", "الأشعة"],
+      "testScores": "نتائج الاختبارات (%)",
+      "weeklyProgress": "التقدم الأسبوعي للتعلم",
+      "specialtyPerformance": "أداء التخصصات"
+    },
+    
+    "notifications": {
+      "title": "تفضيلات الإشعارات",
+      "email": "إشعارات البريد الإلكتروني",
+      "courseReminders": "تذكير الدورات",
+      "newsletter": "النشرة الإخبارية",
+      "language": "اللغة"
+    },
+    
+    "buttons": {
+      "backToDashboard": "العودة للوحة التحكم",
+      "myCourses": "دوراتي",
+      "editProfile": "تعديل الملف",
+      "downloadLicense": "تحميل الرخصة",
+      "uploadLicense": "رفع الرخصة",
+      "manageSubscription": "إدارة الاشتراك",
+      "uploadAvatar": "رفع الصورة",
+      "saveChanges": "حفظ التغييرات",
+      "cancel": "إلغاء",
+      "editBio": "تعديل السيرة",
+      "upgradeNow": "ترقية الآن",
+      "savePreferences": "حفظ التفضيلات",
+      "updatePassword": "تحديث كلمة المرور",
+      "saveBio": "حفظ السيرة"
+    },
+    
+    "placeholders": {
+      "currentPassword": "أدخل كلمة المرور الحالية",
+      "newPassword": "أدخل كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور الجديدة"
+    },
+    
+    "modals": {
+      "editBio": "تعديل السيرة الذاتية المهنية",
+      "bioPlaceholder": "شارك خلفيتك الطبية، تخصصك، اهتماماتك المهنية، وأي إنجازات..."
+    },
+    
+    "messages": {
+      "profileUpdated": "تم تحديث الملف بنجاح!",
+      "avatarUploaded": "تم رفع الصورة بنجاح",
+      "licenseUploaded": "تم رفع الرخصة بنجاح",
+      "downloadingLicense": "جاري تحميل الرخصة...",
+      "preferencesSaved": "تم حفظ التفضيلات!",
+      "passwordUpdated": "تم تحديث كلمة المرور بنجاح!"
+    },
+    
+    "errors": {
+      "noUser": "لم يتم العثور على مستخدم",
+      "incorrectPassword": "كلمة المرور الحالية غير صحيحة",
+      "passwordLength": "يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل",
+      "passwordMismatch": "كلمات المرور الجديدة غير متطابقة"
+    }
+  },
+  "sidebar": {
+    "title": "بيانات المستخدم",
+    "dashboard": "لوحة التحكم",
+    "course": "دوراتي",
+    "profile": "الملف الشخصي",
+    "certificate": "شهاداتي"
   }
 }

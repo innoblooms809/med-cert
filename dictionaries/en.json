@@ -1522,5 +1522,228 @@
     "threeHrFortyFive": "3h 45m",
     "beginner": "Beginner",
     "technology": "Technology"
+  },
+  "myCourses": {
+    "title": "Your Courses"
+  },
+
+  "buttons": {
+    "play": "Play",
+    "back": "Back",
+    "startTest": "Start Test",
+    "viewResult": "View Result"
+  },
+
+  "tabs": {
+    "announcements": "Announcements",
+    "tests": "Test Series",
+    "pdfs": "Supporting PDFs"
+  },
+
+  "labels": {
+    "language": "Language"
+  },
+
+  "messages": {
+    "redirectQuiz": "Redirecting to Mock Quiz Page...",
+    "completeTestFirst": "Please complete the test first!",
+    "showingResult": "Showing result for"
+  },
+
+  "languageMixed": "English/Arabic",
+  "languageEnglish": "English",
+  "languageArabic": "Arabic",
+
+  "myCoursesData": {
+    "lecture1": "Lecture 1 - Heart Anatomy",
+    "lecture1Desc": "Overview of cardiac chambers, valves, and major vessels.",
+    "lecture1A1": "Live doubt session on Friday",
+    "lecture1A2": "Assignment due next week",
+    "heartQuiz": "Heart Anatomy Quiz",
+    "mcq": "Anatomy MCQ",
+
+    "lecture2": "Lecture 2 - ECG Basics",
+    "lecture2Desc": "How to read a basic ECG and recognize common patterns.",
+    "lecture2A1": "Quiz will be unlocked Sunday",
+    "ecgTest": "ECG Pattern Test",
+
+    "lecture3": "Lecture 3 - Cardiac Pharmacology",
+    "lecture3Desc": "Key drugs used in emergency cardiac care and their effects.",
+    "lecture3A1": "MCQ practice paper uploaded",
+    "pharmaQuiz": "Pharmacology Quiz",
+
+    "lecture4": "Lecture 4 - Interventions",
+    "lecture4Desc": "PCI basics and indications — case discussions.",
+    "lecture4A1": "Case study discussion on Wednesday",
+    "interQuiz": "Intervention Quiz"
+  },
+
+
+
+  "userProfile": {
+    "title": "My Profile",
+    "subtitle": "Manage your professional profile and track progress",
+    "loading": "Loading profile...",
+    
+    "profile": {
+      "doctorTitle": "Dr.",
+      "firstName": "Ahmed",
+      "lastName": "Al Mansouri",
+      "specialization": "Cardiology",
+      "hospital": "Dubai Hospital",
+      "experience": "8 years",
+      "memberSince": "Member since",
+      "bio": "Senior Cardiologist with 8 years of experience in interventional cardiology. Specialized in cardiac catheterization and heart failure management. Passionate about medical education and continuous professional development."
+    },
+    
+    "stats": {
+      "courses": "Courses",
+      "certificates": "Certificates",
+      "avgScore": "Avg Score",
+      "overallProgress": "Overall Progress",
+      "enrolledCourses": "Enrolled Courses",
+      "lecturesWatched": "Lectures Watched",
+      "certificatesEarned": "Certificates Earned"
+    },
+    
+    "license": {
+      "title": "Medical License",
+      "licenseNo": "License No",
+      "noLicense": "No license uploaded"
+    },
+    
+    "subscription": {
+      "title": "Subscription Plan",
+      "professional": "Professional",
+      "renewsOn": "Renews on",
+      "currentPlan": "Current Plan",
+      "activeStatus": "Your subscription is active and will renew automatically",
+      "basic": "Basic Plan",
+      "month": "month",
+      "recommended": "RECOMMENDED",
+      "features": {
+        "allCourses": "All Courses",
+        "certificates": "Certificates",
+        "prioritySupport": "Priority Support",
+        "advancedContent": "Advanced Content",
+        "basic1": "Access to basic courses",
+        "basic2": "Community support",
+        "basic3": "Limited certificates",
+        "pro1": "All courses unlocked",
+        "pro2": "Professional certificates",
+        "pro3": "Priority support",
+        "pro4": "Advanced content"
+      }
+    },
+    
+    "tabs": {
+      "accountInfo": "Account Info",
+      "security": "Security",
+      "about": "About",
+      "insights": "Insights",
+      "subscription": "Subscription",
+      "notifications": "Notifications"
+    },
+    
+    "form": {
+      "fullName": "Full Name",
+      "specialization": "Specialization",
+      "hospital": "Hospital",
+      "email": "Email",
+      "phone": "Phone",
+      "experience": "Experience",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "profileImage": "Profile Image",
+      "medicalLicense": "Medical License",
+      "licenseNumber": "License Number",
+      "yearsExperience": "Years of Experience",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"
+    },
+    
+    "specializations": {
+      "cardiology": "Cardiology",
+      "emergency": "Emergency Medicine",
+      "pediatrics": "Pediatrics",
+      "surgery": "Surgery",
+      "radiology": "Radiology",
+      "general": "General Practice"
+    },
+    
+    "about": {
+      "professionalBio": "Professional Bio",
+      "bioPlaceholder": "Add a professional bio about yourself, your medical background, and professional interests.",
+      "professionalDetails": "Professional Details"
+    },
+    
+    "charts": {
+      "weekDays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      "learningHours": "Learning Hours",
+      "specialties": ["Cardiology", "Emergency", "Pediatrics", "Surgery", "Radiology"],
+      "testScores": "Test Scores (%)",
+      "weeklyProgress": "Weekly Learning Progress",
+      "specialtyPerformance": "Specialty Performance"
+    },
+    
+    "notifications": {
+      "title": "Notification Preferences",
+      "email": "Email Notifications",
+      "courseReminders": "Course Reminders",
+      "newsletter": "Newsletter",
+      "language": "Language"
+    },
+    
+    "buttons": {
+      "backToDashboard": "Back to Dashboard",
+      "myCourses": "My Courses",
+      "editProfile": "Edit Profile",
+      "downloadLicense": "Download License",
+      "uploadLicense": "Upload License",
+      "manageSubscription": "Manage Subscription",
+      "uploadAvatar": "Upload Avatar",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel",
+      "editBio": "Edit Bio",
+      "upgradeNow": "Upgrade Now",
+      "savePreferences": "Save Preferences",
+      "updatePassword": "Update Password",
+      "saveBio": "Save Bio"
+    },
+    
+    "placeholders": {
+      "currentPassword": "Enter current password",
+      "newPassword": "Enter new password",
+      "confirmPassword": "Confirm new password"
+    },
+    
+    "modals": {
+      "editBio": "Edit Professional Bio",
+      "bioPlaceholder": "Share your medical background, specialization, professional interests, and any achievements..."
+    },
+    
+    "messages": {
+      "profileUpdated": "Profile updated successfully!",
+      "avatarUploaded": "Avatar uploaded successfully",
+      "licenseUploaded": "License uploaded successfully",
+      "downloadingLicense": "Downloading license...",
+      "preferencesSaved": "Preferences saved!",
+      "passwordUpdated": "Password updated successfully!"
+    },
+    
+    "errors": {
+      "noUser": "No user found",
+      "incorrectPassword": "Current password is incorrect",
+      "passwordLength": "New password must be at least 6 characters",
+      "passwordMismatch": "New passwords do not match"
+    }
+  },
+   "sidebar": {
+    "title": "User + Data",
+    "dashboard": "Dashboard",
+    "course": "My Course",
+    "profile": "My Profile",
+    "certificate": "My Certificate"
   }
 }
