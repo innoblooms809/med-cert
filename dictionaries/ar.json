@@ -152,7 +152,68 @@
           "course": "الدورة التدريبية",
           "progress": "التقدم",
           "status": "الحالة"
+        },
+        "userProgressData": {
+          "users": [
+            {
+              "name": "علي خان",
+              "course": "تدريب الإنعاش القلبي الرئوي",
+              "specialization": "طبيب",
+              "score": 85,
+              "certificate": "صادر"
+            },
+            {
+              "name": "ماريا أحمد",
+              "course": "الإسعافات الأولية",
+              "specialization": "ممرضة",
+              "score": 65,
+              "certificate": "قيد الانتظار"
+            },
+            {
+              "name": "د. أحمد",
+              "course": "الرعاية الطارئة",
+              "specialization": "طبيب",
+              "score": 92,
+              "certificate": "صادر"
+            },
+            {
+              "name": "سارة علي",
+              "course": "رعاية الصدمات",
+              "specialization": "ممرضة",
+              "score": 50,
+              "certificate": "قيد الانتظار"
+            },
+            {
+              "name": "جون سميث",
+              "course": "رعاية الأطفال",
+              "specialization": "طبيب",
+              "score": 78,
+              "certificate": "صادر"
+            },
+            {
+              "name": "إميلي جونسون",
+              "course": "إجراءات العناية المركزة",
+              "specialization": "ممرضة",
+              "score": 88,
+              "certificate": "صادر"
+            }
+          ]
         }
+      },
+      "cards": {
+        "totalEnrollments": "إجمالي التسجيلات",
+        "certificatesIssued": "الشهادات الصادرة",
+        "avgCompletion": "متوسط الإكمال",
+        "activeCourses": "الدورات النشطة",
+        "coursePerformanceOverview": "نظرة عامة على أداء الدورة",
+        "certificationTrends": "اتجاهات الشهادات"
+      },
+      "RecentActivity": {
+        "totalEnrolled": "إجمالي المسجلين",
+        "testAttempts": "محاولات الاختبار",
+        "certificates": "الشهادات",
+        "weeklyActivityBreakdown": "تحليل النشاط الأسبوعي",
+        "activityTrends": "اتجاهات النشاط"
       }
     },
     "user": {
@@ -1415,8 +1476,21 @@
     "courseProgress": "تقدم الدورة",
     "lecturesWatched": "المحاضرات المشاهدة",
     "testsCompleted": "الاختبارات المكتملة",
-    "weekDays": ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"],
-    "courseStatusLabels": ["مكتمل", "قيد التنفيذ", "غير مبدوء", "متأخر"]
+    "weekDays": [
+      "الإثنين",
+      "الثلاثاء",
+      "الأربعاء",
+      "الخميس",
+      "الجمعة",
+      "السبت",
+      "الأحد"
+    ],
+    "courseStatusLabels": [
+      "مكتمل",
+      "قيد التنفيذ",
+      "غير مبدوء",
+      "متأخر"
+    ]
   },
   "learningProgress": {
     "title": "تقدم التعلم",
@@ -1444,7 +1518,6 @@
     "completed": "أنجز",
     "earned": "حصل على",
     "downloaded": "تم التنزيل",
-
     "cardiacLecture": "محاضرة اضطرابات نظم القلب",
     "advancedCardiology": "طب القلب المتقدم",
     "emergencyQuiz": "اختبار طب الطوارئ",
@@ -1453,7 +1526,6 @@
     "blsTraining": "تدريب دعم الحياة الأساسي",
     "guidelinesPdf": "إرشادات سريرية PDF",
     "medicalProtocols": "البروتوكولات الطبية",
-
     "twoHoursAgo": "منذ ساعتين",
     "oneDayAgo": "منذ يوم واحد",
     "twoDaysAgo": "منذ يومين",
@@ -1496,13 +1568,11 @@
     "fourHrThirty": "4 ساعات و30 دقيقة",
     "twoHoursAgo": "منذ ساعتين",
     "heartFailure": "إدارة فشل القلب",
-
     "emergencyMedicine": "الطب الطارئ",
     "drMike": "الدكتور مايك تشين",
     "sixHrFifteen": "6 ساعات و15 دقيقة",
     "oneDayAgo": "منذ يوم واحد",
     "traumaAssessment": "تقييم الصدمات",
-
     "pediatricCare": "رعاية الأطفال",
     "drEmily": "الدكتورة إميلي ديفيس",
     "threeHrFortyFive": "3 ساعات و45 دقيقة",
@@ -1519,13 +1589,11 @@
     "twoHrFifteen": "ساعتان و15 دقيقة",
     "intermediate": "متوسط",
     "ethics": "الأخلاقيات",
-
     "advancedSurgery": "التقنيات الجراحية المتقدمة",
     "drLisa": "الدكتورة ليزا بارك",
     "fiveHrThirty": "5 ساعات و30 دقيقة",
     "advanced": "متقدم",
     "surgery": "الجراحة",
-
     "digitalHealth": "الابتكارات في الصحة الرقمية",
     "drJames": "الدكتور جيمس كومار",
     "threeHrFortyFive": "3 ساعات و45 دقيقة",

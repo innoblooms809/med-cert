@@ -51,7 +51,9 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-export default function Charts() {
+export default function Charts({dict,lang}:any) {
+    const cardData=dict.dashboard.admin.cards
+
   const COLORS = {
     primary: "#4f46e5",
     success: "#10b981",
@@ -131,7 +133,7 @@ export default function Charts() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Total Enrollments"
+              title={cardData.totalEnrollments}
               value={totalEnrollments}
               valueStyle={{ color: COLORS.primary, fontSize: 28, fontWeight: 700 }}
               prefix="👥"
@@ -149,7 +151,7 @@ export default function Charts() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Certificates Issued"
+              title={cardData.certificatesIssued}
               value={totalCertificates}
               valueStyle={{ color: COLORS.success, fontSize: 28, fontWeight: 700 }}
               prefix="🎓"
@@ -167,7 +169,7 @@ export default function Charts() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Avg Completion"
+              title={cardData.avgCompletion}
               value={Math.round(enrollmentData.reduce((sum, item) => sum + item.completion, 0) / enrollmentData.length)}
               valueStyle={{ color: COLORS.warning, fontSize: 28, fontWeight: 700 }}
               suffix="%"
@@ -185,7 +187,7 @@ export default function Charts() {
             styles={{ body: { padding: "20px" } }}
           >
             <Statistic
-              title="Active Courses"
+              title={cardData.activeCourses}
               value={enrollmentData.length}
               valueStyle={{ color: COLORS.error, fontSize: 28, fontWeight: 700 }}
               prefix="📚"
@@ -219,7 +221,7 @@ export default function Charts() {
                     marginRight: 12,
                   }}
                 ></div>
-                📊 Course Performance Overview
+                📊 {cardData.coursePerformanceOverview}
               </div>
             }
             styles={{
@@ -336,7 +338,7 @@ export default function Charts() {
                     marginRight: 12,
                   }}
                 ></div>
-                📈 Certification Trends
+                📈 {cardData.certificationTrends}
               </div>
             }
             style={{

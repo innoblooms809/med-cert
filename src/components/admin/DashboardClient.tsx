@@ -41,7 +41,7 @@ const DashboardClient = ({dict,lang}:Props) => {
         <ProgressTable dict={dict} lang={lang}/>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        <Charts />
+        <Charts dict={dict} lang={lang}/>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -49,7 +49,7 @@ const DashboardClient = ({dict,lang}:Props) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
-        <RecentActivity />
+        <RecentActivity dict={dict} lang={lang} />
       </div>
     </div>
   );

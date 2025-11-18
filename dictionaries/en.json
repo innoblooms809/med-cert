@@ -142,17 +142,78 @@
       },
       "reportData": {
         "weeklyActivity": "Weekly Activity Trends",
-        "peakActivity":" Peak Activity",
+        "peakActivity": " Peak Activity",
         "showstotalActivities": " Shows total activities per day"
       },
-      "progressTable":{
-         "UserProgressTracking":" User Progress Tracking",
-         "title":{
-          "user":"User",
-          "course":"Course",
-          "progress":"Progress",
-          "status":"Status"
-         }
+      "progressTable": {
+        "UserProgressTracking": " User Progress Tracking",
+        "title": {
+          "user": "User",
+          "course": "Course",
+          "progress": "Progress",
+          "status": "Status"
+        },
+        "userProgressData": {
+          "users": [
+            {
+              "name": "Ali Khan",
+              "course": "CPR Training",
+              "specialization": "Doctor",
+              "score": 85,
+              "certificate": "Issued"
+            },
+            {
+              "name": "Maria Ahmed",
+              "course": "First Aid",
+              "specialization": "Nurse",
+              "score": 65,
+              "certificate": "Pending"
+            },
+            {
+              "name": "Dr. Ahmed",
+              "course": "Emergency Care",
+              "specialization": "Doctor",
+              "score": 92,
+              "certificate": "Issued"
+            },
+            {
+              "name": "Sara Ali",
+              "course": "Trauma Care",
+              "specialization": "Nurse",
+              "score": 50,
+              "certificate": "Pending"
+            },
+            {
+              "name": "John Smith",
+              "course": "Pediatric Care",
+              "specialization": "Doctor",
+              "score": 78,
+              "certificate": "Issued"
+            },
+            {
+              "name": "Emily Johnson",
+              "course": "ICU Procedures",
+              "specialization": "Nurse",
+              "score": 88,
+              "certificate": "Issued"
+            }
+          ]
+        }
+      },
+      "cards":{
+        "totalEnrollments":"Total Enrollments",
+        "certificatesIssued":"Certificates Issued",
+        "avgCompletion":"Avg Completion",
+        "activeCourses":"Active Courses",
+        "coursePerformanceOverview":"Course Performance Overview",
+        "certificationTrends":"Certification Trends"
+      },
+      "RecentActivity":{
+        "totalEnrolled":"Total Enrolled",
+        "testAttempts":"Test Attempts",
+        "certificates":"Certificates",
+        "weeklyActivityBreakdown":"Weekly Activity Breakdown",
+        "activityTrends":"Activity Trends"
       }
     },
     "user": {
@@ -173,7 +234,6 @@
       "enrollNow": "Enroll Now"
     }
   },
-  
   "footer": {
     "company": "Company",
     "resources": "Resources",
@@ -1404,20 +1464,32 @@
       "thankText": "Thank you for your purchase!"
     }
   },
-  
   "userdashboard": {
     "enrolledCourses": "Enrolled Courses",
     "lecturesWatched": "Lectures Completed",
     "testsTaken": "Tests Taken",
     "certificates": "Certificates"
-},
-"charts": {
+  },
+  "charts": {
     "weeklyLearningActivity": "Weekly Learning Activity",
     "courseProgress": "Course Progress",
     "lecturesWatched": "Lectures Watched",
     "testsCompleted": "Tests Completed",
-    "weekDays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    "courseStatusLabels": ["Completed", "In Progress", "Not Started", "Behind Schedule"]
+    "weekDays": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "courseStatusLabels": [
+      "Completed",
+      "In Progress",
+      "Not Started",
+      "Behind Schedule"
+    ]
   },
   "learningProgress": {
     "title": "Learning Progress",
@@ -1428,7 +1500,7 @@
     "testSuccessRate": "Test Success Rate",
     "learningConsistency": "Learning Consistency"
   },
-   "quickActions": {
+  "quickActions": {
     "title": "Quick Actions"
   },
   "quickActionsData": {
@@ -1437,7 +1509,7 @@
     "takeTest": "Take Test",
     "certificates": "Certificates"
   },
-   "recentActivity": {
+  "recentActivity": {
     "title": "Recent Activity"
   },
   "recentActivityData": {
@@ -1445,7 +1517,6 @@
     "completed": "Completed",
     "earned": "Earned",
     "downloaded": "Downloaded",
-
     "cardiacLecture": "Cardiac Arrhythmias Lecture",
     "advancedCardiology": "Advanced Cardiology",
     "emergencyQuiz": "Emergency Medicine Quiz",
@@ -1454,7 +1525,6 @@
     "blsTraining": "BLS Training",
     "guidelinesPdf": "Clinical Guidelines PDF",
     "medicalProtocols": "Medical Protocols",
-
     "twoHoursAgo": "2 hours ago",
     "oneDayAgo": "1 day ago",
     "twoDaysAgo": "2 days ago",
@@ -1497,13 +1567,11 @@
     "fourHrThirty": "4h 30m",
     "twoHoursAgo": "2 hours ago",
     "heartFailure": "Heart Failure Management",
-
     "emergencyMedicine": "Emergency Medicine",
     "drMike": "Dr. Mike Chen",
     "sixHrFifteen": "6h 15m",
     "oneDayAgo": "1 day ago",
     "traumaAssessment": "Trauma Assessment",
-
     "pediatricCare": "Pediatric Care",
     "drEmily": "Dr. Emily Davis",
     "threeHrFortyFive": "3h 45m",
@@ -1520,13 +1588,11 @@
     "twoHrFifteen": "2h 15m",
     "intermediate": "Intermediate",
     "ethics": "Ethics",
-
     "advancedSurgery": "Advanced Surgical Techniques",
     "drLisa": "Dr. Lisa Park",
     "fiveHrThirty": "5h 30m",
     "advanced": "Advanced",
     "surgery": "Surgery",
-
     "digitalHealth": "Digital Health Innovations",
     "drJames": "Dr. James Kumar",
     "threeHrFortyFive": "3h 45m",

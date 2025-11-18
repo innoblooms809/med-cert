@@ -34,6 +34,16 @@ const getInitials = (name: string) => {
 
 export default function ProgressTable({dict,lang}:any) {
   const progressData=dict.dashboard.admin.progressTable
+  const data: UserProgress[] = progressData.userProgressData.users.map(
+  (u: any, index: number) => ({
+    key: String(index + 1),
+    name: u.name,
+    course: u.course,
+    specialization: u.specialization,
+    score: u.score,
+    certificate: u.certificate,
+  })
+);
   const columns = [
     {
       title: `👤${progressData.title.user}`,

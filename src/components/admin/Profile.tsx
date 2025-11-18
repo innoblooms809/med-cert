@@ -164,11 +164,13 @@ function AdminProfile({dict,lang}:any) {
                   <Image
                     src={user.profileImage}
                     alt={profile.profileImageAlt || "Profile"}
-                    width={120}
-                    height={120}
+                    width={150}
+                    height={150}
                     style={{
                       borderRadius: "50%",
                       objectFit: "cover",
+                       width: 150,
+                       height: 150,
                       border: "4px solid #ffffff",
                       boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
                     }}
@@ -350,7 +352,7 @@ function AdminProfile({dict,lang}:any) {
                 }}
               >
                 <Space direction="vertical" style={{ width: "100%" }} size="middle">
-                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '2px 0' }}>
                     <MailOutlined style={{ marginRight: 12, color: '#4f46e5', fontSize: 16 }} />
                     <div>
                       <Text strong style={{ display: 'block' }}> {profile.accountInformation.email}</Text>
@@ -358,9 +360,9 @@ function AdminProfile({dict,lang}:any) {
                     </div>
                   </div>
 
-                  <Divider style={{ margin: '8px 0' }} />
+                  <Divider style={{ margin: '1px 0' }} />
 
-                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '2px 0' }}>
                     <PhoneOutlined style={{ marginRight: 12, color: '#10b981', fontSize: 16 }} />
                     <div>
                       <Text strong style={{ display: 'block' }}>{profile.accountInformation.phone}</Text>
@@ -368,9 +370,9 @@ function AdminProfile({dict,lang}:any) {
                     </div>
                   </div>
 
-                  <Divider style={{ margin: '8px 0' }} />
+                  <Divider style={{ margin: '1px 0' }} />
 
-                  <div style={{ display: 'flex', alignItems: 'center', padding: '8px 0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '2px 0' }}>
                     <SettingOutlined style={{ marginRight: 12, color: '#f59e0b', fontSize: 16 }} />
                     <div>
                       <Text strong style={{ display: 'block' }}>{profile.accountInformation.department}</Text>
