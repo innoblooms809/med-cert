@@ -214,6 +214,11 @@ export default function SignupPage({ dict, lang}: any) {
             {dict.signup.login}
           </Link>
         </p>
+        <p className="text-center text-sm">
+          <Link href="/" className="text-blue-600 hover:underline">
+            {dict.signup.BackToHome}
+          </Link>
+        </p>
       </div>
     </div>
   );

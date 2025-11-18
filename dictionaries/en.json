@@ -271,6 +271,7 @@
     "signUp": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Login",
+    "BackToHome":"Back to home",
     "doctor": "Doctor",
     "nurse": "Nurse",
     "specializations": {
@@ -439,7 +440,7 @@
           "createdBy": "Dr. Davis",
           "price": 49,
           "description": "Evidence-based techniques for diagnosing and treating hypertension, including lifestyle modifications, pharmacological options, and monitoring strategies. Understand the impact of comorbidities and patient adherence.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/24"
         },
         {
           "id": 3,
@@ -486,7 +487,7 @@
           "createdBy": "Dr. Allen",
           "price": 39,
           "description": "Basic skin care practices for prevention and maintenance of healthy skin, including cleansing routines, moisturization, and sun protection. Learn how to tailor regimens for different skin types and conditions.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/25"
         },
         {
           "id": 2,
@@ -495,7 +496,7 @@
           "createdBy": "Dr. Clark",
           "price": 49,
           "description": "Clinical approaches to treating acne and preventing recurrence, using topical agents, oral medications, and procedural interventions. Understand hormonal influences and psychological impacts.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/26"
         },
         {
           "id": 3,
@@ -504,7 +505,7 @@
           "createdBy": "Dr. Lewis",
           "price": 59,
           "description": "Management of chronic skin conditions such as eczema and psoriasis, with insights into immunomodulatory therapies, lifestyle triggers, and patient counseling. Explore long-term care strategies and flare prevention.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/27"
         },
         {
           "id": 4,
@@ -513,7 +514,7 @@
           "createdBy": "Dr. Hall",
           "price": 69,
           "description": "Hands-on training in advanced laser-based dermatology procedures, including hair removal, pigmentation correction, and scar treatment. Learn safety protocols and post-procedure care.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/28"
         },
         {
           "id": 5,
@@ -522,7 +523,7 @@
           "createdBy": "Dr. Allen",
           "price": 79,
           "description": "Aesthetic and cosmetic dermatology for enhancing patient confidence, covering botox, fillers, chemical peels, and skin rejuvenation. Understand ethical considerations and patient expectations.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/29"
         },
         {
           "id": 6,
@@ -531,7 +532,7 @@
           "createdBy": "Dr. Scott",
           "price": 55,
           "description": "Pediatric dermatology focusing on children’s skin issues and treatments, such as diaper rash, birthmarks, and atopic dermatitis. Learn age-appropriate therapies and parental guidance techniques.",
-          "img": "https://lnkly.tech/1k"
+          "img": "https://lnkly.tech/2A"
         }
       ],
       "Ear-nose-throat(ent) Specialist": [
@@ -551,7 +552,7 @@
           "createdBy": "Dr. Campbell",
           "price": 49,
           "description": "Diagnosis and treatment methods for patients with hearing loss, from audiometry to cochlear implants. Understand causes like otosclerosis, infections, and age-related degeneration.",
-          "img": "https://lnkly.tech/1l"
+          "img": "https://lnkly.tech/2B"
         },
         {
           "id": 3,
@@ -560,7 +561,7 @@
           "createdBy": "Dr. Rivera",
           "price": 45,
           "description": "Causes, symptoms, and treatments of allergic rhinitis and sinus issues, including antihistamines, nasal sprays, and surgical options. Learn how to differentiate between allergic and infectious presentations.",
-          "img": "https://lnkly.tech/1l"
+          "img": "https://lnkly.tech/2C"
         },
         {
           "id": 4,
@@ -569,7 +570,7 @@
           "createdBy": "Dr. Murphy",
           "price": 59,
           "description": "Practical surgical training for managing chronic sinus conditions, such as endoscopic sinus surgery and balloon sinuplasty. Explore pre-op evaluation and post-op care.",
-          "img": "https://lnkly.tech/1l"
+          "img": "https://lnkly.tech/2D"
         },
         {
           "id": 5,
@@ -578,7 +579,7 @@
           "createdBy": "Dr. Bailey",
           "price": 69,
           "description": "Care and rehabilitation methods for patients with voice disorders, including vocal cord paralysis, nodules, and functional dysphonia. Learn therapy techniques and surgical interventions.",
-          "img": "https://lnkly.tech/1l"
+          "img": "https://lnkly.tech/2E"
         },
         {
           "id": 6,
@@ -587,7 +588,7 @@
           "createdBy": "Dr. Cooper",
           "price": 75,
           "description": "Approaches to diagnosing and managing sleep apnea through ENT, including CPAP therapy, uvulopalatopharyngoplasty, and lifestyle changes. Understand the link between airway anatomy and sleep quality.",
-          "img": "https://lnkly.tech/1l"
+          "img": "https://lnkly.tech/2F"
         }
       ],
       "Homoeopath": [
@@ -598,7 +599,7 @@
           "createdBy": "Dr. Morgan",
           "price": 29,
           "description": "Foundational concepts of homoeopathy and its holistic approach to health, emphasizing the law of similars and individualized treatment. Learn the philosophy behind remedy selection and patient evaluation.",
-          "img": "https://lnkly.tech/1m"
+          "img": "https://lnkly.tech/2G"
         },
         {
           "id": 2,
@@ -607,7 +608,7 @@
           "createdBy": "Dr. Bell",
           "price": 35,
           "description": "Practical home remedies for managing colds, flu, and seasonal illnesses, using common substances like Belladonna, Aconite, and Bryonia. Understand dosage, potency, and symptom matching.",
-          "img": "https://lnkly.tech/1m"
+          "img": "https://lnkly.tech/2H"
         },
         {
           "id": 3,
@@ -616,7 +617,7 @@
           "createdBy": "Dr. Reed",
           "price": 49,
           "description": "Homoeopathic strategies for long-term chronic disease management, including arthritis, migraines, and digestive disorders. Explore constitutional remedies and case follow-ups.",
-          "img": "https://lnkly.tech/1m"
+          "img": "https://lnkly.tech/2I"
         },
         {
           "id": 4,
@@ -625,7 +626,7 @@
           "createdBy": "Dr. Cook",
           "price": 45,
           "description": "Pharmacy skills for preparing and handling homeopathic remedies, including dilution techniques, succussion, and storage protocols. Learn regulatory standards and safety practices.",
-          "img": "https://lnkly.tech/1m"
+          "img": "https://lnkly.tech/2J"
         },
         {
           "id": 5,
@@ -643,7 +644,7 @@
           "createdBy": "Dr. Ward",
           "price": 65,
           "description": "Advanced Materia Medica and its applications in clinical settings, exploring remedy profiles, keynotes, and comparative analysis. Deepen your understanding of remedy relationships and miasmatic theory.",
-          "img": "https://lnkly.tech/1m"
+          "img": "https://lnkly.tech/2N"
         }
       ],
       "Ayurveda": [
@@ -663,7 +664,7 @@
           "createdBy": "Dr. Mehta",
           "price": 39,
           "description": "Dietary practices and nutrition guidelines rooted in Ayurveda, focusing on seasonal eating, digestive fire (Agni), and food compatibility. Learn how to create personalized meal plans.",
-          "img": "https://lnkly.tech/1n"
+          "img": "https://lnkly.tech/2O"
         },
         {
           "id": 3,
@@ -672,7 +673,7 @@
           "createdBy": "Dr. Nair",
           "price": 49,
           "description": "Medicinal properties and uses of common Ayurvedic herbs like Ashwagandha, Triphala, and Brahmi. Learn how to prepare decoctions, churnas, and oils for therapeutic use.",
-          "img": "https://lnkly.tech/1n"
+          "img": "https://lnkly.tech/2P"
         },
         {
           "id": 4,
@@ -690,7 +691,7 @@
           "createdBy": "Dr. Menon",
           "price": 55,
           "description": "A holistic approach to achieving harmony of mind, body, and spirit through Ayurvedic philosophy, lifestyle routines, and spiritual practices. Explore daily rituals (Dinacharya) and seasonal regimens (Ritucharya).",
-          "img": "https://lnkly.tech/1n"
+          "img": "https://lnkly.tech/2Q"
         },
         {
           "id": 6,
@@ -699,7 +700,7 @@
           "createdBy": "Dr. Pillai",
           "price": 65,
           "description": "Detoxification and rejuvenation techniques with Panchakarma therapy, including Vamana, Virechana, Basti, Nasya, and Raktamokshana. Explore indications, contraindications, and post-therapy care.",
-          "img": "https://lnkly.tech/1n"
+          "img": "https://lnkly.tech/2R"
         }
       ]
     }

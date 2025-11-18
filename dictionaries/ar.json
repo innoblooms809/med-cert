@@ -270,6 +270,7 @@
     "signUp": "تسجيل",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
     "login": "تسجيل الدخول",
+    "BackToHome": "العودة إلى الصفحة الرئيسية",
     "doctor": "طبيب",
     "nurse": "ممرضة",
     "specializations": {
@@ -285,6 +286,7 @@
       "erNurse": "ممرضة طوارئ",
       "oncologyNurse": "ممرضة أورام"
     },
+    
     "requiredFirstName": "الرجاء إدخال الاسم الأول",
     "requiredLastName": "الرجاء إدخال اسم العائلة",
     "requiredEmail": "الرجاء إدخال البريد الإلكتروني",

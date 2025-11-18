@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import Image from "next/image";
 import image from "../../public/images/med-cert-logo.jpg"
+import Link from "next/link";
 
 export default function LoginForm({dict, lang}:any) {
   const router = useRouter();
@@ -124,7 +125,9 @@ export default function LoginForm({dict, lang}:any) {
               }}>
                 MedCert
               </h1> */}
-              <Image src={image} alt="med-cert" width={200} height={40}/>
+              <Link href="/">
+                <Image src={image} alt="med-cert" width={200} height={40}/>
+              </Link>
               {/* <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Medical Certification Platform</p> */}
             </div>
           </div>

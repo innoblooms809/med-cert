@@ -53,30 +53,30 @@ export default function Hero({ dict, lang }: HeroProps) {
       color: "bg-green-100 text-green-700",
       link: "#gynecologist",
     },
-    {
-      icon: <UserOutlined />,
-      label: dict.hero.domains.physician,
-      color: "bg-red-100 text-red-700",
-      link: "#general-physician",
-    },
-    {
-      icon: <SkinOutlined />,
-      label: dict.hero.domains.dermatologist,
-      color: "bg-purple-100 text-purple-700",
-      link: "#dermatologist",
-    },
-    {
-      icon: <SoundOutlined />,
-      label: dict.hero.domains.ent,
-      color: "bg-blue-100 text-blue-700",
-      link: "#ent-specialist",
-    },
-    {
-      icon: <ExperimentOutlined />,
-      label: dict.hero.domains.homoeopath,
-      color: "bg-orange-100 text-orange-700",
-      link: "#homoeopath",
-    },
+    // {
+    //   icon: <UserOutlined />,
+    //   label: dict.hero.domains.physician,
+    //   color: "bg-red-100 text-red-700",
+    //   link: "#general-physician",
+    // },
+    // {
+    //   icon: <SkinOutlined />,
+    //   label: dict.hero.domains.dermatologist,
+    //   color: "bg-purple-100 text-purple-700",
+    //   link: "#dermatologist",
+    // },
+    // {
+    //   icon: <SoundOutlined />,
+    //   label: dict.hero.domains.ent,
+    //   color: "bg-blue-100 text-blue-700",
+    //   link: "#ent-specialist",
+    // },
+    // {
+    //   icon: <ExperimentOutlined />,
+    //   label: dict.hero.domains.homoeopath,
+    //   color: "bg-orange-100 text-orange-700",
+    //   link: "#homoeopath",
+    // },
     {
       icon: <BranchesOutlined />,
       label: dict.hero.domains.ayurveda,
@@ -146,7 +146,7 @@ export default function Hero({ dict, lang }: HeroProps) {
       </section>
 
       {/* Trending Domains */}
-      <section className="flex justify-center items-center pb-12">
+      <section className="flex justify-start max-w-7xl mx-auto items-center px-12 pb-12">
         <div className="mt-10">
           <h3 className="text-lg font-semibold mb-4">{dict.hero.trending}</h3>
           <div className="flex flex-wrap gap-4 items-center">
