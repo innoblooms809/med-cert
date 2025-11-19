@@ -152,12 +152,12 @@ export default function MyCourses({ dict, lang }: any) {
               <Col xs={24} md={12} key={course.id}>
                 <Card
                   hoverable
-                  style={{ borderRadius: "10px" }}
+                  style={{ borderRadius: "10px", cursor: "default" }}
                   cover={
                     <Image
                       alt={course.title}
                       src={course.image}
-                      style={{ height: "0o0", objectFit: "cover" }}
+                      style={{ height: "10", objectFit: "cover" }}
                     />
                   }
                   actions={[

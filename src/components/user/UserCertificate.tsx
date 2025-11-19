@@ -37,7 +37,30 @@ const mockCertificates: Certificate[] = [
     grade: 'A',
     score: 95
   },
-  // ... keep your existing mock data
+  {
+    id: '3',
+    courseName: 'ECG Basics',
+    courseId: 'ECG003',
+    completionDate: '2024-02-05',
+    issuedDate: '2024-02-06',
+    certificateId: 'CERT-ECG-003',
+    instructor: 'Dr. monira',
+    duration: '4 weeks',
+    grade: 'A',
+    score: 92
+  },
+  {
+    id: '4',
+    courseName: 'Advanced Cardiology',
+    courseId: 'AC004',
+    completionDate: '2024-03-12',
+    issuedDate: '2024-03-13',
+    CertificateId: 'CERT-AC-004',
+    instructor: 'Dr. Fahim',
+    duration: '10 weeks',
+    grade: 'A+',
+    score: 99
+  }
 ];
 
 interface UserCertificateProps {
@@ -296,10 +319,10 @@ const UserCertificate: React.FC<UserCertificateProps> = ({ lang }) => {
   ];
 
   return (
-    <div style={{ padding: '24px' }}>
+    <>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Card>
+          <Card style={{border:"none"}}>
             <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <div>
                 <Title level={2} style={{ margin: 0 }}>
@@ -337,7 +360,7 @@ const UserCertificate: React.FC<UserCertificateProps> = ({ lang }) => {
         onClose={handleCloseModal}
         onDownload={handleModalDownload}
       />
-    </div>
+    </>
   );
 };
 
