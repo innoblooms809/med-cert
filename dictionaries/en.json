@@ -843,7 +843,7 @@
         "description": "Covers gum diseases and modern periodontal treatments.",
         "price": 99,
         "duration": 45,
-        "img": "/materials/dentist4.jpg",
+        "img": "https://lnkly.tech/2T",
         "href": "/tests/periodontics"
       }
     ]
@@ -1013,7 +1013,7 @@
         "title": "Principles of Homeopathy",
         "duration": 15,
         "description": "Covers similia principle, potentization, and remedy selection.",
-        "img": "https://nigolifeline.com/wp-content/uploads/2023/09/7-cardinal-principles-of-homeopathy.jpg",
+        "img": "https://lnkly.tech/2U",
         "href": "/tests/homeopathy-principles",
         "price": 99
       },
@@ -1021,7 +1021,7 @@
         "title": "Materia Medica",
         "duration": 15,
         "description": "Learn about key remedies and their indications.",
-        "img": "https://www.herbalella.com/images/materiamedica.png",
+        "img": "https://lnkly.tech/2V",
         "href": "/tests/materia-medica",
         "price": 99
       },
@@ -1154,7 +1154,7 @@
         "price": 49,
         "duration": 45,
         "description": "Covers gum diseases and modern periodontal treatments.",
-        "img": "/materials/dentist4.jpg",
+        "img": "https://lnkly.tech/2T",
         "href": "/tests/periodontics"
       },
       {
@@ -1358,7 +1358,7 @@
         "price": 25,
         "duration": 45,
         "description": "Explore the law of similars, potentization, and holistic healing.",
-        "img": "https://www.homeopathy360.com/wp-content/uploads/2020/06/homeopathy-principles.jpg",
+        "img": "https://lnkly.tech/2U",
         "href": "/tests/principles-of-homeopathy"
       },
       {
@@ -1370,7 +1370,7 @@
         "price": 35,
         "duration": 60,
         "description": "Study key remedies, their sources, and therapeutic indications.",
-        "img": "https://www.britishhomeopathic.org/wp-content/uploads/2021/04/materia-medica.jpg",
+        "img": "https://lnkly.tech/2V",
         "href": "/tests/materia-medica"
       },
       {
@@ -1382,7 +1382,7 @@
         "price": 30,
         "duration": 50,
         "description": "Learn techniques for patient interviews and symptom analysis.",
-        "img": "https://www.homeopathy360.com/wp-content/uploads/2020/06/case-taking-homeopathy.jpg",
+        "img": "https://lnkly.tech/2W",
         "href": "/tests/homeopathic-case-taking"
       },
       {
@@ -1394,7 +1394,7 @@
         "price": 40,
         "duration": 70,
         "description": "Master the use of repertories and selecting the simillimum.",
-        "img": "https://www.similia.in/wp-content/uploads/2021/06/repertory-homeopathy.jpg",
+        "img": "https://lnkly.tech/2X",
         "href": "/tests/repertory-and-remedy-selection"
       }
     ]
@@ -1455,7 +1455,7 @@
       "downRec": "Download Receipt"
     },
     "paymentSlip": {
-      "heading": "EduCourse - Payment Receipt",
+      "heading": "Med-Cert Course - Payment Receipt",
       "date": "Date:",
       "time": "Time:",
       "trans": "Transaction ID:",

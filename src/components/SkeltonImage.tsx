@@ -8,7 +8,7 @@ export default function SkeletonImage({ src, alt, className }:any) {
     <div className={`relative ${className}`}>
       {/* Skeleton */}
       {isLoading && (
-        <div className="absolute inset-0 animate-pulse bg-gray-300" />
+        <div className="absolute inset-0 animate-pulse bg-gray-300 grid place-content-center" ><p>Loading...</p></div>
       )}
 
       {/* Image */}
