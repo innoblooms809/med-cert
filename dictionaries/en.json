@@ -565,7 +565,7 @@
           "createdBy": "Dr. Lewis",
           "price": 59,
           "description": "Management of chronic skin conditions such as eczema and psoriasis, with insights into immunomodulatory therapies, lifestyle triggers, and patient counseling. Explore long-term care strategies and flare prevention.",
-          "img": "https://lnkly.tech/27"
+          "img": "https://lnkly.tech/26"
         },
         {
           "id": 4,
@@ -819,7 +819,7 @@
         "description": "Covers procedures, anesthesia, and emergency management.",
         "price": 99,
         "duration": 45,
-        "img": "https://lnkly.tech/1s",
+        "img": "https://lnkly.tech/1r",
         "href": "/tests/oral-surgery"
       },
       {
