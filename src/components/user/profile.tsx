@@ -482,7 +482,7 @@ export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
                                 value={draft.specialization}
                                 onChange={(value) => handleChange('specialization', value)}
                                 className="w-full"
-                              >
+                              > 
                                 <Option value="Cardiology">{dict?.specializations?.cardiology || "Cardiology"}</Option>
                                 <Option value="Emergency Medicine">{dict?.specializations?.emergency || "Emergency Medicine"}</Option>
                                 <Option value="Pediatrics">{dict?.specializations?.pediatrics || "Pediatrics"}</Option>
