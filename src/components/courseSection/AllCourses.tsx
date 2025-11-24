@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Checkbox, Card } from "antd";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 type CheckboxValueType = string | number;
 
@@ -74,27 +75,28 @@ export default function AllCourse({dict, lang}:any) {
       <main className="flex-1 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((course:any) => (
-            <Card
-              key={course.id}
-              hoverable
-              className="flex flex-col h-full"
-              cover={
-                <img
-                  src={course.img}
-                  alt={course.title}
-                  className="h-48 w-full object-cover rounded-t-lg"
+            <Link href="/tests" key={course.id}>
+              <Card
+                hoverable
+                className="flex flex-col h-full"
+                cover={
+                  <img
+                    src={course.img}
+                    alt={course.title}
+                    className="h-48 w-full object-cover rounded-t-lg"
+                  />
+                }
+              >
+                <Card.Meta
+                  title={course.title}
+                  description={course.description}
                 />
-              }
-            >
-              <Card.Meta
-                title={course.title}
-                description={course.description}
-              />
-              <p className="mt-2 text-sm text-gray-500">
-                Category: {course.category} | Type:{" "}
-                {course.type === "course" ? "Course" : "Test"}
-              </p>
-            </Card>
+                <p className="mt-2 text-sm text-gray-500">
+                  Category: {course.category} | Type:{" "}
+                  {course.type === "course" ? "Course" : "Test"}
+                </p>
+              </Card>
+            </Link>
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">

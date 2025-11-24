@@ -1,5 +1,6 @@
 export type CourseType = {
   id: string;
+  courseName?: string;
   courseRole: string;
   specialization: string;
   title: string;
@@ -13,3 +14,16 @@ export type CourseType = {
   publishedDate: string;
   expiryDays: number;
 };
+
+export type Certificate = {
+  id: string;
+  courseName: string;
+  courseId: string;
+  completionDate: string;
+  issuedDate: string;
+  certificateId?: string;
+  instructor: string;
+  duration: string;
+  grade?: string;
+  score?: number;
+}

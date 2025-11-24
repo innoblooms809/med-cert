@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type CartItem = {
   name: any;
+  id?:number;
   title: string;
   createdBy?: string;
   price: number;
@@ -18,15 +19,26 @@ type CartContextType = {
   addToCart: (item: CartItem) => void;
   removeFromCart: (index: number) => void;
   clearCart: () => void;
+  cart: any[];
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<any[]>([]);
 
-  const addToCart = (item: CartItem) => {
-    setCartItems((prev) => [...prev, item]);
+  // const addToCart = (item: CartItem) => {
+  //   setCartItems((prev) => [...prev, item]);
+  // };
+
+  const addToCart = (course:CartItem) => {
+  setCartItems((prev) => {
+      if (prev.some((item:any) => item.id === course.id)) {
+        return prev; // Do NOT add duplicates
+      }
+      return [...prev, course];
+    });
   };
 
   // remove by index (safe even if items don't have ids)
@@ -37,7 +49,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = () => setCartItems([]);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cart, cartItems, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

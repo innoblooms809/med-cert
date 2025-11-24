@@ -65,9 +65,10 @@ export default function CustomTestPage({title1, title2, subtitle, dentistTests, 
             <div key={idx} className="px-2">
               <Card
                 hoverable
-                className="rounded-xl shadow-sm"
+                style={{ cursor: "default" }}
+                className="rounded-xl shadow-sm transition "
                 cover={
-                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl">
+                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl m-2">
                     <img
                       src={test.img}
                       alt={test.title}
@@ -95,7 +96,7 @@ export default function CustomTestPage({title1, title2, subtitle, dentistTests, 
                 <Link href="/tests">
                   <button
                     // onClick={() => addToCart(test)}
-                    className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
+                    className="mt-3 inline-block bg-[var(--section-primary)] text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition hover:cursor-pointer"
                   >
                     {startTest}
                   </button>

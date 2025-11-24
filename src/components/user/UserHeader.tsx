@@ -127,7 +127,7 @@ export default function UserHeader({
         maxHeight: 300,
         overflowY: "auto",
         padding: 8,
-        backgroundColor: "var(--dropdown-bg)",
+        backgroundColor: "white",
         color: "var(--dropdown-text)",
         borderRadius: 8,
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",

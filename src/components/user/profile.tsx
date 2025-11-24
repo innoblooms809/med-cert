@@ -57,7 +57,7 @@ const { TextArea } = Input;
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend, LineElement, PointElement);
 
-export default function UserProfile({ dict, lang }: { dict: any; lang: any }) {
+export default function UserProfile({ dict, lang }: any) {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [draft, setDraft] = useState<any>(null);

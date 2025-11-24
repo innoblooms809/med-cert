@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
 import { Card, List, Button, Rate, Tag } from "antd";
+import ethicsImg from '../../../../public/images/ECG.jpeg'
+import surgery from '../../../../public/images/OIP.jpeg'
+import digitalHealth from '../../../../public/images/ECG.jpeg'
 
 export default function RecommendedCourses({ dict, lang }: any) {
   const recommendedCourses = [
@@ -13,7 +16,7 @@ export default function RecommendedCourses({ dict, lang }: any) {
       duration: dict?.recommendedCoursesData?.twoHrFifteen || "2h 15m",
       level: dict?.recommendedCoursesData?.intermediate || "Intermediate",
       category: dict?.recommendedCoursesData?.ethics || "Ethics",
-      thumbnail: "/images/ethics.jpg",
+      thumbnail: ethicsImg.src,
     },
     {
       id: 2,
@@ -24,7 +27,7 @@ export default function RecommendedCourses({ dict, lang }: any) {
       duration: dict?.recommendedCoursesData?.fiveHrThirty || "5h 30m",
       level: dict?.recommendedCoursesData?.advanced || "Advanced",
       category: dict?.recommendedCoursesData?.surgery || "Surgery",
-      thumbnail: "/images/surgery.jpg",
+      thumbnail: surgery.src,
     },
     {
       id: 3,
@@ -35,7 +38,7 @@ export default function RecommendedCourses({ dict, lang }: any) {
       duration: dict?.recommendedCoursesData?.threeHrFortyFive || "3h 45m",
       level: dict?.recommendedCoursesData?.beginner || "Beginner",
       category: dict?.recommendedCoursesData?.technology || "Technology",
-      thumbnail: "/images/digital-health.jpg",
+      thumbnail: digitalHealth.src,
     },
   ];
 

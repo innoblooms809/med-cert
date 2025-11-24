@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Card, Table, Button, Tag, Space, Typography, Row, Col, message, Modal } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { Certificate } from '@/types/certificate';
+import { Certificate } from '../../../types';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import logoImage from '../../../public/images/med-cert-logo.jpg';
@@ -55,7 +55,7 @@ const mockCertificates: Certificate[] = [
     courseId: 'AC004',
     completionDate: '2024-03-12',
     issuedDate: '2024-03-13',
-    CertificateId: 'CERT-AC-004',
+    certificateId: 'CERT-AC-004',
     instructor: 'Dr. Fahim',
     duration: '10 weeks',
     grade: 'A+',

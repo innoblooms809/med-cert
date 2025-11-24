@@ -86,7 +86,7 @@ export default function Footer({ dict, lang }: FooterProps) {
   return (
       <footer className="bg-[var(--section-bg-1)] border-t border-[var(--section-border)] text-[var(--section-text)] px-8 md:px-36 py-12">
         <div className=" max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {footerGroups.map((group, idx) => (
               <div key={idx}>
                 <h4 className="font-semibold mb-3">{group.title}</h4>
@@ -104,14 +104,14 @@ export default function Footer({ dict, lang }: FooterProps) {
                 </ul>
               </div>
             ))}
-            <div className="flex items-start md:items-end justify-start md:justify-end">
+            {/* <div className="flex items-start md:items-end justify-start md:justify-end">
               <Button
                 icon={<GlobalOutlined />}
                 className="!border !border-[var(--section-text)] !bg-transparent !text-[var(--section-text)] hover:!bg-[var(--section-bg-3)]"
               >
                 {dict.footer.language[lang]}
               </Button>
-            </div>
+            </div> {if you uncomment this you have to change md:grid-cols-3 to md: grid-cols-4} */}
           </div>
           <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 pt-6">
             <Link href="/">

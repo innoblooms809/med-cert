@@ -2,15 +2,27 @@
 import React from "react";
 import { Card, List, Progress, Button, Tag } from "antd";
 import { PlayCircleOutlined } from "@ant-design/icons";
+import adminImage from '../../../../public/images/admin.jpg';
+import cardiologyImage from '../../../../public/images/cardiology.jpg';
+import pediatricsImage from '../../../../public/images/artho.jpg';
+import Image from "next/image";
+
+export const images = {
+  admin: adminImage,
+  cardiology: cardiologyImage,
+  pediatrics: pediatricsImage,
+};
 
 export default function OngoingCourses({ dict, lang }: any) {
+  // const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   const ongoingCourses = [
     {
       id: 1,
       title: dict?.ongoingCoursesData?.advancedCardiology || "Advanced Cardiology",
       instructor: dict?.ongoingCoursesData?.drSarah || "Dr. Sarah Johnson",
       progress: 65,
-      thumbnail: "/images/cardiology.jpg",
+      thumbnail: images.admin,
       duration: dict?.ongoingCoursesData?.fourHrThirty || "4h 30m",
       lastAccessed: dict?.ongoingCoursesData?.twoHoursAgo || "2 hours ago",
       nextLesson: dict?.ongoingCoursesData?.heartFailure || "Heart Failure Management",
@@ -20,7 +32,7 @@ export default function OngoingCourses({ dict, lang }: any) {
       title: dict?.ongoingCoursesData?.emergencyMedicine || "Emergency Medicine",
       instructor: dict?.ongoingCoursesData?.drMike || "Dr. Mike Chen",
       progress: 30,
-      thumbnail: "/images/emergency.jpg",
+      thumbnail: images.cardiology,
       duration: dict?.ongoingCoursesData?.sixHrFifteen || "6h 15m",
       lastAccessed: dict?.ongoingCoursesData?.oneDayAgo || "1 day ago",
       nextLesson: dict?.ongoingCoursesData?.traumaAssessment || "Trauma Assessment",
@@ -30,7 +42,7 @@ export default function OngoingCourses({ dict, lang }: any) {
       title: dict?.ongoingCoursesData?.pediatricCare || "Pediatric Care",
       instructor: dict?.ongoingCoursesData?.drEmily || "Dr. Emily Davis",
       progress: 45,
-      thumbnail: "/images/pediatrics.jpg",
+      thumbnail: images.cardiology,
       duration: dict?.ongoingCoursesData?.threeHrFortyFive || "3h 45m",
       lastAccessed: dict?.ongoingCoursesData?.threeDaysAgo || "3 days ago",
       nextLesson: dict?.ongoingCoursesData?.childDevelopment || "Child Development",
@@ -48,7 +60,7 @@ export default function OngoingCourses({ dict, lang }: any) {
         renderItem={(course) => (
           <List.Item>
             <div style={{ display: "flex", width: "100%", alignItems: "flex-start" }}>
-              <img
+              <Image
                 src={course.thumbnail}
                 alt={course.title}
                 style={{

@@ -32,7 +32,7 @@ const GST_RATE = 0.18;
 
 export default function Checkout ({dict, lang}:any) {
   const checkout = dict.checkout.text
-  const receipt = dict.checkout.paymentSlip
+  const receiptText = dict.checkout.paymentSlip
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
 
@@ -183,19 +183,19 @@ export default function Checkout ({dict, lang}:any) {
 
       receiptDiv.innerHTML = `
         <div style="text-align: center; margin-bottom: 16px;">
-          <h1 style="font-size: 24px; font-weight: bold; color: #2563eb; margin: 0 0 16px 0;">${receipt.heading}</h1>
+          <h1 style="font-size: 24px; font-weight: bold; color: #2563eb; margin: 0 0 16px 0;">${receiptText.heading}</h1>
         </div>
 
         <div style="border-bottom: 1px solid #d1d5db; margin-bottom: 16px; padding-bottom: 8px;">
-          <p style="margin: 4px 0;"><strong>${receipt.date}</strong> ${new Date().toLocaleDateString()}</p>
-          <p style="margin: 4px 0;"><strong>${receipt.time}</strong> ${new Date().toLocaleTimeString()}</p>
-          <p style="margin: 4px 0;"><strong>${receipt.trans}</strong> ${Math.random()
+          <p style="margin: 4px 0;"><strong>${receiptText.date}</strong> ${new Date().toLocaleDateString()}</p>
+          <p style="margin: 4px 0;"><strong>${receiptText.time}</strong> ${new Date().toLocaleTimeString()}</p>
+          <p style="margin: 4px 0;"><strong>${receiptText.trans}</strong> ${Math.random()
             .toString(36)
             .substring(2, 10)
             .toUpperCase()}</p>
         </div>
 
-        <h2 style="font-size: 18px; font-weight: 600; color: #2563eb; border-bottom: 1px solid #d1d5db; margin-bottom: 12px; padding-bottom: 4px;">${receipt.purchased}</h2>
+        <h2 style="font-size: 18px; font-weight: 600; color: #2563eb; border-bottom: 1px solid #d1d5db; margin-bottom: 12px; padding-bottom: 4px;">${receiptText.purchased}</h2>
 
         ${itemsToDisplay
           .map(
@@ -203,7 +203,7 @@ export default function Checkout ({dict, lang}:any) {
           <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
             <div>
               <p style="font-weight: 600; margin: 0;">${item.title || item.name}</p>
-              <p style="font-size: 14px; color: #6b7280; margin: 0;">${item.createdBy || receipt.inst}</p>
+              <p style="font-size: 14px; color: #6b7280; margin: 0;">${item.createdBy || receiptText.inst}</p>
             </div>
             <p style="font-weight: 600; color: #3b82f6; margin: 0;">$${(item.price || 0).toFixed(2)}</p>
           </div>
@@ -227,7 +227,7 @@ export default function Checkout ({dict, lang}:any) {
         </div>
 
         <div style="text-align: center; font-size: 14px; color: #6b7280; margin-top: 24px; border-top: 1px solid #d1d5db; padding-top: 16px;">
-          <p style="margin: 4px 0;">${receipt.thankText}</p>
+          <p style="margin: 4px 0;">${receiptText.thankText}</p>
           <p style="color: #2563eb; font-weight: 600; margin: 4px 0;">Happy Learning!</p>
         </div>
       `;
@@ -419,7 +419,7 @@ export default function Checkout ({dict, lang}:any) {
           bodyStyle={{ padding: "24px" }}
         >
           <SafetyCertificateOutlined className="text-4xl text-blue-500 mb-4" />
-          <h3 className="text-xl font-bold mb-2">{receipt.otp}</h3>
+          <h3 className="text-xl font-bold mb-2">{checkout.otp}</h3>
           <form onSubmit={submitOtp} className="space-y-6">
             <div className="flex justify-center gap-2">
               {otpValues.map((value, index) => (
@@ -440,17 +440,17 @@ export default function Checkout ({dict, lang}:any) {
             {otpError && <Alert message={otpError} type="error" showIcon />}
             <Space direction="vertical" className="w-full">
               <Button type="primary" htmlType="submit" size="large">
-                {receipt.subm}
+                {checkout.subm}
               </Button>
               <Button type="link" onClick={resendOtp}>
-                {receipt.resend}
+                {checkout.resend}
               </Button>
               <Button
                 type="text"
                 icon={<ArrowLeftOutlined />}
                 onClick={() => setStep("form")}
               >
-                {receipt.backto}
+                {checkout.backto}
               </Button>
             </Space>
           </form>
@@ -478,7 +478,7 @@ export default function Checkout ({dict, lang}:any) {
                   size="large"
                   onClick={handleBackToCourses}
                 >
-                  {receipt.backtoC}
+                  {checkout.backtoC}
                 </Button>,
                 <Button
                   key="receipt"
@@ -486,7 +486,7 @@ export default function Checkout ({dict, lang}:any) {
                   size="large"
                   onClick={handleDownloadReceipt}
                 >
-                  {receipt.downRec}
+                  {checkout.downRec}
                 </Button>,
               ]}
             />

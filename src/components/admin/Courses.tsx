@@ -14,7 +14,7 @@ import {
   InputNumber,
   Collapse,
 } from "antd";
-import { UploadOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { UploadOutlined, DownOutlined, UpOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Image from "next/image";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
@@ -516,8 +516,8 @@ export default function Course() {
     <div style={{ padding: 24 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <h2 style={{ fontSize: 20 }}>{showForm ? "Create Course" : "Courses List"}</h2>
-        <Button type="primary" style={{ background: "#7b1fa2" }} onClick={() => setShowForm(!showForm)}>
-          {showForm ? "⬅ Back to List" : "➕ Create Course"}
+        <Button type="primary"icon={<PlusOutlined />} style={{ background: "#1e293b" }} onClick={() => setShowForm(!showForm)}>
+          {showForm ? "⬅ Back to List" : "Create Course"}
         </Button>
       </div>
 
@@ -634,30 +634,48 @@ export default function Course() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ background: "#7b1fa2" }}>Create Course</Button>
+            <Button type="primary" htmlType="submit" style={{ background: "#1e293b" }}>Create Course</Button>
           </Form.Item>
         </Form>
       )}
 
-      {!showForm && (
-        <Table
-          dataSource={courses}
-          columns={columns}
-          rowKey="id"
-          scroll={{ x: 'max-content' }}
-          expandable={{
-            expandedRowRender,
-            expandedRowKeys,
-            onExpand: handleExpand,
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <UpOutlined onClick={e => onExpand(record, e)} />
-              ) : (
-                <DownOutlined onClick={e => onExpand(record, e)} />
-              ),
-          }}
-        />
-      )}
+      <Table
+        dataSource={courses}
+        columns={columns}
+        rowKey="id"
+        scroll={{ x: 'max-content' }}
+        expandable={{
+          expandedRowRender,
+          expandedRowKeys,
+          onExpand: handleExpand,
+          expandIcon: ({ expanded, onExpand, record }) =>
+            expanded ? (
+              <UpOutlined onClick={e => onExpand(record, e)} />
+            ) : (
+              <DownOutlined onClick={e => onExpand(record, e)} />
+            ),
+        }}
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  background: "#1e293b", // dark slate gray
+                  color: "#ffffff",      // white text
+                  fontWeight: 600,
+                  padding: "12px",
+                  textTransform: "uppercase",
+                  fontSize: 13,
+                  border: "8px",        // remove border
+                }}
+              />
+            )
+          }
+        }}
+      />
+
+
 
       {/* Edit Modal */}
       <Modal
