@@ -47,10 +47,10 @@ export default function CustomTestPage({title1, title2, subtitle, dentistTests, 
           onClick={handleNext}
           className="absolute right-10 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
         >
-          <RightOutlined />
+          <RightOutlined />  
         </button>
 
-        {/* Carousel */}
+        {/* Carousel */} 
         <Carousel
           ref={carouselRef}
           dots={false}
@@ -68,7 +68,7 @@ export default function CustomTestPage({title1, title2, subtitle, dentistTests, 
                 style={{ cursor: "default" }}
                 className="rounded-xl shadow-sm transition "
                 cover={
-                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl m-2">
+                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-xl">
                     <img
                       src={test.img}
                       alt={test.title}

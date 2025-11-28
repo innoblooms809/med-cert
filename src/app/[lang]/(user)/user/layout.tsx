@@ -12,7 +12,7 @@ const LOCAL_STORAGE_KEY = "medCert";
 export default function FacLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [role, setRole] = useState<"admin" | "user">("user"); // default role
-
+ 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
