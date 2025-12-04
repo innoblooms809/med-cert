@@ -212,6 +212,7 @@ export default function UserHeader({
             color: "var(--header-text)",
           }}
         >
+        
           {/* Al Zahra Hospital */}
         </span>
       </div>
