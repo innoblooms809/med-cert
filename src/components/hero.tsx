@@ -84,10 +84,10 @@ export default function Hero({ dict, lang }: HeroProps) {
       link: "#ayurveda",
     },
   ];
-// console.log("Saroj Sharma")
+
   return (
     <>
-      <section className="flex flex-col md:flex-row items-center justify-center gap-10 px-6 md:px-12 lg:px-20 pt-12 bg-[var(--section-bg-2)] text-[var(--section-text)]">
+      <section className="flex flex-col lg:flex-row items-center justify-center gap-10 px-6 md:px-12 lg:px-20 pt-12 bg-[var(--section-bg-2)] text-[var(--section-text)]">
         {/* Left Side */}
         <div className="flex-1 max-w-xl space-y-6 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
@@ -108,6 +108,30 @@ export default function Hero({ dict, lang }: HeroProps) {
               <p className="text-sm">{dict.hero.stats.courses}</p>
             </div>
           </div>
+          {/* Trending Domains */}
+          <section className="flex justify-center md:justify-start max-w-7xl mx-auto items-center pb-12">
+            <div className="mt-10">
+              <h3 className="text-lg font-semibold mb-4">
+                {dict.hero.trending}
+              </h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                {domains.map((domain, idx) => (
+                  <a href={domain.link} key={idx}>
+                    <div className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2 shadow-sm bg-white hover:shadow-md transition">
+                      <div
+                        className={`flex items-center justify-center w-8 h-8 rounded-full ${domain.color}`}
+                      >
+                        {domain.icon}
+                      </div>
+                      <span className="text-sm font-medium">
+                        {domain.label}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
 
         {/* Right Side - Carousel */}
@@ -123,7 +147,7 @@ export default function Hero({ dict, lang }: HeroProps) {
                 priority
               />
             </div>
-            <div>  
+            <div>
               <Image
                 src={hero2}
                 alt="Hero Slide 2"
@@ -142,27 +166,6 @@ export default function Hero({ dict, lang }: HeroProps) {
               />
             </div>
           </Carousel>
-        </div>
-      </section>
-
-      {/* Trending Domains */}
-      <section className="flex justify-start max-w-7xl mx-auto items-center px-12 pb-12">
-        <div className="mt-10">
-          <h3 className="text-lg font-semibold mb-4">{dict.hero.trending}</h3>
-          <div className="flex flex-wrap gap-4 items-center">
-            {domains.map((domain, idx) => (
-              <a href={domain.link} key={idx}>
-                <div className="flex items-center gap-2 border border-gray-200 rounded-xl px-4 py-2 shadow-sm bg-white hover:shadow-md transition">
-                  <div
-                    className={`flex items-center justify-center w-8 h-8 rounded-full ${domain.color}`}
-                  >
-                    {domain.icon}
-                  </div>
-                  <span className="text-sm font-medium">{domain.label}</span>
-                </div>
-              </a>
-            ))}
-          </div>
         </div>
       </section>
     </>

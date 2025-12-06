@@ -49,7 +49,7 @@ function CoursesBox({ sectionData, cart = [], onAddToCart, dict }: CoursesBoxPro
             description={
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  By {course.instructor}
+                  Author: {course.createdBy}
                 </p>
                 <p className="text-xs mt-1 line-clamp-2">
                   {course.description}

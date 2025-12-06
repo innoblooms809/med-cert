@@ -1,18 +1,10 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import {
-  Card,
-  Row,
-  Col,
-  Typography,
-  Button,
-  Tag,
-  Tabs,
-} from "antd";
+import { Card, Row, Col, Typography, Button, Tag, Tabs } from "antd";
 import {
   SmileOutlined,
-  WomanOutlined, 
+  WomanOutlined,
   UserOutlined,
   SkinOutlined,
   SoundOutlined,
@@ -20,8 +12,10 @@ import {
   MedicineBoxOutlined,
   CodeOutlined,
   PlayCircleOutlined,
-  LeftOutlined,
-  RightOutlined,
+  // LeftOutlined,
+  // RightOutlined,
+  FileTextOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import { Carousel } from "antd";
 import Image from "next/image";
@@ -33,38 +27,38 @@ import hero from "@/../../public/images/OIP.jpeg";
 const { Title, Paragraph } = Typography;
 
 const domainIcons: Record<string, React.ReactNode> = {
-  "Dentist": <SmileOutlined style={{ fontSize: 20 }} />,
-  "Gynecologist": <WomanOutlined style={{ fontSize: 20 }} />,
-  "General Physician": <UserOutlined style={{ fontSize: 20 }} />,
-  "Dermatologist": <SkinOutlined style={{ fontSize: 20 }} />,
-  "ENT Specialist": <SoundOutlined style={{ fontSize: 20 }} />,
-  "Homoeopath": <ExperimentOutlined style={{ fontSize: 20 }} />,
-  "Ayurveda": <MedicineBoxOutlined style={{ fontSize: 20 }} />,
-  "Programming": <CodeOutlined style={{ fontSize: 20 }} />,
-  "Nurse": <UserOutlined style={{ fontSize: 20 }} />,
+  Dentist: <SmileOutlined/>,
+  Gynecologist: <WomanOutlined/>,
+  "General Physician": <UserOutlined/>,
+  Dermatologist: <SkinOutlined/>,
+  "ENT Specialist": <SoundOutlined/>,
+  Homoeopath: <ExperimentOutlined/>,
+  Ayurveda: <MedicineBoxOutlined/>,
+  Programming: <CodeOutlined/>,
+  Nurse: <UserOutlined/>,
 };
 
 const domainColors: Record<string, string> = {
-  "Dentist": "#e6f7ff",
-  "Gynecologist": "#fff0f6", 
+  Dentist: "#e6f7ff",
+  Gynecologist: "#fff0f6",
   "General Physician": "#f6ffed",
-  "Dermatologist": "#fffbe6",
+  Dermatologist: "#fffbe6",
   "ENT Specialist": "#f9f0ff",
-  "Homoeopath": "#f0f5ff",
-  "Ayurveda": "#f6ffed",
-  "Programming": "#f0f5ff",
-  "Nurse": "#fff0f6",
+  Homoeopath: "#f0f5ff",
+  Ayurveda: "#f6ffed",
+  Programming: "#f0f5ff",
+  Nurse: "#fff0f6",
 };
 
 const trending = [
   "Dentist",
-  "Gynecologist", 
+  "Gynecologist",
   "General Physician",
   "Dermatologist",
   "ENT Specialist",
   "Homoeopath",
   "Ayurveda",
-  "Programming"
+  "Programming",
 ];
 
 // ========== Component ==========
@@ -77,13 +71,13 @@ export default function TestsPage() {
   // Filter tests based on active tab
   const getFilteredTests = () => {
     if (activeTab === "doctors") {
-      return allTests.filter(test => 
-        test.domain !== "Programming" && test.domain !== "Nurse"
+      return allTests.filter(
+        (test) => test.domain !== "Programming" && test.domain !== "Nurse"
       );
     } else if (activeTab === "programming") {
-      return allTests.filter(test => test.domain === "Programming");
+      return allTests.filter((test) => test.domain === "Programming");
     } else {
-      return allTests.filter(test => test.domain === "Nurse");
+      return allTests.filter((test) => test.domain === "Nurse");
     }
   };
 
@@ -95,10 +89,10 @@ export default function TestsPage() {
 
   const handleStartTest = (test: Test) => {
     // Store complete test data including questions
-    sessionStorage.setItem('currentTest', JSON.stringify(test));
-    sessionStorage.removeItem('testResults');
-    sessionStorage.removeItem('userAnswers');
-    sessionStorage.removeItem('testDifficulty');
+    sessionStorage.setItem("currentTest", JSON.stringify(test));
+    sessionStorage.removeItem("testResults");
+    sessionStorage.removeItem("userAnswers");
+    sessionStorage.removeItem("testDifficulty");
     router.push("/tests/difficulty");
   };
 
@@ -107,9 +101,12 @@ export default function TestsPage() {
       {/* Hero Section */}
       <Row gutter={32} align="middle" style={{ marginBottom: 60 }}>
         <Col xs={24} md={12}>
-          <Title style={{ fontSize: 60, fontWeight: 700 }}>Unlock Perfection</Title>
+          <Title style={{ fontSize: 60, fontWeight: 700 }}>
+            Unlock Perfection
+          </Title>
           <Paragraph style={{ fontSize: 18, color: "#555" }}>
-            Solve real-world medical problems & practice tests to get ready for your dream healthcare job!
+            Solve real-world medical problems & practice tests to get ready for
+            your dream healthcare job!
           </Paragraph>
         </Col>
         <Col xs={24} md={12} style={{ textAlign: "center" }}>
@@ -159,18 +156,25 @@ export default function TestsPage() {
 
       {/* Mock Tests Section */}
       <Row justify="space-between" align="middle" style={{ marginBottom: 20 }}>
-        <Title level={3} style={{ margin: 0, fontSize: "40px", fontWeight: "700" }}>
+        <Title
+          level={3}
+          style={{ margin: 0, fontSize: "40px", fontWeight: "700" }}
+        >
           AI-Powered Mock Tests
         </Title>
-        <div>
+        {/* <div>
           <Button
             shape="circle"
             icon={<LeftOutlined />}
             onClick={() => carouselRef.current?.prev()}
             style={{ marginRight: 10 }}
           />
-          <Button shape="circle" icon={<RightOutlined />} onClick={() => carouselRef.current?.next()} />
-        </div>
+          <Button
+            shape="circle"
+            icon={<RightOutlined />}
+            onClick={() => carouselRef.current?.next()}
+          />
+        </div> */}
       </Row>
 
       {/* Tabs */}
@@ -181,110 +185,152 @@ export default function TestsPage() {
           setSelectedDomain(null);
         }}
         items={[
-          { 
-            key: "doctors", 
-            label: <span style={{ fontSize: 18, fontWeight: activeTab === "doctors" ? 600 : 400 }}>
-              <UserOutlined /> Doctors & Specialists
-            </span> 
+          {
+            key: "doctors",
+            label: (
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: activeTab === "doctors" ? 600 : 400,
+                }}
+              >
+                <UserOutlined /> Doctors & Specialists
+              </span>
+            ),
           },
-          { 
-            key: "programming", 
-            label: <span style={{ fontSize: 18, fontWeight: activeTab === "programming" ? 600 : 400 }}>
-              <CodeOutlined /> Programming
-            </span> 
+          {
+            key: "programming",
+            label: (
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: activeTab === "programming" ? 600 : 400,
+                }}
+              >
+                <CodeOutlined /> Programming
+              </span>
+            ),
           },
-          { 
-            key: "nursing", 
-            label: <span style={{ fontSize: 18, fontWeight: activeTab === "nursing" ? 600 : 400 }}>
-              <UserOutlined /> Nursing
-            </span> 
+          {
+            key: "nursing",
+            label: (
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: activeTab === "nursing" ? 600 : 400,
+                }}
+              >
+                <UserOutlined /> Nursing
+              </span>
+            ),
           },
         ]}
         style={{ marginBottom: 30 }}
       />
 
       {/* Carousel with 4 cards per row */}
-      <div style={{ margin: "0 -10px" }}>
-        <Carousel
-          dots={false}
-          ref={carouselRef}
-          slidesToShow={4}
-          slidesToScroll={1}
-          infinite={false}
-        >
+      <div className="test-grid-container">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
           {filteredTests.map((test) => (
-            <div key={test.id} style={{ display:"flex", gap:"20px",  padding: "0 10px" }}>
-              <Card
-                hoverable
-                style={{
-                  maxWidth: "260px",
-                  display: "flex",
-                  gap:"20px",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-                cover={
-                  <div style={{ 
-                    height: 200, 
+            <Card
+              key={test.id}
+              hoverable
+              className="w-full h-full flex flex-col min-h-[480px]"
+              cover={
+                <div
+                  style={{
+                    height: 200,
                     background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: 48
-                  }}>
-                    {domainIcons[test.domain]}
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontSize: 60,
+                  }}
+                >
+                  {domainIcons[test.domain]}
+                </div>
+              }
+              actions={[
+                <Button
+                  key="start-test"
+                  type="primary"
+                  onClick={() => handleStartTest(test)}
+                  icon={<PlayCircleOutlined />}
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  Start Test
+                </Button>,
+              ]}
+            >
+              <Card.Meta
+                title={
+                  <div className="text-lg font-semibold mb-2 line-clamp-1">
+                    {test.title}
                   </div>
                 }
-                actions={[
-                  <Button
-                    key="start-test"
-                    type="link"
-                    onClick={() => handleStartTest(test)}
-                    icon={<PlayCircleOutlined style={{ fontSize: 20 }} />}
-                    style={{
-                      fontSize: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                    }}
-                    className="start-btn"
-                  >
-                    Start Test
-                  </Button>,
-                ]}
-              >
-                <Card.Meta 
-                  title={test.title} 
-                  description={
-                    <div>
-                      <p>{test.desc}</p>
-                      <div style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
-                        <div>{test.totalQuestions} questions • {test.duration} mins</div>
-                        <div style={{ marginTop: 4 }}>
-                          {Array.from(new Set(test.questions.map(q => q.type))).slice(0, 3).map(type => (
-                            <Tag key={type} style={{ margin: '2px', fontSize: '12px', padding: '2px 6px' }}>
+                description={
+                  <div className="flex flex-col min-h-[150px]">
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      {test.desc}
+                    </p>
+
+                    <div className="mt-auto space-y-3">
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <FileTextOutlined />
+                        <span>{test.totalQuestions} questions</span>
+                        <span className="text-gray-300">•</span>
+                        <ClockCircleOutlined />
+                        <span>{test.duration} mins</span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1">
+                        {Array.from(new Set(test.questions.map((q) => q.type)))
+                          .slice(0, 3)
+                          .map((type) => (
+                            <Tag
+                              key={type}
+                              className="text-xs px-2 py-1 rounded-full m-0"
+                            >
                               {type}
                             </Tag>
                           ))}
-                        </div>
-                        <div style={{ marginTop: 4 }}>
-                          <Tag color={
-                            test.questions.some(q => q.difficulty === 'hard') ? 'red' :
-                            test.questions.some(q => q.difficulty === 'medium') ? 'orange' : 'green'
-                          }>
-                            {test.questions.some(q => q.difficulty === 'hard') ? 'Advanced' :
-                             test.questions.some(q => q.difficulty === 'medium') ? 'Intermediate' : 'Beginner'}
-                          </Tag>
-                        </div>
+                        {test.questions.length > 3 && (
+                          <span className="text-xs text-gray-400">
+                            +{test.questions.length - 3} more
+                          </span>
+                        )}
+                      </div>
+
+                      <div>
+                        <Tag
+                          color={
+                            test.questions.some((q) => q.difficulty === "hard")
+                              ? "red"
+                              : test.questions.some(
+                                  (q) => q.difficulty === "medium"
+                                )
+                              ? "orange"
+                              : "green"
+                          }
+                          className="rounded-full px-3 py-1 font-medium"
+                        >
+                          {test.questions.some((q) => q.difficulty === "hard")
+                            ? "Advanced"
+                            : test.questions.some(
+                                (q) => q.difficulty === "medium"
+                              )
+                            ? "Intermediate"
+                            : "Beginner"}
+                        </Tag>
                       </div>
                     </div>
-                  } 
-                />
-              </Card>
-            </div>
+                  </div>
+                }
+              />
+            </Card>
           ))}
-        </Carousel>
+        </div>
       </div>
     </div>
   );
