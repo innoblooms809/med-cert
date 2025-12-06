@@ -14,7 +14,7 @@ const iconMap: Record<string, React.ReactNode> = {
   "My Profile": <CopyOutlined className="text-lg font-bold hover:text-[#0077b6]" />,
   "My Certificate": <FileTextOutlined className="text-lg font-bold hover:text-[#0077b6]" />,
 
-};
+}; 
 
 export default function UserSidebar({ collapsed }: { collapsed: boolean }) {
   const [user, setUser] = useState<any>(null);
