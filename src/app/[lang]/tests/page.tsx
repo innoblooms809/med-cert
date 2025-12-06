@@ -106,7 +106,7 @@ export default function TestsPage() {
     <div style={{ padding: "40px 80px" }}>
       {/* Hero Section */}
       <Row gutter={32} align="middle" style={{ marginBottom: 60 }}>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={12} style={{marginTop:"-90px"}}>
           <Title style={{ fontSize: 60, fontWeight: 700 }}>Unlock Perfection</Title>
           <Paragraph style={{ fontSize: 18, color: "#555" }}>
             Solve real-world medical problems & practice tests to get ready for your dream healthcare job!
@@ -116,15 +116,15 @@ export default function TestsPage() {
           <Image
             src={hero}
             alt="Medical Hero"
-            width={500}
-            height={300}
-            style={{ borderRadius: "10px", marginLeft: "50px" }}
+            width={330}
+            height={200}
+            style={{ borderRadius: "10px", marginLeft: "100px" }}
           />
         </Col>
       </Row>
 
       {/* Trending Domains */}
-      <Title level={3} style={{ marginBottom: 20 }}>
+      <Title level={3} style={{ marginBottom: 30 }}>
         Trending Domains
       </Title>
       <Row
@@ -222,6 +222,7 @@ export default function TestsPage() {
                   gap:"20px",
                   flexDirection: "column",
                   justifyContent: "space-between",
+                  cursor: "default",
                 }}
                 cover={
                   <div style={{ 

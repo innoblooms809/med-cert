@@ -14,7 +14,7 @@ import {
   InputNumber,
   Collapse,
 } from "antd";
-import { UploadOutlined, DownOutlined, UpOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadOutlined, DownOutlined, UpOutlined, PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Image from "next/image";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
@@ -516,8 +516,8 @@ export default function Course() {
     <div style={{ padding: 24 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <h2 style={{ fontSize: 20 }}>{showForm ? "Create Course" : "Courses List"}</h2>
-        <Button type="primary"icon={<PlusOutlined />} style={{ background: "#1e293b" }} onClick={() => setShowForm(!showForm)}>
-          {showForm ? "⬅ Back to List" : "Create Course"}
+        <Button type="primary"icon={showForm ? <ArrowLeftOutlined/> : <PlusOutlined />} style={{ background: "#1e293b" }} onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Back to List" : "Create Course"}
         </Button>
       </div>
 

@@ -65,7 +65,7 @@ export default function AdminSidebar({ collapsed, dict, lang }: AdminSidebarProp
     }
   }, []);
   const isRTL = lang === "ar";
-  console.log(dict.dashboard.admin.sider.brandFull, "asdfghjhgfd")
+  // console.log(dict.dashboard.admin.sider.brandFull, "asdfghjhgfd")
   return (
     <Sider
       collapsible

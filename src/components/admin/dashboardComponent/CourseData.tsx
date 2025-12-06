@@ -34,7 +34,7 @@ interface CustomTooltipProps {
 }
 export default function CoursesCharts({ dict, lang }: any) {
   const chartsText = dict.dashboard.admin.charts;
-  console.log(chartsText,"sdfghjkjhgfd")
+  // console.log(chartsText,"sdfghjkjhgfd")
 // Mock Data
 const courses: Course[] = [
   { id: "1", title: "ENT Basics", specialization: "ENT", courseRole: "Doctor" },

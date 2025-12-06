@@ -118,7 +118,6 @@ export default function InstructionsPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "40px 20px",
       }}
     >
       <div style={{ maxWidth: 1100, width: "100%" }}>
@@ -134,39 +133,43 @@ export default function InstructionsPage() {
               </Text>
               
               <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
+                <ul>
+                  <li>
                 <QuestionCircleOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
                   Questions: <b>{filteredQuestions.length}</b>
                 </Text>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
+                </li>
+                <li>
                 <ClockCircleOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
                   Duration: <b>{testInfo.duration} minutes</b>
                 </Text>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
+                </li>
+                <li>
                 <FileTextOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
                   Marks: <b>{filteredQuestions.length}</b>
                 </Text>
-              </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <SafetyOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
+                </li>
+                <li>
+                  <SafetyOutlined style={{ fontSize: 20, marginRight: 10, color: "#555" }} />
                 <Text style={{ fontSize: 16 }}>
                   Passing: <b>{Math.ceil(filteredQuestions.length * 0.6)} marks</b>
                 </Text>
+                </li>
+                </ul>
               </div>
 
               {/* Question Type Breakdown */}
               <Divider />
               <Title level={5}>Question Types:</Title>
-              <div style={{ marginTop: 10 }}>
+              <div style={{ marginTop: 5 }}>
                 {Object.entries(questionTypeCounts).map(([type, count]) => (
                   <div key={type} style={{ 
                     display: 'flex', 
                     justifyContent: 'space-between', 
-                    marginBottom: 8,
+                    marginBottom: 1,
                     padding: '4px 0'
                   }}>
                     <Text>{getQuestionTypeDisplay(type)}</Text>
@@ -185,24 +188,24 @@ export default function InstructionsPage() {
               </Title>
 
               <div style={{ lineHeight: 1.9, fontSize: 16, color: "#333", marginBottom: 30 }}>
-                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
+                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 1 }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Assessment Duration:</span>
                   <span>{testInfo.duration}:00 minutes (hh:mm:ss)</span>
                 </p>
-                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
+                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 1 }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Total Questions:</span>
                   <span>{filteredQuestions.length} Mixed Format Questions</span>
                 </p>
-                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
+                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 1 }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Difficulty Level:</span>
                   <span>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
                 </p>
-                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 12 }}>
+                <p style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 1  }}>
                   <span style={{ fontWeight: 'bold', minWidth: '200px' }}>Marking Scheme:</span>
                   <span>+1 for correct answer, 0 for incorrect/unattempted</span>
                 </p>
                 
-                <div style={{ marginTop: 20 }}>
+                {/* <div style={{ marginTop: 20 }}>
                   <Title level={5} style={{ marginBottom: 10 }}>Question Formats:</Title>
                   <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
                     <li><strong>Coding:</strong> Write code solutions with explanations</li>
@@ -211,17 +214,17 @@ export default function InstructionsPage() {
                     <li><strong>Output Prediction:</strong> Predict code output</li>
                     <li><strong>Scenario Based:</strong> Solve real-world problems</li>
                   </ul>
-                </div>
+                </div> */}
 
                 <div style={{ marginTop: 20 }}>
                   <Title level={5} style={{ marginBottom: 10 }}>Important Guidelines:</Title>
                   <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
                     <li>Do not close the browser window or tab during the test</li>
-                    <li>The timer will not stop once you start the test</li>
-                    <li>Use the question navigation to move between questions</li>
+                    {/* <li>The timer will not stop once you start the test</li>
+                    <li>Use the question navigation to move between questions</li> */}
                     <li>All questions are mandatory</li>
                     <li>Test will auto-submit when time expires</li>
-                    <li>No negative marking for wrong answers</li>
+                    {/* <li>No negative marking for wrong answers</li> */}
                     <li>For coding questions, focus on both correctness and approach</li>
                   </ul>
                 </div>
