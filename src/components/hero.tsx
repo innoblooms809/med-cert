@@ -8,10 +8,10 @@ import hero3 from "../../public/images/hero3.png";
 import {
   MedicineBoxOutlined,
   WomanOutlined,
-  UserOutlined,
-  SkinOutlined,
-  SoundOutlined,
-  ExperimentOutlined,
+  // UserOutlined,
+  // SkinOutlined,
+  // SoundOutlined,
+  // ExperimentOutlined,
   BranchesOutlined,
 } from "@ant-design/icons";
 
