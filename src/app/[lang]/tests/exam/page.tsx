@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag, Progress, Modal, Checkbox } from "antd";
 import { useRouter } from "next/navigation";
-import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined,  FastForwardOutlined, WarningOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined, CloseOutlined, FastForwardOutlined, WarningOutlined } from "@ant-design/icons";
 import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
 import CodeEditor from "@/components/CodeEditor";
 
@@ -20,11 +20,19 @@ const QUESTION_TIMINGS: Record<string, { min: number, max: number, recommended: 
   'coding': { min: 300, max: 420, recommended: 360 }
 };
 
-type QuestionStatus = 'answered' | 'unanswered' | 'skipped' | 'timed-out';
+// Define QuestionStatus as a union type
+const QuestionStatusValues = ['answered', 'unanswered', 'skipped', 'timed-out'] as const;
+type QuestionStatus = typeof QuestionStatusValues[number];
+
+// Define UserAnswer type
+type UserAnswer = {
+  type: 'text' | 'code' | 'mcq';
+  value: string | string[];
+};
 
 export default function ExamPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<Record<number, any>>({});
+  const [userAnswers, setUserAnswers] = useState<Record<number, UserAnswer>>({});
   const [questionTimeSpent, setQuestionTimeSpent] = useState<Record<number, number>>({});
   const [questionStatus, setQuestionStatus] = useState<Record<number, QuestionStatus>>({});
   const [timeLeft, setTimeLeft] = useState(0);
@@ -54,8 +62,10 @@ export default function ExamPage() {
         
         // Count answered questions
         let count = 0;
-        Object.values(parsedAnswers).forEach((answer: any, index: number) => {
-          if (answer?.value && answer.value.length > 0) {
+        Object.values(parsedAnswers).forEach((answer: any) => {
+          if (answer?.value && 
+              ((typeof answer.value === 'string' && answer.value.trim().length > 0) ||
+               (Array.isArray(answer.value) && answer.value.length > 0))) {
             count++;
           }
         });
@@ -68,23 +78,42 @@ export default function ExamPage() {
         setQuestionTimeSpent(JSON.parse(savedTimes));
       }
 
-      // Load saved question status
+      // Load saved question status with proper type casting
       const savedStatus = sessionStorage.getItem('questionStatus');
       if (savedStatus) {
-        setQuestionStatus(JSON.parse(savedStatus));
+        try {
+          const parsedStatus = JSON.parse(savedStatus);
+          // Validate and cast to Record<number, QuestionStatus>
+          const validatedStatus: Record<number, QuestionStatus> = {};
+          Object.entries(parsedStatus).forEach(([key, value]) => {
+            const index = parseInt(key);
+            if (QuestionStatusValues.includes(value as QuestionStatus)) {
+              validatedStatus[index] = value as QuestionStatus;
+            } else {
+              validatedStatus[index] = 'unanswered';
+            }
+          });
+          setQuestionStatus(validatedStatus);
+        } catch (error) {
+          // If parsing fails, initialize with default status
+          initializeQuestionStatus(examQuestions);
+        }
       } else {
-        // Initialize all questions as unanswered
-        const initialStatus: Record<number, QuestionStatus> = {};
-        examQuestions.forEach((_: any, index: number) => {
-          initialStatus[index] = 'unanswered';
-        });
-        setQuestionStatus(initialStatus);
-        sessionStorage.setItem('questionStatus', JSON.stringify(initialStatus));
+        initializeQuestionStatus(examQuestions);
       }
     } else {
       router.push('/tests');
     }
   }, [router]);
+
+  const initializeQuestionStatus = (examQuestions: TestQuestion[]) => {
+    const initialStatus: Record<number, QuestionStatus> = {};
+    examQuestions.forEach((_: any, index: number) => {
+      initialStatus[index] = 'unanswered';
+    });
+    setQuestionStatus(initialStatus);
+    sessionStorage.setItem('questionStatus', JSON.stringify(initialStatus));
+  };
 
   // Main timer for total test time
   useEffect(() => {
@@ -129,8 +158,8 @@ export default function ExamPage() {
       if (currentQuestion && questionStatus[currentQuestionIndex] === 'unanswered') {
         const questionTiming = getQuestionTimingInfo(currentQuestion.type);
         if (totalTimeSpent >= questionTiming.recommended) {
-          // Mark as timed-out
-          const newStatus = {
+          // Mark as timed-out with proper type
+          const newStatus: Record<number, QuestionStatus> = {
             ...questionStatus,
             [currentQuestionIndex]: 'timed-out'
           };
@@ -148,15 +177,16 @@ export default function ExamPage() {
     return () => clearInterval(questionTimer);
   }, [currentQuestionIndex, questions, questionStatus]);
 
-  const handleAnswerSelect = (answer: any) => {
+  const handleAnswerSelect = (answer: UserAnswer) => {
     const newAnswers = {
       ...userAnswers,
       [currentQuestionIndex]: answer
     };
+    
     setUserAnswers(newAnswers);
     
-    // Update question status to answered
-    const newStatus = {
+    // Update question status to answered with proper type
+    const newStatus: Record<number, QuestionStatus> = {
       ...questionStatus,
       [currentQuestionIndex]: 'answered'
     };
@@ -165,8 +195,10 @@ export default function ExamPage() {
     
     // Update answered count
     let count = 0;
-    Object.values(newAnswers).forEach((ans: any) => {
-      if (ans?.value && ans.value.length > 0) {
+    Object.values(newAnswers).forEach((ans: UserAnswer) => {
+      if (ans?.value && 
+          ((typeof ans.value === 'string' && ans.value.trim().length > 0) ||
+           (Array.isArray(ans.value) && ans.value.length > 0))) {
         count++;
       }
     });
@@ -192,17 +224,17 @@ export default function ExamPage() {
     let newValue: string[];
     
     if (selected.includes(option)) {
-      newValue = [...currentValue, option];
+      newValue = [...(currentValue as string[]), option];
     } else {
-      newValue = currentValue.filter(item => item !== option);
+      newValue = (currentValue as string[]).filter((item: string) => item !== option);
     }
     
     handleMcqAnswer(newValue);
   };
 
   const handleSkipQuestion = () => {
-    // Mark current question as skipped
-    const newStatus = {
+    // Mark current question as skipped with proper type
+    const newStatus: Record<number, QuestionStatus> = {
       ...questionStatus,
       [currentQuestionIndex]: 'skipped'
     };
@@ -216,8 +248,8 @@ export default function ExamPage() {
   };
 
   const handleUnskipQuestion = () => {
-    // Change from skipped back to unanswered (user wants to answer it)
-    const newStatus = {
+    // Change from skipped back to unanswered with proper type
+    const newStatus: Record<number, QuestionStatus> = {
       ...questionStatus,
       [currentQuestionIndex]: 'unanswered'
     };
@@ -371,12 +403,20 @@ export default function ExamPage() {
               {question.options?.map((opt: string, index: number) => (
                 <CheckableTag
                   key={index}
-                  checked={(currentAnswer?.value || []).includes(opt)}
-                  onChange={(checked) => !isTimedOut && handleMultiSelectAnswer(
-                    checked ? [...(currentAnswer?.value || []), opt] : 
-                    (currentAnswer?.value || []).filter((item: string) => item !== opt), 
-                    opt
-                  )}
+                  checked={((currentAnswer?.value as string[]) || []).includes(opt)}
+                  onChange={(checked) => {
+                    if (!isTimedOut) {
+                      const currentValues = (currentAnswer?.value as string[]) || [];
+                      if (checked) {
+                        handleMultiSelectAnswer([...currentValues, opt], opt);
+                      } else {
+                        handleMultiSelectAnswer(
+                          currentValues.filter((item: string) => item !== opt), 
+                          opt
+                        );
+                      }
+                    }
+                  }}
                   style={{
                     padding: "16px",
                     border: "1px solid #d9d9d9",
@@ -384,7 +424,7 @@ export default function ExamPage() {
                     transition: "all 0.3s",
                     fontSize: "16px",
                     margin: 0,
-                    background: (currentAnswer?.value || []).includes(opt) ? '#e6f7ff' : 'transparent',
+                    background: ((currentAnswer?.value as string[]) || []).includes(opt) ? '#e6f7ff' : 'transparent',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
@@ -393,7 +433,7 @@ export default function ExamPage() {
                   }}
                 >
                   <Checkbox
-                    checked={(currentAnswer?.value || []).includes(opt)}
+                    checked={((currentAnswer?.value as string[]) || []).includes(opt)}
                     disabled={isTimedOut}
                     style={{ marginRight: 8 }}
                   />
@@ -405,7 +445,7 @@ export default function ExamPage() {
             // Single select Radio style
             <Radio.Group
               onChange={(e) => !isTimedOut && handleMcqAnswer(e.target.value)}
-              value={currentAnswer?.value}
+              value={currentAnswer?.value as string}
               style={{ display: "flex", flexDirection: "column", gap: "12px" }}
             >
               {question.options?.map((opt: string, index: number) => (
@@ -448,11 +488,10 @@ export default function ExamPage() {
                 Write your code solution below:
               </Text>
               <CodeEditor
-                value={currentAnswer?.value || ''}
-                onChange={handleCodeAnswer}
+                value={(currentAnswer?.value as string) || ''}
+                onChange={isTimedOut ? () => {} : handleCodeAnswer}
                 language="javascript"
                 height="300px"
-                readOnly={isTimedOut}
               />
               {isTimedOut && (
                 <Text type="secondary" style={{ marginTop: 8, display: 'block' }}>
@@ -465,7 +504,7 @@ export default function ExamPage() {
           <div>
             <TextArea
               placeholder={isTimedOut ? "Time expired - Cannot answer" : "Write your explanation here..."}
-              value={currentAnswer?.value || ''}
+              value={(currentAnswer?.value as string) || ''}
               onChange={(e) => !isTimedOut && handleTextAnswer(e.target.value)}
               rows={8}
               style={{ fontSize: '16px' }}
@@ -488,7 +527,7 @@ export default function ExamPage() {
             )}
             <Input
               placeholder={isTimedOut ? "Time expired - Cannot answer" : "What will be the output?"}
-              value={currentAnswer?.value || ''}
+              value={(currentAnswer?.value as string) || ''}
               onChange={(e) => !isTimedOut && handleTextAnswer(e.target.value)}
               style={{ fontSize: '16px' }}
               disabled={isTimedOut}
@@ -504,7 +543,7 @@ export default function ExamPage() {
             )}
             <TextArea
               placeholder={isTimedOut ? "Time expired - Cannot answer" : "Describe your approach and solution..."}
-              value={currentAnswer?.value || ''}
+              value={(currentAnswer?.value as string) || ''}
               onChange={(e) => !isTimedOut && handleTextAnswer(e.target.value)}
               rows={8}
               style={{ fontSize: '16px' }}
@@ -750,7 +789,11 @@ export default function ExamPage() {
                     type={currentQuestionIndex === index ? "primary" : "default"}
                     shape="circle"
                     size="small"
-                    onClick={() => setCurrentQuestionIndex(index)}
+                    onClick={() => {
+                      if (questionStatus[currentQuestionIndex] !== 'timed-out') {
+                        setCurrentQuestionIndex(index);
+                      }
+                    }}
                     style={{
                       background: buttonColor,
                       borderColor: buttonColor === 'transparent' ? '#d9d9d9' : buttonColor,
@@ -763,6 +806,9 @@ export default function ExamPage() {
                 );
               })}
             </div>
+
+            
+
             <Divider />
 
             <Button
@@ -774,7 +820,7 @@ export default function ExamPage() {
                 height: 45,
                 fontSize: 16,
                 fontWeight: 600,
-                background: 'linear-gradient(90deg, #1293f0ff, #1189ebff)',
+                background: 'linear-gradient(90deg, #2261f5ff, #2073faff)',
                 border: 'none'
               }}
             >
