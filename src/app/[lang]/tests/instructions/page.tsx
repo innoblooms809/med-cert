@@ -205,26 +205,14 @@ export default function InstructionsPage() {
                   <span>+1 for correct answer, 0 for incorrect/unattempted</span>
                 </p>
                 
-                {/* <div style={{ marginTop: 20 }}>
-                  <Title level={5} style={{ marginBottom: 10 }}>Question Formats:</Title>
-                  <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
-                    <li><strong>Coding:</strong> Write code solutions with explanations</li>
-                    <li><strong>Multiple Choice:</strong> Select the correct answer</li>
-                    <li><strong>Theory:</strong> Explain concepts in your own words</li>
-                    <li><strong>Output Prediction:</strong> Predict code output</li>
-                    <li><strong>Scenario Based:</strong> Solve real-world problems</li>
-                  </ul>
-                </div> */}
+                
 
                 <div style={{ marginTop: 20 }}>
                   <Title level={5} style={{ marginBottom: 10 }}>Important Guidelines:</Title>
                   <ul style={{ paddingLeft: 20, marginBottom: 0 }}>
-                    <li>Do not close the browser window or tab during the test</li>
-                    {/* <li>The timer will not stop once you start the test</li>
-                    <li>Use the question navigation to move between questions</li> */}
+                    <li>Do not close the browser window or tab during the test</li>                   
                     <li>All questions are mandatory</li>
                     <li>Test will auto-submit when time expires</li>
-                    {/* <li>No negative marking for wrong answers</li> */}
                     <li>For coding questions, focus on both correctness and approach</li>
                   </ul>
                 </div>
