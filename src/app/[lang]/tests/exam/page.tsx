@@ -1,15 +1,24 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag, Progress, Modal, Checkbox, message } from "antd";
-import { useRouter, useParams } from "next/navigation";
-import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined, CloseOutlined, FastForwardOutlined, WarningOutlined, ArrowLeftOutlined } from "@ant-design/icons";
-import { TestQuestion, getQuestionTypeDisplay, getTestById } from "@/utils/testData";
+import { Typography, Radio, Button, Pagination, Row, Col, Divider, Alert, Input, Card, Tag, Progress, Modal, Checkbox } from "antd";
+import { useRouter } from "next/navigation";
+import { ClockCircleOutlined, ExclamationCircleOutlined, CodeOutlined, CloseOutlined, FastForwardOutlined, WarningOutlined } from "@ant-design/icons";
+import { TestQuestion, getQuestionTypeDisplay } from "@/utils/testData";
 import CodeEditor from "@/components/CodeEditor";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 const { CheckableTag } = Tag;
+
+// Question type timing configuration (in seconds)
+const QUESTION_TIMINGS: Record<string, { min: number, max: number, recommended: number }> = {
+  'mcq': { min: 20, max: 30, recommended: 25 },
+  'theory': { min: 60, max: 180, recommended: 120 },
+  'output': { min: 30, max: 60, recommended: 45 },
+  'scenario': { min: 120, max: 300, recommended: 180 },
+  'coding': { min: 300, max: 420, recommended: 360 }
+};
 
 // Define QuestionStatus as a union type
 const QuestionStatusValues = ['answered', 'unanswered', 'skipped', 'timed-out'] as const;
@@ -22,8 +31,6 @@ type UserAnswer = {
 };
 
 export default function ExamPage() {
-  const router = useRouter();
-  const params = useParams();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, UserAnswer>>({});
   const [questionTimeSpent, setQuestionTimeSpent] = useState<Record<number, number>>({});
@@ -33,34 +40,23 @@ export default function ExamPage() {
   const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [answeredCount, setAnsweredCount] = useState(0);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const questionStartTimeRef = useRef<number>(Date.now());
+  const router = useRouter();
 
   useEffect(() => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
+    const storedTest = sessionStorage.getItem('currentTest');
+    const storedQuestions = sessionStorage.getItem('examQuestions');
     
-    if (!testId) {
-      message.error("No test selected!");
-      router.push("/my-courses");
-      return;
-    }
-
-    // Get test data
-    const test = getTestById(testId);
-    if (!test) {
-      message.error("Test not found!");
-      router.push("/my-courses");
-      return;
-    }
-
-    setTestInfo(test);
-    setTimeLeft(test.duration * 60);
-    setQuestions(test.questions);
-    
-    // Load saved answers from localStorage
-    const savedAnswers = localStorage.getItem(`exam_answers_${testId}`);
-    if (savedAnswers) {
-      try {
+    if (storedTest && storedQuestions) {
+      const test = JSON.parse(storedTest);
+      const examQuestions = JSON.parse(storedQuestions);
+      setTestInfo(test);
+      setTimeLeft(test.duration * 60);
+      setQuestions(examQuestions);
+      
+      // Load saved answers
+      const savedAnswers = sessionStorage.getItem('userAnswers');
+      if (savedAnswers) {
         const parsedAnswers = JSON.parse(savedAnswers);
         setUserAnswers(parsedAnswers);
         
@@ -74,57 +70,53 @@ export default function ExamPage() {
           }
         });
         setAnsweredCount(count);
-      } catch (error) {
-        console.error("Error parsing saved answers:", error);
       }
-    }
 
-    // Load saved question times
-    const savedTimes = localStorage.getItem(`exam_times_${testId}`);
-    if (savedTimes) {
-      try {
+      // Load saved question times
+      const savedTimes = sessionStorage.getItem('questionTimes');
+      if (savedTimes) {
         setQuestionTimeSpent(JSON.parse(savedTimes));
-      } catch (error) {
-        console.error("Error parsing saved times:", error);
       }
-    }
 
-    // Initialize question status
-    const initialStatus: Record<number, QuestionStatus> = {};
-    test.questions.forEach((_: any, index: number) => {
-      initialStatus[index] = 'unanswered';
-    });
-    
-    // Load saved status
-    const savedStatus = localStorage.getItem(`exam_status_${testId}`);
-    if (savedStatus) {
-      try {
-        const parsedStatus = JSON.parse(savedStatus);
-        // Validate and cast to Record<number, QuestionStatus>
-        const validatedStatus: Record<number, QuestionStatus> = {};
-        Object.entries(parsedStatus).forEach(([key, value]) => {
-          const index = parseInt(key);
-          if (QuestionStatusValues.includes(value as QuestionStatus)) {
-            validatedStatus[index] = value as QuestionStatus;
-          } else {
-            validatedStatus[index] = 'unanswered';
-          }
-        });
-        setQuestionStatus(validatedStatus);
-      } catch (error) {
-        setQuestionStatus(initialStatus);
+      // Load saved question status with proper type casting
+      const savedStatus = sessionStorage.getItem('questionStatus');
+      if (savedStatus) {
+        try {
+          const parsedStatus = JSON.parse(savedStatus);
+          // Validate and cast to Record<number, QuestionStatus>
+          const validatedStatus: Record<number, QuestionStatus> = {};
+          Object.entries(parsedStatus).forEach(([key, value]) => {
+            const index = parseInt(key);
+            if (QuestionStatusValues.includes(value as QuestionStatus)) {
+              validatedStatus[index] = value as QuestionStatus;
+            } else {
+              validatedStatus[index] = 'unanswered';
+            }
+          });
+          setQuestionStatus(validatedStatus);
+        } catch (error) {
+          // If parsing fails, initialize with default status
+          initializeQuestionStatus(examQuestions);
+        }
+      } else {
+        initializeQuestionStatus(examQuestions);
       }
     } else {
-      setQuestionStatus(initialStatus);
+      router.push('/tests');
     }
+  }, [router]);
 
-    setIsLoading(false);
-  }, [params.id, router]);
+  const initializeQuestionStatus = (examQuestions: TestQuestion[]) => {
+    const initialStatus: Record<number, QuestionStatus> = {};
+    examQuestions.forEach((_: any, index: number) => {
+      initialStatus[index] = 'unanswered';
+    });
+    setQuestionStatus(initialStatus);
+    sessionStorage.setItem('questionStatus', JSON.stringify(initialStatus));
+  };
 
   // Main timer for total test time
   useEffect(() => {
-    if (!testInfo) return;
-
     const timer = setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) {
@@ -136,7 +128,7 @@ export default function ExamPage() {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [testInfo]);
+  }, []);
 
   // Question timer - track time spent on current question
   useEffect(() => {
@@ -159,39 +151,33 @@ export default function ExamPage() {
       };
       
       setQuestionTimeSpent(newTimes);
-      
-      // Save to localStorage
-      const testId = params.id as string || localStorage.getItem("currentCourseTest");
-      if (testId) {
-        localStorage.setItem(`exam_times_${testId}`, JSON.stringify(newTimes));
-      }
+      sessionStorage.setItem('questionTimes', JSON.stringify(newTimes));
 
-      // Auto mark as timed-out when time completes (disabled for MyCourses tests)
-      // We'll keep the status tracking but not auto-move to next question
+      // Auto mark as timed-out when time completes
       const currentQuestion = questions[currentQuestionIndex];
       if (currentQuestion && questionStatus[currentQuestionIndex] === 'unanswered') {
-        // For MyCourses tests, we won't auto-move based on time
-        // Just track the status
-        if (totalTimeSpent >= 300) { // 5 minutes per question max
+        const questionTiming = getQuestionTimingInfo(currentQuestion.type);
+        if (totalTimeSpent >= questionTiming.recommended) {
+          // Mark as timed-out with proper type
           const newStatus: Record<number, QuestionStatus> = {
             ...questionStatus,
             [currentQuestionIndex]: 'timed-out'
           };
           setQuestionStatus(newStatus);
-          if (testId) {
-            localStorage.setItem(`exam_status_${testId}`, JSON.stringify(newStatus));
+          sessionStorage.setItem('questionStatus', JSON.stringify(newStatus));
+          
+          // Auto move to next question if not last
+          if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(prev => prev + 1);
           }
         }
       }
     }, 1000);
 
     return () => clearInterval(questionTimer);
-  }, [currentQuestionIndex, questions, questionStatus, params.id]);
+  }, [currentQuestionIndex, questions, questionStatus]);
 
   const handleAnswerSelect = (answer: UserAnswer) => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
-    if (!testId) return;
-
     const newAnswers = {
       ...userAnswers,
       [currentQuestionIndex]: answer
@@ -205,6 +191,7 @@ export default function ExamPage() {
       [currentQuestionIndex]: 'answered'
     };
     setQuestionStatus(newStatus);
+    sessionStorage.setItem('questionStatus', JSON.stringify(newStatus));
     
     // Update answered count
     let count = 0;
@@ -217,9 +204,7 @@ export default function ExamPage() {
     });
     setAnsweredCount(count);
     
-    // Save to localStorage
-    localStorage.setItem(`exam_answers_${testId}`, JSON.stringify(newAnswers));
-    localStorage.setItem(`exam_status_${testId}`, JSON.stringify(newStatus));
+    sessionStorage.setItem('userAnswers', JSON.stringify(newAnswers));
   };
 
   const handleTextAnswer = (text: string) => {
@@ -248,16 +233,13 @@ export default function ExamPage() {
   };
 
   const handleSkipQuestion = () => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
-    if (!testId) return;
-
     // Mark current question as skipped with proper type
     const newStatus: Record<number, QuestionStatus> = {
       ...questionStatus,
       [currentQuestionIndex]: 'skipped'
     };
     setQuestionStatus(newStatus);
-    localStorage.setItem(`exam_status_${testId}`, JSON.stringify(newStatus));
+    sessionStorage.setItem('questionStatus', JSON.stringify(newStatus));
     
     // Move to next question if not last
     if (currentQuestionIndex < questions.length - 1) {
@@ -266,16 +248,13 @@ export default function ExamPage() {
   };
 
   const handleUnskipQuestion = () => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
-    if (!testId) return;
-
     // Change from skipped back to unanswered with proper type
     const newStatus: Record<number, QuestionStatus> = {
       ...questionStatus,
       [currentQuestionIndex]: 'unanswered'
     };
     setQuestionStatus(newStatus);
-    localStorage.setItem(`exam_status_${testId}`, JSON.stringify(newStatus));
+    sessionStorage.setItem('questionStatus', JSON.stringify(newStatus));
   };
 
   const formatTime = (seconds: number) => {
@@ -298,95 +277,62 @@ export default function ExamPage() {
             correct++;
           }
         }
-      } else if (question.type === 'output') {
-        if (typeof userAnswer.value === 'string' && question.expectedOutput) {
-          if (userAnswer.value.trim() === question.expectedOutput.trim()) {
-            correct++;
-          }
-        }
       }
     });
     return correct;
   };
 
   const handleSubmit = () => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
-    if (!testId) return;
-
     const score = calculateScore();
-    const totalTime = testInfo.duration * 60;
-    const timeSpent = totalTime - timeLeft;
-    
     const results = {
-      testId: testId,
-      testInfo: testInfo,
-      score: score,
+      testInfo,
+      score,
       totalQuestions: questions.length,
-      percentage: (score / questions.length) * 100,
-      userAnswers: userAnswers,
-      questionTimeSpent: questionTimeSpent,
-      questionStatus: questionStatus,
-      questions: questions,
-      timeSpent: timeSpent,
+      userAnswers,
+      questionTimeSpent,
+      questionStatus,
+      questions,
+      timeSpent: (testInfo.duration * 60) - timeLeft,
       submittedAt: new Date().toISOString()
     };
-
-    // Save results to localStorage
-    localStorage.setItem(`test_result_${testId}`, JSON.stringify(results));
-    
-    // Clear exam data from localStorage
-    localStorage.removeItem(`exam_answers_${testId}`);
-    localStorage.removeItem(`exam_times_${testId}`);
-    localStorage.removeItem(`exam_status_${testId}`);
-    localStorage.removeItem("currentCourseTest");
-    
-    // Navigate to results page
-    router.push(`/tests/results?testId=${testId}`);
+    sessionStorage.setItem('testResults', JSON.stringify(results));
+    router.push("/tests/result");
   };
 
   const handleAutoSubmit = () => {
-    const testId = params.id as string || localStorage.getItem("currentCourseTest");
-    if (!testId) return;
-
     const score = calculateScore();
     const results = {
-      testId: testId,
-      testInfo: testInfo,
-      score: score,
+      testInfo,
+      score,
       totalQuestions: questions.length,
-      percentage: (score / questions.length) * 100,
-      userAnswers: userAnswers,
-      questionTimeSpent: questionTimeSpent,
-      questionStatus: questionStatus,
-      questions: questions,
+      userAnswers,
+      questionTimeSpent,
+      questionStatus,
+      questions,
       timeSpent: testInfo.duration * 60,
       submittedAt: new Date().toISOString(),
       autoSubmitted: true
     };
-
-    // Save results to localStorage
-    localStorage.setItem(`test_result_${testId}`, JSON.stringify(results));
-    
-    // Clear exam data from localStorage
-    localStorage.removeItem(`exam_answers_${testId}`);
-    localStorage.removeItem(`exam_times_${testId}`);
-    localStorage.removeItem(`exam_status_${testId}`);
-    localStorage.removeItem("currentCourseTest");
-    
-    // Navigate to results page
-    router.push(`/tests/results?testId=${testId}`);
+    sessionStorage.setItem('testResults', JSON.stringify(results));
+    router.push("/tests/result");
   };
 
-  const handleBack = () => {
-    Modal.confirm({
-      title: 'Leave Exam?',
-      content: 'If you leave now, your progress will be saved and you can resume later.',
-      okText: 'Yes, Leave Exam',
-      cancelText: 'Stay on Exam',
-      onOk: () => {
-        router.push("/my-courses");
-      }
-    });
+  const getQuestionTimingInfo = (questionType: string) => {
+    return QUESTION_TIMINGS[questionType] || QUESTION_TIMINGS.mcq;
+  };
+
+  const getTimeProgressPercent = (questionType: string, timeSpent: number) => {
+    const timing = getQuestionTimingInfo(questionType);
+    return Math.min(100, (timeSpent / timing.recommended) * 100);
+  };
+
+  const getTimeColor = (questionType: string, timeSpent: number) => {
+    const timing = getQuestionTimingInfo(questionType);
+    const progressPercent = (timeSpent / timing.recommended) * 100;
+    
+    if (progressPercent < 50) return '#52c41a'; // Green
+    if (progressPercent < 80) return '#faad14'; // Orange
+    return '#f5222d'; // Red
   };
 
   const getButtonColor = (index: number) => {
@@ -412,7 +358,8 @@ export default function ExamPage() {
   const renderQuestionContent = (question: TestQuestion) => {
     const currentAnswer = userAnswers[currentQuestionIndex];
     const status = questionStatus[currentQuestionIndex];
-    
+    const timeSpent = questionTimeSpent[currentQuestionIndex] || 0;
+
     // Check if this is a multi-select MCQ
     const isMultiSelect = question.type === 'mcq' && 
                          question.answer && 
@@ -610,7 +557,7 @@ export default function ExamPage() {
     );
   };
 
-  if (isLoading) {
+  if (!testInfo || questions.length === 0) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -618,73 +565,29 @@ export default function ExamPage() {
         alignItems: 'center', 
         height: '100vh' 
       }}>
-        Loading Exam...
-      </div>
-    );
-  }
-
-  if (!testInfo || questions.length === 0) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        flexDirection: 'column',
-        gap: '20px'
-      }}>
-        <Title level={3}>No test data found</Title>
-        <Button type="primary" onClick={() => router.push("/my-courses")}>
-          Back to My Courses
-        </Button>
+        Loading...
       </div>
     );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const currentAnswer = userAnswers[currentQuestionIndex];
   const currentStatus = questionStatus[currentQuestionIndex];
   const isAnswered = currentStatus === 'answered';
   const isSkipped = currentStatus === 'skipped';
   const isTimedOut = currentStatus === 'timed-out';
   const timeSpent = questionTimeSpent[currentQuestionIndex] || 0;
+  const questionTiming = getQuestionTimingInfo(currentQuestion.type);
+  
+  // For answered/timed-out questions, show time spent when status changed
+  const displayTimeSpent = isAnswered || isTimedOut ? Math.min(timeSpent, questionTiming.recommended) : timeSpent;
+  const timeProgressPercent = getTimeProgressPercent(currentQuestion.type, displayTimeSpent);
+  const timeColor = getTimeColor(currentQuestion.type, displayTimeSpent);
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
   return (
     <>
-      {/* Header with Back Button */}
-      <div style={{ 
-        background: '#fff', 
-        padding: '10px 20px', 
-        borderBottom: '1px solid #f0f0f0',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Button
-            icon={<ArrowLeftOutlined />}
-            onClick={handleBack}
-            size="small"
-          >
-            Back
-          </Button>
-          <Title level={4} style={{ margin: 0 }}>{testInfo.title}</Title>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{ textAlign: 'right' }}>
-            <Text type="secondary">Time Remaining</Text>
-            <div style={{ 
-              fontSize: '20px', 
-              fontWeight: 'bold',
-              color: timeLeft < 300 ? '#d4380d' : '#389e0d'
-            }}>
-              {formatTime(timeLeft)}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Row style={{ minHeight: "calc(100vh - 70px)", background: "#fafafa" }}>
+      <Row style={{ minHeight: "100vh", background: "#fafafa" }}>
         {/* Left side - Question Panel */}
         <Col
           span={16}
@@ -695,6 +598,9 @@ export default function ExamPage() {
           }}
         >
           <div style={{ marginBottom: 30 }}>
+            <Title level={4} style={{ color: "#666", marginBottom: 5 }}>
+              {testInfo.title}
+            </Title>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
               <Title level={3} style={{ margin: 0 }}>
                 Question {currentQuestionIndex + 1} of {questions.length}
@@ -729,12 +635,12 @@ export default function ExamPage() {
             </Text>
           </div>
 
-          {/* Time Spent on Question */}
+          {/* Question Time Progress */}
           <div style={{ marginBottom: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <Text strong>Time spent on this question:</Text>
-              <Text style={{ fontWeight: 'bold' }}>
-                {formatTime(timeSpent)}
+              <Text strong>Time on this question:</Text>
+              <Text style={{ color: timeColor, fontWeight: 'bold' }}>
+                {formatTime(displayTimeSpent)} / {formatTime(questionTiming.recommended)}
                 {isAnswered && (
                   <span style={{ color: '#52c41a', marginLeft: 8 }}>
                     (Answered)
@@ -747,6 +653,19 @@ export default function ExamPage() {
                 )}
               </Text>
             </div>
+            <Progress 
+              percent={timeProgressPercent} 
+              strokeColor={timeColor}
+              showInfo={false}
+            />
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              Recommended: {questionTiming.min}-{questionTiming.max} seconds
+              {!isAnswered && !isTimedOut && displayTimeSpent >= questionTiming.recommended && !isLastQuestion && (
+                <span style={{ color: '#f5222d', fontWeight: 'bold', marginLeft: 8 }}>
+                  • Auto-moving to next question...
+                </span>
+              )}
+            </Text>
           </div>
 
           {renderQuestionContent(currentQuestion)}
@@ -780,17 +699,17 @@ export default function ExamPage() {
                 </Button>
               ) : (
                 <Button 
-                  type="primary"
-                  onClick={() => setShowSubmitModal(true)}
+                  type="default"
+                  onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
                 >
-                  Review & Submit
+                  Next
                 </Button>
               )}
             </div>
           </div>
         </Col>
 
-        {/* Right side - Controls */}
+        {/* Right side - Timer + Controls */}
         <Col span={8} style={{ padding: "40px 30px" }}>
           <div
             style={{
@@ -858,7 +777,7 @@ export default function ExamPage() {
               style={{ margin: "15px 0" }}
             />
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20, marginLeft: "70px" }}>
               {questions.map((question, index) => {
                 const buttonColor = getButtonColor(index);
                 const textColor = getButtonTextColor(index);
@@ -870,7 +789,11 @@ export default function ExamPage() {
                     type={currentQuestionIndex === index ? "primary" : "default"}
                     shape="circle"
                     size="small"
-                    onClick={() => setCurrentQuestionIndex(index)}
+                    onClick={() => {
+                      if (questionStatus[currentQuestionIndex] !== 'timed-out') {
+                        setCurrentQuestionIndex(index);
+                      }
+                    }}
                     style={{
                       background: buttonColor,
                       borderColor: buttonColor === 'transparent' ? '#d9d9d9' : buttonColor,
@@ -883,6 +806,8 @@ export default function ExamPage() {
                 );
               })}
             </div>
+
+            
 
             <Divider />
 
