@@ -20,6 +20,7 @@ import {
   FilePdfOutlined,
   NotificationOutlined,
   ProfileOutlined,
+  RedoOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
 import cardio from "../../../public/images/cardiology.jpg";
@@ -453,7 +454,57 @@ export default function MyCourses({ dict, lang }: any) {
     return {};
   };
 
+  // Get retake counts from localStorage
+  const getRetakeCounts = () => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quizRetakeCounts');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (error) {
+          return {};
+        }
+      }
+    }
+    return {};
+  };
+
+  // Get current retake count for a test
+  const getRetakeCount = (testId: string) => {
+    const retakeCounts = getRetakeCounts();
+    return retakeCounts[testId] || 0;
+  };
+
+  // Increment retake count
+  const incrementRetakeCount = (testId: string) => {
+    const retakeCounts = getRetakeCounts();
+    retakeCounts[testId] = (retakeCounts[testId] || 0) + 1;
+    localStorage.setItem('quizRetakeCounts', JSON.stringify(retakeCounts));
+    return retakeCounts[testId];
+  };
+
   const handleStartTest = (test: any) => {
+    setActiveTest(test);
+    setQuizData({
+      currentQuestion: 0,
+      answers: {},
+      isSubmitted: false
+    });
+    setShowQuiz(true);
+  };
+
+  const handleRetakeTest = (test: any) => {
+    const retakeCount = getRetakeCount(test.id);
+    
+    if (retakeCount >= 1) {
+      message.warning("You can only retake this test once!");
+      return;
+    }
+    
+    // Increment retake count
+    incrementRetakeCount(test.id);
+    
+    // Start test
     setActiveTest(test);
     setQuizData({
       currentQuestion: 0,
@@ -491,8 +542,9 @@ export default function MyCourses({ dict, lang }: any) {
       percentage: Math.round((correct / questions.length) * 100),
       passed: (correct / questions.length) >= 0.7,
       timestamp: new Date().toISOString(),
-      answers: quizData.answers, // Save user answers
-      testName: activeTest.name
+      answers: quizData.answers,
+      testName: activeTest.name,
+      isRetake: getRetakeCount(activeTest.id) > 0
     };
     
     // Save to localStorage
@@ -504,7 +556,12 @@ export default function MyCourses({ dict, lang }: any) {
     setQuizData(prev => ({ ...prev, isSubmitted: true }));
     
     // Show success message
-    message.success("Quiz submitted successfully! You can view results from View Result button.");
+    const retakeCount = getRetakeCount(activeTest.id);
+    if (retakeCount > 0) {
+      message.success("Retake test submitted successfully!");
+    } else {
+      message.success("Test submitted successfully! You can view results from View Result button.");
+    }
   };
 
   const handleViewResult = (testId: string) => {
@@ -535,7 +592,7 @@ export default function MyCourses({ dict, lang }: any) {
     
     return (
       <Modal
-        title={`Test Result - ${selectedResult.testName || selectedTestId}`}
+        title={`Test Result - ${selectedResult.testName || selectedTestId} ${selectedResult.isRetake ? '(Retake)' : ''}`}
         open={showResultModal}
         onCancel={() => setShowResultModal(false)}
         width={800}
@@ -568,6 +625,7 @@ export default function MyCourses({ dict, lang }: any) {
             </div>
             <Text type="secondary">
               Submitted on: {new Date(selectedResult.timestamp).toLocaleDateString()}
+              {selectedResult.isRetake && " (Retake)"}
             </Text>
           </div>
           
@@ -727,6 +785,7 @@ export default function MyCourses({ dict, lang }: any) {
     const currentQuestion = questions[quizData.currentQuestion];
     const isLastQuestion = quizData.currentQuestion === questions.length - 1;
     const answeredCount = Object.keys(quizData.answers).length;
+    const retakeCount = getRetakeCount(activeTest.id);
 
     if (quizData.isSubmitted) {
       // Quiz Submitted View (Simple - No results shown)
@@ -754,10 +813,10 @@ export default function MyCourses({ dict, lang }: any) {
               ✓
             </div>
             <Title level={3} style={{ color: "#52c41a" }}>
-              Quiz Submitted Successfully!
+              {retakeCount > 0 ? "Retake Test Submitted!" : "Quiz Submitted Successfully!"}
             </Title>
             <Text style={{ fontSize: "16px", display: "block", margin: "20px 0" }}>
-              Your quiz has been submitted successfully.
+              Your {retakeCount > 0 ? "retake test" : "test"} has been submitted successfully.
             </Text>
             <Text type="secondary" style={{ display: "block", marginBottom: "30px" }}>
               You can view your results by clicking on "View Result" button.
@@ -769,6 +828,11 @@ export default function MyCourses({ dict, lang }: any) {
               marginTop: "20px"
             }}>
               <Text>Answered: {answeredCount}/{questions.length} questions</Text>
+              {retakeCount > 0 && (
+                <Text style={{ display: "block", marginTop: "5px" }}>
+                  This was your retake attempt ({retakeCount}/1 allowed)
+                </Text>
+              )}
             </div>
           </div>
         </Modal>
@@ -778,13 +842,27 @@ export default function MyCourses({ dict, lang }: any) {
     // Quiz Questions View
     return (
       <Modal
-        title={`${activeTest.name} (Question ${quizData.currentQuestion + 1}/${questions.length})`}
+        title={`${activeTest.name} ${retakeCount > 0 ? '(Retake)' : ''} (Question ${quizData.currentQuestion + 1}/${questions.length})`}
         open={showQuiz}
         onCancel={() => setShowQuiz(false)}
         footer={null}
         width={800}
         style={{ top: 20 }}
       >
+        {retakeCount > 0 && (
+          <div style={{ 
+            marginBottom: "15px", 
+            padding: "10px",
+            backgroundColor: "#fff7e6",
+            border: "1px solid #ffd591",
+            borderRadius: "6px"
+          }}>
+            <Text strong style={{ color: "#fa8c16" }}>
+              ⚠️ This is your retake attempt ({retakeCount}/1)
+            </Text>
+          </div>
+        )}
+        
         <div>
           {/* Progress Bar */}
           <div style={{ marginBottom: "20px" }}>
@@ -897,7 +975,7 @@ export default function MyCourses({ dict, lang }: any) {
                 onClick={handleSubmitQuiz}
                 disabled={answeredCount < questions.length}
               >
-                Submit Quiz
+                {retakeCount > 0 ? "Submit Retake" : "Submit Quiz"}
               </Button>
             ) : (
               <Button 
@@ -1016,17 +1094,39 @@ export default function MyCourses({ dict, lang }: any) {
                     renderItem={(t: any) => {
                       const results = getTestResults();
                       const result = results[t.id];
+                      const retakeCount = getRetakeCount(t.id);
+                      const canRetake = retakeCount < 1 && result; // Can retake only once
+                      const hasAttempted = !!result; // Has attempted at least once
                       
                       return (
                         <List.Item
                           actions={[
-                            <Button
-                              key="start"
-                              type="primary"
-                              onClick={() => handleStartTest(t)}
-                            >                            
-                              {dict?.buttons?.startTest || "Start Test"}
-                            </Button>,
+                            !hasAttempted ? (
+                              <Button
+                                key="start"
+                                type="primary"
+                                onClick={() => handleStartTest(t)}
+                              >                            
+                                {dict?.buttons?.startTest || "Start Test"}
+                              </Button>
+                            ) : canRetake ? (
+                              <Button
+                                key="retake"
+                                type="default"
+                                icon={<RedoOutlined />}
+                                onClick={() => handleRetakeTest(t)}
+                              >
+                                Retake Test
+                              </Button>
+                            ) : (
+                              <Button
+                                key="disabled"
+                                disabled
+                                type="dashed"
+                              >
+                                Retake Used
+                              </Button>
+                            ),
                             <Button 
                               key="view" 
                               onClick={() => handleViewResult(t.id)}
@@ -1059,6 +1159,7 @@ export default function MyCourses({ dict, lang }: any) {
                                 fontWeight: "bold"
                               }}>
                                 {result.passed ? "✓ Passed" : "✗ Failed"}
+                                {retakeCount > 0 && " (Retaken)"}
                               </Text>
                             </div>
                           )}
