@@ -27,322 +27,9 @@ import cardio from "../../../public/images/cardiology.jpg";
 import basics from "../../../public/images/ECG.jpeg";
 import pharma from "../../../public/images/pharma.jpg";
 import inter from "../../../public/images/inter.png";
+import { getTestById, getQuizQuestionsForMyCourses, TestQuestion } from "../../utils/testData";
 
 const { Title, Text } = Typography;
-
-// 10 questions per quiz
-const quizQuestions = {
-  "t1": [ // Heart Anatomy Quiz - 10 questions
-    {
-      id: "t1_q1",
-      question: "Which chamber receives oxygenated blood from lungs?",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 1
-    },
-    {
-      id: "t1_q2",
-      question: "Mitral valve prevents backflow from:",
-      options: ["Aorta to LV", "PA to RV", "LA to LV", "RA to RV"],
-      correct: 2
-    },
-    {
-      id: "t1_q3",
-      question: "Pulmonary artery carries:",
-      options: ["Oxygenated blood to body", "Deoxygenated blood to lungs", "Oxygenated blood to lungs", "Deoxygenated blood to heart"],
-      correct: 1
-    },
-    {
-      id: "t1_q4",
-      question: "Which is NOT a heart valve?",
-      options: ["Mitral", "Tricuspid", "Pulmonary", "Carotid"],
-      correct: 3
-    },
-    {
-      id: "t1_q5",
-      question: "SA node is located in:",
-      options: ["Left atrium", "Right atrium", "Left ventricle", "Right ventricle"],
-      correct: 1
-    },
-    {
-      id: "t1_q6",
-      question: "Blood supply to heart muscle is via:",
-      options: ["Pulmonary arteries", "Coronary arteries", "Aorta", "Vena cava"],
-      correct: 1
-    },
-    {
-      id: "t1_q7",
-      question: "Which chamber has thickest wall?",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 3
-    },
-    {
-      id: "t1_q8",
-      question: "Tricuspid valve has how many leaflets?",
-      options: ["2", "3", "4", "1"],
-      correct: 1
-    },
-    {
-      id: "t1_q9",
-      question: "Which vessel carries blood from heart to body?",
-      options: ["Pulmonary artery", "Aorta", "Superior vena cava", "Pulmonary vein"],
-      correct: 1
-    },
-    {
-      id: "t1_q10",
-      question: "Pericardium function is:",
-      options: ["Contraction", "Protection", "Electrical conduction", "Blood filtration"],
-      correct: 1
-    }
-  ],
-  "t2": [ // Anatomy MCQ - 10 questions
-    {
-      id: "t2_q1",
-      question: "Heart is located in:",
-      options: ["Abdominal cavity", "Thoracic cavity", "Pelvic cavity", "Cranial cavity"],
-      correct: 1
-    },
-    {
-      id: "t2_q2",
-      question: "Myocardium is responsible for:",
-      options: ["Protection", "Contraction", "Lubrication", "Electrical conduction"],
-      correct: 1
-    },
-    {
-      id: "t2_q3",
-      question: "Endocardium lines:",
-      options: ["Outer surface", "Heart chambers", "Pericardial sac", "Coronary vessels"],
-      correct: 1
-    },
-    {
-      id: "t2_q4",
-      question: "Normal heart weight in adults:",
-      options: ["100-150g", "200-250g", "300-350g", "400-450g"],
-      correct: 2
-    },
-    {
-      id: "t2_q5",
-      question: "Base of heart is formed by:",
-      options: ["Atria", "Ventricles", "Apex", "Valves"],
-      correct: 0
-    },
-    {
-      id: "t2_q6",
-      question: "Apex beat is felt at:",
-      options: ["2nd left ICS", "5th left ICS", "2nd right ICS", "5th right ICS"],
-      correct: 1
-    },
-    {
-      id: "t2_q7",
-      question: "Which is NOT part of cardiac skeleton?",
-      options: ["Fibrous rings", "Tendon of Todaro", "Membranous septum", "Papillary muscles"],
-      correct: 3
-    },
-    {
-      id: "t2_q8",
-      question: "Coronary sinus opens into:",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 0
-    },
-    {
-      id: "t2_q9",
-      question: "Thebesian valves are in:",
-      options: ["Coronary sinus", "IVC", "SVC", "Pulmonary veins"],
-      correct: 0
-    },
-    {
-      id: "t2_q10",
-      question: "Chordae tendineae connect:",
-      options: ["Atria to ventricles", "Valves to papillary muscles", "Ventricles to arteries", "Atria to veins"],
-      correct: 1
-    }
-  ],
-  "t3": [ // ECG Test - 10 questions
-    {
-      id: "t3_q1",
-      question: "QRS complex represents:",
-      options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
-      correct: 1
-    },
-    {
-      id: "t3_q2",
-      question: "Normal PR interval duration:",
-      options: ["0.06-0.10s", "0.12-0.20s", "0.20-0.30s", "0.30-0.40s"],
-      correct: 1
-    },
-    {
-      id: "t3_q3",
-      question: "P wave represents:",
-      options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
-      correct: 0
-    },
-    {
-      id: "t3_q4",
-      question: "QT interval represents:",
-      options: ["Atrial activity", "Ventricular depolarization & repolarization", "Conduction delay", "SA node firing"],
-      correct: 1
-    },
-    {
-      id: "t3_q5",
-      question: "Normal QRS duration:",
-      options: ["<0.12s", "0.12-0.20s", "0.20-0.30s", ">0.30s"],
-      correct: 0
-    },
-    {
-      id: "t3_q6",
-      question: "ST segment elevation indicates:",
-      options: ["Hypokalemia", "Hyperkalemia", "Myocardial ischemia", "Atrial enlargement"],
-      correct: 2
-    },
-    {
-      id: "t3_q7",
-      question: "Lead II shows:",
-      options: ["Right arm to left leg", "Left arm to left leg", "Right arm to left arm", "Chest to left leg"],
-      correct: 0
-    },
-    {
-      id: "t3_q8",
-      question: "Normal heart rate in ECG:",
-      options: ["60-100 bpm", "100-120 bpm", "40-60 bpm", "120-140 bpm"],
-      correct: 0
-    },
-    {
-      id: "t3_q9",
-      question: "U wave is seen in:",
-      options: ["Hypercalcemia", "Hypokalemia", "Hypernatremia", "Hypomagnesemia"],
-      correct: 1
-    },
-    {
-      id: "t3_q10",
-      question: "Which lead is bipolar?",
-      options: ["V1", "V2", "Lead I", "aVR"],
-      correct: 2
-    }
-  ],
-  "t4": [ // Pharma Quiz - 10 questions
-    {
-      id: "t4_q1",
-      question: "First-line hypertension drug:",
-      options: ["Warfarin", "Digoxin", "Lisinopril", "Metformin"],
-      correct: 2
-    },
-    {
-      id: "t4_q2",
-      question: "Beta-blockers mechanism:",
-      options: ["Block calcium channels", "Inhibit ACE", "Block beta-receptors", "Increase potassium"],
-      correct: 2
-    },
-    {
-      id: "t4_q3",
-      question: "Aspirin dose for MI:",
-      options: ["75mg", "150mg", "300mg", "600mg"],
-      correct: 2
-    },
-    {
-      id: "t4_q4",
-      question: "Statins reduce:",
-      options: ["Blood pressure", "Cholesterol", "Blood sugar", "Heart rate"],
-      correct: 1
-    },
-    {
-      id: "t4_q5",
-      question: "Nitroglycerin is for:",
-      options: ["Hypertension", "Angina", "Arrhythmia", "Heart failure"],
-      correct: 1
-    },
-    {
-      id: "t4_q6",
-      question: "Warfarin antidote:",
-      options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
-      correct: 0
-    },
-    {
-      id: "t4_q7",
-      question: "Amiodarone is used for:",
-      options: ["Hypertension", "Arrhythmia", "Angina", "Heart failure"],
-      correct: 1
-    },
-    {
-      id: "t4_q8",
-      question: "Digoxin toxicity symptom:",
-      options: ["Tachycardia", "Bradycardia", "Hypertension", "Hyperglycemia"],
-      correct: 1
-    },
-    {
-      id: "t4_q9",
-      question: "Heparin antidote:",
-      options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
-      correct: 1
-    },
-    {
-      id: "t4_q10",
-      question: "Furosemide is a:",
-      options: ["Beta-blocker", "Diuretic", "ACE inhibitor", "Calcium blocker"],
-      correct: 1
-    }
-  ],
-  "t5": [ // Intervention Quiz - 10 questions
-    {
-      id: "t5_q1",
-      question: "PCI stands for:",
-      options: ["Primary Cardiac Intervention", "Percutaneous Coronary Intervention", "Preventive Cardiac Investigation", "Post-Cardiac Infarction"],
-      correct: 1
-    },
-    {
-      id: "t5_q2",
-      question: "Most common artery in MI:",
-      options: ["Right coronary", "Left anterior descending", "Circumflex", "Posterior descending"],
-      correct: 1
-    },
-    {
-      id: "t5_q3",
-      question: "CABG means:",
-      options: ["Coronary Angiography Bypass Graft", "Coronary Artery Bypass Graft", "Cardiac Artery Bypass Graft", "Coronary Aortic Bypass Graft"],
-      correct: 1
-    },
-    {
-      id: "t5_q4",
-      question: "STEMI treatment window:",
-      options: ["30 minutes", "60 minutes", "90 minutes", "120 minutes"],
-      correct: 2
-    },
-    {
-      id: "t5_q5",
-      question: "Balloon angioplasty was invented by:",
-      options: ["Andreas Gruentzig", "Werner Forssmann", "Christian Barnard", "Michael DeBakey"],
-      correct: 0
-    },
-    {
-      id: "t5_q6",
-      question: "Drug-eluting stents prevent:",
-      options: ["Infection", "Restenosis", "Bleeding", "Arrhythmia"],
-      correct: 1
-    },
-    {
-      id: "t5_q7",
-      question: "IVUS is used for:",
-      options: ["Pressure measurement", "Imaging vessel wall", "Blood flow measurement", "Electrical activity"],
-      correct: 1
-    },
-    {
-      id: "t5_q8",
-      question: "Which is NOT an access site for PCI?",
-      options: ["Femoral artery", "Radial artery", "Brachial artery", "Jugular vein"],
-      correct: 3
-    },
-    {
-      id: "t5_q9",
-      question: "TIMI flow grade 3 means:",
-      options: ["No flow", "Slow flow", "Normal flow", "Complete blockage"],
-      correct: 2
-    },
-    {
-      id: "t5_q10",
-      question: "Contrast-induced nephropathy risk factor:",
-      options: ["Young age", "Normal renal function", "Diabetes", "Low dose contrast"],
-      correct: 2
-    }
-  ]
-};
 
 export default function MyCourses({ dict, lang }: any) {
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -478,9 +165,14 @@ export default function MyCourses({ dict, lang }: any) {
   // Increment retake count
   const incrementRetakeCount = (testId: string) => {
     const retakeCounts = getRetakeCounts();
-    retakeCounts[testId] = (retakeCounts[testId] || 0) + 1;
+    retakeCounts[testId] = (retakeCounts[testId] || 0) + 2;
     localStorage.setItem('quizRetakeCounts', JSON.stringify(retakeCounts));
     return retakeCounts[testId];
+  };
+
+  // Get quiz questions from testData
+  const getQuizQuestions = (testId: string) => {
+    return getQuizQuestionsForMyCourses(testId);
   };
 
   const handleStartTest = (test: any) => {
@@ -527,7 +219,7 @@ export default function MyCourses({ dict, lang }: any) {
   const handleSubmitQuiz = () => {
     if (!activeTest) return;
     
-    const questions = quizQuestions[activeTest.id as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(activeTest.id);
     let correct = 0;
     
     questions.forEach(q => {
@@ -588,7 +280,7 @@ export default function MyCourses({ dict, lang }: any) {
   const renderResultModal = () => {
     if (!showResultModal || !selectedResult) return null;
     
-    const questions = quizQuestions[selectedTestId as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(selectedTestId);
     
     return (
       <Modal
@@ -724,6 +416,13 @@ export default function MyCourses({ dict, lang }: any) {
                         </span>
                       )}
                     </Text>
+                    {q.explanation && (
+                      <div style={{ marginTop: "10px", padding: "8px", backgroundColor: "#e6f7ff", borderRadius: "4px" }}>
+                        <Text type="secondary">
+                          <strong>Explanation:</strong> {q.explanation}
+                        </Text>
+                      </div>
+                    )}
                   </div>
                 </Card>
               );
@@ -761,7 +460,7 @@ export default function MyCourses({ dict, lang }: any) {
   const renderQuizModal = () => {
     if (!activeTest || !showQuiz) return null;
     
-    const questions = quizQuestions[activeTest.id as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(activeTest.id);
     
     if (questions.length === 0) {
       return (
