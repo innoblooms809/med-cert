@@ -223,6 +223,7 @@ export default function MyCourses({ dict, lang }: any) {
     let correct = 0;
     
     questions.forEach(q => {
+       if (!q.id) return;
       if (quizData.answers[q.id] === q.correct) {
         correct++;
       }
@@ -329,7 +330,9 @@ export default function MyCourses({ dict, lang }: any) {
           <div style={{ maxHeight: "500px", overflowY: "auto", paddingRight: "10px" }}>
             {questions.map((q, idx) => {
               // FIX: Check if answers exist and has the question id
-              const userAnswer = selectedResult.answers ? selectedResult.answers[q.id] : undefined;
+              const userAnswer = 
+              q.id && selectedResult.answers
+              ? selectedResult.answers[q.id] : undefined;
               const isCorrect = userAnswer !== undefined && userAnswer === q.correct;
               
               return (
@@ -594,8 +597,10 @@ export default function MyCourses({ dict, lang }: any) {
           {/* Options */}
           <div style={{ marginBottom: "30px" }}>
             <Radio.Group
-              value={quizData.answers[currentQuestion.id]}
-              onChange={(e) => handleAnswerSelect(currentQuestion.id, e.target.value)}
+              value={currentQuestion.id ? quizData.answers[currentQuestion.id] : undefined}
+              onChange={(e) => {
+                if (!currentQuestion.id) return
+                handleAnswerSelect(currentQuestion.id, e.target.value)}}
               style={{ width: "100%" }}
             >
               <Space direction="vertical" style={{ width: "100%" }}>
@@ -606,12 +611,12 @@ export default function MyCourses({ dict, lang }: any) {
                       padding: "15px",
                       margin: "8px 0",
                       border: "1px solid",
-                      borderColor: quizData.answers[currentQuestion.id] === idx ? "#1890ff" : "#d9d9d9",
+                      borderColor: currentQuestion.id && quizData.answers[currentQuestion.id] === idx ? "#1890ff" : "#d9d9d9",
                       borderRadius: "6px",
-                      backgroundColor: quizData.answers[currentQuestion.id] === idx ? "#e6f7ff" : "white",
+                      backgroundColor: currentQuestion.id && quizData.answers[currentQuestion.id] === idx ? "#e6f7ff" : "white",
                       cursor: "pointer"
                     }}
-                    onClick={() => handleAnswerSelect(currentQuestion.id, idx)}
+                    onClick={() => currentQuestion.id && handleAnswerSelect(currentQuestion.id, idx)}
                   >
                     <Radio value={idx} style={{ width: "100%" }}>
                       <span style={{ fontSize: "16px" }}>{option}</span>
@@ -634,6 +639,7 @@ export default function MyCourses({ dict, lang }: any) {
               <Button
                 key={idx}
                 type={quizData.currentQuestion === idx ? "primary" : 
+                      questions[idx].id &&
                       quizData.answers[questions[idx].id] !== undefined ? "default" : "dashed"}
                 shape="circle"
                 size="small"
