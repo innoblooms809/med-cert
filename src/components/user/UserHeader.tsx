@@ -4,6 +4,7 @@ import {
   MenuOutlined,
   BellOutlined,
   SearchOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -13,33 +14,16 @@ import {
   List,
   Space,
   Typography,
-  Menu,
-  Button,
 } from "antd";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import img from "../../../public/images/hero1.jpg"
+import img from "../../../public/images/hero1.jpg";
+
+import { medcertusers, MedCertUsers } from "@/utils/userdata/medcertusers";
 
 const { Search } = Input;
 const { Text } = Typography;
-
-const userMenu = {
-  items: [
-    {
-      key: "profile",
-      label: <Link href="/user/myProfile">Profile</Link>,
-    },
-    // {
-    //   key: "settings",
-    //   label: <Link href="/facility/settings">Settings</Link>,
-    // },
-    {
-      key: "logout",
-      label: <Link href="/auth/login">Logout</Link>,
-    },
-  ],
-};
 
 export default function UserHeader({
   onToggleSidebar,
@@ -47,136 +31,61 @@ export default function UserHeader({
   onToggleSidebar: () => void;
 }) {
   const router = useRouter();
-  const [complianceReports, setComplianceReports] = useState<any[]>([]);
 
-  const [query, setQuery] = React.useState("");
-  const [results, setResults] = React.useState<any[]>([]);
-  
-  // const handleSearch = (value: string) => {
-  //   setQuery(value);
-  //   if (value.trim()) {
-  //     const filtered = searchableItemsOfFacility.filter(item =>
-  //       item.label.toLowerCase().includes(value.toLowerCase())
-  //     );
-  //     setResults(filtered.length ? filtered : [{ label: "No results found", link: null }]);
-  //   } else {
-  //     setResults([]);
-  //   }
-  // };
+  const [query, setQuery] = useState("");
+  const [userResults, setUserResults] = useState<MedCertUsers[]>([]);
 
-  useEffect(() => {
-    const reports = localStorage.getItem("complianceReports");
-    if (reports) {
-      setComplianceReports(JSON.parse(reports));
+  // USER SEARCH LOGIC
+  const handleSearch = (value: string) => {
+    setQuery(value);
+
+    if (!value.trim()) {
+      setUserResults([]);
+      return;
     }
-  }, []);
 
-  // const complianceLabelMap: Record<string, string> = {
-  //   RC: "Regulatory Compliance",
-  //   CPSC: "Clinical & Patient Safety Compliance",
-  //   CDC: "Cybersecurity & Data Compliance",
-  //   FBC: "Fraud & Billing Compliance",
-  //   OWC: "Occupational & Workplace Compliance",
-  //   TDHC: "Telemedicine & Digital Health Compliance",
-  //   PRC: "Pharmaceutical & Research Compliance",
-  // };
+    const filteredUsers = medcertusers.filter(
+      (user) =>
+        user.name.toLowerCase().includes(value.toLowerCase()) ||
+        user.email.toLowerCase().includes(value.toLowerCase()) ||
+        user.role.toLowerCase().includes(value.toLowerCase())
+    );
 
-  const staticComplianceReports = [
-    {
-      key: 1,
-      compliance: "Regulatory Compliance",
-      date: "2025-08-15",
-    },
-    {
-      key: 2,
-      compliance: "Clinical & Patient Safety Compliance",
-      date: "2025-08-16",
-    },
-    {
-      key: 3,
-      compliance: "Cybersecurity & Data Compliance",
-      date: "2025-08-18",
-    },
-    {
-      key: 4,
-      compliance: "Fraud & Billing Compliance",
-      date: "2025-08-18",
-    },
-    {
-      key: 5,
-      compliance: "Occupational & Workplace Compliance",
-      date: "2025-08-18",
-    },
-    {
-      key: 6,
-      compliance: "Telemedicine & Digital Health Complianc",
-      date: "2025-08-18",
-    },
-    {
-      key: 7,
-      compliance: "Pharmaceutical & Research Compliance",
-      date: "2025-08-18",
-    },
-  ];
-  const finalReports = [...staticComplianceReports];
+    setUserResults(filteredUsers);
+  };
 
-  const notificationOverlay = (
+  // Search Result Dropdownbk 
+  const searchResultOverlay = (
     <div
       style={{
-        width: 300,
-        maxHeight: 300,
-        overflowY: "auto",
-        padding: 8,
         backgroundColor: "white",
-        color: "var(--dropdown-text)",
+        paddingLeft: 10,
+        maxHeight: 250,
+        overflowY: "auto",
         borderRadius: 8,
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
       }}
     >
       <List
-        itemLayout="horizontal"
-        dataSource={finalReports.slice(0,3)}
-        renderItem={(item) => (
+        dataSource={userResults}
+        locale={{ emptyText: "No users found" }}
+        renderItem={(user) => (
           <List.Item
-            onClick={() => router.push("/facility/notification")}
-            style={{
-              cursor: "pointer",
-              borderBottom: "1px solid var(--dropdown-divider)",
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              router.push(`/user/profile/${user.userId}`);
+              setQuery("");
+              setUserResults([]);
             }}
           >
             <List.Item.Meta
-              title={
-                <Text style={{ color: "var(--dropdown-text)" }}>
-                  { item.compliance}
-                </Text>
-              }
-              description={
-                <Text
-                  style={{ color: "var(--dropdown-subtext)" }}
-                  type="secondary"
-                >
-                  {item.date}
-                </Text>
-              }
+              avatar={<Avatar icon={<UserOutlined />} />}
+              title={<Text>{user.name}</Text>}
+              description={`${user.email} • ${user.role}`}
             />
           </List.Item>
         )}
       />
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 8,
-          borderTop: "1px solid var(--dropdown-divider)",
-          paddingTop: 8,
-        }}
-      >
-        <Link
-          style={{ color: "var(--dropdown-link)" }}
-          href="/facility/notification"
-        >
-          View all
-        </Link>
-      </div>
     </div>
   );
 
@@ -194,7 +103,7 @@ export default function UserHeader({
         width: "100%",
       }}
     >
-      {/* Sidebar Toggle & Logo */}
+      {/* Sidebar Toggle */}
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <MenuOutlined
           onClick={onToggleSidebar}
@@ -204,51 +113,42 @@ export default function UserHeader({
             cursor: "pointer",
           }}
         />
-        <span
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            letterSpacing: 1,
-            color: "var(--header-text)",
-          }}
-        >
-        
-          {/* Al Zahra Hospital */}
-        </span>
       </div>
 
-      {/* Search Bar */}
-      {/* <Seacrhbar handleSearch={handleSearch} query={query} setQuery={setQuery} results={results} setResults={setResults} /> */}
+      {/* SEARCH (STYLE SAME) */}
+      <Dropdown
+        open={!!query}
+        popupRender={() => searchResultOverlay}
+      >
+        <Search
+          placeholder="Search..."
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+          onSearch={handleSearch}
+          enterButton={<SearchOutlined />}
+          style={{ maxWidth: 400, width: "100%" }}
+        />
+      </Dropdown>
 
       {/* Notifications & User */}
       <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-        <Dropdown
-          popupRender={() => notificationOverlay}
-          placement="bottomRight"
-          trigger={["click"]}
-        >
-          <Badge count={finalReports.slice(0,3).length} offset={[0, 6]}>
-            <BellOutlined
-              style={{
-                fontSize: 30,
-                color: "var(--header-text)",
-                cursor: "pointer",
-              }}
-            />
-          </Badge>
-        </Dropdown>
+        <Badge count={3} offset={[0, 6]}>
+          <BellOutlined
+            style={{
+              fontSize: 30,
+              color: "var(--header-text)",
+              cursor: "pointer",
+            }}
+          />
+        </Badge>
 
-        <Dropdown menu={userMenu} placement="bottomRight">
-          <Space style={{ cursor: "pointer", color: "var(--header-text)" }}>
-            <Image
-              src={img}
-              alt="Doctor"
-              width={100}
-              height={100}
-              className="rounded-full w-10 h-10 object-cover"
-            />
-          </Space>
-        </Dropdown>
+        <Image
+          src={img}
+          alt="Doctor"
+          width={50}
+          height={60}
+          className="rounded-full object-cover"
+        />
       </div>
     </div>
   );
