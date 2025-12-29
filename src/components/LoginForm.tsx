@@ -2,49 +2,91 @@
 
 import { Form, Input, Button, message, Card, Divider } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { medcertusers, MedCertUsers } from "@/utils/userdata/medcertusers";
-import { 
-  UserOutlined, 
-  LockOutlined, 
-  EyeInvisibleOutlined, 
+import { useEffect, useState } from "react";
+import {
+  UserOutlined,
+  LockOutlined,
+  EyeInvisibleOutlined,
   EyeTwoTone,
   HeartOutlined,
   SafetyCertificateOutlined,
-  TeamOutlined
+  TeamOutlined,
+  ReloadOutlined
 } from "@ant-design/icons";
 import Image from "next/image";
-import image from "../../public/images/med-cert-logo.jpg"
+import image from "../../public/images/med-cert-logo.jpg";
 import Link from "next/link";
 
-export default function LoginForm({dict, lang}:any) {
+export default function LoginForm({ dict, lang }: any) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleLogin = (values: { email: string; password: string }) => {
-    setLoading(true);
-    setErrorMsg("");
+  /* ================= CAPTCHA ================= */
+  const [captcha, setCaptcha] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
 
-    const user: MedCertUsers | undefined = medcertusers.find(
-      (u) => u.email === values.email && u.password === values.password
-    );
+  const generateCaptcha = () => {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let text = "";
+    for (let i = 0; i < 5; i++) {
+      text += chars[Math.floor(Math.random() * chars.length)];
+    }
+    setCaptcha(text);
+    setCaptchaInput("");
+  };
 
-    if (!user) {
-      setLoading(false);
-      setErrorMsg("Invalid email or password");
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+  /* =========================================== */
+
+  const handleLogin = async (values: { emailId: string; password: string }) => {
+    if (!captchaInput || captchaInput !== captcha) {
+      message.error("Invalid captcha");
+      generateCaptcha();
       return;
     }
 
-    const simplifiedRole = user.role === "admin" ? "admin" : "user";
-    localStorage.setItem("medCert", JSON.stringify({ ...user, role: simplifiedRole }));
+    setLoading(true);
+    setErrorMsg("");
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("http://192.168.31.12:3020/v1/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setLoading(false);
+        setErrorMsg("Invalid email or password");
+        generateCaptcha();
+        return;
+      }
+
+      const simplifiedRole =
+        data?.user?.role === "admin" ? "admin" : "user";
+
+      localStorage.setItem(
+        "medCert",
+        JSON.stringify({
+          ...data.user,
+          role: simplifiedRole,
+          token: data.token
+        })
+      );
+
       setLoading(false);
       message.success(`${simplifiedRole.toUpperCase()} login successful!`);
-      // router.push(`/${simplifiedRole}/dashboard`);
       router.push(`/${lang}/${simplifiedRole}/dashboard`);
-    }, 500);
+    } catch {
+      setLoading(false);
+      message.error("Server error");
+      generateCaptcha();
+    }
   };
 
   return (
@@ -54,32 +96,8 @@ export default function LoginForm({dict, lang}:any) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '20px',
-      position: 'relative',
-      overflow: 'hidden'
+      padding: '20px'
     }}>
-      {/* Background Animation Elements */}
-      <div style={{
-        position: 'absolute',
-        top: '-10%',
-        left: '-10%',
-        width: '300px',
-        height: '300px',
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.1)',
-        animation: 'float 6s ease-in-out infinite'
-      }}></div>
-      <div style={{
-        position: 'absolute',
-        bottom: '-5%',
-        right: '-5%',
-        width: '200px',
-        height: '200px',
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.05)',
-        animation: 'float 8s ease-in-out infinite'
-      }}></div>
-
       <Card
         style={{
           width: '100%',
@@ -87,246 +105,151 @@ export default function LoginForm({dict, lang}:any) {
           borderRadius: '20px',
           border: 'none',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          overflow: 'hidden'
+          background: 'rgba(255, 255, 255, 0.95)'
         }}
-        styles={{body:{padding: '40px'} }}
+        styles={{ body: { padding: '40px' } }}
       >
-        {/* Header Section */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: '16px'
-          }}>
-            {/* <div style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
-            }}>
-              <SafetyCertificateOutlined style={{ fontSize: '28px', color: 'white' }} />
-            </div> */}
-            <div>
-              {/* <h1 style={{
-                margin: 0,
-                fontSize: '28px',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                MedCert
-              </h1> */}
-              <Link href="/">
-                <Image src={image} alt="med-cert" width={200} height={40}/>
-              </Link>
-              {/* <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>Medical Certification Platform</p> */}
-            </div>
-          </div>
 
-          <h2 style={{
-            margin: '16px 0 8px 0',
-            fontSize: '24px',
-            fontWeight: 600,
-            color: '#1e293b'
-          }}>
-            {dict.login.title}
-          </h2>
-          <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-            {dict.login.subtitle}
-          </p>
+        {/* ===== CENTER LOGO ===== */}
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "24px"
+        }}>
+          <Link href="/">
+            <Image src={image} alt="med-cert" width={200} height={40} />
+          </Link>
         </div>
 
+        <h2 style={{
+          textAlign: "center",
+          marginBottom: "8px",
+          fontSize: "24px",
+          fontWeight: 600
+        }}>
+          {dict.login.title}
+        </h2>
+
+        <p style={{
+          textAlign: "center",
+          color: "#64748b",
+          fontSize: "14px",
+          marginBottom: "32px"
+        }}>
+          {dict.login.subtitle}
+        </p>
+
         <Form layout="vertical" onFinish={handleLogin}>
+          {/* EMAIL */}
           <Form.Item
-            name="email"
-            label={<span style={{ fontWeight: 600, color: '#374151' }}>{dict.login.emailLabel}</span>}
-            rules={[{ required: true, message: dict.login.emailRequired}]}
+            name="emailId"
+            label={dict.login.emailLabel}
+            rules={[{ required: true, message: dict.login.emailRequired }]}
           >
-            <Input 
-              placeholder={dict.login.emailPlaceholder}
-              prefix={<UserOutlined style={{ color: '#9ca3af' }} />}
+            <Input
+              prefix={<UserOutlined />}
               size="large"
-              style={{
-                borderRadius: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                transition: 'all 0.3s ease'
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = '#4f46e5';
-                e.target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e5e7eb';
-                e.target.style.boxShadow = 'none';
-              }}
+              placeholder={dict.login.emailPlaceholder}
             />
           </Form.Item>
 
+          {/* PASSWORD */}
           <Form.Item
             name="password"
-            label={<span style={{ fontWeight: 600, color: '#374151' }}>{dict.login.passwordLabel}</span>}
+            label={dict.login.passwordLabel}
             rules={[{ required: true, message: dict.login.passwordRequired }]}
           >
-            <Input.Password 
-              placeholder={dict.login.passwordPlaceholder}
-              prefix={<LockOutlined style={{ color: '#9ca3af' }} />}
+            <Input.Password
+              prefix={<LockOutlined />}
               size="large"
-              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-              style={{
-                borderRadius: '12px',
-                padding: '12px 16px',
-                border: '1px solid #e5e7eb',
-                transition: 'all 0.3s ease'
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = '#4f46e5';
-                e.target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e5e7eb';
-                e.target.style.boxShadow = 'none';
-              }}
+              placeholder={dict.login.passwordPlaceholder}
+              iconRender={(v) =>
+                v ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
             />
           </Form.Item>
+
+          {/* ===== CAPTCHA (50% / 50%) ===== */}
+          <div style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "16px"
+          }}>
+            <div style={{
+              flex: 1,
+              padding: "12px",
+              background: "#f1f5f9",
+              borderRadius: "8px",
+              fontWeight: 700,
+              letterSpacing: "4px",
+              textAlign: "center",
+              fontSize: "16px"
+            }}>
+              {captcha}
+            </div>
+
+            <Input
+              style={{ flex: 1 }}
+              size="large"
+              placeholder="Captcha"
+              value={captchaInput}
+              onChange={(e) =>
+                setCaptchaInput(e.target.value.toUpperCase())
+              }
+            />
+
+            <Button
+              style={{marginTop: "9px"}}
+              icon={<ReloadOutlined />}
+              onClick={generateCaptcha}
+            />
+          </div>
+          {/* ================================ */}
 
           {errorMsg && (
             <div style={{
-              background: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
+              background: '#fee2e2',
               color: '#dc2626',
-              padding: '12px 16px',
-              borderRadius: '12px',
-              marginBottom: '16px',
-              border: '1px solid #fecaca',
-              fontSize: '14px',
-              fontWeight: 500,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
+              padding: '12px',
+              borderRadius: '8px',
+              marginBottom: '16px'
             }}>
               ⚠️ {dict.login.invalidCredentials}
             </div>
           )}
 
-          <Form.Item style={{ marginBottom: '24px' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              block
-              size="large"
-              style={{
-                height: '48px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-                fontSize: '16px',
-                fontWeight: 600,
-                boxShadow: '0 4px 12px rgba(79, 70, 229, 0.3)',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 20px rgba(79, 70, 229, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.3)';
-              }}
-            >
-              {loading ?dict.login.signingIn:dict.login.signIn}
-            </Button>
-          </Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            block
+            size="large"
+          >
+            {loading ? dict.login.signingIn : dict.login.signIn}
+          </Button>
         </Form>
 
-        <Divider style={{ color: '#9ca3af', fontSize: '12px' }}>{dict.login.or}</Divider>
+        <Divider>{dict.login.or}</Divider>
 
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-            {dict.login.noAccount}{' '}
-            <a 
-              href={`/${lang}/auth/signUp`} 
-              style={{
-                color: '#4f46e5',
-                fontWeight: 600,
-                textDecoration: 'none',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#7c3aed';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#4f46e5';
-              }}
-            >
-              {dict.login.createAccount}
-            </a>
-          </p>
-        </div>
+        <p style={{ textAlign: "center" }}>
+          {dict.login.noAccount}{" "}
+          <Link href={`/${lang}/auth/signUp`}>
+            {dict.login.createAccount}
+          </Link>
+        </p>
 
-        {/* Features Footer */}
-        <div style={{ 
-          marginTop: '32px', 
-          padding: '16px',
-          background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-          borderRadius: '12px',
+        {/* FOOTER ICONS */}
+        <div style={{
+          marginTop: '32px',
           display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center'
+          justifyContent: 'space-around'
         }}>
-          <div style={{ textAlign: 'center' }}>
-            <HeartOutlined style={{ color: '#ef4444', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.medical}</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <TeamOutlined style={{ color: '#10b981', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.certified}</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <SafetyCertificateOutlined style={{ color: '#f59e0b', fontSize: '16px' }} />
-            <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px' }}>{dict.login.secure}</div>
-          </div>
+          <HeartOutlined />
+          <TeamOutlined />
+          <SafetyCertificateOutlined />
         </div>
-      </Card>
 
-      <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        body {
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-        
-        .ant-card {
-          border-radius: 20px !important;
-        }
-        
-        .ant-form-item-label > label {
-          font-weight: 600 !important;
-        }
-        
-        .ant-input:focus, .ant-input-focused {
-          border-color: #4f46e5 !important;
-          box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
-        }
-        
-        .ant-btn-primary:hover {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4) !important;
-        }
-      `}</style>
+      </Card>
     </div>
   );
 }
