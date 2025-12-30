@@ -334,6 +334,7 @@
     "BackToHome": "العودة إلى الصفحة الرئيسية",
     "doctor": "طبيب",
     "nurse": "ممرضة",
+    "technician": "فني",
     "specializations": {
       "cardiologist": "طبيب قلب",
       "dermatologist": "طبيب جلدية",
@@ -345,7 +346,12 @@
       "icuNurse": "ممرضة عناية مركزة",
       "pediatricNurse": "ممرضة أطفال",
       "erNurse": "ممرضة طوارئ",
-      "oncologyNurse": "ممرضة أورام"
+      "oncologyNurse": "ممرضة أورام",
+      "radiologyTechnician": "فني أشعة",
+      "laboratoryTechnician": "فني مختبرات",
+      "pharmacyTechnician": "فني صيدلة",
+      "cardiologyTechnician": "فني قلب",
+      "surgicalTechnician": "فني جراحة"
     },
     
     "requiredFirstName": "الرجاء إدخال الاسم الأول",

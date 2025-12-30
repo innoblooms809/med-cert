@@ -1,24 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Form, Input, Button, Select, Upload, message } from "antd";
+import { useState, useEffect } from "react";
+import { Form, Input, Button, Select, Upload, message, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { Row, Col } from "antd";
 import { useRouter } from "next/navigation";
 
 const { Option } = Select;
 
 export default function SignupPage({ dict, lang }: any) {
   const [form] = Form.useForm();
-  const [role, setRole] = useState<number>(1); // 1 = doctor, 2 = nurse
-  const [loading, setLoading] = useState(false);
-
   const router = useRouter();
 
-  // ✅ Required for App Router
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<number | null>(null);
+  const [roles, setRoles] = useState<any[]>([]);
+
   const [messageApi, contextHolder] = message.useMessage();
 
+  /* ---------- Specializations ---------- */
   const doctorSpecializations = [
     dict.signup.specializations.cardiologist,
     dict.signup.specializations.dermatologist,
@@ -36,6 +36,43 @@ export default function SignupPage({ dict, lang }: any) {
     dict.signup.specializations.oncologyNurse,
   ];
 
+  const technicianSpecializations = [
+    dict.signup.specializations.radiologyTechnician,
+    dict.signup.specializations.laboratoryTechnician,
+    dict.signup.specializations.pharmacyTechnician,
+    dict.signup.specializations.cardiologyTechnician,
+    dict.signup.specializations.surgicalTechnician,
+  ];
+
+  /* ---------- FETCH ROLES FROM API ---------- */
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const res = await fetch(
+          "http://192.168.31.12:3020/v1/profile/getProfiles"
+        );
+        const data = await res.json();
+
+        if (!res.ok || data?.error) {
+          messageApi.error("Failed to load roles");
+          return;
+        }
+
+        setRoles(data.data);
+
+        if (data.data.length > 0) {
+          form.setFieldsValue({ roleId: data.data[0].id });
+          setRole(data.data[0].id);
+        }
+      } catch (err) {
+        messageApi.error("Role API error / CORS issue");
+      }
+    };
+
+    fetchRoles();
+  }, []);
+
+  /* ---------- REGISTER ---------- */
   const handleFinish = async (values: any) => {
     setLoading(true);
 
@@ -66,34 +103,23 @@ export default function SignupPage({ dict, lang }: any) {
         data = await res.json();
       } catch {}
 
-      // ❌ Already registered OR validation error
       if (!res.ok) {
-        if (
-          data?.message?.toLowerCase().includes("already")
-        ) {
-          messageApi.error("User already registered with this email ❌");
+        if (data?.message?.toLowerCase().includes("already")) {
+          messageApi.error("User already registered with this email");
         } else {
-          messageApi.error(
-            data?.message || "Registration failed"
-          );
+          messageApi.error(data?.message || "Registration failed");
         }
         return;
       }
 
-      // ✅ Success
-      messageApi.success(
-        data?.message || "Registration successful 🎉"
-      );
-
+      messageApi.success(data?.message || "Registration successful 🎉");
       form.resetFields();
 
-      // 🔁 Redirect to login after short delay
       setTimeout(() => {
         router.push(`/${lang}/auth/login`);
       }, 1500);
-    } catch (error) {
-      console.error(error);
-      messageApi.error("Server error / CORS issue ❌");
+    } catch (err) {
+      messageApi.error("Server error / CORS issue");
     } finally {
       setLoading(false);
     }
@@ -109,12 +135,7 @@ export default function SignupPage({ dict, lang }: any) {
             {dict.signup.createAccount}
           </h2>
 
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleFinish}
-            initialValues={{ roleId: 1 }}
-          >
+          <Form form={form} layout="vertical" onFinish={handleFinish}>
             <Row gutter={16}>
               <Col xs={24} md={12}>
                 <Form.Item
@@ -140,10 +161,7 @@ export default function SignupPage({ dict, lang }: any) {
             <Form.Item
               label={dict.signup.email}
               name="emailId"
-              rules={[
-                { required: true },
-                { type: "email" },
-              ]}
+              rules={[{ required: true }, { type: "email" }]}
             >
               <Input />
             </Form.Item>
@@ -191,8 +209,11 @@ export default function SignupPage({ dict, lang }: any) {
                   rules={[{ required: true }]}
                 >
                   <Select onChange={(val) => setRole(val)}>
-                    <Option value={1}>{dict.signup.doctor}</Option>
-                    <Option value={2}>{dict.signup.nurse}</Option>
+                    {roles.map((r) => (
+                      <Option key={r.id} value={r.id}>
+                        {r.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
@@ -206,7 +227,9 @@ export default function SignupPage({ dict, lang }: any) {
                   <Select>
                     {(role === 1
                       ? doctorSpecializations
-                      : nurseSpecializations
+                      : role === 2
+                      ? nurseSpecializations
+                      : technicianSpecializations
                     ).map((spec) => (
                       <Option key={spec} value={spec}>
                         {spec}
