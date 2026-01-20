@@ -334,6 +334,7 @@
     "BackToHome":"Back to home",
     "doctor": "Doctor",
     "nurse": "Nurse",
+    "technician": "Technician",
     "specializations": {
       "cardiologist": "Cardiologist",
       "dermatologist": "Dermatologist",
@@ -345,7 +346,12 @@
       "icuNurse": "ICU Nurse",
       "pediatricNurse": "Pediatric Nurse",
       "erNurse": "ER Nurse",
-      "oncologyNurse": "Oncology Nurse"
+      "oncologyNurse": "Oncology Nurse",
+      "radiologyTechnician": "Radiology Technician",
+      "laboratoryTechnician": "Laboratory Technician",
+      "pharmacyTechnician": "Pharmacy Technician",
+      "cardiologyTechnician": "Cardiology Technician",
+      "surgicalTechnician": "Surgical Technician"
     },
     "requiredFirstName": "Please enter your first name",
     "requiredLastName": "Please enter your last name",

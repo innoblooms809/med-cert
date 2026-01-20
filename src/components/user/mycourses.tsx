@@ -20,328 +20,16 @@ import {
   FilePdfOutlined,
   NotificationOutlined,
   ProfileOutlined,
+  RedoOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
 import cardio from "../../../public/images/cardiology.jpg";
 import basics from "../../../public/images/ECG.jpeg";
 import pharma from "../../../public/images/pharma.jpg";
 import inter from "../../../public/images/inter.png";
+import { getTestById, getQuizQuestionsForMyCourses, TestQuestion } from "../../utils/testData";
 
 const { Title, Text } = Typography;
-
-// 10 questions per quiz
-const quizQuestions = {
-  "t1": [ // Heart Anatomy Quiz - 10 questions
-    {
-      id: "t1_q1",
-      question: "Which chamber receives oxygenated blood from lungs?",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 1
-    },
-    {
-      id: "t1_q2",
-      question: "Mitral valve prevents backflow from:",
-      options: ["Aorta to LV", "PA to RV", "LA to LV", "RA to RV"],
-      correct: 2
-    },
-    {
-      id: "t1_q3",
-      question: "Pulmonary artery carries:",
-      options: ["Oxygenated blood to body", "Deoxygenated blood to lungs", "Oxygenated blood to lungs", "Deoxygenated blood to heart"],
-      correct: 1
-    },
-    {
-      id: "t1_q4",
-      question: "Which is NOT a heart valve?",
-      options: ["Mitral", "Tricuspid", "Pulmonary", "Carotid"],
-      correct: 3
-    },
-    {
-      id: "t1_q5",
-      question: "SA node is located in:",
-      options: ["Left atrium", "Right atrium", "Left ventricle", "Right ventricle"],
-      correct: 1
-    },
-    {
-      id: "t1_q6",
-      question: "Blood supply to heart muscle is via:",
-      options: ["Pulmonary arteries", "Coronary arteries", "Aorta", "Vena cava"],
-      correct: 1
-    },
-    {
-      id: "t1_q7",
-      question: "Which chamber has thickest wall?",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 3
-    },
-    {
-      id: "t1_q8",
-      question: "Tricuspid valve has how many leaflets?",
-      options: ["2", "3", "4", "1"],
-      correct: 1
-    },
-    {
-      id: "t1_q9",
-      question: "Which vessel carries blood from heart to body?",
-      options: ["Pulmonary artery", "Aorta", "Superior vena cava", "Pulmonary vein"],
-      correct: 1
-    },
-    {
-      id: "t1_q10",
-      question: "Pericardium function is:",
-      options: ["Contraction", "Protection", "Electrical conduction", "Blood filtration"],
-      correct: 1
-    }
-  ],
-  "t2": [ // Anatomy MCQ - 10 questions
-    {
-      id: "t2_q1",
-      question: "Heart is located in:",
-      options: ["Abdominal cavity", "Thoracic cavity", "Pelvic cavity", "Cranial cavity"],
-      correct: 1
-    },
-    {
-      id: "t2_q2",
-      question: "Myocardium is responsible for:",
-      options: ["Protection", "Contraction", "Lubrication", "Electrical conduction"],
-      correct: 1
-    },
-    {
-      id: "t2_q3",
-      question: "Endocardium lines:",
-      options: ["Outer surface", "Heart chambers", "Pericardial sac", "Coronary vessels"],
-      correct: 1
-    },
-    {
-      id: "t2_q4",
-      question: "Normal heart weight in adults:",
-      options: ["100-150g", "200-250g", "300-350g", "400-450g"],
-      correct: 2
-    },
-    {
-      id: "t2_q5",
-      question: "Base of heart is formed by:",
-      options: ["Atria", "Ventricles", "Apex", "Valves"],
-      correct: 0
-    },
-    {
-      id: "t2_q6",
-      question: "Apex beat is felt at:",
-      options: ["2nd left ICS", "5th left ICS", "2nd right ICS", "5th right ICS"],
-      correct: 1
-    },
-    {
-      id: "t2_q7",
-      question: "Which is NOT part of cardiac skeleton?",
-      options: ["Fibrous rings", "Tendon of Todaro", "Membranous septum", "Papillary muscles"],
-      correct: 3
-    },
-    {
-      id: "t2_q8",
-      question: "Coronary sinus opens into:",
-      options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
-      correct: 0
-    },
-    {
-      id: "t2_q9",
-      question: "Thebesian valves are in:",
-      options: ["Coronary sinus", "IVC", "SVC", "Pulmonary veins"],
-      correct: 0
-    },
-    {
-      id: "t2_q10",
-      question: "Chordae tendineae connect:",
-      options: ["Atria to ventricles", "Valves to papillary muscles", "Ventricles to arteries", "Atria to veins"],
-      correct: 1
-    }
-  ],
-  "t3": [ // ECG Test - 10 questions
-    {
-      id: "t3_q1",
-      question: "QRS complex represents:",
-      options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
-      correct: 1
-    },
-    {
-      id: "t3_q2",
-      question: "Normal PR interval duration:",
-      options: ["0.06-0.10s", "0.12-0.20s", "0.20-0.30s", "0.30-0.40s"],
-      correct: 1
-    },
-    {
-      id: "t3_q3",
-      question: "P wave represents:",
-      options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
-      correct: 0
-    },
-    {
-      id: "t3_q4",
-      question: "QT interval represents:",
-      options: ["Atrial activity", "Ventricular depolarization & repolarization", "Conduction delay", "SA node firing"],
-      correct: 1
-    },
-    {
-      id: "t3_q5",
-      question: "Normal QRS duration:",
-      options: ["<0.12s", "0.12-0.20s", "0.20-0.30s", ">0.30s"],
-      correct: 0
-    },
-    {
-      id: "t3_q6",
-      question: "ST segment elevation indicates:",
-      options: ["Hypokalemia", "Hyperkalemia", "Myocardial ischemia", "Atrial enlargement"],
-      correct: 2
-    },
-    {
-      id: "t3_q7",
-      question: "Lead II shows:",
-      options: ["Right arm to left leg", "Left arm to left leg", "Right arm to left arm", "Chest to left leg"],
-      correct: 0
-    },
-    {
-      id: "t3_q8",
-      question: "Normal heart rate in ECG:",
-      options: ["60-100 bpm", "100-120 bpm", "40-60 bpm", "120-140 bpm"],
-      correct: 0
-    },
-    {
-      id: "t3_q9",
-      question: "U wave is seen in:",
-      options: ["Hypercalcemia", "Hypokalemia", "Hypernatremia", "Hypomagnesemia"],
-      correct: 1
-    },
-    {
-      id: "t3_q10",
-      question: "Which lead is bipolar?",
-      options: ["V1", "V2", "Lead I", "aVR"],
-      correct: 2
-    }
-  ],
-  "t4": [ // Pharma Quiz - 10 questions
-    {
-      id: "t4_q1",
-      question: "First-line hypertension drug:",
-      options: ["Warfarin", "Digoxin", "Lisinopril", "Metformin"],
-      correct: 2
-    },
-    {
-      id: "t4_q2",
-      question: "Beta-blockers mechanism:",
-      options: ["Block calcium channels", "Inhibit ACE", "Block beta-receptors", "Increase potassium"],
-      correct: 2
-    },
-    {
-      id: "t4_q3",
-      question: "Aspirin dose for MI:",
-      options: ["75mg", "150mg", "300mg", "600mg"],
-      correct: 2
-    },
-    {
-      id: "t4_q4",
-      question: "Statins reduce:",
-      options: ["Blood pressure", "Cholesterol", "Blood sugar", "Heart rate"],
-      correct: 1
-    },
-    {
-      id: "t4_q5",
-      question: "Nitroglycerin is for:",
-      options: ["Hypertension", "Angina", "Arrhythmia", "Heart failure"],
-      correct: 1
-    },
-    {
-      id: "t4_q6",
-      question: "Warfarin antidote:",
-      options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
-      correct: 0
-    },
-    {
-      id: "t4_q7",
-      question: "Amiodarone is used for:",
-      options: ["Hypertension", "Arrhythmia", "Angina", "Heart failure"],
-      correct: 1
-    },
-    {
-      id: "t4_q8",
-      question: "Digoxin toxicity symptom:",
-      options: ["Tachycardia", "Bradycardia", "Hypertension", "Hyperglycemia"],
-      correct: 1
-    },
-    {
-      id: "t4_q9",
-      question: "Heparin antidote:",
-      options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
-      correct: 1
-    },
-    {
-      id: "t4_q10",
-      question: "Furosemide is a:",
-      options: ["Beta-blocker", "Diuretic", "ACE inhibitor", "Calcium blocker"],
-      correct: 1
-    }
-  ],
-  "t5": [ // Intervention Quiz - 10 questions
-    {
-      id: "t5_q1",
-      question: "PCI stands for:",
-      options: ["Primary Cardiac Intervention", "Percutaneous Coronary Intervention", "Preventive Cardiac Investigation", "Post-Cardiac Infarction"],
-      correct: 1
-    },
-    {
-      id: "t5_q2",
-      question: "Most common artery in MI:",
-      options: ["Right coronary", "Left anterior descending", "Circumflex", "Posterior descending"],
-      correct: 1
-    },
-    {
-      id: "t5_q3",
-      question: "CABG means:",
-      options: ["Coronary Angiography Bypass Graft", "Coronary Artery Bypass Graft", "Cardiac Artery Bypass Graft", "Coronary Aortic Bypass Graft"],
-      correct: 1
-    },
-    {
-      id: "t5_q4",
-      question: "STEMI treatment window:",
-      options: ["30 minutes", "60 minutes", "90 minutes", "120 minutes"],
-      correct: 2
-    },
-    {
-      id: "t5_q5",
-      question: "Balloon angioplasty was invented by:",
-      options: ["Andreas Gruentzig", "Werner Forssmann", "Christian Barnard", "Michael DeBakey"],
-      correct: 0
-    },
-    {
-      id: "t5_q6",
-      question: "Drug-eluting stents prevent:",
-      options: ["Infection", "Restenosis", "Bleeding", "Arrhythmia"],
-      correct: 1
-    },
-    {
-      id: "t5_q7",
-      question: "IVUS is used for:",
-      options: ["Pressure measurement", "Imaging vessel wall", "Blood flow measurement", "Electrical activity"],
-      correct: 1
-    },
-    {
-      id: "t5_q8",
-      question: "Which is NOT an access site for PCI?",
-      options: ["Femoral artery", "Radial artery", "Brachial artery", "Jugular vein"],
-      correct: 3
-    },
-    {
-      id: "t5_q9",
-      question: "TIMI flow grade 3 means:",
-      options: ["No flow", "Slow flow", "Normal flow", "Complete blockage"],
-      correct: 2
-    },
-    {
-      id: "t5_q10",
-      question: "Contrast-induced nephropathy risk factor:",
-      options: ["Young age", "Normal renal function", "Diabetes", "Low dose contrast"],
-      correct: 2
-    }
-  ]
-};
 
 export default function MyCourses({ dict, lang }: any) {
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -453,7 +141,62 @@ export default function MyCourses({ dict, lang }: any) {
     return {};
   };
 
+  // Get retake counts from localStorage
+  const getRetakeCounts = () => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quizRetakeCounts');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (error) {
+          return {};
+        }
+      }
+    }
+    return {};
+  };
+
+  // Get current retake count for a test
+  const getRetakeCount = (testId: string) => {
+    const retakeCounts = getRetakeCounts();
+    return retakeCounts[testId] || 0;
+  };
+
+  // Increment retake count
+  const incrementRetakeCount = (testId: string) => {
+    const retakeCounts = getRetakeCounts();
+    retakeCounts[testId] = (retakeCounts[testId] || 0) + 2;
+    localStorage.setItem('quizRetakeCounts', JSON.stringify(retakeCounts));
+    return retakeCounts[testId];
+  };
+
+  // Get quiz questions from testData
+  const getQuizQuestions = (testId: string) => {
+    return getQuizQuestionsForMyCourses(testId);
+  };
+
   const handleStartTest = (test: any) => {
+    setActiveTest(test);
+    setQuizData({
+      currentQuestion: 0,
+      answers: {},
+      isSubmitted: false
+    });
+    setShowQuiz(true);
+  };
+
+  const handleRetakeTest = (test: any) => {
+    const retakeCount = getRetakeCount(test.id);
+    
+    if (retakeCount >= 1) {
+      message.warning("You can only retake this test once!");
+      return;
+    }
+    
+    // Increment retake count
+    incrementRetakeCount(test.id);
+    
+    // Start test
     setActiveTest(test);
     setQuizData({
       currentQuestion: 0,
@@ -476,10 +219,11 @@ export default function MyCourses({ dict, lang }: any) {
   const handleSubmitQuiz = () => {
     if (!activeTest) return;
     
-    const questions = quizQuestions[activeTest.id as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(activeTest.id);
     let correct = 0;
     
     questions.forEach(q => {
+       if (!q.id) return;
       if (quizData.answers[q.id] === q.correct) {
         correct++;
       }
@@ -491,8 +235,9 @@ export default function MyCourses({ dict, lang }: any) {
       percentage: Math.round((correct / questions.length) * 100),
       passed: (correct / questions.length) >= 0.7,
       timestamp: new Date().toISOString(),
-      answers: quizData.answers, // Save user answers
-      testName: activeTest.name
+      answers: quizData.answers,
+      testName: activeTest.name,
+      isRetake: getRetakeCount(activeTest.id) > 0
     };
     
     // Save to localStorage
@@ -504,7 +249,12 @@ export default function MyCourses({ dict, lang }: any) {
     setQuizData(prev => ({ ...prev, isSubmitted: true }));
     
     // Show success message
-    message.success("Quiz submitted successfully! You can view results from View Result button.");
+    const retakeCount = getRetakeCount(activeTest.id);
+    if (retakeCount > 0) {
+      message.success("Retake test submitted successfully!");
+    } else {
+      message.success("Test submitted successfully! You can view results from View Result button.");
+    }
   };
 
   const handleViewResult = (testId: string) => {
@@ -531,11 +281,11 @@ export default function MyCourses({ dict, lang }: any) {
   const renderResultModal = () => {
     if (!showResultModal || !selectedResult) return null;
     
-    const questions = quizQuestions[selectedTestId as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(selectedTestId);
     
     return (
       <Modal
-        title={`Test Result - ${selectedResult.testName || selectedTestId}`}
+        title={`Test Result - ${selectedResult.testName || selectedTestId} ${selectedResult.isRetake ? '(Retake)' : ''}`}
         open={showResultModal}
         onCancel={() => setShowResultModal(false)}
         width={800}
@@ -568,6 +318,7 @@ export default function MyCourses({ dict, lang }: any) {
             </div>
             <Text type="secondary">
               Submitted on: {new Date(selectedResult.timestamp).toLocaleDateString()}
+              {selectedResult.isRetake && " (Retake)"}
             </Text>
           </div>
           
@@ -579,7 +330,9 @@ export default function MyCourses({ dict, lang }: any) {
           <div style={{ maxHeight: "500px", overflowY: "auto", paddingRight: "10px" }}>
             {questions.map((q, idx) => {
               // FIX: Check if answers exist and has the question id
-              const userAnswer = selectedResult.answers ? selectedResult.answers[q.id] : undefined;
+              const userAnswer = 
+              q.id && selectedResult.answers
+              ? selectedResult.answers[q.id] : undefined;
               const isCorrect = userAnswer !== undefined && userAnswer === q.correct;
               
               return (
@@ -666,6 +419,13 @@ export default function MyCourses({ dict, lang }: any) {
                         </span>
                       )}
                     </Text>
+                    {q.explanation && (
+                      <div style={{ marginTop: "10px", padding: "8px", backgroundColor: "#e6f7ff", borderRadius: "4px" }}>
+                        <Text type="secondary">
+                          <strong>Explanation:</strong> {q.explanation}
+                        </Text>
+                      </div>
+                    )}
                   </div>
                 </Card>
               );
@@ -703,7 +463,7 @@ export default function MyCourses({ dict, lang }: any) {
   const renderQuizModal = () => {
     if (!activeTest || !showQuiz) return null;
     
-    const questions = quizQuestions[activeTest.id as keyof typeof quizQuestions] || [];
+    const questions = getQuizQuestions(activeTest.id);
     
     if (questions.length === 0) {
       return (
@@ -727,6 +487,7 @@ export default function MyCourses({ dict, lang }: any) {
     const currentQuestion = questions[quizData.currentQuestion];
     const isLastQuestion = quizData.currentQuestion === questions.length - 1;
     const answeredCount = Object.keys(quizData.answers).length;
+    const retakeCount = getRetakeCount(activeTest.id);
 
     if (quizData.isSubmitted) {
       // Quiz Submitted View (Simple - No results shown)
@@ -754,10 +515,10 @@ export default function MyCourses({ dict, lang }: any) {
               ✓
             </div>
             <Title level={3} style={{ color: "#52c41a" }}>
-              Quiz Submitted Successfully!
+              {retakeCount > 0 ? "Retake Test Submitted!" : "Quiz Submitted Successfully!"}
             </Title>
             <Text style={{ fontSize: "16px", display: "block", margin: "20px 0" }}>
-              Your quiz has been submitted successfully.
+              Your {retakeCount > 0 ? "retake test" : "test"} has been submitted successfully.
             </Text>
             <Text type="secondary" style={{ display: "block", marginBottom: "30px" }}>
               You can view your results by clicking on "View Result" button.
@@ -769,6 +530,11 @@ export default function MyCourses({ dict, lang }: any) {
               marginTop: "20px"
             }}>
               <Text>Answered: {answeredCount}/{questions.length} questions</Text>
+              {retakeCount > 0 && (
+                <Text style={{ display: "block", marginTop: "5px" }}>
+                  This was your retake attempt ({retakeCount}/1 allowed)
+                </Text>
+              )}
             </div>
           </div>
         </Modal>
@@ -778,13 +544,27 @@ export default function MyCourses({ dict, lang }: any) {
     // Quiz Questions View
     return (
       <Modal
-        title={`${activeTest.name} (Question ${quizData.currentQuestion + 1}/${questions.length})`}
+        title={`${activeTest.name} ${retakeCount > 0 ? '(Retake)' : ''} (Question ${quizData.currentQuestion + 1}/${questions.length})`}
         open={showQuiz}
         onCancel={() => setShowQuiz(false)}
         footer={null}
         width={800}
         style={{ top: 20 }}
       >
+        {retakeCount > 0 && (
+          <div style={{ 
+            marginBottom: "15px", 
+            padding: "10px",
+            backgroundColor: "#fff7e6",
+            border: "1px solid #ffd591",
+            borderRadius: "6px"
+          }}>
+            <Text strong style={{ color: "#fa8c16" }}>
+              ⚠️ This is your retake attempt ({retakeCount}/1)
+            </Text>
+          </div>
+        )}
+        
         <div>
           {/* Progress Bar */}
           <div style={{ marginBottom: "20px" }}>
@@ -817,8 +597,10 @@ export default function MyCourses({ dict, lang }: any) {
           {/* Options */}
           <div style={{ marginBottom: "30px" }}>
             <Radio.Group
-              value={quizData.answers[currentQuestion.id]}
-              onChange={(e) => handleAnswerSelect(currentQuestion.id, e.target.value)}
+              value={currentQuestion.id ? quizData.answers[currentQuestion.id] : undefined}
+              onChange={(e) => {
+                if (!currentQuestion.id) return
+                handleAnswerSelect(currentQuestion.id, e.target.value)}}
               style={{ width: "100%" }}
             >
               <Space direction="vertical" style={{ width: "100%" }}>
@@ -829,12 +611,12 @@ export default function MyCourses({ dict, lang }: any) {
                       padding: "15px",
                       margin: "8px 0",
                       border: "1px solid",
-                      borderColor: quizData.answers[currentQuestion.id] === idx ? "#1890ff" : "#d9d9d9",
+                      borderColor: currentQuestion.id && quizData.answers[currentQuestion.id] === idx ? "#1890ff" : "#d9d9d9",
                       borderRadius: "6px",
-                      backgroundColor: quizData.answers[currentQuestion.id] === idx ? "#e6f7ff" : "white",
+                      backgroundColor: currentQuestion.id && quizData.answers[currentQuestion.id] === idx ? "#e6f7ff" : "white",
                       cursor: "pointer"
                     }}
-                    onClick={() => handleAnswerSelect(currentQuestion.id, idx)}
+                    onClick={() => currentQuestion.id && handleAnswerSelect(currentQuestion.id, idx)}
                   >
                     <Radio value={idx} style={{ width: "100%" }}>
                       <span style={{ fontSize: "16px" }}>{option}</span>
@@ -857,6 +639,7 @@ export default function MyCourses({ dict, lang }: any) {
               <Button
                 key={idx}
                 type={quizData.currentQuestion === idx ? "primary" : 
+                      questions[idx].id &&
                       quizData.answers[questions[idx].id] !== undefined ? "default" : "dashed"}
                 shape="circle"
                 size="small"
@@ -897,7 +680,7 @@ export default function MyCourses({ dict, lang }: any) {
                 onClick={handleSubmitQuiz}
                 disabled={answeredCount < questions.length}
               >
-                Submit Quiz
+                {retakeCount > 0 ? "Submit Retake" : "Submit Quiz"}
               </Button>
             ) : (
               <Button 
@@ -1016,17 +799,39 @@ export default function MyCourses({ dict, lang }: any) {
                     renderItem={(t: any) => {
                       const results = getTestResults();
                       const result = results[t.id];
+                      const retakeCount = getRetakeCount(t.id);
+                      const canRetake = retakeCount < 1 && result; // Can retake only once
+                      const hasAttempted = !!result; // Has attempted at least once
                       
                       return (
                         <List.Item
                           actions={[
-                            <Button
-                              key="start"
-                              type="primary"
-                              onClick={() => handleStartTest(t)}
-                            >                            
-                              {dict?.buttons?.startTest || "Start Test"}
-                            </Button>,
+                            !hasAttempted ? (
+                              <Button
+                                key="start"
+                                type="primary"
+                                onClick={() => handleStartTest(t)}
+                              >                            
+                                {dict?.buttons?.startTest || "Start Test"}
+                              </Button>
+                            ) : canRetake ? (
+                              <Button
+                                key="retake"
+                                type="default"
+                                icon={<RedoOutlined />}
+                                onClick={() => handleRetakeTest(t)}
+                              >
+                                Retake Test
+                              </Button>
+                            ) : (
+                              <Button
+                                key="disabled"
+                                disabled
+                                type="dashed"
+                              >
+                                Retake Used
+                              </Button>
+                            ),
                             <Button 
                               key="view" 
                               onClick={() => handleViewResult(t.id)}
@@ -1059,6 +864,7 @@ export default function MyCourses({ dict, lang }: any) {
                                 fontWeight: "bold"
                               }}>
                                 {result.passed ? "✓ Passed" : "✗ Failed"}
+                                {retakeCount > 0 && " (Retaken)"}
                               </Text>
                             </div>
                           )}

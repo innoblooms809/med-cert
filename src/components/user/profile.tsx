@@ -320,7 +320,7 @@ export default function UserProfile({ dict, lang }: any) {
           </Card>
 
           {/* Medical License Card */}
-          <Card
+          {/* <Card
             title={
               <span className="flex items-center text-lg font-semibold">
                 <SafetyCertificateOutlined className="text-green-500 mr-2" />
@@ -359,7 +359,7 @@ export default function UserProfile({ dict, lang }: any) {
                 </Button>
               </div>
             )}
-          </Card>
+          </Card> */}
         </div>
 
         {/* Right Column */}
@@ -422,8 +422,8 @@ export default function UserProfile({ dict, lang }: any) {
                   children: (
                     <div className="py-4">
                       {!editing ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="space-y-3">
                             <div>
                               <label className="block text-gray-600 text-sm mb-1">{dict?.form?.fullName || "Full Name"}</label>
                               <p className="text-sm">{dict?.profile?.doctorTitle || "Dr."} {user.firstName} {user.lastName}</p>
@@ -437,7 +437,7 @@ export default function UserProfile({ dict, lang }: any) {
                               <p className="text-sm">{user.hospital}</p>
                             </div>
                           </div>
-                          <div className="space-y-6">
+                          <div className="space-y-3">
                             <div>
                               <label className="block text-gray-600 text-sm mb-1">{dict?.form?.email || "Email"}</label>
                               <div className="flex items-center">

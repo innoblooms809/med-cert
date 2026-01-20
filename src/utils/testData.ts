@@ -1,10 +1,12 @@
-// Test data structure based on your JSON
+// /utils/testData.ts
 export interface TestQuestion {
+  id?: string; // Add ID for MyCourses
   type: 'coding' | 'mcq' | 'theory' | 'output' | 'scenario';
   difficulty: 'easy' | 'medium' | 'hard';
   question: string;
   options?: string[];
   answer?: string;
+  correct?: number; // For MyCourses MCQ questions
   explanation?: string;
   inputOutput?: string;
   solutionApproach?: string;
@@ -27,9 +29,518 @@ export interface Test {
   questions: TestQuestion[];
 }
 
+// Cardiac Medicine Tests for MyCourses
+export const cardiacTests: Test[] = [
+  {
+    id: "t1",
+    title: "Heart Anatomy Quiz",
+    desc: "Comprehensive heart anatomy assessment",
+    domain: "Cardiology",
+    img: "/images/cardiology.jpg",
+    totalQuestions: 10,
+    duration: 20,
+    questions: [
+      {
+        id: "t1_q1",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Which chamber receives oxygenated blood from lungs?",
+        options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
+        correct: 1,
+        explanation: "The left atrium receives oxygenated blood from the lungs via the pulmonary veins."
+      },
+      {
+        id: "t1_q2",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Mitral valve prevents backflow from:",
+        options: ["Aorta to LV", "PA to RV", "LA to LV", "RA to RV"],
+        correct: 2,
+        explanation: "The mitral valve prevents backflow of blood from the left ventricle to the left atrium during ventricular contraction."
+      },
+      {
+        id: "t1_q3",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Pulmonary artery carries:",
+        options: ["Oxygenated blood to body", "Deoxygenated blood to lungs", "Oxygenated blood to lungs", "Deoxygenated blood to heart"],
+        correct: 1,
+        explanation: "The pulmonary artery carries deoxygenated blood from the right ventricle to the lungs for oxygenation."
+      },
+      {
+        id: "t1_q4",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Which is NOT a heart valve?",
+        options: ["Mitral", "Tricuspid", "Pulmonary", "Carotid"],
+        correct: 3,
+        explanation: "Carotid is an artery, not a heart valve. The four heart valves are: mitral, tricuspid, pulmonary, and aortic."
+      },
+      {
+        id: "t1_q5",
+        type: "mcq",
+        difficulty: "medium",
+        question: "SA node is located in:",
+        options: ["Left atrium", "Right atrium", "Left ventricle", "Right ventricle"],
+        correct: 1,
+        explanation: "The sinoatrial (SA) node is located in the right atrium near the opening of the superior vena cava."
+      },
+      {
+        id: "t1_q6",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Blood supply to heart muscle is via:",
+        options: ["Pulmonary arteries", "Coronary arteries", "Aorta", "Vena cava"],
+        correct: 1,
+        explanation: "The coronary arteries supply oxygenated blood to the heart muscle itself."
+      },
+      {
+        id: "t1_q7",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Which chamber has thickest wall?",
+        options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
+        correct: 3,
+        explanation: "The left ventricle has the thickest wall because it pumps blood to the entire body against systemic resistance."
+      },
+      {
+        id: "t1_q8",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Tricuspid valve has how many leaflets?",
+        options: ["2", "3", "4", "1"],
+        correct: 1,
+        explanation: "The tricuspid valve has three leaflets, as suggested by its name 'tri' meaning three."
+      },
+      {
+        id: "t1_q9",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Which vessel carries blood from heart to body?",
+        options: ["Pulmonary artery", "Aorta", "Superior vena cava", "Pulmonary vein"],
+        correct: 1,
+        explanation: "The aorta is the main artery that carries oxygenated blood from the left ventricle to the body."
+      },
+      {
+        id: "t1_q10",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Pericardium function is:",
+        options: ["Contraction", "Protection", "Electrical conduction", "Blood filtration"],
+        correct: 1,
+        explanation: "The pericardium is a protective sac that surrounds the heart, providing protection and preventing overfilling."
+      }
+    ]
+  },
+  {
+    id: "t2",
+    title: "Anatomy MCQ",
+    desc: "Detailed cardiac anatomy multiple choice questions",
+    domain: "Cardiology",
+    img: "/images/cardiology.jpg",
+    totalQuestions: 10,
+    duration: 20,
+    questions: [
+      {
+        id: "t2_q1",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Heart is located in:",
+        options: ["Abdominal cavity", "Thoracic cavity", "Pelvic cavity", "Cranial cavity"],
+        correct: 1,
+        explanation: "The heart is located in the thoracic cavity, specifically in the mediastinum."
+      },
+      {
+        id: "t2_q2",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Myocardium is responsible for:",
+        options: ["Protection", "Contraction", "Lubrication", "Electrical conduction"],
+        correct: 1,
+        explanation: "The myocardium is the muscular middle layer responsible for the heart's pumping action."
+      },
+      {
+        id: "t2_q3",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Endocardium lines:",
+        options: ["Outer surface", "Heart chambers", "Pericardial sac", "Coronary vessels"],
+        correct: 1,
+        explanation: "The endocardium is the innermost layer that lines the heart chambers and valves."
+      },
+      {
+        id: "t2_q4",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Normal heart weight in adults:",
+        options: ["100-150g", "200-250g", "300-350g", "400-450g"],
+        correct: 2,
+        explanation: "The average adult heart weighs 200-250g in females and 250-300g in males."
+      },
+      {
+        id: "t2_q5",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Base of heart is formed by:",
+        options: ["Atria", "Ventricles", "Apex", "Valves"],
+        correct: 0,
+        explanation: "The base of the heart is formed primarily by the left atrium, with parts of the right atrium."
+      },
+      {
+        id: "t2_q6",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Apex beat is felt at:",
+        options: ["2nd left ICS", "5th left ICS", "2nd right ICS", "5th right ICS"],
+        correct: 1,
+        explanation: "The apex beat is normally palpable in the 5th left intercostal space, midclavicular line."
+      },
+      {
+        id: "t2_q7",
+        type: "mcq",
+        difficulty: "hard",
+        question: "Which is NOT part of cardiac skeleton?",
+        options: ["Fibrous rings", "Tendon of Todaro", "Membranous septum", "Papillary muscles"],
+        correct: 3,
+        explanation: "Papillary muscles are muscular structures, not part of the fibrous cardiac skeleton."
+      },
+      {
+        id: "t2_q8",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Coronary sinus opens into:",
+        options: ["Right atrium", "Left atrium", "Right ventricle", "Left ventricle"],
+        correct: 0,
+        explanation: "The coronary sinus, which drains most cardiac veins, opens into the right atrium."
+      },
+      {
+        id: "t2_q9",
+        type: "mcq",
+        difficulty: "hard",
+        question: "Thebesian valves are in:",
+        options: ["Coronary sinus", "IVC", "SVC", "Pulmonary veins"],
+        correct: 0,
+        explanation: "The Thebesian valve guards the orifice of the coronary sinus in the right atrium."
+      },
+      {
+        id: "t2_q10",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Chordae tendineae connect:",
+        options: ["Atria to ventricles", "Valves to papillary muscles", "Ventricles to arteries", "Atria to veins"],
+        correct: 1,
+        explanation: "Chordae tendineae are tendinous cords that connect the atrioventricular valves to the papillary muscles."
+      }
+    ]
+  },
+  {
+    id: "t3",
+    title: "ECG Pattern Test",
+    desc: "Electrocardiogram interpretation and patterns",
+    domain: "Cardiology",
+    img: "/images/ECG.jpeg",
+    totalQuestions: 10,
+    duration: 20,
+    questions: [
+      {
+        id: "t3_q1",
+        type: "mcq",
+        difficulty: "medium",
+        question: "QRS complex represents:",
+        options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
+        correct: 1,
+        explanation: "The QRS complex represents ventricular depolarization (contraction)."
+      },
+      {
+        id: "t3_q2",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Normal PR interval duration:",
+        options: ["0.06-0.10s", "0.12-0.20s", "0.20-0.30s", "0.30-0.40s"],
+        correct: 1,
+        explanation: "The normal PR interval is 0.12-0.20 seconds (3-5 small boxes on ECG paper)."
+      },
+      {
+        id: "t3_q3",
+        type: "mcq",
+        difficulty: "easy",
+        question: "P wave represents:",
+        options: ["Atrial depolarization", "Ventricular depolarization", "Atrial repolarization", "Ventricular repolarization"],
+        correct: 0,
+        explanation: "The P wave represents atrial depolarization (contraction)."
+      },
+      {
+        id: "t3_q4",
+        type: "mcq",
+        difficulty: "medium",
+        question: "QT interval represents:",
+        options: ["Atrial activity", "Ventricular depolarization & repolarization", "Conduction delay", "SA node firing"],
+        correct: 1,
+        explanation: "The QT interval represents the total time for ventricular depolarization and repolarization."
+      },
+      {
+        id: "t3_q5",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Normal QRS duration:",
+        options: ["<0.12s", "0.12-0.20s", "0.20-0.30s", ">0.30s"],
+        correct: 0,
+        explanation: "Normal QRS duration is less than 0.12 seconds (3 small boxes)."
+      },
+      {
+        id: "t3_q6",
+        type: "mcq",
+        difficulty: "medium",
+        question: "ST segment elevation indicates:",
+        options: ["Hypokalemia", "Hyperkalemia", "Myocardial ischemia", "Atrial enlargement"],
+        correct: 2,
+        explanation: "ST segment elevation is a hallmark of acute myocardial infarction/ischemia."
+      },
+      {
+        id: "t3_q7",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Lead II shows:",
+        options: ["Right arm to left leg", "Left arm to left leg", "Right arm to left arm", "Chest to left leg"],
+        correct: 0,
+        explanation: "Lead II records the electrical difference between the right arm (negative) and left leg (positive)."
+      },
+      {
+        id: "t3_q8",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Normal heart rate in ECG:",
+        options: ["60-100 bpm", "100-120 bpm", "40-60 bpm", "120-140 bpm"],
+        correct: 0,
+        explanation: "Normal sinus rhythm has a heart rate of 60-100 beats per minute."
+      },
+      {
+        id: "t3_q9",
+        type: "mcq",
+        difficulty: "hard",
+        question: "U wave is seen in:",
+        options: ["Hypercalcemia", "Hypokalemia", "Hypernatremia", "Hypomagnesemia"],
+        correct: 1,
+        explanation: "Prominent U waves are commonly seen in hypokalemia."
+      },
+      {
+        id: "t3_q10",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Which lead is bipolar?",
+        options: ["V1", "V2", "Lead I", "aVR"],
+        correct: 2,
+        explanation: "Lead I is a bipolar limb lead. V leads and augmented leads are unipolar."
+      }
+    ]
+  },
+  {
+    id: "t4",
+    title: "Pharma Quiz",
+    desc: "Cardiac pharmacology knowledge assessment",
+    domain: "Cardiology",
+    img: "/images/pharma.jpg",
+    totalQuestions: 10,
+    duration: 20,
+    questions: [
+      {
+        id: "t4_q1",
+        type: "mcq",
+        difficulty: "medium",
+        question: "First-line hypertension drug:",
+        options: ["Warfarin", "Digoxin", "Lisinopril", "Metformin"],
+        correct: 2,
+        explanation: "ACE inhibitors like Lisinopril are first-line for hypertension, especially with comorbidities."
+      },
+      {
+        id: "t4_q2",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Beta-blockers mechanism:",
+        options: ["Block calcium channels", "Inhibit ACE", "Block beta-receptors", "Increase potassium"],
+        correct: 2,
+        explanation: "Beta-blockers work by blocking beta-adrenergic receptors, reducing heart rate and contractility."
+      },
+      {
+        id: "t4_q3",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Aspirin dose for MI:",
+        options: ["75mg", "150mg", "300mg", "600mg"],
+        correct: 2,
+        explanation: "For acute MI, 300mg aspirin is given as loading dose for rapid antiplatelet effect."
+      },
+      {
+        id: "t4_q4",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Statins reduce:",
+        options: ["Blood pressure", "Cholesterol", "Blood sugar", "Heart rate"],
+        correct: 1,
+        explanation: "Statins inhibit HMG-CoA reductase, reducing cholesterol synthesis in the liver."
+      },
+      {
+        id: "t4_q5",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Nitroglycerin is for:",
+        options: ["Hypertension", "Angina", "Arrhythmia", "Heart failure"],
+        correct: 1,
+        explanation: "Nitroglycerin is a vasodilator used for acute angina attacks."
+      },
+      {
+        id: "t4_q6",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Warfarin antidote:",
+        options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
+        correct: 0,
+        explanation: "Vitamin K is the antidote for warfarin overdose."
+      },
+      {
+        id: "t4_q7",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Amiodarone is used for:",
+        options: ["Hypertension", "Arrhythmia", "Angina", "Heart failure"],
+        correct: 1,
+        explanation: "Amiodarone is a class III antiarrhythmic used for various cardiac arrhythmias."
+      },
+      {
+        id: "t4_q8",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Digoxin toxicity symptom:",
+        options: ["Tachycardia", "Bradycardia", "Hypertension", "Hyperglycemia"],
+        correct: 1,
+        explanation: "Digoxin toxicity commonly causes bradycardia and various arrhythmias."
+      },
+      {
+        id: "t4_q9",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Heparin antidote:",
+        options: ["Vitamin K", "Protamine", "Naloxone", "Flumazenil"],
+        correct: 1,
+        explanation: "Protamine sulfate is the antidote for heparin."
+      },
+      {
+        id: "t4_q10",
+        type: "mcq",
+        difficulty: "easy",
+        question: "Furosemide is a:",
+        options: ["Beta-blocker", "Diuretic", "ACE inhibitor", "Calcium blocker"],
+        correct: 1,
+        explanation: "Furosemide is a loop diuretic used for edema and heart failure."
+      }
+    ]
+  },
+  {
+    id: "t5",
+    title: "Intervention Quiz",
+    desc: "Cardiac interventions and procedures knowledge",
+    domain: "Cardiology",
+    img: "/images/inter.png",
+    totalQuestions: 10,
+    duration: 20,
+    questions: [
+      {
+        id: "t5_q1",
+        type: "mcq",
+        difficulty: "easy",
+        question: "PCI stands for:",
+        options: ["Primary Cardiac Intervention", "Percutaneous Coronary Intervention", "Preventive Cardiac Investigation", "Post-Cardiac Infarction"],
+        correct: 1,
+        explanation: "PCI stands for Percutaneous Coronary Intervention, commonly known as angioplasty with stenting."
+      },
+      {
+        id: "t5_q2",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Most common artery in MI:",
+        options: ["Right coronary", "Left anterior descending", "Circumflex", "Posterior descending"],
+        correct: 1,
+        explanation: "The left anterior descending (LAD) artery is most commonly involved in myocardial infarction."
+      },
+      {
+        id: "t5_q3",
+        type: "mcq",
+        difficulty: "easy",
+        question: "CABG means:",
+        options: ["Coronary Angiography Bypass Graft", "Coronary Artery Bypass Graft", "Cardiac Artery Bypass Graft", "Coronary Aortic Bypass Graft"],
+        correct: 1,
+        explanation: "CABG stands for Coronary Artery Bypass Graft surgery."
+      },
+      {
+        id: "t5_q4",
+        type: "mcq",
+        difficulty: "medium",
+        question: "STEMI treatment window:",
+        options: ["30 minutes", "60 minutes", "90 minutes", "120 minutes"],
+        correct: 2,
+        explanation: "Door-to-balloon time for STEMI should be less than 90 minutes for optimal outcomes."
+      },
+      {
+        id: "t5_q5",
+        type: "mcq",
+        difficulty: "hard",
+        question: "Balloon angioplasty was invented by:",
+        options: ["Andreas Gruentzig", "Werner Forssmann", "Christian Barnard", "Michael DeBakey"],
+        correct: 0,
+        explanation: "Andreas Gruentzig performed the first coronary balloon angioplasty in 1977."
+      },
+      {
+        id: "t5_q6",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Drug-eluting stents prevent:",
+        options: ["Infection", "Restenosis", "Bleeding", "Arrhythmia"],
+        correct: 1,
+        explanation: "Drug-eluting stents release medication to prevent restenosis (re-narrowing) of the artery."
+      },
+      {
+        id: "t5_q7",
+        type: "mcq",
+        difficulty: "hard",
+        question: "IVUS is used for:",
+        options: ["Pressure measurement", "Imaging vessel wall", "Blood flow measurement", "Electrical activity"],
+        correct: 1,
+        explanation: "IVUS (Intravascular Ultrasound) provides detailed imaging of vessel wall morphology."
+      },
+      {
+        id: "t5_q8",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Which is NOT an access site for PCI?",
+        options: ["Femoral artery", "Radial artery", "Brachial artery", "Jugular vein"],
+        correct: 3,
+        explanation: "PCI is typically performed via arterial access (femoral, radial, or brachial), not venous."
+      },
+      {
+        id: "t5_q9",
+        type: "mcq",
+        difficulty: "medium",
+        question: "TIMI flow grade 3 means:",
+        options: ["No flow", "Slow flow", "Normal flow", "Complete blockage"],
+        correct: 2,
+        explanation: "TIMI 3 flow indicates normal perfusion with contrast filling the distal vessel completely."
+      },
+      {
+        id: "t5_q10",
+        type: "mcq",
+        difficulty: "medium",
+        question: "Contrast-induced nephropathy risk factor:",
+        options: ["Young age", "Normal renal function", "Diabetes", "Low dose contrast"],
+        correct: 2,
+        explanation: "Diabetes is a major risk factor for contrast-induced nephropathy, especially with pre-existing renal impairment."
+      }
+    ]
+  }
+];
+
 // Medical Test Data based on your JSON structure
 export const doctorTests: Test[] = [
-  {
+   {
     id: "dentist-mock",
     title: "Dentist Mock Test",
     desc: "Comprehensive dentistry knowledge assessment",
@@ -332,11 +843,12 @@ export const doctorTests: Test[] = [
         answer: "Agni (Digestive Fire) Concept:\n\nAgni refers to the metabolic and digestive fire that governs:\n- Digestion and absorption of food\n- Transformation of nutrients into bodily tissues\n- Elimination of waste products\n- Maintenance of cellular metabolism\n\nTypes of Agni:\n1. Jatharagni - main digestive fire in stomach\n2. Bhutagni - elemental fire for nutrient transformation  \n3. Dhatvagni - tissue-level metabolic fires\n\nImportance: Balanced Agni ensures proper digestion, prevents toxin (Ama) formation, and maintains overall health. Impaired Agni leads to disease."
       }
     ]
-  }
+  },
+  
 ];
 
 export const nurseTests: Test[] = [
-  {
+   {
     id: "nursing-fundamentals",
     title: "Nursing Fundamentals",
     desc: "Basic nursing concepts and patient care",
@@ -371,10 +883,10 @@ export const nurseTests: Test[] = [
         ]
       }
     ]
-  }
+  },
+
 ];
 
-// Programming tests from your JSON
 export const programmingTests: Test[] = [
   {
     id: "javascript-advanced",
@@ -440,10 +952,11 @@ export const programmingTests: Test[] = [
       }
     ]
   }
+
 ];
 
-// Combine all tests
-export const allTests = [...doctorTests, ...nurseTests, ...programmingTests];
+// Combine all tests including cardiac tests
+export const allTests = [...cardiacTests, ...doctorTests, ...nurseTests, ...programmingTests];
 
 // Helper function to filter questions by difficulty
 export const filterQuestionsByDifficulty = (questions: TestQuestion[], difficulty: string): TestQuestion[] => {
@@ -466,4 +979,23 @@ export const getQuestionTypeDisplay = (type: string): string => {
 // Helper to get tests by domain
 export const getTestsByDomain = (domain: string): Test[] => {
   return allTests.filter(test => test.domain === domain);
+};
+
+// NEW: Helper to get test by ID (for MyCourses)
+export const getTestById = (testId: string): Test | undefined => {
+  return allTests.find(test => test.id === testId);
+};
+
+// NEW: Helper to get quiz questions for MyCourses
+export const getQuizQuestionsForMyCourses = (testId: string) => {
+  const test = getTestById(testId);
+  if (!test) return [];
+  
+  return test.questions.map(q => ({
+    id: q.id,
+    question: q.question,
+    options: q.options || [],
+    correct: q.correct,
+    explanation: q.explanation
+  }));
 };
