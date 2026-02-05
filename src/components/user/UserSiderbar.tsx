@@ -17,17 +17,18 @@ const iconMap: Record<string, React.ReactNode> = {
 }; 
 
 export default function UserSidebar({ collapsed }: { collapsed: boolean }) {
-  const [user, setUser] = useState<any>(null);
+  // const [user, setUser] = useState<any>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
+  // useEffect(() => {
+  //   const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+  //   if (stored) setUser(JSON.parse(stored));
+  // }, []);
 
-  const userbarItems = user?.role === "user" ? userSidebarItems : [];
-  const [selectedKey, setSelectedKey] = useState(userbarItems[0]?.path);
+  // const userbarItems = user?.role === "user" ? userSidebarItems : [];
+  const [selectedKey, setSelectedKey] = useState(userSidebarItems[0]?.path);
 
+  const userbarItems = userSidebarItems;
 
   return (
     <>

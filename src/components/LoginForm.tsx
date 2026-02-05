@@ -52,39 +52,35 @@ export default function LoginForm({ dict, lang }: any) {
     setErrorMsg("");
 
     try {
-      const res = await fetch("http://192.168.31.12:3020/v1/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values)
-      });
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const data = await res.json();
+      console.log("Login Values:", values);
 
-      if (!res.ok) {
-        setLoading(false);
-        setErrorMsg("Invalid email or password");
-        generateCaptcha();
-        return;
-      }
+      // Mock login logic - you can customize this
+      // For demo: admin@gmail.com = admin, anything else = user
+      const isAdmin = values.emailId.toLowerCase() === "admin@gmail.com";
+      const simplifiedRole = isAdmin ? "admin" : "user";
 
-      const simplifiedRole =
-        data?.user?.role === "admin" ? "admin" : "user";
+      // Mock user data
+      const mockUser = {
+        id: 1,
+        firstName: "Test",
+        lastName: "User",
+        emailId: values.emailId,
+        role: simplifiedRole,
+        token: "mock-jwt-token-12345"
+      };
 
-      localStorage.setItem(
-        "medCert",
-        JSON.stringify({
-          ...data.user,
-          role: simplifiedRole,
-          token: data.token
-        })
-      );
+      localStorage.setItem("medCert", JSON.stringify(mockUser));
 
       setLoading(false);
       message.success(`${simplifiedRole.toUpperCase()} login successful!`);
       router.push(`/${lang}/${simplifiedRole}/dashboard`);
     } catch {
       setLoading(false);
-      message.error("Server error");
+      setErrorMsg("Login failed");
+      message.error("Login failed");
       generateCaptcha();
     }
   };
@@ -214,7 +210,7 @@ export default function LoginForm({ dict, lang }: any) {
               borderRadius: '8px',
               marginBottom: '16px'
             }}>
-              ⚠️ {dict.login.invalidCredentials}
+               {dict.login.invalidCredentials}
             </div>
           )}
 

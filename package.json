@@ -16,6 +16,7 @@
     "@monaco-editor/react": "^4.7.0",
     "antd": "^5.27.4",
     "antd-phone-input": "^0.3.14",
+    "axios": "^1.13.4",
     "chart.js": "^4.5.0",
     "country-list-with-dial-code-and-flag": "^5.1.1",
     "dayjs": "^1.11.13",

@@ -327,6 +327,8 @@
     "role": "الدور",
     "specialization": "التخصص",
     "uploadLicense": "تحميل الترخيص",
+    "licenseNumber": "رقم الترخيص",
+    "country": "البلد",
     "hospital": "المستشفى",
     "signUp": "تسجيل",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
